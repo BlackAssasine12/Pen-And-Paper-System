@@ -1,0 +1,102 @@
+{
+    "Klassen": {
+      "Magische Klassen": [
+        "Kampf Magier",
+        "Elementarmagier",
+        "Supportmagier",
+        "Druide",
+        "Priester",
+        "Heiler (Magisch)"
+      ],
+      "Kriegerische Klassen": [
+        "Samurai",
+        "Ritter",
+        "Söldner",
+        "Abenteurer (Optional Halbmagisch)",
+        "Kampfkünstler",
+        "Fernkämpfer"
+      ],
+      "Wissenschaftliche Klassen": [
+        "Gelehrter",
+        "Alchemist",
+        "Heiler (Nicht Magisch)"
+      ],
+      "Arbeiterklassen": [
+        "Handwerker",
+        "Händler",
+        "Schmied",
+        "Jäger"
+      ],
+      "Halbmagische Klassen": [
+        "Hexe/r",
+        "Paladin",
+        "Schamane",
+        "Heiler (Halbmagisch)",
+        "Kriegerpriester"
+      ],
+      "Stealth Klassen": [
+        "Ninja",
+        "Assassine",
+        "Dieb"
+      ],
+      "Spezialklassen": [
+        "Ki",
+        "Chakra",
+        "Nen"
+      ]
+    },
+    "Rassen": {
+      "Menschen": [
+        "Mittelreicher",
+        "Nivesen",
+        "Norbad",
+        "Thorwaler",
+        "Tulamide",
+        "Maraskaner",
+        "Gjalskerländer",
+        "Mohas",
+        "Ferkina",
+        "Horasier",
+        "Aranier",
+        "Mhanadistani",
+        "Maga"
+      ],
+      "Elfen": [
+        "Waldelfen",
+        "Firnelfen",
+        "Auelfen",
+        "Steppenelfen",
+        "Halbelfen"
+      ],
+      "Zwerge": [
+        "Ambosszwerge",
+        "Brillantzwerge",
+        "Hügelzwerge",
+        "Erzzwerge"
+      ],
+      "Orks": [
+        "Standard Orks"
+      ],
+      "Achaz": [
+        "Höhlenechsen",
+        "Sumpfechsen"
+      ],
+      "Goblins": [
+        "Standard Goblins"
+      ],
+      "Oger": [
+        "Standard Oger"
+      ],
+      "Grolme": [
+        "Standard Grolme"
+      ],
+      "Trolle": [
+        "Standard Trolle"
+      ],
+      "Feenwesen": [
+        "Dryaden",
+        "Nymphen"
+      ]
+    }
+  }
+  

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rechner</title>
+    <link rel="stylesheet" href="rechner.css">
+</head>
+
+<body>
+
+
+    <span id="container">
+
+        <div class="calc" onclick="InToHTML(7)">7</div>
+        <div class="calc" onclick="InToHTML(8)">8</div>
+        <div class="calc" onclick="InToHTML(9)">9</div>
+        <div class="calc" onclick="InToHTML('/')" id="divided">/</div>
+
+        <div class="calc" onclick="InToHTML(4)">4</div>
+        <div class="calc" onclick="InToHTML(5)">5</div>
+        <div class="calc" onclick="InToHTML(6)">6</div>
+        <div class="calc" onclick="InToHTML('*')" id="multiplied">*</div>
+
+        <div class="calc" onclick="InToHTML(1)">1</div>
+        <div class="calc" onclick="InToHTML(2)">2</div>
+        <div class="calc" onclick="InToHTML(3)">3</div>
+
+        <div class="calc" onclick="InToHTML('+')" id="plus">+</div>
+        <div class="calc" onclick="clearEqField()" id="clear">C</div>
+        <div class="calc" onclick="InToHTML(0)">0</div>
+        <div class="calc" onclick="InToHTML('-')" id="minus">-</div>
+
+        <div class="calc" id="equals" onclick="calculate()">=</div>
+
+        <div class="calc" id="dragfield"></div>
+        <div class="calc" onclick="InToHTML('.')" id="point">,</div>
+        <div class="calc" id="back"></div>
+        <div class="calc" id=""></div>
+        <div id="FieldContainer">
+            <div id="eqField"></div>
+            <div id="evField"></div>
+        </div>
+    </span>
+
+    <script src="rechner.js"></script>
+</body>
+
+</html>

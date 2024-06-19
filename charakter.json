@@ -1,0 +1,126 @@
+{
+    "charakter": {
+        "charakterInfo": [
+            {
+                "name": "",
+                "alter": "",
+                "geschlecht": "",
+                "rasse": "",
+                "größe": "",
+                "gewicht": "",
+                "haarfarbe": "",
+                "augenfarbe": "",
+                "titel": ""
+            }
+        ],
+        "werte": [
+            {
+                "level": 0,
+                "xp": 3500,
+                "Steigerungspunkte": 0,
+                "Gesteigerte": 0
+
+            }
+        ],
+        "geld": [
+            {
+                "wInsg": 0,
+                "dukaten": 10,
+                "silber": 0,
+                "heller": 0,
+                "kreuzer": 0
+            }
+        ],
+        "fähigkeiten": [
+            {
+                "modifier": [
+                    {
+                        "magie": 0,
+                        "asp": 0,
+                        "lp": 0,
+                        "fernkampf": 0,
+                        "nahkampf": 0,
+                        "gift": 0,
+                        "stealth": 0
+                    }
+                ],
+                "attribute": [
+                    {
+                        "konstitution": 9,
+                        "körperkraft": 9,
+                        "gewandheit": 9,
+                        "klugheit": 9,
+                        "intuition": 9,
+                        "geschicklichkeit": 9,
+                        "tarnung": 9,
+                        "fingerfertigkeit": 9,
+                        "sinnesschärfe": 9,
+                        "charisma": 9,
+                        "willenskraft": 9
+                    }
+                ],
+                "sonderwerte": [
+                    {
+                        "AktuelleLP": 0,
+                        "MaximaleLP": 0,
+                        "Ausdauer": 0,
+                        "MaximaleAusdauer": 0,
+                        "Astralenergie": 0,
+                        "MaximaleAstralenergie": 0,
+                        "Magiebegabung": 0,
+                        "Magieresistenz": 0,
+                        "Giftresistenz": 0
+                    }
+                ],
+                "KampfBasiswerte": [
+                    {
+                        "Wurfwaffen Basiswert": 0,
+                        "Schusswaffen Basiswert": 0,
+                        "Attacke Basiswert": 0,
+                        "Parade Basiswert": 0
+                    }
+                ],
+                "talente": [
+                    {
+                        "Bewegungstempo": 0,
+                        "Schnelligkeit": 0,
+                        "Verkleiden": 0,
+                        "Verstecken": 0,
+                        "Schattenbeherrschung": 0,
+                        "Meucheln": 0,
+                        "Giftherstellung": 0,
+                        "Giftanwendung": 0,
+                        "Überlebensfertigkeiten": 0,
+                        "Entwaffnen": 0,
+                        "FallenEntschärfen": 0,
+                        "Präzisionsschüsse": 0,
+                        "Fluchtmanöver": 0,
+                        "Fallschadenreduktion": 0,
+                        "Parkour": 0,
+                        "Betrügen": 0,
+                        "Zechen": 0,
+                        "Überreden": 0
+                    }
+                ],
+                "dsaTalente": [
+                    {
+                        "schlösserKnacken": 0,
+                        "schleichen": 0,
+                        "klettern": 0,
+                        "reiten": 0,
+                        "körperbeherrschung": 0,
+                        "selbstbeherrschung": 0,
+                        "schwimmen": 0,
+                        "etikette": 0,
+                        "verhandeln": 0,
+                        "gassenwissen": 0,
+                        "menschenkenntnis": 0,
+                        "fährtensuche": 0,
+                        "fallenStellen": 0,
+                        "fesselnEntfesseln": 0
+                    }
+                ]
+            }
+        ]
+    }
+}
