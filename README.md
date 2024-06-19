@@ -1,1 +1,1 @@
-# -Pen-And-Paper-System
+# Pen-And-Paper-System
