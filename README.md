@@ -43,15 +43,15 @@ modifier_lp: 8,
 insg: 70
 
 ### Stealth Klassen
-adjustments.modifier_stealth: 3,  
-adjustments.modifier_nahkampf: 8,  
-adjustments.modifier_fernkampf: 8,  
+modifier_stealth: 3,  
+modifier_nahkampf: 8,  
+modifier_fernkampf: 8,  
 modifier_gift: 8  
 
 insg: 68
 
 ### Arbeiterklassen
-dsaTalente: 1,
-attribute: 2,
+dsaTalente: 1,  
+attribute: 2,  
 
 insg: 76
