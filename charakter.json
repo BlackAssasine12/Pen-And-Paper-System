@@ -1,6 +1,6 @@
 {
     "charakter": {
-        "charakterInfo": [
+        "charakterInfo": 
             {
                 "name": "",
                 "alter": "",
@@ -12,8 +12,8 @@
                 "augenfarbe": "",
                 "titel": ""
             }
-        ],
-        "werte": [
+        ,
+        "werte": 
             {
                 "level": 0,
                 "xp": 3500,
@@ -21,19 +21,19 @@
                 "Gesteigerte": 0
 
             }
-        ],
-        "geld": [
+        ,
+        "geld": 
             {
                 "wInsg": 0,
-                "dukaten": 10,
+                "dukaten": 111,
                 "silber": 0,
                 "heller": 0,
                 "kreuzer": 0
             }
-        ],
-        "fähigkeiten": [
+        ,
+        "fähigkeiten": 
             {
-                "modifier": [
+                "modifier": 
                     {
                         "magie": 0,
                         "asp": 0,
@@ -43,8 +43,8 @@
                         "gift": 0,
                         "stealth": 0
                     }
-                ],
-                "attribute": [
+                ,
+                "attribute": 
                     {
                         "konstitution": 9,
                         "körperkraft": 9,
@@ -58,8 +58,8 @@
                         "charisma": 9,
                         "willenskraft": 9
                     }
-                ],
-                "sonderwerte": [
+                ,
+                "sonderwerte": 
                     {
                         "AktuelleLP": 0,
                         "MaximaleLP": 0,
@@ -71,16 +71,16 @@
                         "Magieresistenz": 0,
                         "Giftresistenz": 0
                     }
-                ],
-                "KampfBasiswerte": [
+                ,
+                "KampfBasiswerte": 
                     {
                         "Wurfwaffen Basiswert": 0,
                         "Schusswaffen Basiswert": 0,
                         "Attacke Basiswert": 0,
                         "Parade Basiswert": 0
                     }
-                ],
-                "talente": [
+                ,
+                "talente": 
                     {
                         "Bewegungstempo": 0,
                         "Schnelligkeit": 0,
@@ -101,8 +101,8 @@
                         "Zechen": 0,
                         "Überreden": 0
                     }
-                ],
-                "dsaTalente": [
+                ,
+                "dsaTalente": 
                     {
                         "schlösserKnacken": 0,
                         "schleichen": 0,
@@ -119,8 +119,8 @@
                         "fallenStellen": 0,
                         "fesselnEntfesseln": 0
                     }
-                ]
+                
             }
-        ]
+        
     }
 }

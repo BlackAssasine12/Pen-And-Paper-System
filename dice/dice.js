@@ -84,7 +84,7 @@ function Roll() {
     }
     
     // Optionally, display the total results somewhere
-    console.log("Total Results:", resultTotal);
+    // console.log("Total Results:", resultTotal);
 }
 
 function createOctagon(result, DiceSide) {
@@ -101,29 +101,34 @@ function createOctagon(result, DiceSide) {
     text.setAttribute("text-anchor", "middle");
     text.setAttribute("dominant-baseline", "middle");
     text.setAttribute("font-size", "40");
-
-    switch (result) {
-        case DiceSide:
-            text.setAttribute("fill", "red");
-            text.textContent = result;
-            break;
-        case 1:
-            text.setAttribute("fill", "green");
-            text.textContent = result;
-            break;
-        default:
-            text.setAttribute("fill", "black");
-            text.textContent = result;
-            break;
-    }
+    text.setAttribute("font-weight", "bold");
 
     const polygon = document.createElementNS(svgNS, "polygon");
     polygon.setAttribute("points", "30,5 70,5 95,30 95,70 70,95 30,95 5,70 5,30");
     polygon.setAttribute("stroke", "black");
+    polygon.setAttribute("stroke-width", "5"); 
     polygon.setAttribute("fill", "white");
 
     svg.appendChild(polygon);
     svg.appendChild(text);
+
+    switch (result) {
+        case DiceSide:
+            text.setAttribute("fill", "black");
+            polygon.setAttribute("fill", "#ff4122");
+            text.textContent = result;
+            break;
+        case 1:
+            text.setAttribute("fill", "black");
+            polygon.setAttribute("fill", "#1b7d4f");
+            text.textContent = result;
+            break;
+        default:
+            text.setAttribute("fill", "black");
+            polygon.setAttribute("fill", "white");
+            text.textContent = result;
+            break;
+    }
 
     return svg;
 }

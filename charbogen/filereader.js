@@ -6,7 +6,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
             const data = JSON.parse(e.target.result);
             initializeWallet(data);
 
-            generateCharacterAttributes(data);
+            generateCharakterAttributes(data);
             genCharInfo(data);
             bindHideButtons();
             updateCharakterCalculation();
@@ -30,8 +30,8 @@ const adjustments = {
 };
 
 function initializeWallet(data) {
-    if (data.charakter && data.charakter.geld && data.charakter.geld[0]) {
-        const geld = data.charakter.geld[0];
+    if (data.charakter && data.charakter.geld && data.charakter.geld) {
+        const geld = data.charakter.geld;
         wallet.dukaten = geld.dukaten;
         wallet.silber = geld.silber;
         wallet.heller = geld.heller;
@@ -53,8 +53,8 @@ let wallet = {
     wInsg: 0
 };
 function genCharInfo(data) {
-    const character = data.charakter;
-    const CharakterInfoContainer = character.charakterInfo[0];
+    const charakter = data.charakter;
+    const CharakterInfoContainer = charakter.charakterInfo;
     let showname = document.getElementById("name");
     let showalter = document.getElementById("alter");
     let showgeschlecht = document.getElementById("geschlecht");
@@ -74,16 +74,16 @@ function genCharInfo(data) {
     showaugenfarbe.value = CharakterInfoContainer.augenfarbe;
     showtitel.value = CharakterInfoContainer.titel;
 }
-function updateCharakterInfo(characterInfo) {
-    characterInfo.name = document.getElementById("name").value;
-    characterInfo.alter = document.getElementById("alter").value;
-    characterInfo.geschlecht = document.getElementById("geschlecht").value;
-    characterInfo.rasse = document.getElementById("rasse").value;
-    characterInfo.größe = document.getElementById("größe").value;
-    characterInfo.gewicht = document.getElementById("gewicht").value;
-    characterInfo.haarfarbe = document.getElementById("haarfarbe").value;
-    characterInfo.augenfarbe = document.getElementById("augenfarbe").value;
-    characterInfo.titel = document.getElementById("titel").value;
+function updateCharakterInfo(charakterInfo) {
+    charakterInfo.name = document.getElementById("name").value;
+    charakterInfo.alter = document.getElementById("alter").value;
+    charakterInfo.geschlecht = document.getElementById("geschlecht").value;
+    charakterInfo.rasse = document.getElementById("rasse").value;
+    charakterInfo.größe = document.getElementById("größe").value;
+    charakterInfo.gewicht = document.getElementById("gewicht").value;
+    charakterInfo.haarfarbe = document.getElementById("haarfarbe").value;
+    charakterInfo.augenfarbe = document.getElementById("augenfarbe").value;
+    charakterInfo.titel = document.getElementById("titel").value;
 }
 function addInputChangeListeners() {
     const inputElements = document.querySelectorAll('.attributeInput');
@@ -112,41 +112,41 @@ function addInputChangeListeners() {
         });
     });
 }
-function generateCharacterAttributes(data) {
-    const characterContainer = document.getElementById('characterContainer');
-    characterContainer.innerHTML = ''; // Clear any existing content
+function generateCharakterAttributes(data) {
+    const charakterContainer = document.getElementById('charakterContainer');
+    charakterContainer.innerHTML = ''; // Clear any existing content
 
-    const character = data.charakter;
+    const charakter = data.charakter;
 
-    // Create a container for the character attributes
+    // Create a container for the charakter attributes
     const attributeFlexContainer = document.createElement('div');
     attributeFlexContainer.classList.add('attributeFlexContainer');
 
     // Modifier Section
-    const modifierContainer = createSection('Modifier', character.fähigkeiten[0].modifier[0], 'modifier');
+    const modifierContainer = createSection('Modifier', charakter.fähigkeiten.modifier, 'modifier');
     attributeFlexContainer.appendChild(modifierContainer);
 
     // Erfahrung Section
-    const erfahrungContainer = createSection('Erfahrung', character.werte[0], 'erfahrung');
+    const erfahrungContainer = createSection('Erfahrung', charakter.werte, 'erfahrung');
     attributeFlexContainer.appendChild(erfahrungContainer);
 
     // Sonderwerte Section
-    const sonderwerteContainer = createSection('Sonderwerte', character.fähigkeiten[0].sonderwerte[0], 'sonderwerte');
+    const sonderwerteContainer = createSection('Sonderwerte', charakter.fähigkeiten.sonderwerte, 'sonderwerte');
     attributeFlexContainer.appendChild(sonderwerteContainer);
 
     // Attribute Section
-    const attributeContainer = createSection('Attribute', character.fähigkeiten[0].attribute[0], 'attribute');
+    const attributeContainer = createSection('Attribute', charakter.fähigkeiten.attribute, 'attribute');
     attributeFlexContainer.appendChild(attributeContainer);
 
     // Talente Section
-    const talenteContainer = createSection('Talente', character.fähigkeiten[0].talente[0], 'talente');
+    const talenteContainer = createSection('Talente', charakter.fähigkeiten.talente, 'talente');
     attributeFlexContainer.appendChild(talenteContainer);
 
     // DSA Talente Section
-    const dsaTalenteContainer = createSection('DSA Talente', character.fähigkeiten[0].dsaTalente[0], 'dsaTalente');
+    const dsaTalenteContainer = createSection('DSA Talente', charakter.fähigkeiten.dsaTalente, 'dsaTalente');
     attributeFlexContainer.appendChild(dsaTalenteContainer);
 
-    const KampfBasiswerteContainer = createSection('Kampf Basiswerte', character.fähigkeiten[0].KampfBasiswerte[0], 'KampfBasiswerte');
+    const KampfBasiswerteContainer = createSection('Kampf Basiswerte', charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
     attributeFlexContainer.appendChild(KampfBasiswerteContainer);
 
     // Hidden Items Section
@@ -155,7 +155,7 @@ function generateCharacterAttributes(data) {
     hiddenItemsContainer.innerHTML = `<h6>Ausgeblendete Items</h6><div id="hiddenItemsContainer"></div>`;
     attributeFlexContainer.appendChild(hiddenItemsContainer);
 
-    characterContainer.appendChild(attributeFlexContainer);
+    charakterContainer.appendChild(attributeFlexContainer);
 
     document.getElementById('saveButton').addEventListener('click', function () {
         saveChanges(data);
@@ -403,41 +403,41 @@ function wReset() {
     }
 }
 function saveChanges(data) {
-    const character = data.charakter;
+    const charakter = data.charakter;
 console.log("ausgeführt")
     // Update values from the inputs
-    if (character.fähigkeiten && character.fähigkeiten[0]) {
-        if (character.fähigkeiten[0].modifier && character.fähigkeiten[0].modifier[0]) {
-            updateSectionValues(character.fähigkeiten[0].modifier[0], 'modifier');
+    if (charakter.fähigkeiten && charakter.fähigkeiten) {
+        if (charakter.fähigkeiten.modifier && charakter.fähigkeiten.modifier) {
+            updateSectionValues(charakter.fähigkeiten.modifier, 'modifier');
         }
-        if (character.werte && character.werte[0]) {
-            updateSectionValues(character.werte[0], 'erfahrung');
+        if (charakter.werte && charakter.werte) {
+            updateSectionValues(charakter.werte, 'erfahrung');
         }
-        if (character.fähigkeiten[0].sonderwerte && character.fähigkeiten[0].sonderwerte[0]) {
-            updateSectionValues(character.fähigkeiten[0].sonderwerte[0], 'sonderwerte');
+        if (charakter.fähigkeiten.sonderwerte && charakter.fähigkeiten.sonderwerte) {
+            updateSectionValues(charakter.fähigkeiten.sonderwerte, 'sonderwerte');
         }
-        if (character.fähigkeiten[0].attribute && character.fähigkeiten[0].attribute[0]) {
-            updateSectionValues(character.fähigkeiten[0].attribute[0], 'attribute');
+        if (charakter.fähigkeiten.attribute && charakter.fähigkeiten.attribute) {
+            updateSectionValues(charakter.fähigkeiten.attribute, 'attribute');
         }
-        if (character.fähigkeiten[0].talente && character.fähigkeiten[0].talente[0]) {
-            updateSectionValues(character.fähigkeiten[0].talente[0], 'talente');
+        if (charakter.fähigkeiten.talente && charakter.fähigkeiten.talente) {
+            updateSectionValues(charakter.fähigkeiten.talente, 'talente');
         }
-        if (character.fähigkeiten[0].dsaTalente && character.fähigkeiten[0].dsaTalente[0]) {
-            updateSectionValues(character.fähigkeiten[0].dsaTalente[0], 'dsaTalente');
+        if (charakter.fähigkeiten.dsaTalente && charakter.fähigkeiten.dsaTalente) {
+            updateSectionValues(charakter.fähigkeiten.dsaTalente, 'dsaTalente');
         }
-        if (character.fähigkeiten[0].KampfBasiswerte && character.fähigkeiten[0].KampfBasiswerte[0]) {
-            updateSectionValues(character.fähigkeiten[0].KampfBasiswerte[0], 'KampfBasiswerte');
+        if (charakter.fähigkeiten.KampfBasiswerte && charakter.fähigkeiten.KampfBasiswerte) {
+            updateSectionValues(charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
         }
     }
 
     // Update CharakterInfo values
-    if (character.charakterInfo && character.charakterInfo[0]) {
-        updateCharakterInfo(character.charakterInfo[0]);
+    if (charakter.charakterInfo && charakter.charakterInfo) {
+        updateCharakterInfo(charakter.charakterInfo);
     }
 
     // Update Wallet values
-    if (character.geld && character.geld[0]) {
-        character.geld[0] = { ...wallet };
+    if (charakter.geld && charakter.geld) {
+        charakter.geld = { ...wallet };
     }
 
     // Aktualisieren der Charakterberechnung
@@ -455,8 +455,3 @@ console.log("ausgeführt")
     a.click();
     document.body.removeChild(a);
 }
-document.getElementById('saveButton').addEventListener('click', function () {
-    const data = { charakter: { geld: [wallet] } }; // Add other necessary data
-    saveChanges(data);
-});
-
