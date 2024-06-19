@@ -243,34 +243,37 @@ function bindHideButtons() {
     });
 }
 function setKlassenVariable(selectedClass, klassen) {
-    console.log("1")
     let variable;
     if (klassen["Magische Klassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 3;
-        adjustments.modifier_asp = 4;
-    } else if (klassen["Kriegerische Klassen"].includes(selectedClass)) {
+        adjustments.modifier_asp = 5;
+    } else if (klassen["Nahkampf Basierte Klassen"].includes(selectedClass)) {
         adjustments.modifier_nahkampf = 3;
         adjustments.modifier_lp = 5;
+    } else if (klassen["Fernkampf Basierte Klassen"].includes(selectedClass)) {
+        adjustments.modifier_fernkampf = 3;
+        adjustments.modifier_stealth = 5;
     } else if (klassen["Wissenschaftliche Klassen"].includes(selectedClass)) {
         variable = 3;
     } else if (klassen["Arbeiterklassen"].includes(selectedClass)) {
-        variable = 4;
+        adjustments.attribute = 2;
+        adjustments.modifier_gift = 8;
     } else if (klassen["Halbmagische Klassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 8;
         adjustments.modifier_asp = 8;
         adjustments.modifier_nahkampf = 8;
         adjustments.modifier_fernkampf = 8;
+        adjustments.modifier_lp = 8;
     } else if (klassen["Stealth Klassen"].includes(selectedClass)) {
         adjustments.modifier_stealth = 3;
         adjustments.modifier_nahkampf = 8;
         adjustments.modifier_fernkampf = 8;
-
+        adjustments.modifier_gift = 8;
     } else if (klassen["Spezialklassen"].includes(selectedClass)) {
         variable = 7;
     } else {
         variable = 0; // Standardwert falls die Klasse nicht gefunden wird
     }
-    console.log("2")
     addInputChangeListeners()
     return variable;
 }
@@ -401,7 +404,7 @@ function wReset() {
 }
 function saveChanges(data) {
     const character = data.charakter;
-
+console.log("ausgeführt")
     // Update values from the inputs
     if (character.fähigkeiten && character.fähigkeiten[0]) {
         if (character.fähigkeiten[0].modifier && character.fähigkeiten[0].modifier[0]) {

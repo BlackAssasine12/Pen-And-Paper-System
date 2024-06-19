@@ -8,12 +8,14 @@
         "Priester",
         "Heiler (Magisch)"
       ],
-      "Kriegerische Klassen": [
+      "Nahkampf Basierte Klassen": [
         "Samurai",
         "Ritter",
         "Söldner",
         "Abenteurer (Optional Halbmagisch)",
-        "Kampfkünstler",
+        "Kampfkünstler"
+      ],
+      "Fernkampf Basierte Klassen": [
         "Fernkämpfer"
       ],
       "Wissenschaftliche Klassen": [
