@@ -1,126 +1,146 @@
 {
     "charakter": {
-        "charakterInfo": 
-            {
-                "name": "",
-                "alter": "",
-                "geschlecht": "",
-                "rasse": "",
-                "größe": "",
-                "gewicht": "",
-                "haarfarbe": "",
-                "augenfarbe": "",
-                "titel": ""
+        "charakterInfo": {
+            "name": "",
+            "alter": "",
+            "geschlecht": "",
+            "rasse": "",
+            "größe": "",
+            "gewicht": "",
+            "haarfarbe": "",
+            "augenfarbe": "",
+            "titel": ""
+        },
+        "werte": {
+            "level": 0,
+            "xp": 0,
+            "Steigerungspunkte": 0,
+            "Gesteigerte": 0
+        },
+        "geld": {
+            "wInsg": 0,
+            "dukaten": 0,
+            "silber": 0,
+            "heller": 0,
+            "kreuzer": 0
+        },
+        "fähigkeiten": {
+            "modifier": {
+                "magie": 0,
+                "asp": 0,
+                "lp": 0,
+                "fernkampf": 0,
+                "nahkampf": 0,
+                "gift": 0,
+                "stealth": 0
+            },
+            "attribute": {
+                "Konstitution": 9,
+                "Körperkraft": 9,
+                "Gewandheit": 9,
+                "Klugheit": 9,
+                "Intuition": 9,
+                "Geschicklichkeit": 9,
+                "Tarnung": 9,
+                "Fingerfertigkeit": 9,
+                "Sinnesschärfe": 9,
+                "Charisma": 9,
+                "Willenskraft": 9
+            },
+            "sonderwerte": {
+                "Aktuelle LP": 0,
+                "Maximale LP": 0,
+                "Ausdauer": 0,
+                "Maximale Ausdauer": 0,
+                "Astralenergie": 0,
+                "Maximale Astralenergie": 0,
+                "Magiebegabung": 0,
+                "Magieresistenz": 0,
+                "Giftresistenz": 0,
+                "Schnelligkeit": 0
+            },
+            "KampfBasiswerte": {
+                "Wurfwaffen Basiswert": 0,
+                "Schusswaffen Basiswert": 0,
+                "Attacke Basiswert": 0,
+                "Parade Basiswert": 0
+            },
+            "Kampf_Talente": {
+                "Zweihand Schwerter": 0,
+                "Einhand Schwerter": 0,
+                "Stichwaffen": 0,
+                "Stumpfe Waffen": 0,
+                "Schwere Waffen": 0,
+                "Versteckte Klingen": 0,
+                "Messer/Doche": 0,
+                "Flexiblen Nahkampfwaffen": 0,
+                "Waffenlos": 0,
+                "Pfeilwaffen": 0,
+                "Bolzwaffen": 0,
+                "Wurfwaffen": 0
+            },
+            "Assasssinen_Talente": {
+                "Verkleiden": 0,
+                "Verstecken": 0,
+                "Meucheln": 0,
+                "Giftherstellung": 0,
+                "Giftanwendung": 0,
+                "Überlebensfertigkeiten": 0,
+                "Fallen Kunde": 0,
+                "Parkour": 0,
+                "Zechen": 0,
+                "SchlösserKnacken": 0,
+                "Gassenwissen": 0,
+                "Schleichen": 0,
+                "Klettern": 0,
+                "Taschendiebstahl": 0
+            },
+            "Normale_Talente": {
+                "Lesen / Schreiben": 0,
+                "Rechnen": 0,
+                "Überreden": 0,
+                "Reiten": 0,
+                "Körperbeherrschung": 0,
+                "Selbstbeherrschung": 0,
+                "Schwimmen": 0,
+                "Etikette": 0,
+                "Feilschen": 0,
+                "Betrügen": 0,
+                "Menschenkenntnis": 0,
+                "Fährtensuche": 0,
+                "Fesseln/Entfesseln": 0,
+                "Tanzen": 0,
+                "Orientierung": 0,
+                "Tierkunde": 0,
+                "Wettervorhersage": 0,
+                "Alchimie": 0,
+                "Geographie": 0,
+                "Götter und Kulte": 0,
+                "Kriegskunst": 0,
+                "Mechanik": 0,
+                "Magiekunde": 0,
+                "Rechtskunde": 0,
+                "Sternkunde": 0,
+                "Schätzen": 0
+            },
+            "Handwerkstalente": {
+                "Abrichten": 0,
+                "Boote Fahren": 0,
+                "Fahrzeug Lenken": 0,
+                "Falschspiel": 0,
+                "Heilkunde, Gift": 0,
+                "Heilkunde, Krankheit": 0,
+                "Heilkunde, Seele": 0,
+                "Heilkunde, Wunden": 0,
+                "Holzbearbeitung": 0,
+                "Kochen": 0,
+                "Lederarbeiten": 0,
+                "Malen / Zeichnen": 0,
+                "Musizieren": 0,
+                "Schneidern": 0,
+                "Singen": 0,
+                "Töpfern": 0
             }
-        ,
-        "werte": 
-            {
-                "level": 0,
-                "xp": 3500,
-                "Steigerungspunkte": 0,
-                "Gesteigerte": 0
-
-            }
-        ,
-        "geld": 
-            {
-                "wInsg": 0,
-                "dukaten": 111,
-                "silber": 0,
-                "heller": 0,
-                "kreuzer": 0
-            }
-        ,
-        "fähigkeiten": 
-            {
-                "modifier": 
-                    {
-                        "magie": 0,
-                        "asp": 0,
-                        "lp": 0,
-                        "fernkampf": 0,
-                        "nahkampf": 0,
-                        "gift": 0,
-                        "stealth": 0
-                    }
-                ,
-                "attribute": 
-                    {
-                        "konstitution": 9,
-                        "körperkraft": 9,
-                        "gewandheit": 9,
-                        "klugheit": 9,
-                        "intuition": 9,
-                        "geschicklichkeit": 9,
-                        "tarnung": 9,
-                        "fingerfertigkeit": 9,
-                        "sinnesschärfe": 9,
-                        "charisma": 9,
-                        "willenskraft": 9
-                    }
-                ,
-                "sonderwerte": 
-                    {
-                        "AktuelleLP": 0,
-                        "MaximaleLP": 0,
-                        "Ausdauer": 0,
-                        "MaximaleAusdauer": 0,
-                        "Astralenergie": 0,
-                        "MaximaleAstralenergie": 0,
-                        "Magiebegabung": 0,
-                        "Magieresistenz": 0,
-                        "Giftresistenz": 0
-                    }
-                ,
-                "KampfBasiswerte": 
-                    {
-                        "Wurfwaffen Basiswert": 0,
-                        "Schusswaffen Basiswert": 0,
-                        "Attacke Basiswert": 0,
-                        "Parade Basiswert": 0
-                    }
-                ,
-                "talente": 
-                    {
-                        "Bewegungstempo": 0,
-                        "Schnelligkeit": 0,
-                        "Verkleiden": 0,
-                        "Verstecken": 0,
-                        "Schattenbeherrschung": 0,
-                        "Meucheln": 0,
-                        "Giftherstellung": 0,
-                        "Giftanwendung": 0,
-                        "Überlebensfertigkeiten": 0,
-                        "Entwaffnen": 0,
-                        "FallenEntschärfen": 0,
-                        "Präzisionsschüsse": 0,
-                        "Fluchtmanöver": 0,
-                        "Fallschadenreduktion": 0,
-                        "Parkour": 0,
-                        "Betrügen": 0,
-                        "Zechen": 0,
-                        "Überreden": 0
-                    }
-                ,
-                "dsaTalente": 
-                    {
-                        "schlösserKnacken": 0,
-                        "schleichen": 0,
-                        "klettern": 0,
-                        "reiten": 0,
-                        "körperbeherrschung": 0,
-                        "selbstbeherrschung": 0,
-                        "schwimmen": 0,
-                        "etikette": 0,
-                        "verhandeln": 0,
-                        "gassenwissen": 0,
-                        "menschenkenntnis": 0,
-                        "fährtensuche": 0,
-                        "fallenStellen": 0,
-                        "fesselnEntfesseln": 0
-                    }
-                
-            }
-        
+        }
     }
 }

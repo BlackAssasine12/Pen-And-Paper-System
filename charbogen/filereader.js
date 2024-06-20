@@ -15,7 +15,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
         reader.readAsText(file);
     }
 });
-//NOTE -  Objekt für standart Steigerungswerte
+//NOTE -  Objekt für Steigerungswerte
 const adjustments = {
     'modifier_stealth': 10,
     'modifier_magie': 10,
@@ -25,8 +25,13 @@ const adjustments = {
     'modifier_nahkampf': 10,
     'modifier_gift': 10,
     'attribute': 5,
-    'talente': 3,
-    'dsaTalente': 3
+    'Kampf_Talente': 5,
+    'Assasssinen_Talente': 3,
+    'Normale_Talente': 3,
+    'Handwerkstalente': 3,
+    'attribute_Klugheit': 5,
+    'Tarnung': 5,
+    'Fingerfertigkeit': 5,
 };
 //NOTE - Anpassung der Steigerungswerte nach Klassen
 function setKlassenVariable(selectedClass, klassen) {
@@ -41,10 +46,10 @@ function setKlassenVariable(selectedClass, klassen) {
         adjustments.modifier_fernkampf = 3;
         adjustments.modifier_stealth = 5;
     } else if (klassen["Wissenschaftliche Klassen"].includes(selectedClass)) {
-        variable = 3;
+        adjustments.attribute_Klugheit = 3
     } else if (klassen["Arbeiterklassen"].includes(selectedClass)) {
-        adjustments.attribute = 2;
-        adjustments.modifier_gift = 8;
+        adjustments.Handwerkstalente = 1;
+        adjustments.attribute = 4;
     } else if (klassen["Halbmagische Klassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 8;
         adjustments.modifier_asp = 8;
@@ -128,7 +133,7 @@ function addInputChangeListeners() {
 //NOTE - Nimmt die daten vom Filereader und erstellt den Charakterbogen mithilfe von createSection()
 function generateCharakterAttributes(data) {
     const charakterContainer = document.getElementById('charakterContainer');
-    charakterContainer.innerHTML = ''; 
+    charakterContainer.innerHTML = '';
 
     const charakter = data.charakter;
 
@@ -147,11 +152,17 @@ function generateCharakterAttributes(data) {
     const attributeContainer = createSection('Attribute', charakter.fähigkeiten.attribute, 'attribute');
     attributeFlexContainer.appendChild(attributeContainer);
 
-    const talenteContainer = createSection('Talente', charakter.fähigkeiten.talente, 'talente');
-    attributeFlexContainer.appendChild(talenteContainer);
+    const Assasssinen_TalenteContainer = createSection('Assasssinen_Talente', charakter.fähigkeiten.Assasssinen_Talente, 'Assasssinen_Talente');
+    attributeFlexContainer.appendChild(Assasssinen_TalenteContainer);
 
-    const dsaTalenteContainer = createSection('DSA Talente', charakter.fähigkeiten.dsaTalente, 'dsaTalente');
-    attributeFlexContainer.appendChild(dsaTalenteContainer);
+    const Normale_TalenteContainer = createSection('Normale_Talente', charakter.fähigkeiten.Normale_Talente, 'Normale_Talente');
+    attributeFlexContainer.appendChild(Normale_TalenteContainer);
+
+    const Kampf_TalenteContainer = createSection('Kampf_Talente', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
+    attributeFlexContainer.appendChild(Kampf_TalenteContainer);
+
+    const HandwerkstalenteContainer = createSection('Handwerkstalente', charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
+    attributeFlexContainer.appendChild(HandwerkstalenteContainer);
 
     const KampfBasiswerteContainer = createSection('Kampf Basiswerte', charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
     attributeFlexContainer.appendChild(KampfBasiswerteContainer);
@@ -168,7 +179,7 @@ function generateCharakterAttributes(data) {
     });
 
     // Hinzufügen der Änderungslistener
-    addInputChangeListeners(); 
+    addInputChangeListeners();
 }
 //NOTE - Erstellung Sectionen und Klassen-/ID zuweisung
 function createSection(title, attributes, sectionId) {
@@ -255,17 +266,17 @@ function updateCharakterCalculation() {
     giftModifier = parseInt(document.getElementById("modifier_gift").value);
 
     xp = parseInt(document.getElementById("erfahrung_xp").value);
-    KK = parseInt(document.getElementById("attribute_körperkraft").value);
-    GE = parseInt(document.getElementById("attribute_gewandheit").value);
-    KL = parseInt(document.getElementById("attribute_klugheit").value);
-    IN = parseInt(document.getElementById("attribute_intuition").value);
-    FF = parseInt(document.getElementById("attribute_fingerfertigkeit").value);
-    CH = parseInt(document.getElementById("attribute_charisma").value);
-    GESCH = parseInt(document.getElementById("attribute_geschicklichkeit").value);
-    Tarnung = parseInt(document.getElementById("attribute_tarnung").value);
-    Sin = parseInt(document.getElementById("attribute_sinnesschärfe").value);
-    WIL = parseInt(document.getElementById("attribute_willenskraft").value);
-    KO = parseInt(document.getElementById("attribute_konstitution").value);
+    KK = parseInt(document.getElementById("attribute_Körperkraft").value);
+    GE = parseInt(document.getElementById("attribute_Gewandheit").value);
+    KL = parseInt(document.getElementById("attribute_Klugheit").value);
+    IN = parseInt(document.getElementById("attribute_Intuition").value);
+    FF = parseInt(document.getElementById("attribute_Fingerfertigkeit").value);
+    CH = parseInt(document.getElementById("attribute_Charisma").value);
+    GESCH = parseInt(document.getElementById("attribute_Geschicklichkeit").value);
+    Tarnung = parseInt(document.getElementById("attribute_Tarnung").value);
+    Sin = parseInt(document.getElementById("attribute_Sinnesschärfe").value);
+    WIL = parseInt(document.getElementById("attribute_Willenskraft").value);
+    KO = parseInt(document.getElementById("attribute_Konstitution").value);
     Gesteigerte = parseInt(document.getElementById("erfahrung_Gesteigerte").value);
 
     if (xp <= 900) { //level 0 bis 6
@@ -279,13 +290,13 @@ function updateCharakterCalculation() {
     document.getElementById("erfahrung_level").value = level;
 
     LP = KK + lpModifier + level * 6;
-    document.getElementById("sonderwerte_MaximaleLP").value = LP;
+    document.getElementById("sonderwerte_Maximale LP").value = LP;
 
     AUSD = LP + KO;
-    document.getElementById("sonderwerte_MaximaleAusdauer").value = AUSD;
+    document.getElementById("sonderwerte_Maximale Ausdauer").value = AUSD;
 
     maxASP = level * 6 + aspModifier;
-    document.getElementById("sonderwerte_MaximaleAstralenergie").value = maxASP;
+    document.getElementById("sonderwerte_Maximale Astralenergie").value = maxASP;
 
     MB = Math.round((maxASP / 8) + magicModifier);
     document.getElementById("sonderwerte_Magiebegabung").value = MB;
@@ -414,14 +425,20 @@ function saveChanges(data) {
         if (charakter.fähigkeiten.attribute && charakter.fähigkeiten.attribute) {
             updateSectionValues(charakter.fähigkeiten.attribute, 'attribute');
         }
-        if (charakter.fähigkeiten.talente && charakter.fähigkeiten.talente) {
-            updateSectionValues(charakter.fähigkeiten.talente, 'talente');
+        if (charakter.fähigkeiten.Assasssinen_Talente && charakter.fähigkeiten.Assasssinen_Talente) {
+            updateSectionValues(charakter.fähigkeiten.Assasssinen_Talente, 'Assasssinen_Talente');
         }
-        if (charakter.fähigkeiten.dsaTalente && charakter.fähigkeiten.dsaTalente) {
-            updateSectionValues(charakter.fähigkeiten.dsaTalente, 'dsaTalente');
+        if (charakter.fähigkeiten.Normale_Talente && charakter.fähigkeiten.Normale_Talente) {
+            updateSectionValues(charakter.fähigkeiten.Normale_Talente, 'Normale_Talente');
         }
         if (charakter.fähigkeiten.KampfBasiswerte && charakter.fähigkeiten.KampfBasiswerte) {
             updateSectionValues(charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
+        }
+        if (charakter.fähigkeiten.Kampf_Talente && charakter.fähigkeiten.Kampf_Talente) {
+            updateSectionValues(charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
+        }
+        if (charakter.fähigkeiten.Handwerkstalente && charakter.fähigkeiten.Handwerkstalente) {
+            updateSectionValues(charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
         }
     }
 
