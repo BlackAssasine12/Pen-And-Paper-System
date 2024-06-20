@@ -37,11 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            //NOTE - Ist wichtig auch wenn angezeigt das es nicht benutzt wird
             // Event Listener für das Klassen-Dropdown
             klassenSelect.addEventListener('change', function() {
                 const selectedClass = this.value;
                 const variable = setKlassenVariable(selectedClass, data.Klassen);
-                console.log(`Die Variable für die Klasse "${selectedClass}"`);
+                // console.log(`Die Variable für die Klasse "${selectedClass}"`);
             });
         })
         .catch(error => console.error('Error fetching JSON:', error));

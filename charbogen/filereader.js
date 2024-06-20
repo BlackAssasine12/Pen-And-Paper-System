@@ -1,3 +1,4 @@
+//NOTE - Filereader
 document.getElementById('fileInput').addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
@@ -14,8 +15,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
         reader.readAsText(file);
     }
 });
-let attributeCost, talenteCost, dsaTalenteCost, modifier_magieCost, modifier_aspCost, modifier_lpCost, modifier_fernkampfCost, modifier_nahkampfCost, modifier_giftCost, modifier_stealthCost;
-
+//NOTE -  Objekt für standart Steigerungswerte
 const adjustments = {
     'modifier_stealth': 10,
     'modifier_magie': 10,
@@ -28,30 +28,43 @@ const adjustments = {
     'talente': 3,
     'dsaTalente': 3
 };
-
-function initializeWallet(data) {
-    if (data.charakter && data.charakter.geld && data.charakter.geld) {
-        const geld = data.charakter.geld;
-        wallet.dukaten = geld.dukaten;
-        wallet.silber = geld.silber;
-        wallet.heller = geld.heller;
-        wallet.kreuzer = geld.kreuzer;
-        updateWalletDisplay();
+//NOTE - Anpassung der Steigerungswerte nach Klassen
+function setKlassenVariable(selectedClass, klassen) {
+    let variable;
+    if (klassen["Magische Klassen"].includes(selectedClass)) {
+        adjustments.modifier_magie = 3;
+        adjustments.modifier_asp = 5;
+    } else if (klassen["Nahkampf Basierte Klassen"].includes(selectedClass)) {
+        adjustments.modifier_nahkampf = 3;
+        adjustments.modifier_lp = 5;
+    } else if (klassen["Fernkampf Basierte Klassen"].includes(selectedClass)) {
+        adjustments.modifier_fernkampf = 3;
+        adjustments.modifier_stealth = 5;
+    } else if (klassen["Wissenschaftliche Klassen"].includes(selectedClass)) {
+        variable = 3;
+    } else if (klassen["Arbeiterklassen"].includes(selectedClass)) {
+        adjustments.attribute = 2;
+        adjustments.modifier_gift = 8;
+    } else if (klassen["Halbmagische Klassen"].includes(selectedClass)) {
+        adjustments.modifier_magie = 8;
+        adjustments.modifier_asp = 8;
+        adjustments.modifier_nahkampf = 8;
+        adjustments.modifier_fernkampf = 8;
+        adjustments.modifier_lp = 8;
+    } else if (klassen["Stealth Klassen"].includes(selectedClass)) {
+        adjustments.modifier_stealth = 3;
+        adjustments.modifier_nahkampf = 8;
+        adjustments.modifier_fernkampf = 8;
+        adjustments.modifier_gift = 8;
+    } else if (klassen["Spezialklassen"].includes(selectedClass)) {
+        variable = 7;
+    } else {
+        variable = 0; // Standardwert falls die Klasse nicht gefunden wird
     }
+    addInputChangeListeners()
+    return variable;
 }
-function updateWalletDisplay() {
-    document.getElementById('showDukaten').innerText = wallet.dukaten;
-    document.getElementById('showSilber').innerText = wallet.silber;
-    document.getElementById('showHeller').innerText = wallet.heller;
-    document.getElementById('showKreuzer').innerText = wallet.kreuzer;
-}
-let wallet = {
-    dukaten: 0,
-    silber: 0,
-    heller: 0,
-    kreuzer: 0,
-    wInsg: 0
-};
+//NOTE - Übertragung und aktuallisierung von CharakterInfos
 function genCharInfo(data) {
     const charakter = data.charakter;
     const CharakterInfoContainer = charakter.charakterInfo;
@@ -85,12 +98,12 @@ function updateCharakterInfo(charakterInfo) {
     charakterInfo.augenfarbe = document.getElementById("augenfarbe").value;
     charakterInfo.titel = document.getElementById("titel").value;
 }
+//NOTE - Inupt EventListener + Updaten von Steigerungspunkten
 function addInputChangeListeners() {
     const inputElements = document.querySelectorAll('.attributeInput');
     inputElements.forEach(input => {
         input.addEventListener('change', updateCharakterCalculation);
     });
-    console.log('Adding input change listeners');
     const mainInput = document.getElementById('erfahrung_Gesteigerte');
 
     console.log(adjustments)
@@ -112,44 +125,37 @@ function addInputChangeListeners() {
         });
     });
 }
+//NOTE - Nimmt die daten vom Filereader und erstellt den Charakterbogen mithilfe von createSection()
 function generateCharakterAttributes(data) {
     const charakterContainer = document.getElementById('charakterContainer');
-    charakterContainer.innerHTML = ''; // Clear any existing content
+    charakterContainer.innerHTML = ''; 
 
     const charakter = data.charakter;
 
-    // Create a container for the charakter attributes
     const attributeFlexContainer = document.createElement('div');
     attributeFlexContainer.classList.add('attributeFlexContainer');
 
-    // Modifier Section
     const modifierContainer = createSection('Modifier', charakter.fähigkeiten.modifier, 'modifier');
     attributeFlexContainer.appendChild(modifierContainer);
 
-    // Erfahrung Section
     const erfahrungContainer = createSection('Erfahrung', charakter.werte, 'erfahrung');
     attributeFlexContainer.appendChild(erfahrungContainer);
 
-    // Sonderwerte Section
     const sonderwerteContainer = createSection('Sonderwerte', charakter.fähigkeiten.sonderwerte, 'sonderwerte');
     attributeFlexContainer.appendChild(sonderwerteContainer);
 
-    // Attribute Section
     const attributeContainer = createSection('Attribute', charakter.fähigkeiten.attribute, 'attribute');
     attributeFlexContainer.appendChild(attributeContainer);
 
-    // Talente Section
     const talenteContainer = createSection('Talente', charakter.fähigkeiten.talente, 'talente');
     attributeFlexContainer.appendChild(talenteContainer);
 
-    // DSA Talente Section
     const dsaTalenteContainer = createSection('DSA Talente', charakter.fähigkeiten.dsaTalente, 'dsaTalente');
     attributeFlexContainer.appendChild(dsaTalenteContainer);
 
     const KampfBasiswerteContainer = createSection('Kampf Basiswerte', charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
     attributeFlexContainer.appendChild(KampfBasiswerteContainer);
 
-    // Hidden Items Section
     const hiddenItemsContainer = document.createElement('div');
     hiddenItemsContainer.classList.add('FlexItemContainer', 'hidden-items');
     hiddenItemsContainer.innerHTML = `<h6>Ausgeblendete Items</h6><div id="hiddenItemsContainer"></div>`;
@@ -162,8 +168,9 @@ function generateCharakterAttributes(data) {
     });
 
     // Hinzufügen der Änderungslistener
-    addInputChangeListeners(); // Aufruf hier hinzugefügt
+    addInputChangeListeners(); 
 }
+//NOTE - Erstellung Sectionen und Klassen-/ID zuweisung
 function createSection(title, attributes, sectionId) {
     const container = document.createElement('div');
     container.classList.add('FlexItemContainer');
@@ -180,14 +187,7 @@ function createSection(title, attributes, sectionId) {
     }
     return container;
 }
-function updateSectionValues(section, sectionId) {
-    for (let key in section) {
-        const input = document.getElementById(`${sectionId}_${key}`);
-        if (input) {
-            section[key] = input.value;
-        }
-    }
-}
+//NOTE - Funktion und erstellung des HideButt
 function bindHideButtons() {
     const hideButtons = document.querySelectorAll('.hidebutton');
     const hiddenItemsContainer = document.getElementById('hiddenItemsContainer');
@@ -242,46 +242,11 @@ function bindHideButtons() {
         });
     });
 }
-function setKlassenVariable(selectedClass, klassen) {
-    let variable;
-    if (klassen["Magische Klassen"].includes(selectedClass)) {
-        adjustments.modifier_magie = 3;
-        adjustments.modifier_asp = 5;
-    } else if (klassen["Nahkampf Basierte Klassen"].includes(selectedClass)) {
-        adjustments.modifier_nahkampf = 3;
-        adjustments.modifier_lp = 5;
-    } else if (klassen["Fernkampf Basierte Klassen"].includes(selectedClass)) {
-        adjustments.modifier_fernkampf = 3;
-        adjustments.modifier_stealth = 5;
-    } else if (klassen["Wissenschaftliche Klassen"].includes(selectedClass)) {
-        variable = 3;
-    } else if (klassen["Arbeiterklassen"].includes(selectedClass)) {
-        adjustments.attribute = 2;
-        adjustments.modifier_gift = 8;
-    } else if (klassen["Halbmagische Klassen"].includes(selectedClass)) {
-        adjustments.modifier_magie = 8;
-        adjustments.modifier_asp = 8;
-        adjustments.modifier_nahkampf = 8;
-        adjustments.modifier_fernkampf = 8;
-        adjustments.modifier_lp = 8;
-    } else if (klassen["Stealth Klassen"].includes(selectedClass)) {
-        adjustments.modifier_stealth = 3;
-        adjustments.modifier_nahkampf = 8;
-        adjustments.modifier_fernkampf = 8;
-        adjustments.modifier_gift = 8;
-    } else if (klassen["Spezialklassen"].includes(selectedClass)) {
-        variable = 7;
-    } else {
-        variable = 0; // Standardwert falls die Klasse nicht gefunden wird
-    }
-    addInputChangeListeners()
-    return variable;
-}
+//NOTE - Rechnungend er Sonderwerte
 function updateCharakterCalculation() {
     let KO, KK, GE, KL, IN, FF, CH, GESCH, Tarnung, WIL, LP, AUSD, maxASP, MB, MR, level, xp, magicModifier, aspModifier, lpModifier, fernModifier, nahModifier, schuss, wurf, Attacke, Parade, Giftresistenz, giftModifier, Sin, Steigerungspunkte, Gesteigerte;
 
 
-    //NOTE - Modifier
     lpModifier = parseInt(document.getElementById("modifier_lp").value);
     aspModifier = parseInt(document.getElementById("modifier_asp").value);
     magicModifier = parseInt(document.getElementById("modifier_magie").value);
@@ -289,7 +254,6 @@ function updateCharakterCalculation() {
     nahModifier = parseInt(document.getElementById("modifier_nahkampf").value);
     giftModifier = parseInt(document.getElementById("modifier_gift").value);
 
-    //NOTE - Variabel  Charisma
     xp = parseInt(document.getElementById("erfahrung_xp").value);
     KK = parseInt(document.getElementById("attribute_körperkraft").value);
     GE = parseInt(document.getElementById("attribute_gewandheit").value);
@@ -304,7 +268,6 @@ function updateCharakterCalculation() {
     KO = parseInt(document.getElementById("attribute_konstitution").value);
     Gesteigerte = parseInt(document.getElementById("erfahrung_Gesteigerte").value);
 
-    //NOTE - Rechenbar
     if (xp <= 900) { //level 0 bis 6
         level = Math.floor(xp / 150);
     } else if (xp <= 4200) { //level 7 bis 14
@@ -349,11 +312,34 @@ function updateCharakterCalculation() {
     document.getElementById("erfahrung_Steigerungspunkte").value = Steigerungspunkte;
 
 }
+//NOTE - Wallet Funktionen
+let wallet = {
+    dukaten: 0,
+    silber: 0,
+    heller: 0,
+    kreuzer: 0,
+    wInsg: 0
+};
+function initializeWallet(data) {
+    if (data.charakter && data.charakter.geld && data.charakter.geld) {
+        const geld = data.charakter.geld;
+        wallet.dukaten = geld.dukaten;
+        wallet.silber = geld.silber;
+        wallet.heller = geld.heller;
+        wallet.kreuzer = geld.kreuzer;
+        updateWalletDisplay();
+    }
+}
+function updateWalletDisplay() {
+    document.getElementById('showDukaten').innerText = wallet.dukaten;
+    document.getElementById('showSilber').innerText = wallet.silber;
+    document.getElementById('showHeller').innerText = wallet.heller;
+    document.getElementById('showKreuzer').innerText = wallet.kreuzer;
+}
 function TheChoosenOne() {
     let CurrencyField = document.getElementById("CurrencyField");
     let wCurrencyField = CurrencyField.options[CurrencyField.selectedIndex].value;
     let wNumberInput = parseFloat(document.getElementById("NumberInput").value);
-    let NumberInput = document.getElementById("NumberInput").value;
 
     if (wCurrencyField === "dukaten") {
         wallet.wInsg += wNumberInput * 1000;
@@ -372,7 +358,7 @@ function TheChoosenOne() {
     }
     updateWalletDisplay();
 }
-function convert() {
+function wConvert() {
     wallet.wInsg = wallet.kreuzer + wallet.heller * 10 + wallet.silber * 100 + wallet.dukaten * 1000;
 
     wallet.dukaten = Math.floor(wallet.wInsg / 1000);
@@ -402,9 +388,18 @@ function wReset() {
         alert("Wrong Input");
     }
 }
+//NOTE - Speicherung
+function updateSectionValues(section, sectionId) {
+    for (let key in section) {
+        const input = document.getElementById(`${sectionId}_${key}`);
+        if (input) {
+            section[key] = input.value;
+        }
+    }
+}
 function saveChanges(data) {
     const charakter = data.charakter;
-console.log("ausgeführt")
+    console.log("ausgeführt")
     // Update values from the inputs
     if (charakter.fähigkeiten && charakter.fähigkeiten) {
         if (charakter.fähigkeiten.modifier && charakter.fähigkeiten.modifier) {
