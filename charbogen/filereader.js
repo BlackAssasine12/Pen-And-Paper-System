@@ -132,6 +132,7 @@ function addInputChangeListeners() {
 }
 //NOTE - Nimmt die daten vom Filereader und erstellt den Charakterbogen mithilfe von createSection()
 function generateCharakterAttributes(data) {
+    const walletContainer = document.getElementById('WalletContainer');
     const charakterContainer = document.getElementById('charakterContainer');
     charakterContainer.innerHTML = '';
 
@@ -142,9 +143,6 @@ function generateCharakterAttributes(data) {
 
     const modifierContainer = createSection('Modifier', charakter.fähigkeiten.modifier, 'modifier');
     attributeFlexContainer.appendChild(modifierContainer);
-    
-    const erfahrungContainer = createSection('Erfahrung', charakter.werte, 'erfahrung');
-    attributeFlexContainer.appendChild(erfahrungContainer);
 
     const sonderwerteContainer = createSection('Sonderwerte', charakter.fähigkeiten.sonderwerte, 'sonderwerte');
     attributeFlexContainer.appendChild(sonderwerteContainer);
@@ -155,17 +153,23 @@ function generateCharakterAttributes(data) {
     const Assasssinen_TalenteContainer = createSection('Assasssinen_Talente', charakter.fähigkeiten.Assasssinen_Talente, 'Assasssinen_Talente');
     attributeFlexContainer.appendChild(Assasssinen_TalenteContainer);
 
-    const Normale_TalenteContainer = createSection('Normale_Talente', charakter.fähigkeiten.Normale_Talente, 'Normale_Talente');
-    attributeFlexContainer.appendChild(Normale_TalenteContainer);
-
-    const Kampf_TalenteContainer = createSection('Kampf_Talente', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
-    attributeFlexContainer.appendChild(Kampf_TalenteContainer);
-
+    const Talente_1Container = createSection('Talente_1', charakter.fähigkeiten.Talente_1, 'Talente_1');
+    attributeFlexContainer.appendChild(Talente_1Container);
+    
+    const Talente_2Container = createSection('Talente_2', charakter.fähigkeiten.Talente_2, 'Talente_2');
+    attributeFlexContainer.appendChild(Talente_2Container);
+    
     const HandwerkstalenteContainer = createSection('Handwerkstalente', charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
     attributeFlexContainer.appendChild(HandwerkstalenteContainer);
 
+    const Kampf_TalenteContainer = createSection('Kampf_Talente', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
+    attributeFlexContainer.appendChild(Kampf_TalenteContainer);
+    
     const KampfBasiswerteContainer = createSection('Kampf Basiswerte', charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
-    attributeFlexContainer.appendChild(KampfBasiswerteContainer);
+    walletContainer.insertAdjacentElement('afterend', KampfBasiswerteContainer);
+    
+    const erfahrungContainer = createSection('Erfahrung', charakter.werte, 'erfahrung');
+    walletContainer.insertAdjacentElement('afterend', erfahrungContainer);
 
     const hiddenItemsContainer = document.createElement('div');
     hiddenItemsContainer.classList.add('FlexItemContainer', 'hidden-items');
@@ -180,6 +184,7 @@ function generateCharakterAttributes(data) {
 
     addInputChangeListeners();
 }
+// document.getElementById
 //NOTE - Erstellung Sectionen und Klassen-/ID zuweisung
 function createSection(title, attributes, sectionId) {
     const container = document.createElement('div');
