@@ -1,8 +1,37 @@
-body {
+body{
     background-color: #F4E3C3;
     color: #5C4033;
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
+    margin: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: auto !important;
+    margin: -10px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #ddd;
+}
+.content {
+    flex: 1;
 }
 input {
     color: #5C4033;
@@ -11,7 +40,6 @@ input {
     font-size: 16px;
     border: 1px solid #5C4033;
     border-radius: 5px;
-
 }
 
 h6 {
@@ -19,7 +47,8 @@ h6 {
     text-decoration: underline;
     margin: 0;
     padding: 0;
-} 
+}
+
 button {
     color: #5C4033;
     background-color: #F4E3C3;
@@ -29,15 +58,17 @@ button {
     border-radius: 5px;
     margin: 5px;
 }
-button:hover{
+
+button:hover {
     color: #8B6A4A;
-    border: 1px solid #5C4033;
+    border: 0px;
     border-radius: 5px;
     background-color: #422e25;
 }
-button:active{
+
+button:active {
     color: #8B6A4A;
-    border: 1px solid #5C4033;
+    border: 0px;
     border-radius: 5px;
     background-color: #F4E3C3;
 }
@@ -50,30 +81,34 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: none;
     color: none;
 }
-input[type="file"]{
+
+input[type="file"] {
     color: #5C4033;
     background-color: #F4E3C3;
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
-    border: 1px solid #5C4033;
+    border: 2px solid #5C4033;
     border-radius: 5px;
 }
+
 .Rowflex {
     display: flex;
     flex-direction: row;
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 .WalletContainer {
     display: flex;
     flex-direction: row;
     margin-top: 50px !important;
-    /* margin-bottom: 20px; */
+    margin-bottom: 0 !important;
+
 }
 
 .attributeFlexContainer {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     flex-direction: row;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -86,9 +121,10 @@ input[type="file"]{
     border: 1px solid #8B6A4A;
     border-radius: 6px;
     height: 35px;
-    width: 300px;
+    width: 340px;
     margin-top: 10px;
-    padding-left: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
     justify-content: space-between;
 }
 
@@ -137,11 +173,12 @@ input[type="file"]{
 }
 
 .FlexItemContainer {
-    border: solid #8B6A4A 1px;
+    width: 350px;
+    border: solid #8B6A4A 2px;
     border-radius: 6px;
     padding: 5px;
     margin-top: 10px;
-    margin-left: 5px;
+    margin:5px;
     justify-content: space-between;
 }
 
@@ -149,10 +186,11 @@ input[type="file"]{
     display: flex;
     flex-direction: column;
     margin-top: 50px;
-    border: solid #8B6A4A 1px;
+    border: solid #8B6A4A 2px;
     border-radius: 6px;
     padding-left: 5px;
-    width: 400px;
+    width: 350px;
+    padding-bottom:10px ;
 
 }
 
@@ -199,16 +237,20 @@ option {
     font-size: 16px;
     border: 0;
     text-align: left;
-    width: 300px;
+    width: 260px;
 }
 
 select:focus {
     outline: none;
     border: none;
 }
+
 select {
-    outline: none !important; 
-    border: none !important; 
+    outline: none !important;
+    border: none !important;
+}
+#CurrencyField{
+    width: 200px;
 }
 .mediumFlexItem {
     display: flex;
@@ -217,7 +259,7 @@ select {
     border: 1px solid #8B6A4A;
     border-radius: 6px;
     height: 35px;
-    width: 350px;
+    width: 320px;
     margin-top: 10px;
     padding-left: 2px;
     justify-content: space-between;

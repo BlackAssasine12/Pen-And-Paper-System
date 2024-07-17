@@ -142,7 +142,7 @@ function generateCharakterAttributes(data) {
 
     const modifierContainer = createSection('Modifier', charakter.fähigkeiten.modifier, 'modifier');
     attributeFlexContainer.appendChild(modifierContainer);
-
+    
     const erfahrungContainer = createSection('Erfahrung', charakter.werte, 'erfahrung');
     attributeFlexContainer.appendChild(erfahrungContainer);
 
@@ -178,7 +178,6 @@ function generateCharakterAttributes(data) {
         saveChanges(data);
     });
 
-    // Hinzufügen der Änderungslistener
     addInputChangeListeners();
 }
 //NOTE - Erstellung Sectionen und Klassen-/ID zuweisung
