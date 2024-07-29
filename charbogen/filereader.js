@@ -162,6 +162,8 @@ function generateCharakterAttributes(data) {
     const HandwerkstalenteContainer = createSection('Handwerkstalente', charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
     attributeFlexContainer.appendChild(HandwerkstalenteContainer);
 
+
+
     const Kampf_TalenteContainer = createSection('Kampf_Talente (AT/PA/Skillwert)', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
     walletContainer.insertAdjacentElement('afterend', Kampf_TalenteContainer);
 
@@ -178,13 +180,15 @@ function generateCharakterAttributes(data) {
 
     charakterContainer.appendChild(attributeFlexContainer);
 
+    const Magische_ElementeContainer = createSection('Magische_Elemente', charakter.Magische_Elemente, 'Magische_Elemente');
+    attributeFlexContainer.appendChild(Magische_ElementeContainer);
+    
     document.getElementById('saveButton').addEventListener('click', function () {
         saveChanges(data);
     });
 
     addInputChangeListeners();
 }
-// document.getElementById
 //NOTE - Erstellung Sectionen und Klassen-/ID zuweisung
 function createSection(title, attributes, sectionId) {
     const container = document.createElement('div');
