@@ -66,18 +66,18 @@
                 "Parade Basiswert": 0
             },
             "Kampf_Talente": {
-                "Zweihand Schwerter": 0,
-                "Einhand Schwerter": 0,
-                "Stichwaffen": 0,
-                "Stumpfe Waffen": 0,
-                "Schwere Waffen": 0,
-                "Versteckte Klingen": 0,
-                "Messer/Doche": 0,
-                "Flexiblen Nahkampfwaffen": 0,
-                "Waffenlos": 0,
-                "Pfeilwaffen": 0,
-                "Bolzwaffen": 0,
-                "Wurfwaffen": 0
+                "Zweihand Schwerter": [0,0,0],
+                "Einhand Schwerter": [0,0,0],
+                "Stichwaffen": [0,0,0],
+                "Stumpfe Waffen": [0,0,0],
+                "Schwere Waffen": [0,0,0],
+                "Versteckte Klingen": [0,0,0],
+                "Messer/Doche": [0,0,0],
+                "Flexiblen Nahkampfwaffen": [0,0,0],
+                "Waffenlos": [0,0,0],
+                "Pfeilwaffen": [0,0,0],
+                "Bolzwaffen": [0,0,0],
+                "Wurfwaffen": [0,0,0]
             },
             "Assasssinen_Talente": {
                 "Verkleiden": 0,
@@ -141,12 +141,6 @@
                 "Schneidern": 0,
                 "Singen": 0,
                 "Töpfern": 0
-            },
-            "Gespeicherte_Kampftalente": {
-                "Einhand Schwerter": [0,0,0],
-                "Versteckte Klingen": [0,0,0],
-                "Messer/Doche": [0,0,0]
-
             }
         }
     }

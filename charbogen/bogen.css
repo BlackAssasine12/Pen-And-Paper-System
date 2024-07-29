@@ -1,4 +1,4 @@
-body{
+body {
     background-color: #F4E3C3;
     color: #5C4033;
     font-family: 'Times New Roman', Times, serif;
@@ -30,16 +30,39 @@ footer a {
 footer a:hover {
     color: #ddd;
 }
+
 .content {
     flex: 1;
 }
-input {
+
+input,
+select,
+option {
     color: #5C4033;
     background-color: #F4E3C3;
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
     border: 1px solid #5C4033;
     border-radius: 5px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: none;
+    color: none;
+}
+
+input[type="file"] {
+    border: 2px solid #5C4033;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #8B6A4A;
 }
 
 h6 {
@@ -61,73 +84,69 @@ button {
 
 button:hover {
     color: #8B6A4A;
-    border: 0px;
-    border-radius: 5px;
     background-color: #422e25;
+    border: 0;
 }
 
 button:active {
-    color: #8B6A4A;
-    border: 0px;
-    border-radius: 5px;
     background-color: #F4E3C3;
-}
-
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    margin: 0;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    background-color: none;
-    color: none;
-}
-
-input[type="file"] {
-    color: #5C4033;
-    background-color: #F4E3C3;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 16px;
-    border: 2px solid #5C4033;
-    border-radius: 5px;
 }
 
 .Rowflex {
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 .WalletContainer {
     display: flex;
-    flex-direction: row;
-    margin-top: 20px !important;
-    margin-bottom: 0 !important;
-
+    flex-direction: column;
+    margin: 20px 0;
+    width: 300px !important;
 }
 
 .attributeFlexContainer {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    margin-top: 20px;
-    margin-bottom: 0px;
+    margin: 20px 0;
 }
 
-.FlexItem {
+.infoFlexContainer {
     display: flex;
-    font-size: 16px;
-    align-items: center;
-    border: 1px solid #8B6A4A;
+    flex-direction: column;
+    width: 350px;
+    border: 2px solid #8B6A4A;
     border-radius: 6px;
-    height: 35px;
-    width: 340px;
-    margin-top: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
-    justify-content: space-between;
+    padding: 5px;
+    margin: 5px;
+    box-shadow: 0px 0px 4px 1px #000000;
 }
 
+.FlexItemContainer {
+    display: flex;
+    width: 350px;
+    flex-direction: column;
+    border: 2px solid #8B6A4A;
+    border-radius: 6px;
+    padding: 5px;
+    margin: 5px;
+    box-shadow: 0px 0px 4px 1px #000000;
+}
+
+.BigFlexItemContainer {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    border: 2px solid #8B6A4A;
+    border-radius: 6px;
+    padding: 5px;
+    margin: 5px;
+    box-shadow: 0px 0px 4px 1px #000000;
+}
+
+.FlexItem,
+.mediumFlexItem,
 .BigFlexItem {
     display: flex;
     font-size: 16px;
@@ -135,10 +154,22 @@ input[type="file"] {
     border: 1px solid #8B6A4A;
     border-radius: 6px;
     height: 35px;
-    width: 350px;
     margin-top: 10px;
-    padding-left: 2px;
+    padding: 0 5px;
     justify-content: space-between;
+    
+}
+
+.FlexItem {
+    width: 340px;
+}
+
+.mediumFlexItem {
+    width: 320px;
+}
+
+.BigFlexItem {
+    width: 100%;
 }
 
 .hidebutton {
@@ -152,61 +183,6 @@ input[type="file"] {
 .hidebutton:hover {
     color: red;
 }
-
-.attributeInput {
-    margin-left: auto;
-    width: 50px;
-    font-size: 16px;
-    border: 0;
-    text-align: right;
-}
-
-.attributeInput:hover {
-    border: 1px solid #8B6A4A;
-    border-radius: 6px;
-}
-
-.attributeInput:focus {
-    border: 1px solid #8B6A4A;
-    border-radius: 6px;
-    outline: none;
-}
-
-.FlexItemContainer {
-    width: 350px;
-    border: solid #8B6A4A 2px;
-    border-radius: 6px;
-    padding: 5px;
-    margin-top: 20px !important;
-    margin-bottom: 0 !important;
-    margin: 5px;
-    
-    justify-content: space-between;
-}
-
-.infoFlexContainer {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    border: solid #8B6A4A 2px;
-    border-radius: 6px;
-    padding-left: 5px;
-    width: 350px;
-    margin-left: 5px;
-    padding-bottom:10px ;
-
-}
-
-.infoFlexItem {
-    display: flex;
-    font-size: 16px;
-    align-items: center;
-    border: 1px solid #8B6A4A;
-    border-radius: 6px;
-    margin: 5px;
-    padding-left: 2px;
-}
-
 .eingabefeld {
     width: 100%;
     outline: none;
@@ -216,55 +192,52 @@ input[type="file"] {
     overflow: hidden;
     border-radius: 4px;
 }
-
-/* .rakla-select {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #8B6A4A;
-    border-radius: 6px;
-    padding: 5px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 400px;
-} */
-
-select,
-option {
-    color: #5C4033;
-    background-color: #F4E3C3;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 16px;
-    margin-left: 2px;
-    border-radius: 6px;
+.attributeInput,
+.ArrAttributeInput {
     margin-left: auto;
-    font-size: 16px;
+    text-align: right;
     border: 0;
-    text-align: left;
-    width: 260px;
+    width: 50px;
+    font-size: 16px;
 }
 
-select:focus {
-    outline: none;
-    border: none;
+.attributeInput:hover,
+.ArrAttributeInput:hover{
+    border: 1px solid #8B6A4A;
+    border-radius: 6px;
+}
+
+.attributeInput:focus,
+.ArrAttributeInput:focus,
+.eingabefeld:focus {
+    border: 1px solid #8B6A4A;
+    border-radius: 6px;
+}
+
+label {
+    flex: 1;
+    margin-right: 10px;
+    text-align: left;
+}
+
+.ArrayContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 97%;
 }
 
 select {
-    outline: none !important;
-    border: none !important;
+    outline: none;
+    border: 0;
+    border-radius: 6px;
+    width: 260px;
 }
-#CurrencyField{
+
+#CurrencyField {
     width: 200px;
 }
-.mediumFlexItem {
-    display: flex;
-    font-size: 16px;
-    align-items: center;
-    border: 1px solid #8B6A4A;
-    border-radius: 6px;
-    height: 35px;
-    width: 320px;
-    margin-top: 10px;
-    padding-left: 2px;
-    justify-content: space-between;
-    margin-right: 5px;
+
+.hidden-items {
+    display: none;
 }

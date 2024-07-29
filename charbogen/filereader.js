@@ -105,7 +105,7 @@ function updateCharakterInfo(charakterInfo) {
 }
 //NOTE - Inupt EventListener + Updaten von Steigerungspunkten
 function addInputChangeListeners() {
-    const inputElements = document.querySelectorAll('.attributeInput');
+    const inputElements = document.querySelectorAll('.attributeInput', '.ArrAttributeInput ');
     inputElements.forEach(input => {
         input.addEventListener('change', updateCharakterCalculation);
     });
@@ -155,25 +155,22 @@ function generateCharakterAttributes(data) {
 
     const Talente_1Container = createSection('Talente_1', charakter.fähigkeiten.Talente_1, 'Talente_1');
     attributeFlexContainer.appendChild(Talente_1Container);
-    
+
     const Talente_2Container = createSection('Talente_2', charakter.fähigkeiten.Talente_2, 'Talente_2');
     attributeFlexContainer.appendChild(Talente_2Container);
-    
+
     const HandwerkstalenteContainer = createSection('Handwerkstalente', charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
     attributeFlexContainer.appendChild(HandwerkstalenteContainer);
 
-    const Kampf_TalenteContainer = createSection('Kampf_Talente', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
-    attributeFlexContainer.appendChild(Kampf_TalenteContainer);
-    
+    const Kampf_TalenteContainer = createSection('Kampf_Talente (AT/PA/Skillwert)', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
+    walletContainer.insertAdjacentElement('afterend', Kampf_TalenteContainer);
+
     const KampfBasiswerteContainer = createSection('Kampf Basiswerte', charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
     walletContainer.insertAdjacentElement('afterend', KampfBasiswerteContainer);
-    
+
     const erfahrungContainer = createSection('Erfahrung', charakter.werte, 'erfahrung');
     walletContainer.insertAdjacentElement('afterend', erfahrungContainer);
-   
-    const Gespeicherte_KampftalenteContainer = createSection('Gespeicherte_Kampftalente', charakter.fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
-    walletContainer.insertAdjacentElement('afterend', Gespeicherte_KampftalenteContainer);
-   
+
     const hiddenItemsContainer = document.createElement('div');
     hiddenItemsContainer.classList.add('FlexItemContainer', 'hidden-items');
     hiddenItemsContainer.innerHTML = `<h6>Ausgeblendete Items</h6><div id="hiddenItemsContainer"></div>`;
@@ -191,27 +188,30 @@ function generateCharakterAttributes(data) {
 //NOTE - Erstellung Sectionen und Klassen-/ID zuweisung
 function createSection(title, attributes, sectionId) {
     const container = document.createElement('div');
-    container.classList.add('FlexItemContainer');
     container.innerHTML = `<h6>${title}</h6>`;
 
     for (let key in attributes) {
         const flexItem = document.createElement('div');
-        flexItem.classList.add('FlexItem');
 
         // Überprüfen, ob der Wert ein Array ist
         if (Array.isArray(attributes[key])) {
-            flexItem.innerHTML = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
+            container.classList.add('BigFlexItemContainer');
+            flexItem.classList.add('BigFlexItem');
+
+            flexItem.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}:</label>`;
+            flexItem.classList.add('ArrayContainer');
             attributes[key].forEach((value, index) => {
                 flexItem.innerHTML += `
-                    <input class="attributeInput ${sectionId} ${sectionId}_${key}_${index}" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
+                    <input class="attributeInput ArrAttributeInput ${sectionId} ${sectionId}_${key}_${index}" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
             });
-            // Nur ein Hide-Button für das gesamte Array
-            flexItem.innerHTML += `<button class="hidebutton" data-key="${sectionId}_${key}">X</button>`;
         } else {
+            container.classList.add('FlexItemContainer');
+            flexItem.classList.add('FlexItem');
+
             flexItem.innerHTML = `
-                ${key.charAt(0).toUpperCase() + key.slice(1)}
+                <label for="${sectionId}_${key}">${key.charAt(0).toUpperCase() + key.slice(1)}</label>
                 <input class="attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
-                <button class="hidebutton" data-key="${sectionId}_${key}">X</button>`;
+                <button class="hidebutton">X</button>`;
         }
         container.appendChild(flexItem);
     }
@@ -432,7 +432,7 @@ function updateSectionValues(section, sectionId) {
         } else {
             const input = document.getElementById(`${sectionId}_${key}`);
             if (input) {
-                section[key] = parseFloat(input.value);
+                section[key] = input.value;
             }
         }
     }
