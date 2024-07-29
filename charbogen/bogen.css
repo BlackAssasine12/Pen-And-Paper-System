@@ -192,6 +192,7 @@ input[type="file"] {
     border-radius: 6px;
     padding-left: 5px;
     width: 350px;
+    margin-left: 5px;
     padding-bottom:10px ;
 
 }

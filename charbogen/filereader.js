@@ -170,7 +170,10 @@ function generateCharakterAttributes(data) {
     
     const erfahrungContainer = createSection('Erfahrung', charakter.werte, 'erfahrung');
     walletContainer.insertAdjacentElement('afterend', erfahrungContainer);
-
+   
+    const Gespeicherte_KampftalenteContainer = createSection('Gespeicherte_Kampftalente', charakter.fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
+    walletContainer.insertAdjacentElement('afterend', Gespeicherte_KampftalenteContainer);
+   
     const hiddenItemsContainer = document.createElement('div');
     hiddenItemsContainer.classList.add('FlexItemContainer', 'hidden-items');
     hiddenItemsContainer.innerHTML = `<h6>Ausgeblendete Items</h6><div id="hiddenItemsContainer"></div>`;
@@ -194,10 +197,22 @@ function createSection(title, attributes, sectionId) {
     for (let key in attributes) {
         const flexItem = document.createElement('div');
         flexItem.classList.add('FlexItem');
-        flexItem.innerHTML = `
-            ${key.charAt(0).toUpperCase() + key.slice(1)}
-            <input class="attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
-            <button class="hidebutton">X</button>`;
+
+        // Überprüfen, ob der Wert ein Array ist
+        if (Array.isArray(attributes[key])) {
+            flexItem.innerHTML = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
+            attributes[key].forEach((value, index) => {
+                flexItem.innerHTML += `
+                    <input class="attributeInput ${sectionId} ${sectionId}_${key}_${index}" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
+            });
+            // Nur ein Hide-Button für das gesamte Array
+            flexItem.innerHTML += `<button class="hidebutton" data-key="${sectionId}_${key}">X</button>`;
+        } else {
+            flexItem.innerHTML = `
+                ${key.charAt(0).toUpperCase() + key.slice(1)}
+                <input class="attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
+                <button class="hidebutton" data-key="${sectionId}_${key}">X</button>`;
+        }
         container.appendChild(flexItem);
     }
     return container;
@@ -406,9 +421,19 @@ function wReset() {
 //NOTE - Speicherung
 function updateSectionValues(section, sectionId) {
     for (let key in section) {
-        const input = document.getElementById(`${sectionId}_${key}`);
-        if (input) {
-            section[key] = input.value;
+        if (Array.isArray(section[key])) {
+            section[key] = [];
+            let index = 0;
+            let input;
+            while ((input = document.getElementById(`${sectionId}_${key}_${index}`)) !== null) {
+                section[key].push(parseFloat(input.value));
+                index++;
+            }
+        } else {
+            const input = document.getElementById(`${sectionId}_${key}`);
+            if (input) {
+                section[key] = parseFloat(input.value);
+            }
         }
     }
 }
@@ -432,8 +457,11 @@ function saveChanges(data) {
         if (charakter.fähigkeiten.Assasssinen_Talente && charakter.fähigkeiten.Assasssinen_Talente) {
             updateSectionValues(charakter.fähigkeiten.Assasssinen_Talente, 'Assasssinen_Talente');
         }
-        if (charakter.fähigkeiten.Normale_Talente && charakter.fähigkeiten.Normale_Talente) {
-            updateSectionValues(charakter.fähigkeiten.Normale_Talente, 'Normale_Talente');
+        if (charakter.fähigkeiten.Talente_1 && charakter.fähigkeiten.Talente_1) {
+            updateSectionValues(charakter.fähigkeiten.Talente_1, 'Talente_1');
+        }
+        if (charakter.fähigkeiten.Talente_2 && charakter.fähigkeiten.Talente_2) {
+            updateSectionValues(charakter.fähigkeiten.Talente_2, 'Talente_2');
         }
         if (charakter.fähigkeiten.KampfBasiswerte && charakter.fähigkeiten.KampfBasiswerte) {
             updateSectionValues(charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
@@ -443,6 +471,9 @@ function saveChanges(data) {
         }
         if (charakter.fähigkeiten.Handwerkstalente && charakter.fähigkeiten.Handwerkstalente) {
             updateSectionValues(charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
+        }
+        if (charakter.fähigkeiten.Gespeicherte_Kampftalente && charakter.fähigkeiten.Gespeicherte_Kampftalente) {
+            updateSectionValues(charakter.fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
         }
     }
 

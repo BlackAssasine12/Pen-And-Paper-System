@@ -141,6 +141,12 @@
                 "Schneidern": 0,
                 "Singen": 0,
                 "Töpfern": 0
+            },
+            "Gespeicherte_Kampftalente": {
+                "Einhand Schwerter": [0,0,0],
+                "Versteckte Klingen": [0,0,0],
+                "Messer/Doche": [0,0,0]
+
             }
         }
     }
