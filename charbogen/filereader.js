@@ -25,7 +25,7 @@ const adjustments = {
     'modifier_nahkampf': 10,
     'modifier_gift': 10,
     'attribute': 5,
-    'Kampf_Talente': 5,
+    'Kampf_Talente_2': 5,
     'Assasssinen_Talente': 3,
     'Normale_Talente': 3,
     'Handwerkstalente': 3,
@@ -105,7 +105,7 @@ function updateCharakterInfo(charakterInfo) {
 }
 //NOTE - Inupt EventListener + Updaten von Steigerungspunkten
 function addInputChangeListeners() {
-    const inputElements = document.querySelectorAll('.attributeInput', '.ArrAttributeInput ');
+    const inputElements = document.querySelectorAll('.stg');
     inputElements.forEach(input => {
         input.addEventListener('change', updateCharakterCalculation);
     });
@@ -202,7 +202,7 @@ function createSection(title, attributes, sectionId) {
             flexItem.classList.add('ArrayContainer');
             attributes[key].forEach((value, index) => {
                 flexItem.innerHTML += `
-                    <input class="attributeInput ArrAttributeInput ${sectionId} ${sectionId}_${key}_${index}" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
+                    <input class="stg ArrAttributeInput ${sectionId}_${index} ${sectionId}_${key}_${index}" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
             });
         } else {
             container.classList.add('FlexItemContainer');
@@ -210,7 +210,7 @@ function createSection(title, attributes, sectionId) {
 
             flexItem.innerHTML = `
                 <label for="${sectionId}_${key}">${key.charAt(0).toUpperCase() + key.slice(1)}</label>
-                <input class="attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
+                <input class="stg attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
                 <button class="hidebutton">X</button>`;
         }
         container.appendChild(flexItem);
