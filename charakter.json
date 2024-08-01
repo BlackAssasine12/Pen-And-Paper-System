@@ -25,25 +25,82 @@
             "kreuzer": 0
         },
         "Magische_Elemente": {
-            "Feuer":["", 30],
-            "Wasser":["", 30],
-            "Erde":["", 30],
-            "Luft":["", 30],
-            "Natur":["", 30],
-            "Heilung":["", 30],
-            "Dunkle":["", 30],
-            "Helle":["", 30],
-            "Schatten":["Luft Dunkle", 30],
-            "Licht":["Helle Feuer", 30],
-            "Holz":["Erde Wasser", 30],
-            "Metall":["Erde Feuer", 30],
-            "Eis":["Luft Wasser", 30],
-            "Leben":["Heilung Natur", 30],
-            "Nekromantie":["Dunkle Leben", 30],
-            "Blitz":["Licht Luft", 30],
-            "Gravitation":["Erde Luft", 30],
-            "Erschaffung":["Feuer Wasser Erde Luft Natur Dunkle Helle", 60],
-            "Raumzeit":["Feuer Wasser Erde Luft Natur Dunkle Helle Gravitation", 60]
+            "Feuer": [
+                "",
+                30
+            ],
+            "Wasser": [
+                "",
+                30
+            ],
+            "Erde": [
+                "",
+                30
+            ],
+            "Luft": [
+                "",
+                30
+            ],
+            "Natur": [
+                "",
+                30
+            ],
+            "Heilung": [
+                "",
+                30
+            ],
+            "Dunkle": [
+                "",
+                30
+            ],
+            "Helle": [
+                "",
+                30
+            ],
+            "Schatten": [
+                "Luft Dunkle",
+                30
+            ],
+            "Licht": [
+                "Helle Feuer",
+                30
+            ],
+            "Holz": [
+                "Erde Wasser",
+                30
+            ],
+            "Metall": [
+                "Erde Feuer",
+                30
+            ],
+            "Eis": [
+                "Luft Wasser",
+                30
+            ],
+            "Leben": [
+                "Heilung Natur",
+                30
+            ],
+            "Nekromantie": [
+                "Dunkle Leben",
+                30
+            ],
+            "Blitz": [
+                "Licht Luft",
+                30
+            ],
+            "Gravitation": [
+                "Erde Luft",
+                30
+            ],
+            "Erschaffung": [
+                "Feuer Wasser Erde Luft Natur Dunkle Helle",
+                60
+            ],
+            "Raumzeit": [
+                "Feuer Wasser Erde Luft Natur Dunkle Helle Gravitation",
+                60
+            ]
         },
         "fähigkeiten": {
             "modifier": {
@@ -149,67 +206,67 @@
                 ]
             },
             "Assasssinen_Talente": {
-                "Verkleiden": 0,
-                "Verstecken": 0,
-                "Meucheln": 0,
-                "Giftherstellung": 0,
-                "Giftanwendung": 0,
-                "Parkour": 0,
-                "Schlösser Knacken": 0,
-                "Gassenwissen": 0,
-                "Schleichen": 0,
-                "Klettern": 0,
-                "Taschendiebstahl": 0
+                "Verkleiden(CH/INT/GES)": 0,
+                "Verstecken(INT/TAR/SIN)": 0,
+                "Meucheln(KL/GES/TAR)": 0,
+                "Giftherstellung(KL/GES/SIN)": 0,
+                "Giftanwendung(KL/GES/INT)": 0,
+                "Parkour(KON/GEW/GES)": 0,
+                "Schlösser Knacken(GES/FF/KL)": 0,
+                "Gassenwissen(INT/KL/CH)": 0,
+                "Schleichen(TAR/GES/SIN)": 0,
+                "Klettern(KON/GEW/KK)": 0,
+                "Taschendiebstahl(GES/FF/INT)": 0
             },
             "Talente_1": {
-                "Lesen / Schreiben": 0,
-                "Rechnen": 0,
-                "Überreden": 0,
-                "Fallen Kunde": 0,
-                "Reiten": 0,
-                "Körperbeherrschung": 0,
-                "Selbstbeherrschung": 0,
-                "Schwimmen": 0,
-                "Etikette": 0,
-                "Feilschen": 0,
-                "Betrügen": 0,
-                "Menschenkenntnis": 0,
-                "Fährtensuche": 0,
-                "Fesseln/Entfesseln": 0
+                "Lesen / Schreiben(KL/INT/GES)": 0,
+                "Rechnen(KL/INT/GES)": 0,
+                "Überreden(CH/KL/INT)": 0,
+                "Fallen Kunde(KL/GES/INT)": 0,
+                "Reiten(GEW/KK/GES)": 0,
+                "Körperbeherrschung(KON/GEW/KK)": 0,
+                "Selbstbeherrschung(KON/WIL/KL)": 0,
+                "Schwimmen(KON/KK/GEW)": 0,
+                "Etikette(CH/INT/KL)": 0,
+                "Feilschen(CH/KL/GES)": 0,
+                "Betrügen(CH/KL/GES)": 0,
+                "Menschenkenntnis(INT/KL/SIN)": 0,
+                "Fährtensuche(INT/SIN/GEW)": 0,
+                "Fesseln/Entfesseln(GES/FF/KK)": 0
             },
             "Talente_2": {
-                "Tanzen": 0,
-                "Orientierung": 0,
-                "Tierkunde": 0,
-                "Wettervorhersage": 0,
-                "Alchimie": 0,
-                "Geographie": 0,
-                "Götter und Kulte": 0,
-                "Kriegskunst": 0,
-                "Mechanik": 0,
-                "Magiekunde": 0,
-                "Rechtskunde": 0,
-                "Sternkunde": 0,
-                "Zechen": 0,
-                "Schätzen": 0
+                "Tanzen(CH/GEW/GES)": 0,
+                "Orientierung(KL/INT/SIN)": 0,
+                "Tierkunde(KL/INT/SIN)": 0,
+                "Wettervorhersage(KL/INT/SIN)": 0,
+                "Alchimie(KL/GES/SIN)": 0,
+                "Geographie(KL/INT/SIN)": 0,
+                "Götter und Kulte(KL/INT/CH)": 0,
+                "Kriegskunst(KL/INT/KK)": 0,
+                "Mechanik(GES/KL/FF)": 0,
+                "Magiekunde(KL/INT/WIL)": 0,
+                "Rechtskunde(KL/INT/CH)": 0,
+                "Sternkunde(KL/INT/SIN)": 0,
+                "Zechen(KON/WIL/KK)": 0,
+                "Schätzen(KL/INT/SIN)": 0
             },
             "Handwerkstalente": {
-                "Abrichten": 0,
-                "Boote Fahren": 0,
-                "Fahrzeug Lenken": 0,
-                "Falschspiel": 0,
-                "Heilkunde, Gift": 0,
-                "Heilkunde, Krankheit": 0,
-                "Heilkunde, Seele": 0,
-                "Heilkunde, Wunden": 0,
-                "Holzbearbeitung": 0,
-                "Kochen": 0,
-                "Lederarbeiten": 0,
-                "Malen / Zeichnen": 0,
-                "Musizieren": 0,
-                "Schneidern": 0,
-                "Singen": 0,
-                "Töpfern": 0
+                "Abrichten(INT/WIL/CH)": 0,
+                "Boote Fahren(GES/KK/KL)": 0,
+                "Fahrzeug Lenken(GES/KL/KON)": 0,
+                "Falschspiel(GES/CH/KL)": 0,
+                "Heilkunde, Gift(KL/GES/SIN)": 0,
+                "Heilkunde, Krankheit(KL/INT/SIN)": 0,
+                "Heilkunde, Seele(INT/CH/KL)": 0,
+                "Heilkunde, Wunden(KL/GES/KON)": 0,
+                "Holzbearbeitung(GES/FF/KL)": 0,
+                "Kochen(GES/SIN/INT)": 0,
+                "Lederarbeiten(GES/FF/KL)": 0,
+                "Malen / Zeichnen(GES/SIN/INT)": 0,
+                "Musizieren(CH/GES/INT)": 0,
+                "Schneidern(GES/FF/SIN)": 0,
+                "Singen(CH/INT/GES)": 0,
+                "Töpfern(GES/FF/SIN)": 0
             }
         }
     }
