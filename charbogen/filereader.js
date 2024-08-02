@@ -32,6 +32,7 @@ const adjustments = {
     'attribute_Klugheit': 5,
     'Tarnung': 5,
     'Fingerfertigkeit': 5,
+    'Magische_Elemente': 25,
 };
 //NOTE - Anpassung der Steigerungswerte nach Klassen
 function setKlassenVariable(selectedClass, klassen) {
@@ -39,6 +40,7 @@ function setKlassenVariable(selectedClass, klassen) {
     if (klassen["Magische Klassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 3;
         adjustments.modifier_asp = 5;
+        adjustments.Magische_Elemente = 20;
     } else if (klassen["Nahkampf Basierte Klassen"].includes(selectedClass)) {
         adjustments.modifier_nahkampf = 3;
         adjustments.modifier_lp = 5;
@@ -56,6 +58,8 @@ function setKlassenVariable(selectedClass, klassen) {
         adjustments.modifier_nahkampf = 8;
         adjustments.modifier_fernkampf = 8;
         adjustments.modifier_lp = 8;
+        adjustments.Magische_Elemente = 23;
+
     } else if (klassen["Stealth Klassen"].includes(selectedClass)) {
         adjustments.modifier_stealth = 3;
         adjustments.modifier_nahkampf = 8;
@@ -198,7 +202,7 @@ function createSection(title, attributes, sectionId) {
         const flexItem = document.createElement('div');
 
         // Überprüfen, ob der Wert ein Array ist
-        if (Array.isArray(attributes[key])) {
+        if (sectionId === 'Kampf_Talente') {
             container.classList.add('BigFlexItemContainer');
             flexItem.classList.add('BigFlexItem');
 

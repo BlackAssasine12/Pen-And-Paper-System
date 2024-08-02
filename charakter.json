@@ -25,82 +25,25 @@
             "kreuzer": 0
         },
         "Magische_Elemente": {
-            "Feuer": [
-                "",
-                30
-            ],
-            "Wasser": [
-                "",
-                30
-            ],
-            "Erde": [
-                "",
-                30
-            ],
-            "Luft": [
-                "",
-                30
-            ],
-            "Natur": [
-                "",
-                30
-            ],
-            "Heilung": [
-                "",
-                30
-            ],
-            "Dunkle": [
-                "",
-                30
-            ],
-            "Helle": [
-                "",
-                30
-            ],
-            "Schatten": [
-                "Luft Dunkle",
-                30
-            ],
-            "Licht": [
-                "Helle Feuer",
-                30
-            ],
-            "Holz": [
-                "Erde Wasser",
-                30
-            ],
-            "Metall": [
-                "Erde Feuer",
-                30
-            ],
-            "Eis": [
-                "Luft Wasser",
-                30
-            ],
-            "Leben": [
-                "Heilung Natur",
-                30
-            ],
-            "Nekromantie": [
-                "Dunkle Leben",
-                30
-            ],
-            "Blitz": [
-                "Licht Luft",
-                30
-            ],
-            "Gravitation": [
-                "Erde Luft",
-                30
-            ],
-            "Erschaffung": [
-                "Feuer Wasser Erde Luft Natur Dunkle Helle",
-                60
-            ],
-            "Raumzeit": [
-                "Feuer Wasser Erde Luft Natur Dunkle Helle Gravitation",
-                60
-            ]
+            "Feuer": 0,
+            "Wasser": 0,
+            "Erde": 0,
+            "Luft": 0,
+            "Natur": 0,
+            "Heilung": 0,
+            "Dunkle": 0,
+            "Helle": 0,
+            "Schatten": 0,
+            "Licht": 0,
+            "Holz": 0,
+            "Metall": 0,
+            "Eis": 0,
+            "Leben": 0,
+            "Nekromantie": 0,
+            "Blitz": 0,
+            "Gravitation": 0,
+            "Erschaffung": 0,
+            "Raumzeit": 0
         },
         "fähigkeiten": {
             "modifier": {
