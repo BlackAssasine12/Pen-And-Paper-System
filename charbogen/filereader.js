@@ -33,6 +33,7 @@ const adjustments = {
     'Tarnung': 5,
     'Fingerfertigkeit': 5,
     'Magische_Elemente': 25,
+    'Magische_Elemente_Raumzeit': 80,
 };
 //NOTE - Anpassung der Steigerungswerte nach Klassen
 function setKlassenVariable(selectedClass, klassen) {
@@ -282,8 +283,16 @@ function bindHideButtons() {
 }
 //NOTE - Rechnungend er Sonderwerte
 function updateCharakterCalculation() {
-    let KO, KK, GE, KL, IN, FF, CH, GESCH, Tarnung, WIL, LP, AUSD, maxASP, MB, MR, level, xp, magicModifier, aspModifier, lpModifier, fernModifier, nahModifier, schuss, wurf, Attacke, Parade, Giftresistenz, giftModifier, Sin, Steigerungspunkte, Gesteigerte;
+    let KO, KK, GE, KL, IN, FF, CH, GESCH, Tarnung, WIL, LP, AUSD, maxASP, MB, MR, level, xp, magicModifier, aspModifier, lpModifier, fernModifier, nahModifier, schuss, wurf, Attacke, Parade, Giftresistenz, giftModifier, Sin, Steigerungspunkte, Gesteigerte, Schnelligkeit;
 
+    const magischeElementeInputs = document.querySelectorAll('.Magische_Elemente');
+    let totalSum = 0;
+    magischeElementeInputs.forEach(input => {
+        const value = parseFloat(input.value);
+        if (!isNaN(value)) {
+            totalSum += value;
+        }
+    });
 
     lpModifier = parseInt(document.getElementById("modifier_lp").value);
     aspModifier = parseInt(document.getElementById("modifier_asp").value);
@@ -325,7 +334,7 @@ function updateCharakterCalculation() {
     maxASP = level * 6 + aspModifier;
     document.getElementById("sonderwerte_Maximale Astralenergie").value = maxASP;
 
-    MB = Math.round((maxASP / 8) + magicModifier);
+    MB = totalSum + magicModifier;
     document.getElementById("sonderwerte_Magiebegabung").value = MB;
 
     MR = Math.round((MB + level + KL) / 3);
@@ -348,6 +357,10 @@ function updateCharakterCalculation() {
 
     Steigerungspunkte = level * 30 - Gesteigerte;
     document.getElementById("erfahrung_Steigerungspunkte").value = Steigerungspunkte;
+
+    Schnelligkeit = Math.round((KK + GE + Sin)/ 4)
+    document.getElementById("sonderwerte_Schnelligkeit").value = Schnelligkeit;
+
 
 }
 //NOTE - Wallet Funktionen
