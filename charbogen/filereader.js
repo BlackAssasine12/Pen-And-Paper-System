@@ -34,6 +34,8 @@ const adjustments = {
     'Fingerfertigkeit': 5,
     'Magische_Elemente': 25,
     'Magische_Elemente_Raumzeit': 80,
+    'Talente_1': 3,
+    'Talente_2': 3,
 };
 //NOTE - Anpassung der Steigerungswerte nach Klassen
 function setKlassenVariable(selectedClass, klassen) {
