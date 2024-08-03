@@ -117,12 +117,12 @@
                     0,
                     0
                 ],
-                "Messer/Doche": [
+                "Messer/Dolche": [
                     0,
                     0,
                     0
                 ],
-                "Flexiblen Nahkampfwaffen": [
+                "Flexible Nahkampfwaffen": [
                     0,
                     0,
                     0
@@ -137,7 +137,7 @@
                     0,
                     0
                 ],
-                "Bolzwaffen": [
+                "Bolzenwaffen": [
                     0,
                     0,
                     0
@@ -148,68 +148,69 @@
                     0
                 ]
             },
-            "Assasssinen_Talente": {
-                "Verkleiden(CH/INT/GES)": 0,
-                "Verstecken(INT/TAR/SIN)": 0,
-                "Meucheln(KL/GES/TAR)": 0,
-                "Giftherstellung(KL/GES/SIN)": 0,
-                "Giftanwendung(KL/GES/INT)": 0,
-                "Parkour(KON/GEW/GES)": 0,
-                "Schlösser Knacken(GES/FF/KL)": 0,
-                "Gassenwissen(INT/KL/CH)": 0,
-                "Schleichen(TAR/GES/SIN)": 0,
-                "Klettern(KON/GEW/KK)": 0,
-                "Taschendiebstahl(GES/FF/INT)": 0
+            "Assassinen_Talente": {
+                "Verkleiden (CH/IN/GES)": 0,
+                "Verstecken (IN/TAR/SIN)": 0,
+                "Meucheln (KL/GES/TAR)": 0,
+                "Giftherstellung (KL/GES/SIN)": 0,
+                "Giftanwendung (KL/GES/IN)": 0,
+                "Parkour (KO/GEW/GES)": 0,
+                "Schlösser knacken (GES/FF/KL)": 0,
+                "Gassenwissen (IN/KL/CH)": 0,
+                "Schleichen (TAR/GES/SIN)": 0,
+                "Klettern (KO/GEW/KK)": 0,
+                "Taschendiebstahl (IN/FF/TAR)": 0
             },
             "Talente_1": {
-                "Lesen / Schreiben(KL/INT/GES)": 0,
-                "Rechnen(KL/INT/GES)": 0,
-                "Überreden(CH/KL/INT)": 0,
-                "Fallen Kunde(KL/GES/INT)": 0,
-                "Reiten(GEW/KK/GES)": 0,
-                "Körperbeherrschung(KON/GEW/KK)": 0,
-                "Selbstbeherrschung(KON/WIL/KL)": 0,
-                "Schwimmen(KON/KK/GEW)": 0,
-                "Etikette(CH/INT/KL)": 0,
-                "Feilschen(CH/KL/GES)": 0,
-                "Betrügen(CH/KL/GES)": 0,
-                "Menschenkenntnis(INT/KL/SIN)": 0,
-                "Fährtensuche(INT/SIN/GEW)": 0,
-                "Fesseln/Entfesseln(GES/FF/KK)": 0
+                "Lesen/Schreiben (KL/IN/GES)": 0,
+                "Rechnen (KL/IN/GES)": 0,
+                "Überreden (CH/KL/IN)": 0,
+                "Fallenkunde (KL/GES/IN)": 0,
+                "Reiten (GEW/KK/GES)": 0,
+                "Körperbeherrschung (KO/GEW/KK)": 0,
+                "Selbstbeherrschung (KO/WK/KL)": 0,
+                "Schwimmen (KO/KK/GEW)": 0,
+                "Etikette (CH/IN/KL)": 0,
+                "Feilschen (CH/KL/GES)": 0,
+                "Betrügen (CH/KL/GES)": 0,
+                "Menschenkenntnis (IN/KL/SIN)": 0,
+                "Fährtensuche (IN/SIN/GEW)": 0,
+                "Fesseln/Entfesseln (GES/FF/KK)": 0
             },
             "Talente_2": {
-                "Tanzen(CH/GEW/GES)": 0,
-                "Orientierung(KL/INT/SIN)": 0,
-                "Tierkunde(KL/INT/SIN)": 0,
-                "Wettervorhersage(KL/INT/SIN)": 0,
-                "Alchimie(KL/GES/SIN)": 0,
-                "Geographie(KL/INT/SIN)": 0,
-                "Götter und Kulte(KL/INT/CH)": 0,
-                "Kriegskunst(KL/INT/KK)": 0,
-                "Mechanik(GES/KL/FF)": 0,
-                "Magiekunde(KL/INT/WIL)": 0,
-                "Rechtskunde(KL/INT/CH)": 0,
-                "Sternkunde(KL/INT/SIN)": 0,
-                "Zechen(KON/WIL/KK)": 0,
-                "Schätzen(KL/INT/SIN)": 0
+                "Tanzen (CH/GEW/GES)": 0,
+                "Orientierung (KL/IN/SIN)": 0,
+                "Tierkunde (KL/IN/SIN)": 0,
+                "Wettervorhersage (KL/IN/SIN)": 0,
+                "Alchemie (KL/GES/SIN)": 0,
+                "Geographie (KL/IN/SIN)": 0,
+                "Götter und Kulte (KL/IN/CH)": 0,
+                "Kriegskunst (KL/IN/KK)": 0,
+                "Mechanik (GES/KL/FF)": 0,
+                "Magiekunde (KL/IN/WK)": 0,
+                "Rechtskunde (KL/IN/CH)": 0,
+                "Sternkunde (KL/IN/SIN)": 0,
+                "Zechen (KO/WK/KK)": 0,
+                "Schätzen (KL/IN/SIN)": 0,
+                "Pflanzenkunde (KL/IN/FF)": 0
             },
             "Handwerkstalente": {
-                "Abrichten(INT/WIL/CH)": 0,
-                "Boote Fahren(GES/KK/KL)": 0,
-                "Fahrzeug Lenken(GES/KL/KON)": 0,
-                "Falschspiel(GES/CH/KL)": 0,
-                "Heilkunde, Gift(KL/GES/SIN)": 0,
-                "Heilkunde, Krankheit(KL/INT/SIN)": 0,
-                "Heilkunde, Seele(INT/CH/KL)": 0,
-                "Heilkunde, Wunden(KL/GES/KON)": 0,
-                "Holzbearbeitung(GES/FF/KL)": 0,
-                "Kochen(GES/SIN/INT)": 0,
-                "Lederarbeiten(GES/FF/KL)": 0,
-                "Malen / Zeichnen(GES/SIN/INT)": 0,
-                "Musizieren(CH/GES/INT)": 0,
-                "Schneidern(GES/FF/SIN)": 0,
-                "Singen(CH/INT/GES)": 0,
-                "Töpfern(GES/FF/SIN)": 0
+                "Abrichten (IN/WK/CH)": 0,
+                "Boote Fahren (GES/KK/KL)": 0,
+                "Fahrzeug Lenken (GES/KL/KO)": 0,
+                "Falschspiel (GES/CH/KL)": 0,
+                "Heilkunde, Gift (KL/GES/SIN)": 0,
+                "Heilkunde, Krankheit (KL/IN/SIN)": 0,
+                "Heilkunde, Seele (IN/CH/KL)": 0,
+                "Heilkunde, Wunden (KL/GES/KO)": 0,
+                "Holzbearbeitung (GES/FF/KL)": 0,
+                "Kochen (GES/SIN/IN)": 0,
+                "Lederarbeiten (GES/FF/KL)": 0,
+                "Malen/Zeichnen (GES/SIN/IN)": 0,
+                "Musizieren (CH/GES/IN)": 0,
+                "Schneidern (GES/FF/SIN)": 0,
+                "Singen (CH/IN/GES)": 0,
+                "Töpfern (GES/FF/SIN)": 0
             }
         }
     }

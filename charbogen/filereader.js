@@ -26,7 +26,7 @@ const adjustments = {
     'modifier_gift': 10,
     'attribute': 5,
     'Kampf_Talente_2': 5,
-    'Assasssinen_Talente': 3,
+    'Assassinen_Talente': 3,
     'Normale_Talente': 3,
     'Handwerkstalente': 3,
     'attribute_Klugheit': 5,
@@ -36,10 +36,11 @@ const adjustments = {
     'Magische_Elemente_Raumzeit': 80,
     'Talente_1': 3,
     'Talente_2': 3,
+    'attribute_Körperkraft':5,
+    'Wissenschaftliche_Talente': 3,
 };
 //NOTE - Anpassung der Steigerungswerte nach Klassen
 function setKlassenVariable(selectedClass, klassen) {
-    let variable;
     if (klassen["Magische Klassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 3;
         adjustments.modifier_asp = 5;
@@ -47,13 +48,16 @@ function setKlassenVariable(selectedClass, klassen) {
     } else if (klassen["Nahkampf Basierte Klassen"].includes(selectedClass)) {
         adjustments.modifier_nahkampf = 3;
         adjustments.modifier_lp = 5;
+        adjustments.attribute_Körperkraft = 3;
     } else if (klassen["Fernkampf Basierte Klassen"].includes(selectedClass)) {
         adjustments.modifier_fernkampf = 3;
         adjustments.modifier_stealth = 5;
     } else if (klassen["Wissenschaftliche Klassen"].includes(selectedClass)) {
         adjustments.attribute_Klugheit = 3
+        adjustments.Wissenschaftliche_Talente = 2;
+
     } else if (klassen["Arbeiterklassen"].includes(selectedClass)) {
-        adjustments.Handwerkstalente = 1;
+        adjustments.Handwerkstalente = 2;
         adjustments.attribute = 4;
     } else if (klassen["Halbmagische Klassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 8;
@@ -68,13 +72,18 @@ function setKlassenVariable(selectedClass, klassen) {
         adjustments.modifier_nahkampf = 8;
         adjustments.modifier_fernkampf = 8;
         adjustments.modifier_gift = 8;
+        adjustments.Assassinen_Talente = 1;
     } else if (klassen["Spezialklassen"].includes(selectedClass)) {
-        variable = 7;
+        adjustments.modifier_magie = 8;
+        adjustments.modifier_asp = 8;
+        adjustments.modifier_nahkampf = 8;
+        adjustments.modifier_fernkampf = 8;
+        adjustments.modifier_lp = 8;
+        adjustments.Magische_Elemente = 23;
     } else {
-        variable = 0; // Standardwert falls die Klasse nicht gefunden wird
+       console.log("Klasse nicht gefunden")
     }
     addInputChangeListeners()
-    return variable;
 }
 //NOTE - Übertragung und aktuallisierung von CharakterInfos
 function genCharInfo(data) {
@@ -157,8 +166,8 @@ function generateCharakterAttributes(data) {
     const attributeContainer = createSection('Attribute', charakter.fähigkeiten.attribute, 'attribute');
     attributeFlexContainer.appendChild(attributeContainer);
 
-    const Assasssinen_TalenteContainer = createSection('Assasssinen_Talente', charakter.fähigkeiten.Assasssinen_Talente, 'Assasssinen_Talente');
-    attributeFlexContainer.appendChild(Assasssinen_TalenteContainer);
+    const Assassinen_TalenteContainer = createSection('Assassinen_Talente', charakter.fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
+    attributeFlexContainer.appendChild(Assassinen_TalenteContainer);
 
     const Talente_1Container = createSection('Talente_1', charakter.fähigkeiten.Talente_1, 'Talente_1');
     attributeFlexContainer.appendChild(Talente_1Container);
@@ -327,7 +336,7 @@ function updateCharakterCalculation() {
 
     document.getElementById("erfahrung_level").value = level;
 
-    LP = KK + lpModifier + level * 6;
+    LP = lpModifier + level * 6+20;
     document.getElementById("sonderwerte_Maximale LP").value = LP;
 
     AUSD = LP + KO;
@@ -357,7 +366,7 @@ function updateCharakterCalculation() {
     Parade = Math.round((IN + GE + KK) / 5);
     document.getElementById("KampfBasiswerte_Parade Basiswert").value = Parade;
 
-    Steigerungspunkte = level * 30 - Gesteigerte +75;
+    Steigerungspunkte = level * 30 - Gesteigerte + 100;
     document.getElementById("erfahrung_Steigerungspunkte").value = Steigerungspunkte;
 
     Schnelligkeit = Math.round((KK + GE + Sin)/ 4)
@@ -477,8 +486,8 @@ function saveChanges(data) {
         if (charakter.fähigkeiten.attribute && charakter.fähigkeiten.attribute) {
             updateSectionValues(charakter.fähigkeiten.attribute, 'attribute');
         }
-        if (charakter.fähigkeiten.Assasssinen_Talente && charakter.fähigkeiten.Assasssinen_Talente) {
-            updateSectionValues(charakter.fähigkeiten.Assasssinen_Talente, 'Assasssinen_Talente');
+        if (charakter.fähigkeiten.Assassinen_Talente && charakter.fähigkeiten.Assassinen_Talente) {
+            updateSectionValues(charakter.fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
         }
         if (charakter.fähigkeiten.Talente_1 && charakter.fähigkeiten.Talente_1) {
             updateSectionValues(charakter.fähigkeiten.Talente_1, 'Talente_1');
