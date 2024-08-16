@@ -85,7 +85,6 @@ button {
 button:hover {
     color: #8B6A4A;
     background-color: #422e25;
-    border: 0;
 }
 
 button:active {

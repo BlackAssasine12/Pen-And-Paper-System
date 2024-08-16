@@ -1,10 +1,11 @@
 {
     "charakter": {
         "charakterInfo": {
-            "name": "",
+            "name": "123",
             "alter": "",
             "geschlecht": "",
             "rasse": "",
+            "klasse": "",
             "größe": "",
             "gewicht": "",
             "haarfarbe": "",

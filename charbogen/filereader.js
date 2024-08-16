@@ -36,7 +36,7 @@ const adjustments = {
     'Magische_Elemente_Raumzeit': 80,
     'Talente_1': 3,
     'Talente_2': 3,
-    'attribute_Körperkraft':5,
+    'attribute_Körperkraft': 5,
     'Wissenschaftliche_Talente': 3,
 };
 //NOTE - Anpassung der Steigerungswerte nach Klassen
@@ -81,34 +81,46 @@ function setKlassenVariable(selectedClass, klassen) {
         adjustments.modifier_lp = 8;
         adjustments.Magische_Elemente = 23;
     } else {
-       console.log("Klasse nicht gefunden")
+        console.log("Klasse nicht gefunden")
     }
     addInputChangeListeners()
 }
 //NOTE - Übertragung und aktuallisierung von CharakterInfos
 function genCharInfo(data) {
-    const charakter = data.charakter;
-    const CharakterInfoContainer = charakter.charakterInfo;
-    let showname = document.getElementById("name");
-    let showalter = document.getElementById("alter");
-    let showgeschlecht = document.getElementById("geschlecht");
-    let showrasse = document.getElementById("rasse");
-    let showgröße = document.getElementById("größe");
-    let showgewicht = document.getElementById("gewicht");
-    let showhaarfarbe = document.getElementById("haarfarbe");
-    let showaugenfarbe = document.getElementById("augenfarbe");
-    let showtitel = document.getElementById("titel");
-    showname.value = CharakterInfoContainer.name;
-    showalter.value = CharakterInfoContainer.alter;
-    showgeschlecht.value = CharakterInfoContainer.geschlecht;
-    showrasse.value = CharakterInfoContainer.rasse;
-    showgröße.value = CharakterInfoContainer.größe;
-    showgewicht.value = CharakterInfoContainer.gewicht;
-    showhaarfarbe.value = CharakterInfoContainer.haarfarbe;
-    showaugenfarbe.value = CharakterInfoContainer.augenfarbe;
-    showtitel.value = CharakterInfoContainer.titel;
+    const charakter = data.charakter.charakterInfo;
+    document.getElementById('name').value = charakter.name;
+    document.getElementById('alter').value = charakter.alter;
+    document.getElementById('geschlecht').value = charakter.geschlecht;
+    document.getElementById('rassen-select').value = charakter.rasse;
+    document.getElementById('klassen-select').value = charakter.klasse;
+    document.getElementById('größe').value = charakter.größe;
+    document.getElementById('gewicht').value = charakter.gewicht;
+    document.getElementById('haarfarbe').value = charakter.haarfarbe;
+    document.getElementById('augenfarbe').value = charakter.augenfarbe;
+    document.getElementById('titel').value = charakter.titel;
 }
 function updateCharakterInfo(charakterInfo) {
+    const getIdValue = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            return element.value;
+        } else {
+            console.error(`Element mit ID ${id} nicht gefunden.`);
+            return '';
+        }
+    };
+
+    charakterInfo.name = getIdValue('name');
+    charakterInfo.alter = getIdValue('alter');
+    charakterInfo.geschlecht = getIdValue('geschlecht');
+    charakterInfo.rasse = getIdValue('rassen-select');
+    charakterInfo.klasse = getIdValue('klassen-select');
+    charakterInfo.größe = getIdValue('größe');
+    charakterInfo.gewicht = getIdValue('gewicht');
+    charakterInfo.haarfarbe = getIdValue('haarfarbe');
+    charakterInfo.augenfarbe = getIdValue('augenfarbe');
+    charakterInfo.titel = getIdValue('titel');
+    //NOTE - Oben Debugg unten Ausführung
     charakterInfo.name = document.getElementById("name").value;
     charakterInfo.alter = document.getElementById("alter").value;
     charakterInfo.geschlecht = document.getElementById("geschlecht").value;
@@ -118,6 +130,18 @@ function updateCharakterInfo(charakterInfo) {
     charakterInfo.haarfarbe = document.getElementById("haarfarbe").value;
     charakterInfo.augenfarbe = document.getElementById("augenfarbe").value;
     charakterInfo.titel = document.getElementById("titel").value;
+    const rassenSelect = document.getElementById("rassen-select");
+    const klassenSelect = document.getElementById("klassen-select");
+
+    if (!rassenSelect || !klassenSelect) {
+        console.error("Rassen- oder Klassen-Auswahlfeld nicht gefunden!");
+        return;
+    }
+
+    charakterInfo.rasse = rassenSelect.value;
+    charakterInfo.klasse = klassenSelect.value;
+
+
 }
 //NOTE - Inupt EventListener + Updaten von Steigerungspunkten
 function addInputChangeListeners() {
@@ -198,7 +222,7 @@ function generateCharakterAttributes(data) {
 
     const Magische_ElementeContainer = createSection('Magische_Elemente', charakter.Magische_Elemente, 'Magische_Elemente');
     attributeFlexContainer.appendChild(Magische_ElementeContainer);
-    
+
     document.getElementById('saveButton').addEventListener('click', function () {
         saveChanges(data);
     });
@@ -336,7 +360,7 @@ function updateCharakterCalculation() {
 
     document.getElementById("erfahrung_level").value = level;
 
-    LP = lpModifier + level * 6+20;
+    LP = lpModifier + level * 6 + 20;
     document.getElementById("sonderwerte_Maximale LP").value = LP;
 
     AUSD = LP + KO;
@@ -369,7 +393,7 @@ function updateCharakterCalculation() {
     Steigerungspunkte = level * 30 - Gesteigerte + 100;
     document.getElementById("erfahrung_Steigerungspunkte").value = Steigerungspunkte;
 
-    Schnelligkeit = Math.round((KK + GE + Sin)/ 4)
+    Schnelligkeit = Math.round((KK + GE + Sin) / 4)
     document.getElementById("sonderwerte_Schnelligkeit").value = Schnelligkeit;
 
 
@@ -471,7 +495,14 @@ function updateSectionValues(section, sectionId) {
 }
 function saveChanges(data) {
     const charakter = data.charakter;
-    console.log("ausgeführt")
+    
+    if (!charakter.charakterInfo) {
+        console.error('charakterInfo-Objekt nicht gefunden.');
+        return;
+    }
+
+    updateCharakterInfo(charakter.charakterInfo);
+    
     // Update values from the inputs
     if (charakter.fähigkeiten && charakter.fähigkeiten) {
         if (charakter.fähigkeiten.modifier && charakter.fähigkeiten.modifier) {
@@ -518,19 +549,37 @@ function saveChanges(data) {
     if (charakter.geld && charakter.geld) {
         charakter.geld = { ...wallet };
     }
-
-    // Aktualisieren der Charakterberechnung
-    updateCharakterCalculation();
-
-    // Convert JSON to string and create a blob
     const jsonString = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
 
-    // Create a download link
+    // Download-Link erzeugen und simulieren
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'charakter.json';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+}
+
+function updateCharakterInfo(charakterInfo) {
+    const getIdValue = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            return element.value;
+        } else {
+            console.error(`Element mit ID ${id} nicht gefunden.`);
+            return '';
+        }
+    };
+
+    charakterInfo.name = getIdValue('name');
+    charakterInfo.alter = getIdValue('alter');
+    charakterInfo.geschlecht = getIdValue('geschlecht');
+    charakterInfo.rasse = getIdValue('rassen-select');
+    charakterInfo.klasse = getIdValue('klassen-select');
+    charakterInfo.größe = getIdValue('größe');
+    charakterInfo.gewicht = getIdValue('gewicht');
+    charakterInfo.haarfarbe = getIdValue('haarfarbe');
+    charakterInfo.augenfarbe = getIdValue('augenfarbe');
+    charakterInfo.titel = getIdValue('titel');
 }
