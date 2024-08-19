@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,128 +9,138 @@
     <link rel="stylesheet" href=".\rechner\rechner.css">
     <link rel="stylesheet" href=".\dice\dice.css">
 </head>
+
 <body>
+    <label>
+        <input type="checkbox" id="toggleListenersCheckbox">Kostenloses Steigern
+    </label>
+
     <div class="content">
-    <div class="Rowflex">
-        <div class="infoFlexContainer">
-            <h6>Charakterinformation</h6>
-            <div class="mediumFlexItem">Name: <input class="eingabefeld" value=" " id="name" type="text"></div>
-            <div class="mediumFlexItem">Geschlecht: <input class="eingabefeld" value=" " id="geschlecht" type="text"></div>
-            <div class="mediumFlexItem">Größe: <input class="eingabefeld" value=" " id="größe" type="text"></div>
-            <div class="mediumFlexItem">Alter: <input class="eingabefeld" value=" " id="alter" type="text"></div>
+        <div class="Rowflex">
+            <div class="infoFlexContainer">
+                <h6>Charakterinformation</h6>
+                <div class="mediumFlexItem">Name: <input class="eingabefeld" value=" " id="name" type="text"></div>
+                <div class="mediumFlexItem">Geschlecht: <input class="eingabefeld" value=" " id="geschlecht"
+                        type="text"></div>
+                <div class="mediumFlexItem">Größe: <input class="eingabefeld" value=" " id="größe" type="text"></div>
+                <div class="mediumFlexItem">Alter: <input class="eingabefeld" value=" " id="alter" type="text"></div>
 
-            <div class="mediumFlexItem">Gewicht: <input class="eingabefeld" value=" " id="gewicht" type="text"></div>
-            <div class="mediumFlexItem">Haarfarbe: <input class="eingabefeld" value=" " id="haarfarbe" type="text"></div>
-            <div class="mediumFlexItem">Augenfarbe: <input class="eingabefeld" value=" " id="augenfarbe" type="text"></div>
-            <div class="mediumFlexItem">Titel: <input class="eingabefeld" value=" " id="titel" type="text"></div>
-            <div class="rakla-select">
-                <div class="mediumFlexItem">
-                    <label for="rassen-select">Rasse: </label>
-                    <select name="rassen-select" id="rassen-select" class="infoFlexItem">
-                        <option value=""></option>
-                    </select>
+                <div class="mediumFlexItem">Gewicht: <input class="eingabefeld" value=" " id="gewicht" type="text">
                 </div>
-                <div class="mediumFlexItem">
-                    <label for="klassen-select">Klasse: </label>
-                    <select name="klassen-select" id="klassen-select" class="infoFlexItem">
-                        <option value=""></option>
-                    </select>
+                <div class="mediumFlexItem">Haarfarbe: <input class="eingabefeld" value=" " id="haarfarbe" type="text">
                 </div>
-            </div>
-        </div>
-
-        <div class="WalletContainer FlexItemContainer" id="WalletContainer">
-            <form id="inputField" onsubmit="return false">
-                <input type="number" placeholder="Enter a number" id="NumberInput" value="0">
-                <select name="Währund" id="CurrencyField" onchange="">
-                    <option id="dukaten" value="dukaten">Dukaten</option>
-                    <option id="silber" value="silber">Silberlinge</option>
-                    <option id="heller" value="heller">Heller</option>
-                    <option id="kreuzer" value="kreuzer">Kreuzer</option>
-                </select>
-                <button type="submit" id="wadd" onclick="TheChoosenOne()">Add Wallet</button>
-                <button type="submit" id="wconvert" onclick="wConvert()">Convert Wallet</button>
-
-                <div style="margin-top: 20px;">
-                    <div>Dukaten: <p id="showDukaten"></p>
-                    </div>
-                    <div>Silberlinge: <p id="showSilber"></p>
-                    </div>
-                    <div>Heller: <p id="showHeller"></p>
-                    </div>
-                    <div>Kreuzer: <p id="showKreuzer"></p>
-                    </div>
-                </div>
-                <button type="submit" id="wconvert" onclick="wReset()" style="margin-top: 20px;">Reset Wallet</button>
-        </div>
-    </div>
-    </form>
-
-    <div id="FileReaderInOutput">
-        <input type="file" id="fileInput">
-        <div id="charakterContainer"></div>
-        <button id="saveButton">Speichern</button>
-        <a href="./charakter.json" download="charakter.json">Neue JSON-Datei herunterladen</a>
-    </div>
-
-    <div id="Würfelsektion">
-        <div id="inBodyDiv">
-
-            <form onsubmit="return false">
-                <button onclick="toggleDiv()">Dice</button>
-
-                <div id="divDice" style="display: none;">
-                    <div class="container">
-                        <input class="FlexInputs" type="number" id="DiceCount" placeholder="Dice Count" value="20">
-                        <input class="FlexInputs" type="number" id="DiceSides" placeholder="Dice Sides" value="20">
-                        <select name="ChooseDice" id="Dicer" onchange="DiceChooser()">
-                            <option value="custom" id="custom">Custom</option>
-                            <option value="d100" id="d100">d100</option>
-                            <option value="d20" id="d20">d20</option>
-                            <option value="d10" id="d10">d10</option>
-                            <option value="d6" id="d6">d6</option>
+                <div class="mediumFlexItem">Augenfarbe: <input class="eingabefeld" value=" " id="augenfarbe"
+                        type="text"></div>
+                <div class="mediumFlexItem">Titel: <input class="eingabefeld" value=" " id="titel" type="text"></div>
+                <div class="rakla-select">
+                    <div class="mediumFlexItem">
+                        <label for="rassen-select">Rasse: </label>
+                        <select name="rassen-select" id="rassen-select" class="infoFlexItem">
+                            <option value=""></option>
                         </select>
                     </div>
-                    <button onsubmit="return false" onclick="Roll()">Roll</button>
-                    <div id="showDice" class="dice-container" style="margin-top: 10px;"></div>
+                    <div class="mediumFlexItem">
+                        <label for="klassen-select">Klasse: </label>
+                        <select name="klassen-select" id="klassen-select" class="infoFlexItem">
+                            <option value=""></option>
+                        </select>
+                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
 
-        <div id="container" style="display: none;">
+            <div class="WalletContainer FlexItemContainer" id="WalletContainer">
+                <form id="inputField" onsubmit="return false">
+                    <input type="number" placeholder="Enter a number" id="NumberInput" value="0">
+                    <select name="Währund" id="CurrencyField" onchange="">
+                        <option id="dukaten" value="dukaten">Dukaten</option>
+                        <option id="silber" value="silber">Silberlinge</option>
+                        <option id="heller" value="heller">Heller</option>
+                        <option id="kreuzer" value="kreuzer">Kreuzer</option>
+                    </select>
+                    <button type="submit" id="wadd" onclick="TheChoosenOne()">Add Wallet</button>
+                    <button type="submit" id="wconvert" onclick="wConvert()">Convert Wallet</button>
 
-            <div class="calc" onclick="InToHTML(7)">7</div>
-            <div class="calc" onclick="InToHTML(8)">8</div>
-            <div class="calc" onclick="InToHTML(9)">9</div>
-            <div class="calc" onclick="InToHTML('/')" id="divided">/</div>
-
-            <div class="calc" onclick="InToHTML(4)">4</div>
-            <div class="calc" onclick="InToHTML(5)">5</div>
-            <div class="calc" onclick="InToHTML(6)">6</div>
-            <div class="calc" onclick="InToHTML('*')" id="multiplied">*</div>
-
-            <div class="calc" onclick="InToHTML(1)">1</div>
-            <div class="calc" onclick="InToHTML(2)">2</div>
-            <div class="calc" onclick="InToHTML(3)">3</div>
-
-            <div class="calc" onclick="InToHTML('+')" id="plus">+</div>
-            <div class="calc" onclick="clearEqField()" id="clear">C</div>
-            <div class="calc" onclick="InToHTML(0)">0</div>
-            <div class="calc" onclick="InToHTML('-')" id="minus">-</div>
-
-            <div class="calc" id="equals" onclick="calculate()">=</div>
-
-            <div class="calc" id="dragfield"></div>
-            <div class="calc" onclick="InToHTML('.')" id="point">,</div>
-            <div class="calc" id="back"></div>
-            <div class="calc" id=""></div>
-            <div id="FieldContainer">
-                <div id="eqField"></div>
-                <div id="evField"></div>
+                    <div style="margin-top: 20px;">
+                        <div>Dukaten: <p id="showDukaten"></p>
+                        </div>
+                        <div>Silberlinge: <p id="showSilber"></p>
+                        </div>
+                        <div>Heller: <p id="showHeller"></p>
+                        </div>
+                        <div>Kreuzer: <p id="showKreuzer"></p>
+                        </div>
+                    </div>
+                    <button type="submit" id="wconvert" onclick="wReset()" style="margin-top: 20px;">Reset
+                        Wallet</button>
             </div>
         </div>
+        </form>
 
-    </div>
+        <div id="FileReaderInOutput">
+            <input type="file" id="fileInput">
+            <div id="charakterContainer"></div>
+            <button id="saveButton">Speichern</button>
+            <a href="./charakter.json" download="charakter.json">Neue JSON-Datei herunterladen</a>
+        </div>
+
+        <div id="Würfelsektion">
+            <div id="inBodyDiv">
+
+                <form onsubmit="return false">
+                    <button onclick="toggleDiv()">Dice</button>
+
+                    <div id="divDice" style="display: none;">
+                        <div class="container">
+                            <input class="FlexInputs" type="number" id="DiceCount" placeholder="Dice Count" value="20">
+                            <input class="FlexInputs" type="number" id="DiceSides" placeholder="Dice Sides" value="20">
+                            <select name="ChooseDice" id="Dicer" onchange="DiceChooser()">
+                                <option value="custom" id="custom">Custom</option>
+                                <option value="d100" id="d100">d100</option>
+                                <option value="d20" id="d20">d20</option>
+                                <option value="d10" id="d10">d10</option>
+                                <option value="d6" id="d6">d6</option>
+                            </select>
+                        </div>
+                        <button onsubmit="return false" onclick="Roll()">Roll</button>
+                        <div id="showDice" class="dice-container" style="margin-top: 10px;"></div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="container" style="display: none;">
+
+                <div class="calc" onclick="InToHTML(7)">7</div>
+                <div class="calc" onclick="InToHTML(8)">8</div>
+                <div class="calc" onclick="InToHTML(9)">9</div>
+                <div class="calc" onclick="InToHTML('/')" id="divided">/</div>
+
+                <div class="calc" onclick="InToHTML(4)">4</div>
+                <div class="calc" onclick="InToHTML(5)">5</div>
+                <div class="calc" onclick="InToHTML(6)">6</div>
+                <div class="calc" onclick="InToHTML('*')" id="multiplied">*</div>
+
+                <div class="calc" onclick="InToHTML(1)">1</div>
+                <div class="calc" onclick="InToHTML(2)">2</div>
+                <div class="calc" onclick="InToHTML(3)">3</div>
+
+                <div class="calc" onclick="InToHTML('+')" id="plus">+</div>
+                <div class="calc" onclick="clearEqField()" id="clear">C</div>
+                <div class="calc" onclick="InToHTML(0)">0</div>
+                <div class="calc" onclick="InToHTML('-')" id="minus">-</div>
+
+                <div class="calc" id="equals" onclick="calculate()">=</div>
+
+                <div class="calc" id="dragfield"></div>
+                <div class="calc" onclick="InToHTML('.')" id="point">,</div>
+                <div class="calc" id="back"></div>
+                <div class="calc" id=""></div>
+                <div id="FieldContainer">
+                    <div id="eqField"></div>
+                    <div id="evField"></div>
+                </div>
+            </div>
+
+        </div>
 
     </div>
     <script src="./dice/dice.js"></script>
