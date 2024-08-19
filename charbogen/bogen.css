@@ -9,7 +9,12 @@ body {
     flex-direction: column;
     overflow-x: hidden;
 }
+a {
+    color: #5C4033;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
 
+}
 footer {
     background-color: #333;
     color: #fff;
