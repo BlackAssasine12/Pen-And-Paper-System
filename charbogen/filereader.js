@@ -11,7 +11,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
             genCharInfo(data);
             bindHideButtons();
             updateCharakterCalculation();
-            
+
         };
         reader.readAsText(file);
     }
@@ -178,7 +178,7 @@ function removeInputChangeListeners() {
 function handleInputChange(event) {
     const input = event.target;
     const mainInput = document.getElementById('erfahrung_Gesteigerte');
-    
+
     const initialValue = parseFloat(input.getAttribute('data-initial')) || 0;
     const newValue = parseFloat(input.value) || 0;
     const diff = newValue - initialValue;
@@ -200,14 +200,14 @@ function handleInputChange(event) {
     }
 }
 
-document.getElementById('toggleListenersCheckbox').addEventListener('change', function() {
+document.getElementById('toggleListenersCheckbox').addEventListener('change', function () {
     if (!this.checked) {
         addInputChangeListeners();
     } else {
         removeInputChangeListeners();
     }
 });
-document.getElementById('toggleHiddenCheckbox').addEventListener('change', function() {
+document.getElementById('toggleHiddenCheckbox').addEventListener('change', function () {
     let hiddenContainer = document.querySelector(".hidden-items")
     if (!this.checked) {
         hiddenContainer.style.display = 'none';
@@ -273,6 +273,7 @@ function generateCharakterAttributes(data) {
     });
 
     addInputChangeListeners();
+    addToolTip()
 }
 //NOTE - Erstellung Sectionen und Klassen-/ID zuweisung
 function createSection(title, attributes, sectionId) {
@@ -295,16 +296,31 @@ function createSection(title, attributes, sectionId) {
             });
         } else {
             container.classList.add('FlexItemContainer');
+            flexItem.id = `${sectionId}_${key}_Tooltip`;
             flexItem.classList.add('FlexItem');
 
             flexItem.innerHTML = `
+                
                 <label for="${sectionId}_${key}">${key.charAt(0).toUpperCase() + key.slice(1)}</label>
                 <input class="stg attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
-                <button class="hidebutton">X</button>`;
+                <button class="hidebutton">X</button>
+                `;
         }
         container.appendChild(flexItem);
     }
     return container;
+}
+function addToolTip() {
+    console.log("asdasdadasd")
+    const ids = ['Magische_Elemente_Schatten_Tooltip', 'Magische_Elemente_Licht_Tooltip', 'Magische_Elemente_Holz_Tooltip', 'Magische_Elemente_Metall_Tooltip', 'Magische_Elemente_Eis_Tooltip', 'Magische_Elemente_Leben_Tooltip', 'Magische_Elemente_Nekromantie_Tooltip', 'Magische_Elemente_Blitz_Tooltip', 'Magische_Elemente_Gravitation_Tooltip', 'Magische_Elemente_Erschaffung_Tooltip', 'Magische_Elemente_Raumzeit_Tooltip'];
+    const tooltips = ["Benötigt: Luft Dunkle", "Benötigt: Helle Feuer", "Benötigt: Erde Wasser", "Benötigt: Erde Feuer", "Benötigt: Luft Wasser", "Benötigt: Heilung Natur", "Benötigt: Dunkle Leben", "Benötigt: Licht Luft", "Benötigt: Erde Luft", "Benötigt: Feuer Wasser Erde Luft Natur Dunkle Helle", "Benötigt: Alle Elemente",];
+
+    ids.forEach((id, index) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.title = tooltips[index];
+        }
+    });
 }
 //NOTE - Funktion und erstellung des HideButt
 function bindHideButtons() {
@@ -540,14 +556,14 @@ function updateSectionValues(section, sectionId) {
 }
 function saveChanges(data) {
     const charakter = data.charakter;
-    
+
     if (!charakter.charakterInfo) {
         console.error('charakterInfo-Objekt nicht gefunden.');
         return;
     }
 
     updateCharakterInfo(charakter.charakterInfo);
-    
+
     // Update values from the inputs
     if (charakter.fähigkeiten && charakter.fähigkeiten) {
         if (charakter.fähigkeiten.modifier && charakter.fähigkeiten.modifier) {
