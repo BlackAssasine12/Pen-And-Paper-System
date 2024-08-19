@@ -207,6 +207,16 @@ document.getElementById('toggleListenersCheckbox').addEventListener('change', fu
         removeInputChangeListeners();
     }
 });
+document.getElementById('toggleHiddenCheckbox').addEventListener('change', function() {
+    let hiddenContainer = document.querySelector(".hidden-items")
+    if (!this.checked) {
+        hiddenContainer.style.display = 'none';
+    } else {
+        removeInputChangeListeners();
+        hiddenContainer.style.display = 'flex';
+
+    }
+});
 //NOTE - Nimmt die daten vom Filereader und erstellt den Charakterbogen mithilfe von createSection()
 function generateCharakterAttributes(data) {
     const walletContainer = document.getElementById('WalletContainer');
@@ -238,8 +248,6 @@ function generateCharakterAttributes(data) {
 
     const HandwerkstalenteContainer = createSection('Handwerkstalente', charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
     attributeFlexContainer.appendChild(HandwerkstalenteContainer);
-
-
 
     const Kampf_TalenteContainer = createSection('Kampf_Talente (AT/PA/Skillwert)', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
     walletContainer.insertAdjacentElement('afterend', Kampf_TalenteContainer);
