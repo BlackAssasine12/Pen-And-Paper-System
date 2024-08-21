@@ -1,10 +1,12 @@
 //NOTE - Filereader
+let myData;
 document.getElementById('fileInput').addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
             const data = JSON.parse(e.target.result);
+            myData = data;
             initializeWallet(data);
 
             generateCharakterAttributes(data);
@@ -82,7 +84,7 @@ function setKlassenVariable(selectedClass, klassen) {
         adjustments.modifier_lp = 8;
         adjustments.Magische_Elemente = 23;
     } else {
-        console.log("Klasse nicht gefunden")
+        // console.log("Klasse nicht gefunden")
     }
     addInputChangeListeners()
 }
@@ -107,7 +109,7 @@ function updateCharakterInfo(charakterInfo) {
             return element.value;
         } else {
             console.error(`Element mit ID ${id} nicht gefunden.`);
-            return '';
+            return ''; // Alternativ kannst du hier einen Standardwert zurückgeben oder eine andere Fehlerbehandlung durchführen.
         }
     };
 
@@ -121,28 +123,6 @@ function updateCharakterInfo(charakterInfo) {
     charakterInfo.haarfarbe = getIdValue('haarfarbe');
     charakterInfo.augenfarbe = getIdValue('augenfarbe');
     charakterInfo.titel = getIdValue('titel');
-    //NOTE - Oben Debugg unten Ausführung
-    charakterInfo.name = document.getElementById("name").value;
-    charakterInfo.alter = document.getElementById("alter").value;
-    charakterInfo.geschlecht = document.getElementById("geschlecht").value;
-    charakterInfo.rasse = document.getElementById("rasse").value;
-    charakterInfo.größe = document.getElementById("größe").value;
-    charakterInfo.gewicht = document.getElementById("gewicht").value;
-    charakterInfo.haarfarbe = document.getElementById("haarfarbe").value;
-    charakterInfo.augenfarbe = document.getElementById("augenfarbe").value;
-    charakterInfo.titel = document.getElementById("titel").value;
-    const rassenSelect = document.getElementById("rassen-select");
-    const klassenSelect = document.getElementById("klassen-select");
-
-    if (!rassenSelect || !klassenSelect) {
-        console.error("Rassen- oder Klassen-Auswahlfeld nicht gefunden!");
-        return;
-    }
-
-    charakterInfo.rasse = rassenSelect.value;
-    charakterInfo.klasse = klassenSelect.value;
-
-
 }
 //NOTE - Inupt EventListener + Updaten von Steigerungspunkten
 function addInputChangeListeners() {
@@ -237,19 +217,19 @@ function generateCharakterAttributes(data) {
     const attributeContainer = createSection('Attribute', charakter.fähigkeiten.attribute, 'attribute');
     attributeFlexContainer.appendChild(attributeContainer);
 
-    const Assassinen_TalenteContainer = createSection('Assassinen_Talente', charakter.fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
+    const Assassinen_TalenteContainer = createSection('Assassinen Talente', charakter.fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
     attributeFlexContainer.appendChild(Assassinen_TalenteContainer);
 
-    const Talente_1Container = createSection('Talente_1', charakter.fähigkeiten.Talente_1, 'Talente_1');
+    const Talente_1Container = createSection('Talente 1', charakter.fähigkeiten.Talente_1, 'Talente_1');
     attributeFlexContainer.appendChild(Talente_1Container);
 
-    const Talente_2Container = createSection('Talente_2', charakter.fähigkeiten.Talente_2, 'Talente_2');
+    const Talente_2Container = createSection('Talente 2', charakter.fähigkeiten.Talente_2, 'Talente_2');
     attributeFlexContainer.appendChild(Talente_2Container);
 
     const HandwerkstalenteContainer = createSection('Handwerkstalente', charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
     attributeFlexContainer.appendChild(HandwerkstalenteContainer);
 
-    const Kampf_TalenteContainer = createSection('Kampf_Talente (AT/PA/Skillwert)', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
+    const Kampf_TalenteContainer = createSection('Kampf Talente (AT/PA/Skillwert)', charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
     walletContainer.insertAdjacentElement('afterend', Kampf_TalenteContainer);
 
     const KampfBasiswerteContainer = createSection('Kampf Basiswerte', charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
@@ -258,15 +238,15 @@ function generateCharakterAttributes(data) {
     const erfahrungContainer = createSection('Erfahrung', charakter.werte, 'erfahrung');
     walletContainer.insertAdjacentElement('afterend', erfahrungContainer);
 
+    const Magische_ElementeContainer = createSection('Magische Elemente', charakter.Magische_Elemente, 'Magische_Elemente');
+    attributeFlexContainer.appendChild(Magische_ElementeContainer);
+
     const hiddenItemsContainer = document.createElement('div');
     hiddenItemsContainer.classList.add('FlexItemContainer', 'hidden-items');
     hiddenItemsContainer.innerHTML = `<h6>Ausgeblendete Items</h6><div id="hiddenItemsContainer"></div>`;
     attributeFlexContainer.appendChild(hiddenItemsContainer);
 
     charakterContainer.appendChild(attributeFlexContainer);
-
-    const Magische_ElementeContainer = createSection('Magische_Elemente', charakter.Magische_Elemente, 'Magische_Elemente');
-    attributeFlexContainer.appendChild(Magische_ElementeContainer);
 
     document.getElementById('saveButton').addEventListener('click', function () {
         saveChanges(data);
@@ -275,43 +255,61 @@ function generateCharakterAttributes(data) {
     addInputChangeListeners();
     addToolTip()
 }
-//NOTE - Erstellung Sectionen und Klassen-/ID zuweisung
+
 function createSection(title, attributes, sectionId) {
     const container = document.createElement('div');
+    container.classList.add("FlexItemContainer")
     container.innerHTML = `<h6>${title}</h6>`;
 
-    for (let key in attributes) {
-        const flexItem = document.createElement('div');
+    if (sectionId === 'Kampf_Talente') {
+        container.classList.add('BigFlexItemContainer');
 
-        // Überprüfen, ob der Wert ein Array ist
-        if (sectionId === 'Kampf_Talente') {
-            container.classList.add('BigFlexItemContainer');
+        for (let key in attributes) {
+            const flexItem = document.createElement('div');
             flexItem.classList.add('BigFlexItem');
 
             flexItem.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}:</label>`;
             flexItem.classList.add('ArrayContainer');
+
             attributes[key].forEach((value, index) => {
                 flexItem.innerHTML += `
-                    <input class="stg ArrAttributeInput ${sectionId}_${index} ${sectionId}_${key}_${index}" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
+                    <input class="stg ArrAttributeInput" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
             });
-        } else {
-            container.classList.add('FlexItemContainer');
-            flexItem.id = `${sectionId}_${key}_Tooltip`;
+
+            container.appendChild(flexItem);
+        }
+    } else if (Array.isArray(attributes)) {
+        attributes.forEach((attribute) => {
+            const flexItem = document.createElement('div');
             flexItem.classList.add('FlexItem');
 
+            let attributeString = `${attribute.Name} (${attribute.Attribute}): `;
             flexItem.innerHTML = `
-                
-                <label for="${sectionId}_${key}">${key.charAt(0).toUpperCase() + key.slice(1)}</label>
-                <input class="stg attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
+                <label>${attributeString}</label>
+                <input class="stg attributeInput ${sectionId}" type="number" value="${attribute.Wert}" id="${sectionId}_${attribute.Name}">
                 <button class="hidebutton">X</button>
-                `;
+            `;
+            container.appendChild(flexItem);
+        });
+    } else {
+        for (let key in attributes) {
+            const flexItem = document.createElement('div');
+            flexItem.classList.add('FlexItem');
+            flexItem.id = `${sectionId}_${key}_Tooltip`
+
+            let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
+            flexItem.innerHTML = `
+                <label>${attributeString}</label>
+                <input class="stg attributeInput ${sectionId}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
+                <button class="hidebutton">X</button>
+            `;
+            container.appendChild(flexItem);
         }
-        container.appendChild(flexItem);
     }
+
     return container;
 }
 function addToolTip() {
-    console.log("asdasdadasd")
     const ids = ['Magische_Elemente_Schatten_Tooltip', 'Magische_Elemente_Licht_Tooltip', 'Magische_Elemente_Holz_Tooltip', 'Magische_Elemente_Metall_Tooltip', 'Magische_Elemente_Eis_Tooltip', 'Magische_Elemente_Leben_Tooltip', 'Magische_Elemente_Nekromantie_Tooltip', 'Magische_Elemente_Blitz_Tooltip', 'Magische_Elemente_Gravitation_Tooltip', 'Magische_Elemente_Erschaffung_Tooltip', 'Magische_Elemente_Raumzeit_Tooltip'];
     const tooltips = ["Benötigt: Luft Dunkle", "Benötigt: Helle Feuer", "Benötigt: Erde Wasser", "Benötigt: Erde Feuer", "Benötigt: Luft Wasser", "Benötigt: Heilung Natur", "Benötigt: Dunkle Leben", "Benötigt: Licht Luft", "Benötigt: Erde Luft", "Benötigt: Feuer Wasser Erde Luft Natur Dunkle Helle", "Benötigt: Alle Elemente",];
 
@@ -539,17 +537,47 @@ function wReset() {
 function updateSectionValues(section, sectionId) {
     for (let key in section) {
         if (Array.isArray(section[key])) {
-            section[key] = [];
-            let index = 0;
-            let input;
-            while ((input = document.getElementById(`${sectionId}_${key}_${index}`)) !== null) {
-                section[key].push(parseFloat(input.value));
-                index++;
+            // Falls es sich um ein Array handelt, prüfen, ob es Objekte oder primitive Typen enthält
+            if (typeof section[key][0] === 'object' && section[key][0] !== null) {
+                section[key] = section[key].map((item, index) => {
+                    let updatedItem = { ...item };
+                    for (let subKey in item) {
+                        const input = document.getElementById(`${sectionId}_${key}_${index}_${subKey}`);
+                        if (input) {
+                            const value = parseFloat(input.value);
+                            updatedItem[subKey] = !isNaN(value) ? value : input.value;
+                            // console.log("updated " + updatedItem +  ` with ${sectionId}_${key}_${index}_${subKey} at value` + input.value);
+                        }
+                        else {
+                            // console.log("input not found at " + `${sectionId}_${key}_${index}_${subKey}`)
+                            // console.log(`sectionId: ${sectionId} key: ${key} index: ${index} subKey: ${subKey}`)
+                        }
+                    }
+                    return updatedItem;
+                });
+            } else {
+                let updatedValues = [];
+                let index = 0;
+                let input;
+                // console.log("while loop at " + `${sectionId}_${key}_${index}`)    
+                // console.log(`sectionId: ${sectionId} key: ${key} index: ${index}`)
+                        
+                while ((input = document.getElementById(`${sectionId}_${key}_${index}`)) !== null) {
+                    updatedValues.push(parseFloat(input.value) || 0);
+                    index++;
+                }
+                section[key] = updatedValues; // Ersetze das gesamte Array
+                // console.log("replacing " + section +  key + " with " + updatedValues)
             }
+        } else if (typeof section[key] === 'object' && section[key] !== null) {
+            // Wenn es sich um ein verschachteltes Objekt handelt, rekursiver Aufruf
+            // console.log("rekursiv in " + key + " in " + section)
+            updateSectionValues(section[key], `${key}`);
         } else {
             const input = document.getElementById(`${sectionId}_${key}`);
             if (input) {
-                section[key] = input.value;
+                const value = parseFloat(input.value);
+                section[key] = !isNaN(value) ? value : input.value;
             }
         }
     }
@@ -565,51 +593,19 @@ function saveChanges(data) {
     updateCharakterInfo(charakter.charakterInfo);
 
     // Update values from the inputs
-    if (charakter.fähigkeiten && charakter.fähigkeiten) {
-        if (charakter.fähigkeiten.modifier && charakter.fähigkeiten.modifier) {
-            updateSectionValues(charakter.fähigkeiten.modifier, 'modifier');
-        }
-        if (charakter.werte && charakter.werte) {
-            updateSectionValues(charakter.werte, 'erfahrung');
-        }
-        if (charakter.fähigkeiten.sonderwerte && charakter.fähigkeiten.sonderwerte) {
-            updateSectionValues(charakter.fähigkeiten.sonderwerte, 'sonderwerte');
-        }
-        if (charakter.fähigkeiten.attribute && charakter.fähigkeiten.attribute) {
-            updateSectionValues(charakter.fähigkeiten.attribute, 'attribute');
-        }
-        if (charakter.fähigkeiten.Assassinen_Talente && charakter.fähigkeiten.Assassinen_Talente) {
-            updateSectionValues(charakter.fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
-        }
-        if (charakter.fähigkeiten.Talente_1 && charakter.fähigkeiten.Talente_1) {
-            updateSectionValues(charakter.fähigkeiten.Talente_1, 'Talente_1');
-        }
-        if (charakter.fähigkeiten.Talente_2 && charakter.fähigkeiten.Talente_2) {
-            updateSectionValues(charakter.fähigkeiten.Talente_2, 'Talente_2');
-        }
-        if (charakter.fähigkeiten.KampfBasiswerte && charakter.fähigkeiten.KampfBasiswerte) {
-            updateSectionValues(charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
-        }
-        if (charakter.fähigkeiten.Kampf_Talente && charakter.fähigkeiten.Kampf_Talente) {
-            updateSectionValues(charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
-        }
-        if (charakter.fähigkeiten.Handwerkstalente && charakter.fähigkeiten.Handwerkstalente) {
-            updateSectionValues(charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
-        }
-        if (charakter.fähigkeiten.Gespeicherte_Kampftalente && charakter.fähigkeiten.Gespeicherte_Kampftalente) {
-            updateSectionValues(charakter.fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
-        }
+    if (charakter.fähigkeiten) {
+        updateSectionValues(charakter.fähigkeiten, 'fähigkeiten');
+        updateSectionValues(charakter.Magische_Elemente, 'Magische_Elemente');
     }
 
     // Update CharakterInfo values
-    if (charakter.charakterInfo && charakter.charakterInfo) {
-        updateCharakterInfo(charakter.charakterInfo);
-    }
+    updateCharakterInfo(charakter.charakterInfo);
 
     // Update Wallet values
-    if (charakter.geld && charakter.geld) {
+    if (charakter.geld) {
         charakter.geld = { ...wallet };
     }
+
     const jsonString = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
 
@@ -620,27 +616,4 @@ function saveChanges(data) {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-}
-
-function updateCharakterInfo(charakterInfo) {
-    const getIdValue = (id) => {
-        const element = document.getElementById(id);
-        if (element) {
-            return element.value;
-        } else {
-            console.error(`Element mit ID ${id} nicht gefunden.`);
-            return '';
-        }
-    };
-
-    charakterInfo.name = getIdValue('name');
-    charakterInfo.alter = getIdValue('alter');
-    charakterInfo.geschlecht = getIdValue('geschlecht');
-    charakterInfo.rasse = getIdValue('rassen-select');
-    charakterInfo.klasse = getIdValue('klassen-select');
-    charakterInfo.größe = getIdValue('größe');
-    charakterInfo.gewicht = getIdValue('gewicht');
-    charakterInfo.haarfarbe = getIdValue('haarfarbe');
-    charakterInfo.augenfarbe = getIdValue('augenfarbe');
-    charakterInfo.titel = getIdValue('titel');
 }
