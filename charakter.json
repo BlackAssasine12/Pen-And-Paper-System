@@ -149,70 +149,294 @@
                     0
                 ]
             },
-            "Assassinen_Talente": {
-                "Verkleiden (CH/IN/GES)": 0,
-                "Verstecken (IN/TAR/SIN)": 0,
-                "Meucheln (KL/GES/TAR)": 0,
-                "Giftherstellung (KL/GES/SIN)": 0,
-                "Giftanwendung (KL/GES/IN)": 0,
-                "Parkour (KO/GEW/GES)": 0,
-                "Schlösser knacken (GES/FF/KL)": 0,
-                "Gassenwissen (IN/KL/CH)": 0,
-                "Schleichen (TAR/GES/SIN)": 0,
-                "Klettern (KO/GEW/KK)": 0,
-                "Taschendiebstahl (IN/FF/TAR)": 0
-            },
-            "Talente_1": {
-                "Lesen/Schreiben (KL/IN/GES)": 0,
-                "Rechnen (KL/IN/GES)": 0,
-                "Überreden (CH/KL/IN)": 0,
-                "Fallenkunde (KL/GES/IN)": 0,
-                "Reiten (GEW/KK/GES)": 0,
-                "Körperbeherrschung (KO/GEW/KK)": 0,
-                "Selbstbeherrschung (KO/WK/KL)": 0,
-                "Schwimmen (KO/KK/GEW)": 0,
-                "Etikette (CH/IN/KL)": 0,
-                "Feilschen (CH/KL/GES)": 0,
-                "Betrügen (CH/KL/GES)": 0,
-                "Menschenkenntnis (IN/KL/SIN)": 0,
-                "Fährtensuche (IN/SIN/GEW)": 0,
-                "Fesseln/Entfesseln (GES/FF/KK)": 0
-            },
-            "Talente_2": {
-                "Tanzen (CH/GEW/GES)": 0,
-                "Orientierung (KL/IN/SIN)": 0,
-                "Tierkunde (KL/IN/SIN)": 0,
-                "Wettervorhersage (KL/IN/SIN)": 0,
-                "Alchemie (KL/GES/SIN)": 0,
-                "Geographie (KL/IN/SIN)": 0,
-                "Götter und Kulte (KL/IN/CH)": 0,
-                "Kriegskunst (KL/IN/KK)": 0,
-                "Mechanik (GES/KL/FF)": 0,
-                "Magiekunde (KL/IN/WK)": 0,
-                "Rechtskunde (KL/IN/CH)": 0,
-                "Sternkunde (KL/IN/SIN)": 0,
-                "Zechen (KO/WK/KK)": 0,
-                "Schätzen (KL/IN/SIN)": 0,
-                "Pflanzenkunde (KL/IN/FF)": 0
-            },
-            "Handwerkstalente": {
-                "Abrichten (IN/WK/CH)": 0,
-                "Boote Fahren (GES/KK/KL)": 0,
-                "Fahrzeug Lenken (GES/KL/KO)": 0,
-                "Falschspiel (GES/CH/KL)": 0,
-                "Heilkunde, Gift (KL/GES/SIN)": 0,
-                "Heilkunde, Krankheit (KL/IN/SIN)": 0,
-                "Heilkunde, Seele (IN/CH/KL)": 0,
-                "Heilkunde, Wunden (KL/GES/KO)": 0,
-                "Holzbearbeitung (GES/FF/KL)": 0,
-                "Kochen (GES/SIN/IN)": 0,
-                "Lederarbeiten (GES/FF/KL)": 0,
-                "Malen/Zeichnen (GES/SIN/IN)": 0,
-                "Musizieren (CH/GES/IN)": 0,
-                "Schneidern (GES/FF/SIN)": 0,
-                "Singen (CH/IN/GES)": 0,
-                "Töpfern (GES/FF/SIN)": 0
-            }
+            "Assassinen_Talente": [
+                {
+                    "Name": "Verkleiden",
+                    "Attribute": "CH/IN/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Verstecken",
+                    "Attribute": "IN/TAR/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Meucheln",
+                    "Attribute": "KL/GES/TAR",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Giftherstellung",
+                    "Attribute": "KL/GES/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Giftanwendung",
+                    "Attribute": "KL/GES/IN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Parkour",
+                    "Attribute": "KO/GEW/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Schlösser knacken",
+                    "Attribute": "GES/FF/KL",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Gassenwissen",
+                    "Attribute": "IN/KL/CH",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Schleichen",
+                    "Attribute": "TAR/GES/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Klettern",
+                    "Attribute": "KO/GEW/KK",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Taschendiebstahl",
+                    "Attribute": "IN/FF/TAR",
+                    "Wert": 0
+                }
+            ],
+            "Talente_1": [
+                {
+                    "Name": "Lesen/Schreiben",
+                    "Attribute": "KL/IN/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Rechnen",
+                    "Attribute": "KL/IN/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Überreden",
+                    "Attribute": "CH/KL/IN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Fallenkunde",
+                    "Attribute": "KL/GES/IN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Reiten",
+                    "Attribute": "GEW/KK/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Körperbeherrschung",
+                    "Attribute": "KO/GEW/KK",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Selbstbeherrschung",
+                    "Attribute": "KO/WK/KL",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Schwimmen",
+                    "Attribute": "KO/KK/GEW",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Etikette",
+                    "Attribute": "CH/IN/KL",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Feilschen",
+                    "Attribute": "CH/KL/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Betrügen",
+                    "Attribute": "CH/KL/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Menschenkenntnis",
+                    "Attribute": "IN/KL/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Fährtensuche",
+                    "Attribute": "IN/SIN/GEW",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Fesseln/Entfesseln",
+                    "Attribute": "GES/FF/KK",
+                    "Wert": 0
+                }
+            ],
+            "Talente_2": [
+                {
+                    "Name": "Tanzen",
+                    "Attribute": "CH/GEW/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Orientierung",
+                    "Attribute": "KL/IN/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Tierkunde",
+                    "Attribute": "KL/IN/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Wettervorhersage",
+                    "Attribute": "KL/IN/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Alchemie",
+                    "Attribute": "KL/GES/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Geographie",
+                    "Attribute": "KL/IN/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Götter und Kulte",
+                    "Attribute": "KL/IN/CH",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Kriegskunst",
+                    "Attribute": "KL/IN/KK",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Mechanik",
+                    "Attribute": "GES/KL/FF",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Magiekunde",
+                    "Attribute": "KL/IN/WK",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Rechtskunde",
+                    "Attribute": "KL/IN/CH",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Sternkunde",
+                    "Attribute": "KL/IN/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Zechen",
+                    "Attribute": "KO/WK/KK",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Schätzen",
+                    "Attribute": "KL/IN/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Pflanzenkunde",
+                    "Attribute": "KL/IN/FF",
+                    "Wert": 0
+                }
+            ],
+            "Handwerkstalente": [
+                {
+                    "Name": "Abrichten",
+                    "Attribute": "IN/WK/CH",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Boote Fahren",
+                    "Attribute": "GES/KK/KL",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Fahrzeug Lenken",
+                    "Attribute": "GES/KL/KO",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Falschspiel",
+                    "Attribute": "GES/CH/KL",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Heilkunde, Gift",
+                    "Attribute": "KL/GES/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Heilkunde, Krankheit",
+                    "Attribute": "KL/IN/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Heilkunde, Seele",
+                    "Attribute": "IN/CH/KL",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Heilkunde, Wunden",
+                    "Attribute": "KL/GES/KO",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Holzbearbeitung",
+                    "Attribute": "GES/FF/KL",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Kochen",
+                    "Attribute": "GES/SIN/IN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Lederarbeiten",
+                    "Attribute": "GES/FF/KL",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Malen/Zeichnen",
+                    "Attribute": "GES/SIN/IN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Musizieren",
+                    "Attribute": "CH/GES/IN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Schneidern",
+                    "Attribute": "GES/FF/SIN",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Singen",
+                    "Attribute": "CH/IN/GES",
+                    "Wert": 0
+                },
+                {
+                    "Name": "Töpfern",
+                    "Attribute": "GES/FF/SIN",
+                    "Wert": 0
+                }
+            ]
         }
     }
 }

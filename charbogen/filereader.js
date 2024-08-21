@@ -273,7 +273,7 @@ function createSection(title, attributes, sectionId) {
 
             attributes[key].forEach((value, index) => {
                 flexItem.innerHTML += `
-                    <input class="stg ArrAttributeInput" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
+                    <input class="stg ArrAttributeInput ${sectionId} ${sectionId}_${index}" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
             });
 
             container.appendChild(flexItem);
@@ -300,7 +300,7 @@ function createSection(title, attributes, sectionId) {
             let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
             flexItem.innerHTML = `
                 <label>${attributeString}</label>
-                <input class="stg attributeInput ${sectionId}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
+                <input class="stg attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
                 <button class="hidebutton">X</button>
             `;
             container.appendChild(flexItem);
@@ -535,53 +535,44 @@ function wReset() {
 }
 //NOTE - Speicherung
 function updateSectionValues(section, sectionId) {
-    for (let key in section) {
-        if (Array.isArray(section[key])) {
-            // Falls es sich um ein Array handelt, prüfen, ob es Objekte oder primitive Typen enthält
-            if (typeof section[key][0] === 'object' && section[key][0] !== null) {
-                section[key] = section[key].map((item, index) => {
-                    let updatedItem = { ...item };
-                    for (let subKey in item) {
-                        const input = document.getElementById(`${sectionId}_${key}_${index}_${subKey}`);
-                        if (input) {
-                            const value = parseFloat(input.value);
-                            updatedItem[subKey] = !isNaN(value) ? value : input.value;
-                            // console.log("updated " + updatedItem +  ` with ${sectionId}_${key}_${index}_${subKey} at value` + input.value);
-                        }
-                        else {
-                            // console.log("input not found at " + `${sectionId}_${key}_${index}_${subKey}`)
-                            // console.log(`sectionId: ${sectionId} key: ${key} index: ${index} subKey: ${subKey}`)
-                        }
-                    }
-                    return updatedItem;
-                });
-            } else {
-                let updatedValues = [];
+    // Überprüfung, ob die sectionId zu einer der speziellen Kategorien gehört
+    const specialSections = ['Assassinen_Talente', 'Talente_1', 'Talente_2', 'Handwerkstalente'];
+
+    // Wenn sectionId in specialSections enthalten ist, rufe die spezielle Speicherlogik auf
+    if (specialSections.includes(sectionId)) {
+        console.log(`Spezielle Speicherung für ${sectionId}`);
+        updateSpecialSection(section, sectionId);
+    } else {
+        for (let key in section) {
+            if (Array.isArray(section[key])) {
+                section[key] = [];
                 let index = 0;
                 let input;
-                // console.log("while loop at " + `${sectionId}_${key}_${index}`)    
-                // console.log(`sectionId: ${sectionId} key: ${key} index: ${index}`)
-                        
                 while ((input = document.getElementById(`${sectionId}_${key}_${index}`)) !== null) {
-                    updatedValues.push(parseFloat(input.value) || 0);
+                    section[key].push(parseFloat(input.value));
                     index++;
                 }
-                section[key] = updatedValues; // Ersetze das gesamte Array
-                // console.log("replacing " + section +  key + " with " + updatedValues)
-            }
-        } else if (typeof section[key] === 'object' && section[key] !== null) {
-            // Wenn es sich um ein verschachteltes Objekt handelt, rekursiver Aufruf
-            // console.log("rekursiv in " + key + " in " + section)
-            updateSectionValues(section[key], `${key}`);
-        } else {
-            const input = document.getElementById(`${sectionId}_${key}`);
-            if (input) {
-                const value = parseFloat(input.value);
-                section[key] = !isNaN(value) ? value : input.value;
+            } else {
+                const input = document.getElementById(`${sectionId}_${key}`);
+                if (input) {
+                    section[key] = input.value;
+                }
             }
         }
     }
 }
+
+function updateSpecialSection(section, sectionId) {
+    // Iteriere über das Array in der speziellen Sektion
+    section.forEach((item, index) => {
+        const key = item.Name;  // Verwende den Namen des Talents oder ähnliches als Schlüssel
+        const input = document.getElementById(`${sectionId}_${key}`);
+        if (input) {
+            item.Wert = parseFloat(input.value);
+        }
+    });
+}
+
 function saveChanges(data) {
     const charakter = data.charakter;
 
@@ -593,19 +584,55 @@ function saveChanges(data) {
     updateCharakterInfo(charakter.charakterInfo);
 
     // Update values from the inputs
-    if (charakter.fähigkeiten) {
-        updateSectionValues(charakter.fähigkeiten, 'fähigkeiten');
-        updateSectionValues(charakter.Magische_Elemente, 'Magische_Elemente');
+    if (charakter.fähigkeiten && charakter.fähigkeiten) {
+        if (charakter.fähigkeiten.modifier && charakter.fähigkeiten.modifier) {
+            updateSectionValues(charakter.fähigkeiten.modifier, 'modifier');
+        }
+        if (charakter.werte && charakter.werte) {
+            updateSectionValues(charakter.werte, 'erfahrung');
+        }
+        if (charakter.fähigkeiten.sonderwerte && charakter.fähigkeiten.sonderwerte) {
+            updateSectionValues(charakter.fähigkeiten.sonderwerte, 'sonderwerte');
+        }
+        if (charakter.fähigkeiten.attribute && charakter.fähigkeiten.attribute) {
+            updateSectionValues(charakter.fähigkeiten.attribute, 'attribute');
+        }
+        if (charakter.fähigkeiten.Assassinen_Talente && charakter.fähigkeiten.Assassinen_Talente) {
+            updateSectionValues(charakter.fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
+        }
+        if (charakter.fähigkeiten.Talente_1 && charakter.fähigkeiten.Talente_1) {
+            updateSectionValues(charakter.fähigkeiten.Talente_1, 'Talente_1');
+        }
+        if (charakter.fähigkeiten.Talente_2 && charakter.fähigkeiten.Talente_2) {
+            updateSectionValues(charakter.fähigkeiten.Talente_2, 'Talente_2');
+        }
+        if (charakter.fähigkeiten.KampfBasiswerte && charakter.fähigkeiten.KampfBasiswerte) {
+            updateSectionValues(charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
+        }
+        if (charakter.fähigkeiten.Kampf_Talente && charakter.fähigkeiten.Kampf_Talente) {
+            updateSectionValues(charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
+        }
+        if (charakter.fähigkeiten.Handwerkstalente && charakter.fähigkeiten.Handwerkstalente) {
+            updateSectionValues(charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
+        }
+        if (charakter.Magische_Elemente && charakter.Magische_Elemente) {
+            updateSectionValues(charakter.Magische_Elemente, 'Magische_Elemente');
+        }
+        if (charakter.fähigkeiten.Gespeicherte_Kampftalente && charakter.fähigkeiten.Gespeicherte_Kampftalente) {
+            updateSectionValues(charakter.fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
+        }
     }
 
     // Update CharakterInfo values
-    updateCharakterInfo(charakter.charakterInfo);
-
-    // Update Wallet values
-    if (charakter.geld) {
-        charakter.geld = { ...wallet };
+    if (charakter.charakterInfo && charakter.charakterInfo) {
+        updateCharakterInfo(charakter.charakterInfo);
     }
 
+    // Update Wallet values
+    if (charakter.geld && charakter.geld) {
+        charakter.geld = { ...wallet };
+    }
+    
     const jsonString = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
 
