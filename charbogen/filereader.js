@@ -419,7 +419,7 @@ function updateCharakterCalculation() {
 
     document.getElementById("erfahrung_level").value = level;
 
-    LP = lpModifier + level * 6 + 20 + KO;
+    LP = lpModifier*3 + level * 6 + 20 + KO;
     document.getElementById("sonderwerte_Maximale LP").value = LP;
 
     AUSD = LP + WIL;
