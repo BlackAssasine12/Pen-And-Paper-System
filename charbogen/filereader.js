@@ -422,7 +422,7 @@ function updateCharakterCalculation() {
     LP = lpModifier + level * 6 + 20 + KO;
     document.getElementById("sonderwerte_Maximale LP").value = LP;
 
-    AUSD = LP + KO;
+    AUSD = LP + WIL;
     document.getElementById("sonderwerte_Maximale Ausdauer").value = AUSD;
 
     MB = totalSum + magicModifier;
