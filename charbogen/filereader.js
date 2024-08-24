@@ -449,7 +449,7 @@ function updateCharakterCalculation() {
     Parade = Math.round((IN + GE + KK) / 5);
     document.getElementById("KampfBasiswerte_Parade Basiswert").value = Parade;
 
-    Steigerungspunkte = level * 30 - Gesteigerte + 100;
+    Steigerungspunkte = level * 30 + 100 - Gesteigerte ;
     document.getElementById("erfahrung_Steigerungspunkte").value = Steigerungspunkte;
 
     Schnelligkeit = Math.round((KK + GE + Sin) / 4)
