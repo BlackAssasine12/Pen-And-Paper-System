@@ -425,12 +425,12 @@ function updateCharakterCalculation() {
     AUSD = LP + KO;
     document.getElementById("sonderwerte_Maximale Ausdauer").value = AUSD;
 
-    maxASP = level * 6 + aspModifier + MB;
-    document.getElementById("sonderwerte_Maximale Astralenergie").value = maxASP;
-
     MB = totalSum + magicModifier;
     document.getElementById("sonderwerte_Magiebegabung").value = MB;
 
+    maxASP = level * 6 + aspModifier + MB;
+    document.getElementById("sonderwerte_Maximale Astralenergie").value = maxASP;
+    
     MR = Math.round((MB + level + KL) / 3);
     document.getElementById("sonderwerte_Magieresistenz").value = MR;
 
