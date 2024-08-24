@@ -11,3 +11,6 @@ Alle Talente: auf -3
 Attribute: Auf 7
 Magische Elemente: Garnicht
 Modifier: Garnicht
+
+# Levelcap
+Attribute Level + 12
