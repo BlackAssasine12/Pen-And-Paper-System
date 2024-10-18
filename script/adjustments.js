@@ -25,39 +25,52 @@ const adjustments = {
     'Wissenschaftliche_Talente': 3,
 };
 
+// Variable, um die Klassenkategorien zu speichern
+let klassenKategorien = {};
+
+// Funktion, um die Klassenkategorien zu setzen
+function setKlassenKategorien(klassen) {
+    klassenKategorien = klassen;
+}
+
 // Anpassung der Steigerungswerte nach Klassen
-function setKlassenVariable(selectedClass, klassen) {
-    if (klassen["Magische Klassen"].includes(selectedClass)) {
+function setKlassenVariable(selectedClass) {
+    if (!selectedClass || !klassenKategorien) return;
+
+    // Zurücksetzen der adjustments auf Standardwerte
+    resetAdjustmentsToDefault();
+
+    if (klassenKategorien["Magische Klassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 3;
         adjustments.modifier_asp = 5;
         adjustments.Magische_Elemente = 20;
-    } else if (klassen["Nahkampf Basierte Klassen"].includes(selectedClass)) {
+    } else if (klassenKategorien["Nahkampf Basierte Klassen"].includes(selectedClass)) {
         adjustments.modifier_nahkampf = 3;
         adjustments.modifier_lp = 5;
         adjustments.attribute_Körperkraft = 3;
-    } else if (klassen["Fernkampf Basierte Klassen"].includes(selectedClass)) {
+    } else if (klassenKategorien["Fernkampf Basierte Klassen"].includes(selectedClass)) {
         adjustments.modifier_fernkampf = 3;
         adjustments.modifier_stealth = 5;
-    } else if (klassen["Wissenschaftliche Klassen"].includes(selectedClass)) {
+    } else if (klassenKategorien["Wissenschaftliche Klassen"].includes(selectedClass)) {
         adjustments.attribute_Klugheit = 3
         adjustments.Wissenschaftliche_Talente = 2;
-    } else if (klassen["Arbeiterklassen"].includes(selectedClass)) {
+    } else if (klassenKategorien["Arbeiterklassen"].includes(selectedClass)) {
         adjustments.Handwerkstalente = 2;
         adjustments.attribute = 4;
-    } else if (klassen["Halbmagische Klassen"].includes(selectedClass)) {
+    } else if (klassenKategorien["Halbmagische Klassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 8;
         adjustments.modifier_asp = 8;
         adjustments.modifier_nahkampf = 8;
         adjustments.modifier_fernkampf = 8;
         adjustments.modifier_lp = 8;
         adjustments.Magische_Elemente = 23;
-    } else if (klassen["Stealth Klassen"].includes(selectedClass)) {
+    } else if (klassenKategorien["Stealth Klassen"].includes(selectedClass)) {
         adjustments.modifier_stealth = 3;
         adjustments.modifier_nahkampf = 8;
         adjustments.modifier_fernkampf = 8;
         adjustments.modifier_gift = 8;
         adjustments.Assassinen_Talente = 1;
-    } else if (klassen["Spezialklassen"].includes(selectedClass)) {
+    } else if (klassenKategorien["Spezialklassen"].includes(selectedClass)) {
         adjustments.modifier_magie = 8;
         adjustments.modifier_asp = 8;
         adjustments.modifier_nahkampf = 8;
@@ -67,5 +80,32 @@ function setKlassenVariable(selectedClass, klassen) {
     } else {
         // console.log("Klasse nicht gefunden")
     }
-    addInputChangeListeners()
+
+    // Aktualisiere die Event Listener mit den neuen adjustments
+    addInputChangeListeners();
+}
+
+// Funktion, um adjustments auf Standardwerte zurückzusetzen
+function resetAdjustmentsToDefault() {
+    adjustments.modifier_stealth = 10;
+    adjustments.modifier_magie = 10;
+    adjustments.modifier_asp = 10;
+    adjustments.modifier_lp = 10;
+    adjustments.modifier_fernkampf = 10;
+    adjustments.modifier_nahkampf = 10;
+    adjustments.modifier_gift = 10;
+    adjustments.attribute = 5;
+    adjustments.Kampf_Talente_2 = 5;
+    adjustments.Assassinen_Talente = 3;
+    adjustments.Normale_Talente = 3;
+    adjustments.Handwerkstalente = 3;
+    adjustments.attribute_Klugheit = 5;
+    adjustments.Tarnung = 5;
+    adjustments.Fingerfertigkeit = 5;
+    adjustments.Magische_Elemente = 25;
+    adjustments.Magische_Elemente_Raumzeit = 80;
+    adjustments.Talente_1 = 3;
+    adjustments.Talente_2 = 3;
+    adjustments.attribute_Körperkraft = 5;
+    adjustments.Wissenschaftliche_Talente = 3;
 }

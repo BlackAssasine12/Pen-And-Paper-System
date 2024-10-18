@@ -12,7 +12,11 @@ function genCharInfo(data) {
     document.getElementById('haarfarbe').value = charakter.haarfarbe;
     document.getElementById('augenfarbe').value = charakter.augenfarbe;
     document.getElementById('titel').value = charakter.titel;
+
+    // Setze die adjustments basierend auf der geladenen Klasse
+    setKlassenVariable(charakter.klasse);
 }
+
 
 function updateCharakterInfo(charakterInfo) {
     const getIdValue = (id) => {
