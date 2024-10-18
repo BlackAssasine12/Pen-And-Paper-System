@@ -1,14 +1,14 @@
 # Inhalt
-### [Klassen-Boni Zusammenfassung](#Klassen-Boni-Zusammenfassung)
+### [Klassen-kosten Zusammenfassung](#Klassen-kosten-Zusammenfassung)
 ### [Beispielaufträge](#Beispielaufträge)
 ### [Regeln](#Regeln)
 
 <hr style="background-color: white; height: 2px;">
 
-# Klassen-Boni Zusammenfassung
+# Klassen-kosten Zusammenfassung
 
-## Standard Boni
-Alle Klassen erhalten die folgenden Standard-Boni:
+## Standard kosten
+Alle Klassen haben folgende kosten für die Steigerung:
 - Stealth Modifier: +10
 - Magie Modifier: +10
 - Astralpunkte (ASP) Modifier: +10
@@ -31,8 +31,8 @@ Alle Klassen erhalten die folgenden Standard-Boni:
 - Körperkraft (Attribut): +5
 - Wissenschaftliche Talente: +3
 
-## Klassenkategorie-Boni
-Zusätzlich zu den Standard-Boni erhalten die Klassen basierend auf ihrer Kategorie die folgenden Boni:
+## Klassenkategorie-kosten
+Kostenveränderung je nach Klasse:
 
 ### Magische Klassen
 - Magie Modifier: +3
@@ -184,6 +184,9 @@ Schwierigkeitsgrad: F-Klasse (5)
 <hr style="background-color: white; height: 2px;">
 
 # Regeln
+## Grundregelwerk
+Die Grundsätzichen Regeln bezüglich Würfeln und kämpfen basiert auf DSA 3
+
 ## Gratis Steigerungen
 Magische Klasse
 2 Magische Elemente
@@ -199,10 +202,13 @@ Magische Elemente: Garnicht
 Modifier: Garnicht
 
 # Levelcap
-Attribute Level + 12
+Attribute: Eigenes Level + 12
+Jegliche Talente: Eigenes Level + 10 
+Magische Elemente: Magiebegabung / 2
+
 
 # Regelungen Magie
 ## Würfeln
-Der Spieler spricht mit dem Spielleiter ab welchen wurf er machen soll. <br>
-Magie wird Grundsätzlich nach den Attributen Gewürfelt. <br>
-Ausgleichspunkte sind die punkte die du in den benutzten elementen insgesamt zur verfügung stehen / die anzahl an elementen die du für den zauber benutzt hast.
+Der Spieler spricht mit dem Spielleiter ab, welchen Wurf er machen soll. <br>
+Magie wird grundsätzlich nach den Attributen gewürfelt. <br>
+Ausgleichspunkte sind die Punkte, die du in den benutzten Elementen insgesamt zur Verfügung hast, geteilt durch die Anzahl der Elemente, die du für den Zauber benutzt hast.
