@@ -8,8 +8,38 @@ function toggleDiv() {
         div.style.display = "none";
     }
 }
-
 function Roll() {
+    let DiceCount = parseInt(document.getElementById("DiceCount").value);
+    let DiceSide = parseInt(document.getElementById("DiceSides").value);
+    let resultTotal = "";
+
+    const container = document.getElementById("container");
+    const showDice = document.getElementById("showDice");
+
+    // Toggle the container visibility if DiceCount is 666
+    if (DiceCount === 666) {
+        if (container.style.display === "none") {
+            container.style.display = "grid";
+        } else {
+            container.style.display = "none";
+        }
+        return;  // Exit the function early since we only want to toggle visibility in this case
+    }
+
+    // Clear the showDice container before adding new results
+    showDice.innerHTML = "";
+
+    for (let i = 0; i < DiceCount; i++) {
+        let result = Math.floor(Math.random() * DiceSide) + 1;
+        const resultContainer = createOctagon(result, DiceSide);
+
+        resultTotal += `[${result}]` + ", ";
+        showDice.appendChild(resultContainer);
+    }
+    zuTaschenrechner()
+}
+
+function zuTaschenrechner() {
     let DiceCount = parseInt(document.getElementById("DiceCount").value);
     let DiceSide = parseInt(document.getElementById("DiceSides").value);
     let resultTotal = "";
@@ -49,42 +79,6 @@ function Roll() {
         resultTotal += `[${result}]` + ", ";
         showDice.appendChild(resultContainer);
     }
-
-    // Optionally, display the total results somewhere
-    // console.log("Total Results:", resultTotal);
-}
-
-function Roll() {
-    let DiceCount = parseInt(document.getElementById("DiceCount").value);
-    let DiceSide = parseInt(document.getElementById("DiceSides").value);
-    let resultTotal = "";
-
-    const container = document.getElementById("container");
-    const showDice = document.getElementById("showDice");
-
-    // Toggle the container visibility if DiceCount is 666
-    if (DiceCount === 666) {
-        if (container.style.display === "none") {
-            container.style.display = "grid";
-        } else {
-            container.style.display = "none";
-        }
-        return;  // Exit the function early since we only want to toggle visibility in this case
-    }
-
-    // Clear the showDice container before adding new results
-    showDice.innerHTML = "";
-
-    for (let i = 0; i < DiceCount; i++) {
-        let result = Math.floor(Math.random() * DiceSide) + 1;
-        const resultContainer = createOctagon(result, DiceSide);
-
-        resultTotal += `[${result}]` + ", ";
-        showDice.appendChild(resultContainer);
-    }
-    
-    // Optionally, display the total results somewhere
-    // console.log("Total Results:", resultTotal);
 }
 
 function createOctagon(result, DiceSide) {
