@@ -108,7 +108,6 @@ function createSection(title, attributes, sectionId) {
             container.appendChild(flexItem);
         }
     }
-
     return container;
 }
 
@@ -122,4 +121,32 @@ function addToolTip() {
             element.title = tooltips[index];
         }
     });
+}
+
+function MaxValue(level, MB) {
+
+    let MaxValue = document.querySelectorAll(".Assassinen_Talente, .Talente_1, .Talente_2, .Handwerkstalente")
+    MaxValue.forEach((attribute) => {
+        attribute.max = level + 12
+        attribute.min = -3
+        if (attribute.max >= 21) {
+            attribute.max = 21
+        }
+    })
+    let maxAttribute = document.querySelectorAll(".attribute")
+    maxAttribute.forEach((attribute) => {
+        attribute.max = level + 10
+        attribute.min = 7
+        if (attribute.max >= 21) {
+            attribute.max = 21
+        }
+    })
+    let maxMagic = document.querySelectorAll(".Magische_Elemente")
+    maxMagic.forEach((attribute) => {
+        attribute.max = MB / 2
+        attribute.min = 0
+        if (attribute.max >= 21) {
+            attribute.max = 21
+        }
+    })
 }

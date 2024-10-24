@@ -78,4 +78,6 @@ function updateCharakterCalculation() {
 
     Schnelligkeit = Math.round((KK + GE + Sin) / 4)
     document.getElementById("sonderwerte_Schnelligkeit").value = Schnelligkeit;
+    
+    MaxValue(level, MB)
 }
