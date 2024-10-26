@@ -212,3 +212,53 @@ Magische Elemente: Magiebegabung / 2
 Der Spieler spricht mit dem Spielleiter ab, welchen Wurf er machen soll. <br>
 Magie wird grundsätzlich nach den Attributen gewürfelt. <br>
 Ausgleichspunkte sind die Punkte, die du in den benutzten Elementen insgesamt zur Verfügung hast, geteilt durch die Anzahl der Elemente, die du für den Zauber benutzt hast.
+
+# Berechnungen für Charakterwerte
+
+## Lebenspunkte (LP)
+```LP = lpModifier * 3 + level * 6 + 20 + KO```
+Die maximalen Lebenspunkte werden berechnet durch einen Modifikator für LP, multipliziert mit 3, plus dem Level mal 6, plus 20, plus Konstitution (KO).
+
+## Ausdauer (AUSD)
+```AUSD = LP + WIL```
+Die maximale Ausdauer ist die Summe der Lebenspunkte (LP) und der Willenskraft (WIL).
+
+## Magiebegabung (MB)
+```MB = totalSum + magicModifier```
+Die Magiebegabung setzt sich aus der Summe der Magiewerte und einem Modifikator für Magie zusammen.
+
+## Maximale Astralenergie (ASP)
+```maxASP = level * 6 + aspModifier * 2 + MB```
+Die maximale Astralenergie wird aus dem Level, multipliziert mit 6, plus zweimal der Modifikator für ASP und der Magiebegabung (MB) berechnet.
+
+## Magieresistenz (MR)
+```MR = Math.round((MB + level + KL) / 3)```
+Die Magieresistenz ergibt sich aus der Magiebegabung (MB), dem Level und der Klugheit (KL), geteilt durch 3.
+
+## Giftresistenz
+```Giftresistenz = Math.round((AUSD) / 10 + giftModifier)```
+Die Giftresistenz wird als Ausdauer geteilt durch 10 plus einem Gift-Resistenz-Modifikator berechnet.
+
+## Wurfwaffen-Basiswert (Wurf)
+```wurf = Math.round((IN + FF + KK) / 4)```
+Der Basiswert für Wurfwaffen ergibt sich aus der Summe von Intuition (IN), Fingerfertigkeit (FF) und Körperkraft (KK), geteilt durch 4.
+
+## Schusswaffen-Basiswert (Schuss)
+```schuss = Math.round((IN + FF + KK) / 4)```
+Der Basiswert für Schusswaffen wird identisch wie der Wurfwaffen-Basiswert berechnet.
+
+## Attacke-Basiswert
+```Attacke = Math.round((KO + GE + KK) / 5)```
+Der Basiswert für Attacke ergibt sich aus Konstitution (KO), Gewandtheit (GE) und Körperkraft (KK), geteilt durch 5.
+
+## Parade-Basiswert
+```Parade = Math.round((IN + GE + KK) / 5)```
+Der Basiswert für Parade ist die Summe von Intuition (IN), Gewandtheit (GE) und Körperkraft (KK), geteilt durch 5.
+
+## Steigerungspunkte
+```Steigerungspunkte = level * 30 + 100 - Gesteigerte```
+Die verfügbaren Steigerungspunkte errechnen sich aus dem Level multipliziert mit 30, plus 100, abzüglich bereits verwendeter Steigerungspunkte.
+
+## Schnelligkeit
+```Schnelligkeit = Math.round((KK + GE + Sin) / 4)```
+Die Schnelligkeit wird durch die Summe von Körperkraft (KK), Gewandtheit (GE) und Sinnesschärfe (Sin) geteilt durch 4 berechnet.
