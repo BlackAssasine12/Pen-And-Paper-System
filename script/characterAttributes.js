@@ -125,7 +125,7 @@ function addToolTip() {
 
 function MaxValue(level, MB) {
 
-    let MaxValue = document.querySelectorAll(".Assassinen_Talente, .Talente_1, .Talente_2, .Handwerkstalente")
+    let MaxValue = document.querySelectorAll(".Assassinen_Talente, .Talente_1, .Talente_2, .Handwerkstalente, .Kampf_Talente_2")
     MaxValue.forEach((attribute) => {
         attribute.max = level + 10
         attribute.min = -3
@@ -148,5 +148,11 @@ function MaxValue(level, MB) {
         if (attribute.max >= 21) {
             attribute.max = 21
         }
+    })
+    let modifier = document.querySelectorAll(".modifier")
+    modifier.forEach((attribute) => {
+        attribute.max = level + 2
+        attribute.min = 0
+
     })
 }
