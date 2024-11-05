@@ -155,4 +155,7 @@ function MaxValue(level, MB) {
         attribute.min = 0
 
     })
+    let xp = document.querySelector("#erfahrung_xp")
+    xp.setAttribute('step', '100');
+
 }

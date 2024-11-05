@@ -33,17 +33,20 @@ function updateCharakterCalculation() {
     KO = parseInt(document.getElementById("attribute_Konstitution").value);
     Gesteigerte = parseInt(document.getElementById("erfahrung_Gesteigerte").value);
 
-    if (xp <= 900) { //level 0 bis 6
-        level = Math.floor(xp / 150);
-    } else if (xp <= 4200) { //level 7 bis 14
-        level = Math.floor(xp / 600 + 7);
-    } else { //level 15 bis ´´
-        level = Math.floor(xp / 1200 + 10.5);
-    }
+    if (xp < 750) {
+        // Erste 6 Level, jeweils 150 XP
+        level = Math.floor(xp / 150) + 1;
+      } else if (xp < 4950) {
+        // Level 7 bis 13, jeweils 600 XP
+        level = Math.floor((xp - 750) / 600) + 7;
+      } else {
+        // Level 14 und höher, jeweils 1200 XP
+        level = Math.floor((xp - 4950) / 1200) + 14;
+      }
 
     document.getElementById("erfahrung_level").value = level;
 
-    LP = lpModifier*3 + level * 6 + 20 + KO;
+    LP = lpModifier * 3 + level * 6 + 20 + KO;
     document.getElementById("sonderwerte_Maximale LP").value = LP;
 
     AUSD = LP + WIL;
@@ -73,11 +76,11 @@ function updateCharakterCalculation() {
     Parade = Math.round((IN + GE + KK) / 5);
     document.getElementById("KampfBasiswerte_Parade Basiswert").value = Parade;
 
-    Steigerungspunkte = level * 30 + 100 - Gesteigerte ;
+    Steigerungspunkte = level * 30 + 100 - Gesteigerte;
     document.getElementById("erfahrung_Steigerungspunkte").value = Steigerungspunkte;
 
     Schnelligkeit = Math.round((KK + GE + Sin) / 4)
     document.getElementById("sonderwerte_Schnelligkeit").value = Schnelligkeit;
-    
+
     MaxValue(level, MB)
 }
