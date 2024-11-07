@@ -1,0 +1,44 @@
+@import 'variables';
+
+label {
+  font-size: $font-small;
+  color: $secondary-color;
+}
+
+button {
+  background-color: $primary-color;
+  color: #fff;
+  padding: $spacing-small $spacing-medium;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+
+  &.hidebutton {
+    background-color: $secondary-color;
+    color: #fff;
+    padding: $spacing-small $spacing-medium;
+    border: none;
+    border-radius: 4px;
+  }
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  padding: $spacing-small;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  font-size: $font-medium;
+}
+
+#FileReaderInOutput, #Würfelsektion {
+  padding: $spacing-medium;
+  background-color: lighten($background-color, 5%);
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  margin-top: $spacing-large;
+}

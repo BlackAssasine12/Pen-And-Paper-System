@@ -1,0 +1,41 @@
+@charset "UTF-8";
+label {
+  font-size: 0.875rem;
+  color: #7b7b7b;
+}
+
+button {
+  background-color: #4a90e2;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #2275d7;
+}
+button.hidebutton {
+  background-color: #7b7b7b;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+input[type=text],
+input[type=number],
+select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#FileReaderInOutput, #Würfelsektion {
+  padding: 16px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 24px;
+}/*# sourceMappingURL=components.css.map */

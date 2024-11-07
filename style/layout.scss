@@ -1,0 +1,29 @@
+@import 'variables';
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-large;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-small;
+}
+
+.hidden-items {
+  display: none;
+}
+
+.Rowflex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-medium;
+}
+
+.FlexItemContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-small;
+}

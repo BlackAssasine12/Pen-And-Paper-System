@@ -1,13 +1,16 @@
 // Farben
-$background-color: #F4E3C3;
-$text-color: #5C4033;
-$link-hover-color: #8B6A4A;
-$footer-bg-color: #333;
-$footer-text-color: #fff;
-$button-hover-bg: #422e25;
-$button-border-color: #8B6A4A;
-$box-shadow-color: #000000;
+$primary-color: #4a90e2;
+$secondary-color: #7b7b7b;
+$background-color: #f9f9f9;
+$text-color: #333;
+$border-color: #ccc;
 
-// Schriften
-$font-family: 'Times New Roman', Times, serif;
-$font-size: 16px;
+// Abstände
+$spacing-small: 8px;
+$spacing-medium: 16px;
+$spacing-large: 24px;
+
+// Schriftgrößen
+$font-small: 0.875rem;
+$font-medium: 1rem;
+$font-large: 1.25rem;

@@ -1,119 +1,99 @@
-body {
-  background-color: #F4E3C3;
-  color: #5C4033;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 16px;
-  margin: 10px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-
-a {
-  color: #5C4033;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 16px;
-}
-
-footer {
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  margin-top: auto !important;
-  margin: -10px;
-}
-
-footer a {
-  color: #fff;
-  text-decoration: none;
-}
-
-footer a:hover {
-  color: white;
-}
-
-input,
-select,
-option {
-  color: #5C4033;
-  background-color: #F4E3C3;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 16px;
-  border: 1px solid #5C4033;
-  border-radius: 5px;
-}
-
-input[type=file] {
-  border: 2px solid #5C4033;
-}
-
-input:focus,
-select:focus {
-  outline: none;
-  border-color: #8B6A4A;
-}
-
-button {
-  color: #5C4033;
-  background-color: #F4E3C3;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 16px;
-  border: 1px solid #8B6A4A;
-  border-radius: 5px;
-  margin: 5px;
-}
-
-button:hover {
-  color: #8B6A4A;
-  background-color: #422e25;
-}
-
-button:active {
-  background-color: #F4E3C3;
-}
-
-.content {
-  flex: 1;
-}
-
-h6 {
-  font-size: 18px;
-  text-decoration: underline;
+@charset "UTF-8";
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.Rowflex, .WalletContainer, .attributeFlexContainer {
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+input,
+button,
+select {
+  font-family: inherit;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.flex {
   display: flex;
-  flex-direction: row;
-  margin: 20px 0;
-}
-
-.WalletContainer {
-  flex-direction: column;
-  width: 320px !important;
-}
-
-.attributeFlexContainer {
   flex-wrap: wrap;
+  gap: 8px;
 }
 
-.infoFlexContainer,
-.FlexItemContainer,
-.BigFlexItemContainer {
+.hidden-items {
+  display: none;
+}
+
+.Rowflex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.FlexItemContainer {
   display: flex;
   flex-direction: column;
-  width: 350px;
-  border: 2px solid #8B6A4A;
-  border-radius: 6px;
-  padding: 5px;
-  margin: 5px;
-  box-shadow: 0px 0px 4px 1px #000000;
+  gap: 8px;
+}
+
+label {
+  font-size: 0.875rem;
+  color: #7b7b7b;
+}
+
+button {
+  background-color: #4a90e2;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #2275d7;
+}
+button.hidebutton {
+  background-color: #7b7b7b;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+input[type=text],
+input[type=number],
+select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#FileReaderInOutput, #Würfelsektion {
+  padding: 16px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 24px;
+}
+
+label {
+  flex: 1;
+  margin-right: 10px;
+  text-align: left;
 }
 
 .FlexItemContainer {
@@ -130,9 +110,7 @@ h6 {
 
 .FlexItem, .mediumFlexItem, .BigFlexItem {
   display: flex;
-  font-size: 16px;
   align-items: center;
-  border: 1px solid #8B6A4A;
   border-radius: 6px;
   height: 35px;
   margin-top: 10px;
@@ -140,128 +118,24 @@ h6 {
   justify-content: space-between;
 }
 
-.hidebutton {
-  color: black;
-  background-color: transparent;
-  border: 0;
-  font-weight: bold;
-  margin-left: 5px;
-}
-.hidebutton:hover {
-  color: red;
+.FlexItemContainer {
+  width: 340px;
 }
 
-.eingabefeld {
-  width: 100%;
-  outline: none;
-  border: none;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  overflow: hidden;
-  border-radius: 4px;
+.mediumFlexItem {
+  width: 320px;
 }
 
-.attributeInput, .ArrAttributeInput {
-  margin-left: auto;
-  text-align: right;
-  border: 0;
-  width: 50px;
-  font-size: 16px;
-}
-.attributeInput:hover, .attributeInput:focus, .ArrAttributeInput:hover, .ArrAttributeInput:focus {
-  border: 1px solid #8B6A4A;
-  border-radius: 6px;
+.BigFlexItemContainer {
+  width: 380px;
 }
 
-label {
-  flex: 1;
-  margin-right: 10px;
-  text-align: left;
-}
-
-.ArrayContainer {
+.FlexItem, .mediumFlexItem, .BigFlexItem {
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
-  width: 97%;
-}
-
-select {
-  outline: none;
-  border: 0;
   border-radius: 6px;
-  width: 260px;
-}
-
-.dice-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-.diceOutput {
-  fill: black;
-}
-
-.diceOutputMax {
-  fill: red;
-  font-weight: bold;
-}
-
-.diceOutputMin {
-  fill: green;
-  font-weight: bold;
-}
-
-svg {
-  margin: 5px;
-  display: block;
-}
-
-#dragfield {
-  background-color: #555555;
-}
-
-#container {
-  position: absolute;
-  grid-template-columns: repeat(4, 50px);
-  grid-template-rows: repeat(4, 50px);
-  gap: 2px;
-}
-
-div.calc {
-  width: 50px;
-  height: 50px;
-  padding: 1px;
-  border: solid #5C4033 2px;
-  border-radius: 5px;
-  background-color: #98825f;
-  font-size: 40px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-div.calc:hover {
-  background-color: #5C4033;
-  color: aliceblue;
-}
-
-#FieldContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-div#eqField,
-#evField {
-  display: flex;
-  width: 208px;
-  height: 50px;
-  border: solid #5C4033 2px;
-  border-radius: 5px;
-  background-color: #98825f;
-  font-size: 40px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  height: 35px;
+  margin-top: 10px;
+  padding: 0 5px;
+  justify-content: space-between;
 }/*# sourceMappingURL=main.css.map */

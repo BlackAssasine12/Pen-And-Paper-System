@@ -1,0 +1,27 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hidden-items {
+  display: none;
+}
+
+.Rowflex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.FlexItemContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}/*# sourceMappingURL=layout.css.map */
