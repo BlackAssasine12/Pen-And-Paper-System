@@ -1,3 +1,12 @@
+.card, .infoFlexContainer, .FlexItemContainer {
+  background-image: url("../assets/pappenheimer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
 .container {
   max-width: 1200px;
   margin: 0;
@@ -19,18 +28,28 @@
   flex-direction: column;
   gap: 8px;
   width: 340px;
-  border: 1px solid #4a90e2;
+  margin: 18px;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.infoFlexContainer {
+  margin: 38px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .BigFlexItemContainer {
-  width: 380px;
-  border: 1px solid #4a90e2;
+  width: 420px;
 }
 
-.Rowflex, .WalletContainer, .attributeFlexContainer {
+.Rowflex,
+.attributeFlexContainer {
   display: flex;
   flex-direction: row;
   margin: 20px 0;
+  padding: 0;
+  margin: 0;
 }
 
 .WalletContainer {
@@ -52,7 +71,9 @@ label {
   width: 320px;
 }
 
-.FlexItem, .mediumFlexItem, .BigFlexItem {
+.FlexItem,
+.mediumFlexItem,
+.BigFlexItem {
   display: flex;
   align-items: center;
   border-radius: 6px;

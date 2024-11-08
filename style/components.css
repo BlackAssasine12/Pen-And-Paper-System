@@ -1,11 +1,25 @@
 @charset "UTF-8";
+.card {
+  background-image: url("../assets/pappenheimer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
 label {
-  font-size: 0.875rem;
-  color: #7b7b7b;
+  font-size: 1rem;
+  color: #36251b;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 24px;
 }
 
 button {
-  background-color: #4a90e2;
+  background-color: #a68a7d;
   color: #fff;
   padding: 8px 16px;
   border: none;
@@ -13,30 +27,52 @@ button {
   cursor: pointer;
 }
 button:hover {
-  background-color: #2275d7;
+  background-color: #8e7062;
 }
 button.hidebutton {
-  background-color: #7b7b7b;
-  color: #fff;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  color: #36251b;
   padding: 8px 16px;
-  border: none;
   border-radius: 4px;
+  font-weight: bold;
+}
+button.hidebutton:hover {
+  background-color: rgba(255, 156, 102, 0.5);
 }
 
 input[type=text],
 input[type=number],
 select {
   padding: 8px;
-  border: 1px solid #ccc;
+  border: none;
+  border-bottom: #1f110a 4px solid;
   border-radius: 4px;
   font-size: 1rem;
+  background-color: transparent;
+  width: 220px;
+}
+
+input[type=number] {
   width: 84px;
 }
 
-#FileReaderInOutput, #Würfelsektion {
+#FileReaderInOutput,
+#Würfelsektion {
   padding: 16px;
-  background-color: white;
-  border: 1px solid #ccc;
   border-radius: 4px;
   margin-top: 24px;
+  margin: 12px;
+}
+
+.toggleLabel,
+#fileInput {
+  color: #ffffff !important;
+}
+
+input[type=checkbox] {
+  width: 16px;
+  align-items: center;
+  flex-direction: column;
 }/*# sourceMappingURL=components.css.map */

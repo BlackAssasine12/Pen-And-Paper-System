@@ -1,3 +1,12 @@
+.card {
+  background-image: url("../assets/pappenheimer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
 *,
 *::before,
 *::after {
@@ -7,11 +16,16 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
+  font-family: "Quintessential", serif;
+  background-color: #e1d4b7;
+  color: #36251b;
   line-height: 1.6;
   font-size: 1rem;
+  font-weight: bold;
+  background-image: url("../assets/12cf0fe5d5ae08d8f8258407a4741657.jpg");
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;
 }
 
 input,

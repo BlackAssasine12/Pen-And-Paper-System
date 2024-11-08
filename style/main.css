@@ -1,4 +1,22 @@
 @charset "UTF-8";
+.card, .infoFlexContainer, .FlexItemContainer {
+  background-image: url("../assets/pappenheimer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
+.card, .infoFlexContainer, .FlexItemContainer {
+  background-image: url("../assets/pappenheimer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
 *,
 *::before,
 *::after {
@@ -8,17 +26,31 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
+  font-family: "Quintessential", serif;
+  background-color: #e1d4b7;
+  color: #36251b;
   line-height: 1.6;
   font-size: 1rem;
+  font-weight: bold;
+  background-image: url("../assets/12cf0fe5d5ae08d8f8258407a4741657.jpg");
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;
 }
 
 input,
 button,
 select {
   font-family: inherit;
+}
+
+.card, .infoFlexContainer, .FlexItemContainer {
+  background-image: url("../assets/pappenheimer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
 }
 
 .container {
@@ -42,18 +74,28 @@ select {
   flex-direction: column;
   gap: 8px;
   width: 340px;
-  border: 1px solid #4a90e2;
+  margin: 18px;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.infoFlexContainer {
+  margin: 38px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .BigFlexItemContainer {
-  width: 380px;
-  border: 1px solid #4a90e2;
+  width: 420px;
 }
 
-.Rowflex, .WalletContainer, .attributeFlexContainer {
+.Rowflex,
+.attributeFlexContainer {
   display: flex;
   flex-direction: row;
   margin: 20px 0;
+  padding: 0;
+  margin: 0;
 }
 
 .WalletContainer {
@@ -75,7 +117,9 @@ label {
   width: 320px;
 }
 
-.FlexItem, .mediumFlexItem, .BigFlexItem {
+.FlexItem,
+.mediumFlexItem,
+.BigFlexItem {
   display: flex;
   align-items: center;
   border-radius: 6px;
@@ -85,13 +129,27 @@ label {
   justify-content: space-between;
 }
 
+.card, .FlexItemContainer, .infoFlexContainer {
+  background-image: url("../assets/pappenheimer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+
 label {
-  font-size: 0.875rem;
-  color: #7b7b7b;
+  font-size: 1rem;
+  color: #36251b;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 24px;
 }
 
 button {
-  background-color: #4a90e2;
+  background-color: #a68a7d;
   color: #fff;
   padding: 8px 16px;
   border: none;
@@ -99,30 +157,52 @@ button {
   cursor: pointer;
 }
 button:hover {
-  background-color: #2275d7;
+  background-color: #8e7062;
 }
 button.hidebutton {
-  background-color: #7b7b7b;
-  color: #fff;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  color: #36251b;
   padding: 8px 16px;
-  border: none;
   border-radius: 4px;
+  font-weight: bold;
+}
+button.hidebutton:hover {
+  background-color: rgba(255, 156, 102, 0.5);
 }
 
 input[type=text],
 input[type=number],
 select {
   padding: 8px;
-  border: 1px solid #ccc;
+  border: none;
+  border-bottom: #1f110a 4px solid;
   border-radius: 4px;
   font-size: 1rem;
+  background-color: transparent;
+  width: 220px;
+}
+
+input[type=number] {
   width: 84px;
 }
 
-#FileReaderInOutput, #Würfelsektion {
+#FileReaderInOutput,
+#Würfelsektion {
   padding: 16px;
-  background-color: white;
-  border: 1px solid #ccc;
   border-radius: 4px;
   margin-top: 24px;
+  margin: 12px;
+}
+
+.toggleLabel,
+#fileInput {
+  color: #ffffff !important;
+}
+
+input[type=checkbox] {
+  width: 16px;
+  align-items: center;
+  flex-direction: column;
 }/*# sourceMappingURL=main.css.map */

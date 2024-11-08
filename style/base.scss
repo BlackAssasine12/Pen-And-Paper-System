@@ -9,11 +9,16 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: $basic_font;
   background-color: $background-color;
   color: $text-color;
   line-height: 1.6;
   font-size: $font-medium;
+  font-weight: bold;
+  background-image: url("../assets/12cf0fe5d5ae08d8f8258407a4741657.jpg");
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;
 }
 
 input,

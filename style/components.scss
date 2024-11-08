@@ -1,8 +1,13 @@
 @import 'variables';
 
 label {
-  font-size: $font-small;
-  color: $secondary-color;
+  font-size: $font-medium;
+  color: $text-color;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 24px;
 }
 
 button {
@@ -18,11 +23,17 @@ button {
   }
 
   &.hidebutton {
-    background-color: $secondary-color;
-    color: #fff;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    color: #36251b;
     padding: $spacing-small $spacing-medium;
-    border: none;
     border-radius: 4px;
+    font-weight: bold;
+
+    &:hover {
+      background-color: rgba(255, 156, 102, 0.5);
+    }
   }
 }
 
@@ -30,16 +41,37 @@ input[type="text"],
 input[type="number"],
 select {
   padding: $spacing-small;
-  border: 1px solid $border-color;
+  border: none;
+  border-bottom: $border-color 4px solid;
   border-radius: 4px;
   font-size: $font-medium;
-  width: 84px;
+  background-color: $input_color;
+  width: 220px;
+
 }
 
-#FileReaderInOutput, #Würfelsektion {
+input[type="number"] {
+  width: 84px;
+
+}
+
+#FileReaderInOutput,
+#Würfelsektion {
   padding: $spacing-medium;
-  background-color: lighten($background-color, 5%);
-  border: 1px solid $border-color;
+  // background-color: lighten($background-color, 5%);
+  // border: 1px solid $border-color;
   border-radius: 4px;
   margin-top: $spacing-large;
+  margin: 12px;
+}
+
+.toggleLabel,
+#fileInput {
+  color: $rd_color !important;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  align-items: center;
+  flex-direction: column;
 }

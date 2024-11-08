@@ -1,16 +1,28 @@
 // Farben
-$primary-color: #4a90e2;
-$secondary-color: #7b7b7b;
-$background-color: #f9f9f9;
-$text-color: #333;
-$border-color: #ccc;
+$primary-color: #a68a7d;
+$secondary-color: #666666;
+$background-color: #e1d4b7;
+$text-color: #36251b;
+$rd_color:#ffffff;
 
+$border-color: #1f110a;
+$input_color: transparent;
 // Abstände
 $spacing-small: 8px;
 $spacing-medium: 16px;
 $spacing-large: 24px;
 
-// Schriftgrößen
+// Schrift
 $font-small: 0.875rem;
 $font-medium: 1rem;
 $font-large: 1.25rem;
+$basic_font: "Quintessential", serif;
+
+.card {
+    background-image: url("../assets/pappenheimer.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+}

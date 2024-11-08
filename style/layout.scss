@@ -16,24 +16,43 @@
   display: none;
 }
 
+
+
 .FlexItemContainer {
   display: flex;
   flex-direction: column;
   gap: $spacing-small;
   width: 340px;
-  border: 1px solid $primary-color;
+  // border: 1px solid $primary-color;
+  margin: 18px;
+  margin-top: 0;
+  margin-bottom: 12px;
+  @extend .card;
 
 }
+
+.infoFlexContainer {
+  margin: 38px;
+  margin-top: 0;
+  margin-bottom: 0;
+  @extend .card;
+}
+
 .BigFlexItemContainer {
-  width: 380px;
-  border: 1px solid $primary-color;
+  width: 420px;
+
+  // border: 1px solid $primary-color;
 
 }
+
 // Flex Layout Containers
-.Rowflex, .WalletContainer, .attributeFlexContainer {
+.Rowflex,
+.attributeFlexContainer {
   display: flex;
   flex-direction: row;
   margin: 20px 0;
+  padding: 0;
+  margin: 0;
 }
 
 .WalletContainer {
@@ -55,7 +74,9 @@ label {
   width: 320px;
 }
 
-.FlexItem, .mediumFlexItem, .BigFlexItem {
+.FlexItem,
+.mediumFlexItem,
+.BigFlexItem {
   display: flex;
   align-items: center;
   border-radius: 6px;
