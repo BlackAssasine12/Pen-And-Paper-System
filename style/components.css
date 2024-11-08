@@ -30,6 +30,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
+  width: 84px;
 }
 
 #FileReaderInOutput, #Würfelsektion {
