@@ -1,5 +1,7 @@
 // Farben
 $primary-color: #a68a7d;
+$primary-color: #a68a7d;
+$primary-colorRGB: rgba(166,138,125, 0.4);
 $secondary-color: #666666;
 $background-color: #e1d4b7;
 $text-color: #36251b;
@@ -18,6 +20,10 @@ $font-medium: 1rem;
 $font-large: 1.25rem;
 $basic_font: "Quintessential", serif;
 
+$text-shadow: 2px 2px 0px rgba(235,220,181, 1);
+.textShadow {
+   text-shadow: $text-shadow;
+}
 .card {
     background-image: url("../assets/pappenheimer.jpg");
     background-size: cover;
@@ -25,4 +31,9 @@ $basic_font: "Quintessential", serif;
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px;
+}
+.backgroundIMG {
+    background-image: url("../assets/12cf0fe5d5ae08d8f8258407a4741657.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }

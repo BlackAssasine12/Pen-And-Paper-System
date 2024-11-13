@@ -4,17 +4,23 @@ label {
   font-size: $font-medium;
   color: $text-color;
   font-weight: bold;
+  @extend .textShadow;
 }
 
 h6 {
   font-size: 24px;
+  @extend .textShadow;
+}
+
+div {
+  @extend .textShadow;
 }
 
 button {
-  background-color: $primary-color;
+  background-color: $primary-colorRGB;
   color: #fff;
   padding: $spacing-small $spacing-medium;
-  border: none;
+  border: 1px solid black;
   border-radius: 4px;
   cursor: pointer;
 
@@ -65,9 +71,11 @@ input[type="number"] {
   margin: 12px;
 }
 
+a,
 .toggleLabel,
 #fileInput {
   color: $rd_color !important;
+  text-shadow: none !important;
 }
 
 input[type="checkbox"] {

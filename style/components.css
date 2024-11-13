@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.textShadow, div, h6, label {
+  text-shadow: 2px 2px 0px rgb(235, 220, 181);
+}
+
 .card {
   background-image: url("../assets/pappenheimer.jpg");
   background-size: cover;
@@ -6,6 +10,12 @@
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 10px;
+}
+
+.backgroundIMG {
+  background-image: url("../assets/12cf0fe5d5ae08d8f8258407a4741657.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 label {
@@ -19,10 +29,10 @@ h6 {
 }
 
 button {
-  background-color: #a68a7d;
+  background-color: rgba(166, 138, 125, 0.4);
   color: #fff;
   padding: 8px 16px;
-  border: none;
+  border: 1px solid black;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -66,9 +76,11 @@ input[type=number] {
   margin: 12px;
 }
 
+a,
 .toggleLabel,
 #fileInput {
   color: #ffffff !important;
+  text-shadow: none !important;
 }
 
 input[type=checkbox] {
