@@ -11,6 +11,12 @@
   padding: 10px;
 }
 
+.backgroundIMG {
+  background-image: url("../assets/wood.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .container {
   max-width: 1200px;
   margin: 0;

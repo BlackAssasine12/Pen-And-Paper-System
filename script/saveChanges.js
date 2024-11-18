@@ -1,5 +1,10 @@
 // saveChanges.js
 
+// Hilfsfunktion zur Ersetzung von Leerzeichen durch Unterstriche
+function sanitizeKey(key) {
+    return key.replace(/\s+/g, '_');
+}
+
 function updateSectionValues(section, sectionId) {
     const specialSections = ['Assassinen_Talente', 'Talente_1', 'Talente_2', 'Handwerkstalente'];
 
@@ -11,14 +16,18 @@ function updateSectionValues(section, sectionId) {
                 section[key] = [];
                 let index = 0;
                 let input;
-                while ((input = document.getElementById(`${sectionId}_${key}_${index}`)) !== null) {
+                const sanitizedKey = sanitizeKey(key);
+                while ((input = document.getElementById(`${sectionId}_${sanitizedKey}_${index}`)) !== null) {
                     section[key].push(parseFloat(input.value));
                     index++;
                 }
             } else {
-                const input = document.getElementById(`${sectionId}_${key}`);
+                const sanitizedKey = sanitizeKey(key);
+                const input = document.getElementById(`${sectionId}_${sanitizedKey}`);
                 if (input) {
-                    section[key] = input.value;
+                    // Überprüfen, ob der Wert eine Zahl ist
+                    const parsedValue = parseFloat(input.value);
+                    section[key] = isNaN(parsedValue) ? input.value : parsedValue;
                 }
             }
         }
@@ -27,12 +36,23 @@ function updateSectionValues(section, sectionId) {
 
 function updateSpecialSection(section, sectionId) {
     section.forEach((item, index) => {
-        const key = item.Name;
+        const key = sanitizeKey(item.Name);
         const input = document.getElementById(`${sectionId}_${key}`);
         if (input) {
-            item.Wert = parseFloat(input.value);
+            const parsedValue = parseFloat(input.value);
+            item.Wert = isNaN(parsedValue) ? input.value : parsedValue;
         }
     });
+}
+
+function updateCharakterInfo(charakterInfo) {
+    for (let key in charakterInfo) {
+        const sanitizedKey = sanitizeKey(key);
+        const input = document.getElementById(`charakterInfo_${sanitizedKey}`);
+        if (input) {
+            charakterInfo[key] = input.value;
+        }
+    }
 }
 
 function saveChanges(data) {
@@ -45,50 +65,48 @@ function saveChanges(data) {
 
     updateCharakterInfo(charakter.charakterInfo);
 
-    if (charakter.fähigkeiten && charakter.fähigkeiten) {
-        if (charakter.fähigkeiten.modifier && charakter.fähigkeiten.modifier) {
-            updateSectionValues(charakter.fähigkeiten.modifier, 'modifier');
+    if (charakter.fähigkeiten) {
+        const fähigkeiten = charakter.fähigkeiten;
+
+        if (fähigkeiten.modifier) {
+            updateSectionValues(fähigkeiten.modifier, 'modifier');
         }
-        if (charakter.werte && charakter.werte) {
+        if (charakter.werte) {
             updateSectionValues(charakter.werte, 'erfahrung');
         }
-        if (charakter.fähigkeiten.sonderwerte && charakter.fähigkeiten.sonderwerte) {
-            updateSectionValues(charakter.fähigkeiten.sonderwerte, 'sonderwerte');
+        if (fähigkeiten.sonderwerte) {
+            updateSectionValues(fähigkeiten.sonderwerte, 'sonderwerte');
         }
-        if (charakter.fähigkeiten.attribute && charakter.fähigkeiten.attribute) {
-            updateSectionValues(charakter.fähigkeiten.attribute, 'attribute');
+        if (fähigkeiten.attribute) {
+            updateSectionValues(fähigkeiten.attribute, 'attribute');
         }
-        if (charakter.fähigkeiten.Assassinen_Talente && charakter.fähigkeiten.Assassinen_Talente) {
-            updateSectionValues(charakter.fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
+        if (fähigkeiten.Assassinen_Talente) {
+            updateSectionValues(fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
         }
-        if (charakter.fähigkeiten.Talente_1 && charakter.fähigkeiten.Talente_1) {
-            updateSectionValues(charakter.fähigkeiten.Talente_1, 'Talente_1');
+        if (fähigkeiten.Talente_1) {
+            updateSectionValues(fähigkeiten.Talente_1, 'Talente_1');
         }
-        if (charakter.fähigkeiten.Talente_2 && charakter.fähigkeiten.Talente_2) {
-            updateSectionValues(charakter.fähigkeiten.Talente_2, 'Talente_2');
+        if (fähigkeiten.Talente_2) {
+            updateSectionValues(fähigkeiten.Talente_2, 'Talente_2');
         }
-        if (charakter.fähigkeiten.KampfBasiswerte && charakter.fähigkeiten.KampfBasiswerte) {
-            updateSectionValues(charakter.fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
+        if (fähigkeiten.KampfBasiswerte) {
+            updateSectionValues(fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
         }
-        if (charakter.fähigkeiten.Kampf_Talente && charakter.fähigkeiten.Kampf_Talente) {
-            updateSectionValues(charakter.fähigkeiten.Kampf_Talente, 'Kampf_Talente');
+        if (fähigkeiten.Kampf_Talente) {
+            updateSectionValues(fähigkeiten.Kampf_Talente, 'Kampf_Talente');
         }
-        if (charakter.fähigkeiten.Handwerkstalente && charakter.fähigkeiten.Handwerkstalente) {
-            updateSectionValues(charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
+        if (fähigkeiten.Handwerkstalente) {
+            updateSectionValues(fähigkeiten.Handwerkstalente, 'Handwerkstalente');
         }
-        if (charakter.Magische_Elemente && charakter.Magische_Elemente) {
+        if (charakter.Magische_Elemente) {
             updateSectionValues(charakter.Magische_Elemente, 'Magische_Elemente');
         }
-        if (charakter.fähigkeiten.Gespeicherte_Kampftalente && charakter.fähigkeiten.Gespeicherte_Kampftalente) {
-            updateSectionValues(charakter.fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
+        if (fähigkeiten.Gespeicherte_Kampftalente) {
+            updateSectionValues(fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
         }
     }
 
-    if (charakter.charakterInfo && charakter.charakterInfo) {
-        updateCharakterInfo(charakter.charakterInfo);
-    }
-
-    if (charakter.geld && charakter.geld) {
+    if (charakter.geld) {
         charakter.geld = { ...wallet };
     }
 

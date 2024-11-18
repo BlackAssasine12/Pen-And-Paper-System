@@ -1,5 +1,5 @@
 // characterAttributes.js
-
+let kampfArr = []
 function generateCharakterAttributes(data) {
     const walletContainer = document.getElementById('WalletContainer');
     const charakterContainer = document.getElementById('charakterContainer');
@@ -67,42 +67,46 @@ function createSection(title, attributes, sectionId) {
         container.classList.add('BigFlexItemContainer');
 
         for (let key in attributes) {
+            const sanitizedKey = key.replace(/\s+/g, '_');
             const flexItem = document.createElement('div');
-            flexItem.classList.add('BigFlexItem');
+            flexItem.classList.add('BigFlexItem', 'ArrayContainer');
 
             flexItem.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}:</label>`;
-            flexItem.classList.add('ArrayContainer');
 
             attributes[key].forEach((value, index) => {
                 flexItem.innerHTML += `
-                    <input class="stg ArrAttributeInput ${sectionId} ${sectionId}_${index}" type="number" value="${value}" id="${sectionId}_${key}_${index}">`;
+                    <input class="stg ArrAttributeInput ${sectionId} ${sectionId}_${sanitizedKey}_${index}" type="number" value="${value}" id="${sectionId}_${sanitizedKey}_${index}">`;
+                kampfArr.push(`${sectionId}_${sanitizedKey}_${index}`)
+
             });
 
             container.appendChild(flexItem);
         }
     } else if (Array.isArray(attributes)) {
         attributes.forEach((attribute) => {
+            const sanitizedName = attribute.Name.replace(/\s+/g, '_');
             const flexItem = document.createElement('div');
             flexItem.classList.add('FlexItem');
 
             let attributeString = `${attribute.Name} (${attribute.Attribute}): `;
             flexItem.innerHTML = `
                 <label>${attributeString}</label>
-                <input class="stg attributeInput ${sectionId}" type="number" value="${attribute.Wert}" id="${sectionId}_${attribute.Name}">
+                <input class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedName}" type="number" value="${attribute.Wert}" id="${sectionId}_${sanitizedName}">
                 <button class="hidebutton">X</button>
             `;
             container.appendChild(flexItem);
         });
     } else {
         for (let key in attributes) {
+            const sanitizedKey = key.replace(/\s+/g, '_');
             const flexItem = document.createElement('div');
             flexItem.classList.add('FlexItem');
-            flexItem.id = `${sectionId}_${key}_Tooltip`;
+            flexItem.id = `${sectionId}_${sanitizedKey}_Tooltip`;
 
             let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
             flexItem.innerHTML = `
                 <label>${attributeString}</label>
-                <input class="stg attributeInput ${sectionId} ${sectionId}_${key}" type="number" value="${attributes[key]}" id="${sectionId}_${key}">
+                <input class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}" type="number" value="${attributes[key]}" id="${sectionId}_${sanitizedKey}">
                 <button class="hidebutton">X</button>
             `;
             container.appendChild(flexItem);
@@ -124,7 +128,6 @@ function addToolTip() {
 }
 
 function MaxValue(level, MB) {
-
     let MaxValue = document.querySelectorAll(".Assassinen_Talente, .Talente_1, .Talente_2, .Handwerkstalente, .Kampf_Talente_2")
     MaxValue.forEach((attribute) => {
         attribute.max = level + 10

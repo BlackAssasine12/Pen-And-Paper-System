@@ -11,6 +11,12 @@
   padding: 10px;
 }
 
+.backgroundIMG {
+  background-image: url("../assets/wood.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 *,
 *::before,
 *::after {
@@ -26,7 +32,7 @@ body {
   line-height: 1.6;
   font-size: 1rem;
   font-weight: bold;
-  background-image: url("../assets/12cf0fe5d5ae08d8f8258407a4741657.jpg");
+  background-image: url("../assets/wood.jpg");
   background-size: cover;
   background-repeat: repeat;
   background-attachment: fixed;
