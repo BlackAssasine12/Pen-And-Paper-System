@@ -67,19 +67,27 @@ function createSection(title, attributes, sectionId) {
         container.classList.add('BigFlexItemContainer');
 
         for (let key in attributes) {
-            const sanitizedKey = key.replace(/\s+/g, '_');
+            const sanitizedKey = key.replace(/\s+/g, '_'); // Ersetze Leerzeichen durch Unterstriche
             const flexItem = document.createElement('div');
             flexItem.classList.add('BigFlexItem', 'ArrayContainer');
 
             flexItem.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}:</label>`;
 
+            // Hier werden die Eingabefelder generiert
             attributes[key].forEach((value, index) => {
+                const inputId = `${sectionId}_${sanitizedKey}_${index}`;
+                const inputClass = `${sectionId}_${index}`;
+
                 flexItem.innerHTML += `
-                    <input class="stg ArrAttributeInput ${sectionId} ${sectionId}_${sanitizedKey}_${index}" type="number" value="${value}" id="${sectionId}_${sanitizedKey}_${index}">`;
-                kampfArr.push(`${sectionId}_${sanitizedKey}_${index}`)
+                    <input 
+                        class="stg ArrAttributeInput ${sectionId} ${inputClass}" 
+                        type="number" 
+                        value="${value}" 
+                        id="${inputId}">
+                `;
+            kampfArr.push(`${sectionId}_${sanitizedKey}_${index}`)
 
             });
-
             container.appendChild(flexItem);
         }
     } else if (Array.isArray(attributes)) {
@@ -91,7 +99,11 @@ function createSection(title, attributes, sectionId) {
             let attributeString = `${attribute.Name} (${attribute.Attribute}): `;
             flexItem.innerHTML = `
                 <label>${attributeString}</label>
-                <input class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedName}" type="number" value="${attribute.Wert}" id="${sectionId}_${sanitizedName}">
+                <input 
+                    class="stg attributeInput ${sectionId}" 
+                    type="number" 
+                    value="${attribute.Wert}" 
+                    id="${sectionId}_${sanitizedName}">
                 <button class="hidebutton">X</button>
             `;
             container.appendChild(flexItem);
@@ -106,7 +118,11 @@ function createSection(title, attributes, sectionId) {
             let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
             flexItem.innerHTML = `
                 <label>${attributeString}</label>
-                <input class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}" type="number" value="${attributes[key]}" id="${sectionId}_${sanitizedKey}">
+                <input 
+                    class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}" 
+                    type="number" 
+                    value="${attributes[key]}" 
+                    id="${sectionId}_${sanitizedKey}">
                 <button class="hidebutton">X</button>
             `;
             container.appendChild(flexItem);
@@ -114,6 +130,7 @@ function createSection(title, attributes, sectionId) {
     }
     return container;
 }
+
 
 function addToolTip() {
     const ids = ['Magische_Elemente_Schatten_Tooltip', 'Magische_Elemente_Licht_Tooltip', 'Magische_Elemente_Holz_Tooltip', 'Magische_Elemente_Metall_Tooltip', 'Magische_Elemente_Eis_Tooltip', 'Magische_Elemente_Leben_Tooltip', 'Magische_Elemente_Nekromantie_Tooltip', 'Magische_Elemente_Blitz_Tooltip', 'Magische_Elemente_Gravitation_Tooltip', 'Magische_Elemente_Erschaffung_Tooltip', 'Magische_Elemente_Raumzeit_Tooltip', "Magische_Elemente_Gift_Tooltip"];
