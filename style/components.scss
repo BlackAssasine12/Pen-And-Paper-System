@@ -16,6 +16,31 @@ div {
   @extend .textShadow;
 }
 
+#divDice {
+
+  input,
+  select {
+    padding: $spacing-small;
+    border: none;
+    border-bottom: $border-color 4px solid;
+    border-radius: 4px;
+    font-size: $font-medium;
+    background-color: $rd_color;
+    width: 220px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+
+    input {
+      margin-right: 5px;
+    }
+  }
+}
+
+
+
 button {
   background-color: $primary-colorRGB;
   color: #fff;
@@ -53,7 +78,6 @@ select {
   font-size: $font-medium;
   background-color: $input_color;
   width: 220px;
-
 }
 
 input[type="number"] {

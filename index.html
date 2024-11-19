@@ -98,12 +98,12 @@
 
                     <div id="divDice" style="display: none;">
                         <div class="container">
-                            <input class="FlexInputs" type="number" id="DiceCount" placeholder="Dice Count" value="20">
-                            <input class="FlexInputs" type="number" id="DiceSides" placeholder="Dice Sides" value="20">
+                            <input class="FlexInputs" type="number" id="DiceCount" placeholder="Dice Count" value="">
+                            <input class="FlexInputs" type="number" id="DiceSides" placeholder="Dice Sides" value="" style="display: none;">
                             <select name="ChooseDice" id="Dicer" onchange="DiceChooser()">
                                 <option value="custom" id="custom">Custom</option>
                                 <option value="d100" id="d100">d100</option>
-                                <option value="d20" id="d20">d20</option>
+                                <option value="d20" id="d20" selected>d20</option>
                                 <option value="d10" id="d10">d10</option>
                                 <option value="d6" id="d6">d6</option>
                             </select>
@@ -114,33 +114,33 @@
                 </form>
             </div>
 
-            <div id="container" style="display: none;">
+            <div id="container" style="display: grid;">
 
-                <div class="calc" onclick="InToHTML(7)">7</div>
-                <div class="calc" onclick="InToHTML(8)">8</div>
-                <div class="calc" onclick="InToHTML(9)">9</div>
-                <div class="calc" onclick="InToHTML('/')" id="divided">/</div>
+                <div class="calc" onclick="InToHTML(7)"><p>7</p></div>
+                <div class="calc" onclick="InToHTML(8)"><p>8</p></div>
+                <div class="calc" onclick="InToHTML(9)"><p>9</p></div>
+                <div class="calc" onclick="InToHTML('/')" id="divided"><p>/</p></div>
 
-                <div class="calc" onclick="InToHTML(4)">4</div>
-                <div class="calc" onclick="InToHTML(5)">5</div>
-                <div class="calc" onclick="InToHTML(6)">6</div>
-                <div class="calc" onclick="InToHTML('*')" id="multiplied">*</div>
+                <div class="calc" onclick="InToHTML(4)"><p>4</p></div>
+                <div class="calc" onclick="InToHTML(5)"><p>5</p></div>
+                <div class="calc" onclick="InToHTML(6)"><p>6</p></div>
+                <div class="calc" onclick="InToHTML('*')" id="multiplied"><p>*</p></div>
 
-                <div class="calc" onclick="InToHTML(1)">1</div>
-                <div class="calc" onclick="InToHTML(2)">2</div>
-                <div class="calc" onclick="InToHTML(3)">3</div>
+                <div class="calc" onclick="InToHTML(1)"><p>1</p></div>
+                <div class="calc" onclick="InToHTML(2)"><p>2</p></div>
+                <div class="calc" onclick="InToHTML(3)"><p>3</p></div>
 
-                <div class="calc" onclick="InToHTML('+')" id="plus">+</div>
-                <div class="calc" onclick="clearEqField()" id="clear">C</div>
-                <div class="calc" onclick="InToHTML(0)">0</div>
-                <div class="calc" onclick="InToHTML('-')" id="minus">-</div>
+                <div class="calc" onclick="InToHTML('+')" id="plus"><p>+</p></div>
+                <div class="calc" onclick="clearEqField()" id="clear"><p>C</p></div>
+                <div class="calc" onclick="InToHTML(0)"><p>0</p></div>
+                <div class="calc" onclick="InToHTML('-')" id="minus"><p>-</p></div>
 
-                <div class="calc" id="equals" onclick="calculate()">=</div>
+                <div class="calc" id="equals" onclick="calculate()"><p>=</p></div>
 
                 <div class="calc" id="dragfield"></div>
-                <div class="calc" onclick="InToHTML('.')" id="point">,</div>
-                <div class="calc" id="back"></div>
-                <div class="calc" id=""></div>
+                <div class="calc" onclick="InToHTML('.')" id="point"><p>,</p></div>
+                <div class="calc"></div>
+                <div class="calc"></div>
                 <div id="FieldContainer">
                     <div id="eqField"></div>
                     <div id="evField"></div>

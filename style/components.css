@@ -28,6 +28,24 @@ h6 {
   font-size: 24px;
 }
 
+#divDice input,
+#divDice select {
+  padding: 8px;
+  border: none;
+  border-bottom: #1f110a 4px solid;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  width: 220px;
+}
+#divDice .container {
+  display: flex;
+  flex-direction: row;
+}
+#divDice .container input {
+  margin-right: 5px;
+}
+
 button {
   background-color: rgba(166, 138, 125, 0.4);
   color: #fff;

@@ -15,4 +15,53 @@
   background-image: url("../assets/wood.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+#dragfield {
+  background-color: #a68a7d;
+}
+
+#container {
+  position: absolute;
+  grid-template-columns: repeat(4, 60px);
+  grid-template-rows: repeat(4, 60px);
+  gap: 2px;
+}
+
+div.calc {
+  width: 60px;
+  height: 60px;
+  padding-bottom: auto;
+  border: solid #ffffff 2px;
+  border-radius: 5px;
+  background-color: #98825f;
+  font-size: 40px;
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+div.calc:hover {
+  background-color: #ffffff;
+  color: #36251b;
+}
+
+#FieldContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+div#eqField,
+#evField {
+  display: flex;
+  width: 248px;
+  height: 60px;
+  border: solid #ffffff 2px;
+  border-radius: 5px;
+  background-color: #666666;
+  font-size: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }/*# sourceMappingURL=variables.css.map */

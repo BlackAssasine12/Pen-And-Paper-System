@@ -1,11 +1,10 @@
 // Farben
 $primary-color: #a68a7d;
-$primary-color: #a68a7d;
-$primary-colorRGB: rgba(166,138,125, 0.4);
+$primary-colorRGB: rgba(166, 138, 125, 0.4);
 $secondary-color: #666666;
 $background-color: #e1d4b7;
 $text-color: #36251b;
-$rd_color:#ffffff;
+$rd_color: #ffffff;
 
 $border-color: #1f110a;
 $input_color: transparent;
@@ -20,10 +19,12 @@ $font-medium: 1rem;
 $font-large: 1.25rem;
 $basic_font: "Quintessential", serif;
 
-$text-shadow: 2px 2px 0px rgba(235,220,181, 1);
+$text-shadow: 2px 2px 0px rgba(235, 220, 181, 1);
+
 .textShadow {
-   text-shadow: $text-shadow;
+    text-shadow: $text-shadow;
 }
+
 .card {
     background-image: url("../assets/pappenheimer.jpg");
     background-size: cover;
@@ -32,8 +33,60 @@ $text-shadow: 2px 2px 0px rgba(235,220,181, 1);
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px;
 }
+
 .backgroundIMG {
     background-image: url("../assets/wood.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+
+#dragfield {
+    background-color: $primary-color;
+}
+
+#container {
+    position: absolute;
+    grid-template-columns: repeat(4, 60px);
+    grid-template-rows: repeat(4, 60px);
+    gap: 2px;
+}
+
+div.calc {
+    width: 60px;
+    height: 60px;
+    padding-bottom: auto;
+    border: solid $rd_color 2px;
+    border-radius: 5px;
+    background-color: #98825f;
+    font-size: 40px;
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+}
+
+div.calc:hover {
+    background-color: $rd_color;
+    color: $text-color;
+}
+
+#FieldContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+div#eqField,
+#evField {
+    display: flex;
+    width: 248px;
+    height: 60px;
+    border: solid $rd_color 2px;
+    border-radius: 5px;
+    background-color: $secondary-color;
+    font-size: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
