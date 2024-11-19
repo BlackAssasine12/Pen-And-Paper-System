@@ -125,7 +125,7 @@ function autoSkillVerteilung() {
     const aktuellerWert2 = parseInt(element2.value, 10) || 0;
     switch (true) {
       case Schild.includes(element1.id):
-        element1.value = aktuellerWert1 + wert3 + PABasiswert;
+        element2.value = aktuellerWert1 + wert3 + PABasiswert;
         break;
       case Wurfwaffen.includes(element1.id):
         element1.value = aktuellerWert1 + wert3 + WurfBasiswert;
