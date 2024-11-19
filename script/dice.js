@@ -1,3 +1,4 @@
+//dice.js
 "use strict";
 
 function toggleDiv() {
@@ -12,7 +13,6 @@ function Roll() {
     let DiceCount = parseInt(document.getElementById("DiceCount").value);
     let DiceSide = parseInt(document.getElementById("DiceSides").value);
     let resultTotal = "";
-
     const container = document.getElementById("container");
     const showDice = document.getElementById("showDice");
 
@@ -23,12 +23,10 @@ function Roll() {
         } else {
             container.style.display = "none";
         }
-        return;  // Exit the function early since we only want to toggle visibility in this case
+        return;
     }
 
-    // Clear the showDice container before adding new results
     showDice.innerHTML = "";
-
     for (let i = 0; i < DiceCount; i++) {
         let result = Math.floor(Math.random() * DiceSide) + 1;
         const resultContainer = createOctagon(result, DiceSide);
@@ -47,14 +45,13 @@ function zuTaschenrechner() {
     const container = document.getElementById("container");
     const showDice = document.getElementById("showDice");
 
-    // Toggle the container visibility if DiceCount is 666
     if (DiceCount === 666) {
         if (container.style.display === "none") {
             container.style.display = "grid";
         } else {
             container.style.display = "none";
         }
-        return; 
+        return;
     }
 
     showDice.innerHTML = "";
@@ -99,7 +96,7 @@ function createOctagon(result, DiceSide) {
     const polygon = document.createElementNS(svgNS, "polygon");
     polygon.setAttribute("points", "30,5 70,5 95,30 95,70 70,95 30,95 5,70 5,30");
     polygon.setAttribute("stroke", "black");
-    polygon.setAttribute("stroke-width", "5"); 
+    polygon.setAttribute("stroke-width", "5");
     polygon.setAttribute("fill", "white");
 
     svg.appendChild(polygon);
