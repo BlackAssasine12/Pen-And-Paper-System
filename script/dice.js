@@ -54,10 +54,9 @@ function zuTaschenrechner() {
         } else {
             container.style.display = "none";
         }
-        return;  // Exit the function early since we only want to toggle visibility in this case
+        return; 
     }
 
-    // Clear the showDice container before adding new results
     showDice.innerHTML = "";
 
     for (let i = 0; i < DiceCount; i++) {
@@ -131,28 +130,30 @@ function DiceChooser() {
     let Dicer = document.getElementById("Dicer");
     let cDicer = Dicer.options[Dicer.selectedIndex].value;
     let divDS = document.getElementById("DiceSides");
+    let diceSidesInput = document.getElementById("DiceSides");
 
-    if (cDicer === "d100") {
-        parseInt(document.getElementById("DiceSides").value = 100);
-        divDS.style.display = "none"
-    } else {
-        if (cDicer === "d20") {
-            parseInt(document.getElementById("DiceSides").value = 20);
-            divDS.style.display = "none"
-        } else {
-            if (cDicer === "d10") {
-                parseInt(document.getElementById("DiceSides").value = 10);
-                divDS.style.display = "none"
-            } else {
-                if (cDicer === "d6") {
-                    parseInt(document.getElementById("DiceSides").value = 6);
-                    divDS.style.display = "none"
-                } else {
-                    if (cDicer === "custom") {
-                        divDS.style.display = "block"
-                    }
-                }
-            }
-        }
+    switch (cDicer) {
+        case "d100":
+            diceSidesInput.value = 100;
+            divDS.style.display = "none";
+            break;
+        case "d20":
+            diceSidesInput.value = 20;
+            divDS.style.display = "none";
+            break;
+        case "d10":
+            diceSidesInput.value = 10;
+            divDS.style.display = "none";
+            break;
+        case "d6":
+            diceSidesInput.value = 6;
+            divDS.style.display = "none";
+            break;
+        case "custom":
+            divDS.style.display = "block";
+            break;
+        default:
+            console.error("Unbekannte Auswahl: " + cDicer);
     }
 }
+DiceChooser()
