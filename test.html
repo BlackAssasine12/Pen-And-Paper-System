@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamischer Shop</title>
+</head>
+
+<body>
+    <h1>Reise-Shop</h1>
+    <div id="shop"></div>
+    <h2>Inventar</h2>
+    <ul id="inventory"></ul>
+
+    <script>
+        let inventory = [];
+        let shopData = {};
+
+        // Funktion, um Shop-Daten zu laden
+        async function loadShopData() {
+            try {
+                const response = await fetch("shopData.json");
+                if (!response.ok) {
+                    throw new Error(`Fehler beim Laden der Shop-Daten: ${response.statusText}`);
+                }
+                shopData = await response.json();
+                renderShop();
+            } catch (error) {
+                console.error("Fehler beim Laden der Shop-Daten:", error);
+            }
+        }
+
+        // Shop anzeigen
+        function renderShop() {
+            const shopDiv = document.getElementById("shop");
+            shopDiv.innerHTML = "";
+
+            for (const category in shopData) {
+                const categoryDiv = document.createElement("div");
+                categoryDiv.innerHTML = `<h3>${category}</h3>`;
+                shopData[category].forEach(item => {
+                    const itemDiv = document.createElement("div");
+                    itemDiv.innerHTML = `
+                        <p>${item.Item} - ${item.Preis} ${item.Währung}</p>
+                        <button onclick="addToInventory('${item.Item}')">Kaufen</button>
+                    `;
+                    categoryDiv.appendChild(itemDiv);
+                });
+                shopDiv.appendChild(categoryDiv);
+            }
+        }
+
+        // Artikel zum Inventar hinzufügen
+        function addToInventory(item) {
+            inventory.push({ item });
+            renderInventory();
+        }
+
+        // Inventar anzeigen
+        function renderInventory() {
+            const inventoryList = document.getElementById("inventory");
+            inventoryList.innerHTML = "";
+            inventory.forEach(entry => {
+                const listItem = document.createElement("li");
+                listItem.classList.add(`${entry.item}`)
+                let Item = document.querySelector(`.${entry.item}`)
+                console.log(item)
+                if (Item) {
+                    listItem.innerText += "1"
+                }
+                listItem.innerText = `${entry.item}`;
+                inventoryList.appendChild(listItem);
+            });
+        }
+
+        // Daten laden und Shop initialisieren
+        loadShopData();
+    </script>
+</body>
+
+</html>
