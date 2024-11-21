@@ -14,6 +14,14 @@
     <ul id="inventory"></ul>
 
     <script>
+        let wallet = {
+            dukaten: 100,
+            silber: 100,
+            heller: 100,
+            kreuzer: 100,
+            wInsg: 0
+        };
+
         let inventory = [];
         let shopData = {};
 
@@ -43,7 +51,7 @@
                     const itemDiv = document.createElement("div");
                     itemDiv.innerHTML = `
                         <p>${item.Item} - ${item.Preis} ${item.Währung}</p>
-                        <button onclick="addToInventory('${item.Item}')">Kaufen</button>
+                        <button onclick="addToInventory('${item.Item}','${item.Preis}','${item.Währung}')">Kaufen</button>
                     `;
                     categoryDiv.appendChild(itemDiv);
                 });
@@ -52,8 +60,38 @@
         }
 
         // Artikel zum Inventar hinzufügen
-        function addToInventory(item) {
-            inventory.push({ item });
+        function addToInventory(itemName, itemPreis, itemWärung) {
+            let preis = Math.round(itemPreis * 100) / 100;
+            console.log(itemName, itemPreis, itemWärung)
+            console.log(itemPreis)
+            switch (itemWärung) {
+                case "Dukaten":
+                    wallet.dukaten -= preis
+                    console.log(itemWärung, wallet)
+                    break;
+                case "Silberlinge":
+                    wallet.silber -= preis
+                    console.log(itemWärung, wallet)
+                    break;
+                case "Heller":
+                    wallet.heller -= preis
+                    console.log(itemWärung, wallet)
+                    break;
+                case "Kreuzer":
+                    wallet.kreuzer -= preis
+                    console.log(itemWärung, wallet)
+                    break;
+                default:
+                    console.log("falsche wärung")
+                    break;
+            }
+            // Prüfen, ob der Artikel schon existiert
+            const existingItem = inventory.find(entry => entry.name === itemName);
+            if (existingItem) {
+                existingItem.count++;
+            } else {
+                inventory.push({ name: itemName, count: 1 });
+            }
             renderInventory();
         }
 
@@ -63,14 +101,10 @@
             inventoryList.innerHTML = "";
             inventory.forEach(entry => {
                 const listItem = document.createElement("li");
-                listItem.classList.add(`${entry.item}`)
-                let Item = document.querySelector(`.${entry.item}`)
-                console.log(item)
-                if (Item) {
-                    listItem.innerText += "1"
-                }
-                listItem.innerText = `${entry.item}`;
+                listItem.textContent = `${entry.name} - ${entry.count}x`;
                 inventoryList.appendChild(listItem);
+                // console.log(inventory)
+                // console.log(shopData)
             });
         }
 
