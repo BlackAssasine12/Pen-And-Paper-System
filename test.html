@@ -33,6 +33,7 @@
                     throw new Error(`Fehler beim Laden der Shop-Daten: ${response.statusText}`);
                 }
                 shopData = await response.json();
+                console.log(shopData)
                 renderShop();
             } catch (error) {
                 console.error("Fehler beim Laden der Shop-Daten:", error);

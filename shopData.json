@@ -2,119 +2,119 @@
     "Waffenzubehör": [
         {
             "Item": "Schwertgürtel",
-            "Preis": "40.15",
+            "Preis": 40.15,
             "Währung": "Silberlinge"
         },
         {
             "Item": "Beingurt",
-            "Preis": "15.5",
+            "Preis": 15.5,
             "Währung": "Silberlinge"
         },
         {
             "Item": "Dolchscheide",
-            "Preis": "10.8",
+            "Preis": 10.8,
             "Währung": "Silberlinge"
         }
     ],
     "Beleuchtung": [
         {
             "Item": "Kerze, 1 Spann",
-            "Preis": "2.1",
+            "Preis": 2.1,
             "Währung": "Heller"
         },
         {
             "Item": "Pechfackel",
-            "Preis": "20.5",
+            "Preis": 20.5,
             "Währung": "Heller"
         },
         {
             "Item": "Öllampe",
-            "Preis": "15.3",
+            "Preis": 15.3,
             "Währung": "Silberlinge"
         }
     ],
     "Behälter": [
         {
             "Item": "Lederrucksack, 15 Stein",
-            "Preis": "40.4",
+            "Preis": 40.4,
             "Währung": "Silberlinge"
         },
         {
             "Item": "Gürteltaschen",
-            "Preis": "5.5",
+            "Preis": 5.5,
             "Währung": "Heller"
         },
         {
             "Item": "Pergamenthülle",
-            "Preis": "2.2",
+            "Preis": 2.2,
             "Währung": "Silberlinge"
         }
     ],
     "Koch- und Essgeschirr": [
         {
             "Item": "Trinkbecher, Holz",
-            "Preis": "2.3",
+            "Preis": 2.3,
             "Währung": "Heller"
         },
         {
             "Item": "Teller, Holz",
-            "Preis": "4.4",
+            "Preis": 4.4,
             "Währung": "Heller"
         },
         {
             "Item": "Eisenpfanne, 1 Spann",
-            "Preis": "40.4",
+            "Preis": 40.4,
             "Währung": "Silberlinge"
         }
     ],
     "Werkzeug": [
         {
             "Item": "Messer",
-            "Preis": "10.5",
+            "Preis": 10.5,
             "Währung": "Silberlinge"
         },
         {
             "Item": "Hammer",
-            "Preis": "20.6",
+            "Preis": 20.6,
             "Währung": "Silberlinge"
         },
         {
             "Item": "Brecheisen",
-            "Preis": "90.10",
+            "Preis": 90.10,
             "Währung": "Silberlinge"
         }
     ],
     "Sonstiger Reisebedarf": [
         {
             "Item": "Zelt, 2 Personen",
-            "Preis": "60.2",
+            "Preis": 60.2,
             "Währung": "Dukaten"
         },
         {
             "Item": "Wolldecke",
-            "Preis": "60.2",
+            "Preis": 60.2,
             "Währung": "Silberlinge"
         },
         {
             "Item": "Schlafsack",
-            "Preis": "1",
+            "Preis": 1,
             "Währung": "Dukaten"
         }
     ],
     "Essen": [
         {
             "Item": "Proviant, pro Tag",
-            "Preis": "40.3",
+            "Preis": 40.3,
             "Währung": "Silberlinge"
         },
         {
             "Item": "Brot",
-            "Preis": "40.15",
+            "Preis": 40.15,
             "Währung": "Kreuzer"
         },
         {
             "Item": "Weißbrot",
-            "Preis": "40.3",
+            "Preis": 40.3,
             "Währung": "Heller"
         }
     ]

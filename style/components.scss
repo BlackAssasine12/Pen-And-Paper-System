@@ -107,3 +107,13 @@ input[type="checkbox"] {
   align-items: center;
   flex-direction: column;
 }
+
+#shop {
+  overflow: scroll;
+  max-height: 550px;
+  scrollbar-width: none;
+}
+
+#wReset:hover {
+  background-color: red;
+}
