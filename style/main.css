@@ -1,5 +1,5 @@
 @charset "UTF-8";
-.textShadow, div, h6, label {
+.textShadow, #ShopButton, div, h6, label {
   text-shadow: 2px 2px 0px rgb(235, 220, 181);
 }
 
@@ -30,6 +30,7 @@
 }
 
 div.calc {
+  display: flex;
   width: 60px;
   height: 60px;
   padding-bottom: auto;
@@ -67,7 +68,19 @@ div#eqField,
   transition: background-color 0.3s;
 }
 
-.textShadow, div, h6, label {
+.disNone {
+  display: none;
+}
+
+.disFlex {
+  display: flex;
+}
+
+.disBlock {
+  display: block;
+}
+
+.textShadow, #ShopButton, div, h6, label {
   text-shadow: 2px 2px 0px rgb(235, 220, 181);
 }
 
@@ -98,6 +111,7 @@ div#eqField,
 }
 
 div.calc {
+  display: flex;
   width: 60px;
   height: 60px;
   padding-bottom: auto;
@@ -133,6 +147,18 @@ div#eqField,
   text-align: center;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.disNone {
+  display: none;
+}
+
+.disFlex {
+  display: flex;
+}
+
+.disBlock {
+  display: block;
 }
 
 *,
@@ -162,7 +188,7 @@ select {
   font-family: inherit;
 }
 
-.textShadow, div, h6, label {
+.textShadow, #ShopButton, div, h6, label {
   text-shadow: 2px 2px 0px rgb(235, 220, 181);
 }
 
@@ -193,6 +219,7 @@ select {
 }
 
 div.calc {
+  display: flex;
   width: 60px;
   height: 60px;
   padding-bottom: auto;
@@ -228,6 +255,18 @@ div#eqField,
   text-align: center;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.disNone {
+  display: none;
+}
+
+.disFlex {
+  display: flex;
+}
+
+.disBlock {
+  display: block;
 }
 
 .container {
@@ -306,7 +345,7 @@ label {
   justify-content: space-between;
 }
 
-.textShadow, div, h6, label {
+.textShadow, #ShopButton, div, h6, label {
   text-shadow: 2px 2px 0px rgb(235, 220, 181);
 }
 
@@ -337,6 +376,7 @@ label {
 }
 
 div.calc {
+  display: flex;
   width: 60px;
   height: 60px;
   padding-bottom: auto;
@@ -372,6 +412,18 @@ div#eqField,
   text-align: center;
   cursor: pointer;
   transition: background-color 0.3s;
+}
+
+.disNone {
+  display: none;
+}
+
+.disFlex {
+  display: flex;
+}
+
+.disBlock {
+  display: block;
 }
 
 label {
@@ -463,12 +515,32 @@ input[type=checkbox] {
   flex-direction: column;
 }
 
+#ShopContainer {
+  height: 508px;
+}
+
 #shop {
   overflow: scroll;
-  max-height: 550px;
   scrollbar-width: none;
 }
 
 #wReset:hover {
   background-color: red;
+}
+
+.ShopHead {
+  align-items: center;
+  justify-content: space-between;
+}
+
+#ShopButton {
+  display: flex;
+  width: 38px;
+  height: 38px;
+  margin: 13px;
+  font-weight: bold;
+  color: #36251b;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
 }/*# sourceMappingURL=main.css.map */

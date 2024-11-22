@@ -85,3 +85,11 @@ function renderInventory() {
 }
 
 loadShopData();
+
+let shopButton = document.getElementById("ShopButton")
+let shopContainer = document.getElementById("shop")
+
+shopButton.addEventListener('click', () => {
+    shopContainer.classList.toggle("disNone");
+    shopButton.textContent = shopButton.innerHTML === '-' ? '+' : '-';
+});

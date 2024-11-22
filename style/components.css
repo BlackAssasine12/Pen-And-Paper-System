@@ -1,5 +1,5 @@
 @charset "UTF-8";
-.textShadow, div, h6, label {
+.textShadow, #ShopButton, div, h6, label {
   text-shadow: 2px 2px 0px rgb(235, 220, 181);
 }
 
@@ -29,42 +29,16 @@
   gap: 2px;
 }
 
-div.calc {
-  width: 60px;
-  height: 60px;
-  padding-bottom: auto;
-  border: solid #ffffff 2px;
-  border-radius: 5px;
-  background-color: #98825f;
-  font-size: 40px;
-  text-align: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.disNone {
+  display: none;
 }
 
-div.calc:hover {
-  background-color: #ffffff;
-  color: #36251b;
-}
-
-#FieldContainer {
+.disFlex {
   display: flex;
-  flex-direction: column;
 }
 
-div#eqField,
-#evField {
-  display: flex;
-  width: 248px;
-  height: 60px;
-  border: solid #ffffff 2px;
-  border-radius: 5px;
-  background-color: #666666;
-  font-size: 40px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.disBlock {
+  display: block;
 }
 
 label {
@@ -156,12 +130,71 @@ input[type=checkbox] {
   flex-direction: column;
 }
 
+#ShopContainer {
+  height: 508px;
+}
+
 #shop {
   overflow: scroll;
-  max-height: 550px;
   scrollbar-width: none;
 }
 
 #wReset:hover {
   background-color: red;
+}
+
+.ShopHead {
+  align-items: center;
+  justify-content: space-between;
+}
+
+#ShopButton {
+  display: flex;
+  width: 38px;
+  height: 38px;
+  margin: 13px;
+  font-weight: bold;
+  color: #36251b;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+div.calc {
+  display: flex;
+  width: 60px;
+  height: 60px;
+  padding-bottom: auto;
+  border: solid #ffffff 2px;
+  border-radius: 5px;
+  background-color: #98825f;
+  font-size: 40px;
+  text-align: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+div.calc:hover {
+  background-color: #ffffff;
+  color: #36251b;
+}
+
+#FieldContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+div#eqField,
+#evField {
+  display: flex;
+  width: 248px;
+  height: 60px;
+  border: solid #ffffff 2px;
+  border-radius: 5px;
+  background-color: #666666;
+  font-size: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }/*# sourceMappingURL=components.css.map */
