@@ -110,6 +110,8 @@ function saveChanges(data) {
         charakter.geld = { ...wallet };
     }
 
+    data.inventory = inventory; // inventory ist dein bestehendes Objekt
+
     const jsonString = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
 
@@ -119,4 +121,15 @@ function saveChanges(data) {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+}
+
+function saveInventory() {
+    const inventory = [];
+    const items = document.querySelectorAll('#inventory li');
+    items.forEach(item => {
+        const text = item.textContent;
+        const [name, quantity] = text.split(' - ');
+        inventory.push({ name, quantity: parseInt(quantity.replace('x', '')) });
+    });
+    return inventory;
 }

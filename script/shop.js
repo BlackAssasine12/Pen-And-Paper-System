@@ -36,33 +36,56 @@ function renderShop() {
     }
 }
 
-// Artikel zum Inventar hinzufügen
+function removeFromInventory(itemName, count = 1) {
+    const existingItem = inventory.find(entry => entry.name === itemName);
+    if (existingItem) {
+        if (existingItem.count > count) {
+            existingItem.count -= count;
+        } else {
+            inventory = inventory.filter(entry => entry.name !== itemName);
+        }
+        renderInventory();
+    } else {
+        alert("Artikel nicht im Inventar gefunden.");
+    }
+}
+
+// Funktionen für Benutzeraktionen im HTML
+function addToInventoryFromInput() {
+    const itemName = document.getElementById("itemNameInput").value.trim();
+    if (itemName) {
+        addToInventory(itemName, 0, ""); // Preis und Währung hier nicht relevant
+    } else {
+        alert("Bitte einen gültigen Artikelnamen eingeben.");
+    }
+}
+
+function removeFromInventoryFromInput() {
+    const itemName = document.getElementById("itemNameInput").value.trim();
+    if (itemName) {
+        removeFromInventory(itemName);
+    } else {
+        alert("Bitte einen gültigen Artikelnamen eingeben.");
+    }
+}
+
+// Bestehende Funktion für das Hinzufügen angepasst
 function addToInventory(itemName, itemPreis, itemWärung) {
     let preis = Math.round(itemPreis * 100) / 100;
-    console.log(itemName, itemPreis, itemWärung)
-    console.log(itemPreis)
     switch (itemWärung) {
         case "Dukaten":
-            wallet.dukaten -= preis
-            console.log(itemWärung, wallet)
+            wallet.dukaten -= preis;
             break;
         case "Silberlinge":
-            wallet.silber -= preis
-            console.log(itemWärung, wallet)
+            wallet.silber -= preis;
             break;
         case "Heller":
-            wallet.heller -= preis
-            console.log(itemWärung, wallet)
+            wallet.heller -= preis;
             break;
         case "Kreuzer":
-            wallet.kreuzer -= preis
-            console.log(itemWärung, wallet)
-            break;
-        default:
-            console.log("falsche wärung")
+            wallet.kreuzer -= preis;
             break;
     }
-    // Prüfen, ob der Artikel schon existiert
     const existingItem = inventory.find(entry => entry.name === itemName);
     if (existingItem) {
         existingItem.count++;
@@ -72,7 +95,7 @@ function addToInventory(itemName, itemPreis, itemWärung) {
     renderInventory();
 }
 
-// Inventar anzeigen
+// Funktion zum Anzeigen des Inventars
 function renderInventory() {
     const inventoryList = document.getElementById("inventory");
     inventoryList.innerHTML = "";
@@ -80,8 +103,8 @@ function renderInventory() {
         const listItem = document.createElement("li");
         listItem.textContent = `${entry.name} - ${entry.count}x`;
         inventoryList.appendChild(listItem);
-        updateWalletDisplay()
     });
+    updateWalletDisplay();
 }
 
 loadShopData();

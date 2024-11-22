@@ -80,6 +80,17 @@
                     <button type="submit" id="wReset" onclick="wReset()" style="margin-top: 20px;">Reset
                         Wallet</button>
             </div>
+        </div>
+
+        </form>
+        <div id="FileReaderInOutput">
+            <input type="file" id="fileInput">
+            <div id="charakterContainer"></div>
+            <button id="saveButton">Speichern</button>
+            <a href="./charbogen/charakter.json" download="charakter.json">Neue JSON-Datei herunterladen</a>
+        </div>
+
+        <div class="Rowflex">
             <div class="FlexItemContainer BigFlexItemContainer" id="ShopContainer">
                 <span class="Rowflex ShopHead">
                     <h1>Reise-Shop</h1>
@@ -92,16 +103,12 @@
             <div class="FlexItemContainer BigFlexItemContainer" id="InvContainer">
                 <h2>Inventar</h2>
                 <ul id="inventory"></ul>
+                <div id="inventoryControls">
+                    <input type="text" id="itemNameInput" placeholder="Artikelname">
+                    <button onclick="addToInventoryFromInput()">Hinzufügen</button>
+                    <button onclick="removeFromInventoryFromInput()">Entfernen</button>
+                </div>
             </div>
-        </div>
-
-        </form>
-
-        <div id="FileReaderInOutput">
-            <input type="file" id="fileInput">
-            <div id="charakterContainer"></div>
-            <button id="saveButton">Speichern</button>
-            <a href="./charbogen/charakter.json" download="charakter.json">Neue JSON-Datei herunterladen</a>
         </div>
 
         <div id="Würfelsektion">
