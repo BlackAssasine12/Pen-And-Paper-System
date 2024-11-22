@@ -16,6 +16,23 @@
             "Währung": "Silberlinge"
         }
     ],
+    "Munition": [
+        {
+            "Item": "Pfeile",
+            "Preis": 5,
+            "Währung": "Heller"
+        },
+        {
+            "Item": "Bolzen",
+            "Preis": 8,
+            "Währung": "Heller"
+        },
+        {
+            "Item": "Wurfmesser",
+            "Preis": 8,
+            "Währung": "Silber"
+        }
+    ],
     "Beleuchtung": [
         {
             "Item": "Kerze, 1 Spann",
