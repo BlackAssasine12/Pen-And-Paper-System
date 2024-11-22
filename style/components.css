@@ -162,6 +162,9 @@ input[type=checkbox] {
 
 div.calc {
   display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
   width: 60px;
   height: 60px;
   padding-bottom: auto;
@@ -169,10 +172,7 @@ div.calc {
   border-radius: 5px;
   background-color: #98825f;
   font-size: 40px;
-  text-align: center;
-  justify-content: center;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 div.calc:hover {
