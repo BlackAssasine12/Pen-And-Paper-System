@@ -70,3 +70,21 @@ document.getElementById('toggleHiddenCheckbox').addEventListener('change', funct
         hiddenContainer.style.display = 'flex';
     }
 });
+
+function setInputsToMinOrMax(isMin) {
+    // Alle Eingabefelder mit min und max finden
+    const inputs = document.querySelectorAll('input[min][max]');
+    
+    inputs.forEach(input => {
+      const min = parseFloat(input.min);
+      const max = parseFloat(input.max);
+      // Setze den Wert je nach Auswahl
+      input.value = isMin ? min : max;
+    });
+
+    alert(`Alle Eingaben wurden auf ${isMin ? 'Min' : 'Max'} gesetzt.`);
+  }
+
+  // Event-Listener für Buttons
+  document.getElementById('setMin').addEventListener('click', () => setInputsToMinOrMax(true));
+  document.getElementById('setMax').addEventListener('click', () => setInputsToMinOrMax(false));
