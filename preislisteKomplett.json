@@ -1,1788 +1,2124 @@
 {
-    "document": {
-        "title": "Gesamt-Preisliste für DSA 4.0 und 4.1",
-        "created_by": "Lars Hofmann",
-        "based_on": [
-            "Das schwarze Auge - Meisterschirm für die 4. Edition - Spielhilfe",
-            "Efferds Wogen",
-            "Katakomben und Kavernen",
-            "Handelsherr und Kiepenkerl"
-        ],
-        "sections": [
-            {
-                "title": "Maße und Gewichte",
-                "content": {
-                    "length_units": {
-                        "Finger": "2 cm",
-                        "Spann": "20 cm",
-                        "Schritt": "1 m",
-                        "Meile": "1 km"
-                    },
-                    "area_units": {
-                        "Rechtspann": "20 x 20 cm (400 cm²)",
-                        "Rechtschritt": "1 x 1 m (1 m²)",
-                        "Platz": "25 x 25 m (625 m²)",
-                        "Acker": "1 Hektar (100 x 100 m oder 10.000 m²)"
-                    },
-                    "volume_units": {
-                        "Hohlfinger": "8 cm³",
-                        "Schank": "0.2 L",
-                        "Maß": "0.8 L",
-                        "Faß": "80 L"
-                    },
-                    "weight_units": {
-                        "Gran": "0.04 g",
-                        "Karat": "0.2 g",
-                        "Skrupel": "1 g",
-                        "Unze": "25 g",
-                        "Stein": "1 kg"
-                    }
-                }
-            },
-            {
-                "title": "Währungen",
-                "content": [
-                    {
-                        "currency": "Dublone",
-                        "value_in_standard_units": "20 ST",
-                        "material": "Gold",
-                        "weight": "2 Unzen"
-                    },
-                    {
-                        "currency": "Großer Oreal",
-                        "value_in_standard_units": "1 ST",
-                        "material": "Gold-Kupfer-Legierung",
-                        "weight": "5 Skrupel"
-                    }
-                ]
-            },
-            {
-                "title": "Kleidung",
-                "content": [
-                    {
-                        "type": "Leinen/Wolle",
-                        "conditions": {
-                            "normal": "5 Silberstücke",
-                            "used": "1 Silberstück",
-                            "faulty": "5 Heller",
-                            "extravagant": "10 Silberstücke"
-                        },
-                        "weight_in_grams": 300
-                    },
-                    {
-                        "type": "Seide",
-                        "conditions": {
-                            "normal": "5 Dukaten",
-                            "used": "15 Silberstücke",
-                            "faulty": "6 Silberstücke",
-                            "extravagant": "8 Dukaten"
-                        },
-                        "weight_in_grams": 140
-                    },
-                    {
-                        "type": "Pelz",
-                        "conditions": {
-                            "normal": "6 Dukaten",
-                            "used": "4 Dukaten",
-                            "faulty": "2 Dukaten",
-                            "extravagant": "9 Dukaten"
-                        },
-                        "weight_in_grams": 1700
-                    },
-                    {
-                        "type": "Mantel/Reitmantel (Leder)",
-                        "conditions": {
-                            "normal": "8 Dukaten",
-                            "used": "15 Silberstücke",
-                            "faulty": "75 Heller",
-                            "extravagant": "12 Dukaten"
-                        },
-                        "weight_in_grams": 2800
-                    }
-                ]
-            },
-            {
-                "title": "Tiere und Tierzubehör",
-                "content": [
-                    {
-                        "type": "Reittiere",
-                        "examples": [
-                            {
-                                "name": "Pferd",
-                                "price": {
-                                    "untrained": "55 Dukaten",
-                                    "trained": "140 Dukaten",
-                                    "combat_ready": "380 Dukaten"
-                                }
-                            },
-                            {
-                                "name": "Esel",
-                                "price": {
-                                    "untrained": "25 Dukaten",
-                                    "trained": "40 Dukaten",
-                                    "combat_ready": null
-                                }
-                            },
-                            {
-                                "name": "Kamel",
-                                "price": {
-                                    "untrained": "65 Dukaten",
-                                    "trained": "155 Dukaten",
-                                    "combat_ready": "375 Dukaten"
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        "type": "Zubehör",
-                        "items": [
-                            {
-                                "name": "Zaumzeug (einfach)",
-                                "price": "10 Silberstücke"
-                            },
-                            {
-                                "name": "Reitsattel (einfach)",
-                                "price": "50 Silberstücke"
-                            },
-                            {
-                                "name": "Satteldecke",
-                                "price": "5 Silberstücke"
-                            },
-                            {
-                                "name": "Packsattel",
-                                "price": "80 Silberstücke"
-                            },
-                            {
-                                "name": "Heu (pro Portion)",
-                                "price": "1 Silberstück"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Werkzeuge, Optik und Feinmechanik",
-                "content": [
-                    {
-                        "category": "Werkzeuge",
-                        "items": [
-                            {
-                                "name": "Hammer (Schmiede-/Vorschlaghammer)",
-                                "price": "2 Dukaten",
-                                "weight": "5 Stein"
-                            },
-                            {
-                                "name": "Spaten",
-                                "price": "1 Dukat",
-                                "weight": "3 Stein"
-                            },
-                            {
-                                "name": "Schleif-/Wetzstein",
-                                "price": "5 Silberstücke",
-                                "weight": "1 Stein"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Optik und Feinmechanik",
-                        "items": [
-                            {
-                                "name": "Fernglas",
-                                "price": "200 Dukaten",
-                                "weight": "2 Stein"
-                            },
-                            {
-                                "name": "Brennglas",
-                                "price": "15 Silberstücke",
-                                "weight": "0.5 Stein"
-                            },
-                            {
-                                "name": "Spiegel (polierte Bronze)",
-                                "price": "10 Dukaten",
-                                "weight": "1 Stein"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Schreibwaren",
-                        "items": [
-                            {
-                                "name": "Papier (10 Blatt, gutes Papier)",
-                                "price": "1 Dukat"
-                            },
-                            {
-                                "name": "Tinte (1 Portion)",
-                                "price": "5 Silberstücke"
-                            },
-                            {
-                                "name": "Feder (Gänsekiel)",
-                                "price": "2 Heller"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Einrichtung",
-                "content": [
-                    {
-                        "category": "Möbel",
-                        "items": [
-                            {
-                                "name": "Stuhl (Holz)",
-                                "price": "1 Silberstück"
-                            },
-                            {
-                                "name": "Hocker",
-                                "price": "5 Silberstücke"
-                            },
-                            {
-                                "name": "Polstersessel",
-                                "price": "10 Dukaten"
-                            },
-                            {
-                                "name": "Holztisch",
-                                "price": "1 Dukat"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Spiegel",
-                        "items": [
-                            {
-                                "name": "Handspiegel",
-                                "price": "8 Silberstücke"
-                            },
-                            {
-                                "name": "Wandspiegel (polierte Bronze)",
-                                "price": "10 Dukaten"
-                            },
-                            {
-                                "name": "Wandspiegel (Glas)",
-                                "price": "50 Dukaten"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Heiz- und Kochgeräte",
-                        "items": [
-                            {
-                                "name": "Kohlebecken",
-                                "price": "5 Silberstücke"
-                            },
-                            {
-                                "name": "Ofen (Ton)",
-                                "price": "5 Dukaten"
-                            },
-                            {
-                                "name": "Ofen (Gusseisen)",
-                                "price": "15-30 Dukaten"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Sonstiges",
-                        "items": [
-                            {
-                                "name": "Teppich (je nach Muster)",
-                                "price": "5-30 Silberstücke"
-                            },
-                            {
-                                "name": "Wandteppich",
-                                "price": "5-10 Dukaten"
-                            },
-                            {
-                                "name": "Badezuber",
-                                "price": "5-30 Silberstücke"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Edelsteine, Halbedelsteine, Metalle und Luxusmaterialien",
-                "content": [
-                    {
-                        "category": "Edelsteine",
-                        "items": [
-                            {
-                                "name": "Diamant",
-                                "price_per_gram": "90 Silberstücke",
-                                "description": "geschliffen"
-                            },
-                            {
-                                "name": "Rubin",
-                                "price_per_gram": "80 Silberstücke",
-                                "description": "geschliffen"
-                            },
-                            {
-                                "name": "Smaragd",
-                                "price_per_gram": "70 Silberstücke",
-                                "description": "geschliffen"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Halbedelsteine",
-                        "items": [
-                            {
-                                "name": "Bernstein",
-                                "price_per_gram": "12 Silberstücke",
-                                "description": "geschliffen"
-                            },
-                            {
-                                "name": "Amethyst",
-                                "price_per_gram": "15 Silberstücke",
-                                "description": "geschliffen"
-                            },
-                            {
-                                "name": "Aventurin",
-                                "price_per_gram": "10 Silberstücke",
-                                "description": "geschliffen"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Metalle",
-                        "items": [
-                            {
-                                "name": "Gold",
-                                "price_per_unit": "22 Dukaten",
-                                "description": "Feingold"
-                            },
-                            {
-                                "name": "Silber",
-                                "price_per_unit": "4 Dukaten",
-                                "description": "Reinsilber"
-                            },
-                            {
-                                "name": "Eisen",
-                                "price_per_unit": "2 Dukaten",
-                                "description": "Schmiedeeisen"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Luxusmaterialien",
-                        "items": [
-                            {
-                                "name": "Elfenbein",
-                                "price_per_unit": "40 Silberstücke",
-                                "description": "aus Mammut"
-                            },
-                            {
-                                "name": "Perlmutt",
-                                "price_per_unit": "50 Silberstücke",
-                                "description": "fein verarbeitet"
-                            },
-                            {
-                                "name": "Kristallglas",
-                                "price_per_unit": "80 Silberstücke",
-                                "description": "klar und rein"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Fahrzeuge, Schiffe und Fahrzeugausrüstung",
-                "content": [
-                    {
-                        "category": "Landfahrzeuge",
-                        "items": [
-                            {
-                                "name": "Pferdewagen",
-                                "price": "200 Dukaten",
-                                "description": "einfacher, zweiachsiger Wagen"
-                            },
-                            {
-                                "name": "Reisewagen",
-                                "price": "500 Dukaten",
-                                "description": "bequemer, überdachter Wagen"
-                            },
-                            {
-                                "name": "Karren",
-                                "price": "50 Dukaten",
-                                "description": "offener, einachsiger Wagen"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Schiffe",
-                        "items": [
-                            {
-                                "name": "Fischerboot",
-                                "price": "100 Dukaten",
-                                "description": "kleines Boot, Platz für 2 Personen"
-                            },
-                            {
-                                "name": "Segelschiff",
-                                "price": "1000 Dukaten",
-                                "description": "mittleres Handelsschiff"
-                            },
-                            {
-                                "name": "Kriegsgaleere",
-                                "price": "5000 Dukaten",
-                                "description": "großes Kriegsschiff mit Ruderern und Segeln"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Fahrzeugausrüstung",
-                        "items": [
-                            {
-                                "name": "Ersatzrad",
-                                "price": "20 Dukaten",
-                                "description": "für Wagen und Karren"
-                            },
-                            {
-                                "name": "Segel (Ersatz)",
-                                "price": "50 Dukaten",
-                                "description": "aus festem Leinen, für Schiffe"
-                            },
-                            {
-                                "name": "Anker",
-                                "price": "30 Dukaten",
-                                "description": "groß, aus Schmiedeeisen"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Alchemistische Stoffe",
-                "content": [
-                    {
-                        "category": "Tränke",
-                        "items": [
-                            {
-                                "name": "Heiltrank",
-                                "price": "25 Dukaten",
-                                "description": "beschleunigt die Heilung von Wunden"
-                            },
-                            {
-                                "name": "Magischer Trank",
-                                "price": "50 Dukaten",
-                                "description": "stellt magische Energie (AsP) wieder her"
-                            },
-                            {
-                                "name": "Wahrheitstrank",
-                                "price": "70 Dukaten",
-                                "description": "zwingt den Trinker zur Wahrheit"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Alchemistische Grundstoffe",
-                        "items": [
-                            {
-                                "name": "Schwefel",
-                                "price": "2 Dukaten",
-                                "description": "Grundstoff für viele alchemistische Prozesse"
-                            },
-                            {
-                                "name": "Quecksilber",
-                                "price": "8 Dukaten",
-                                "description": "hochgiftig, vielseitig verwendbar"
-                            },
-                            {
-                                "name": "Alraunenwurzel",
-                                "price": "15 Dukaten",
-                                "description": "magisch aufgeladen, selten"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Besondere Substanzen",
-                        "items": [
-                            {
-                                "name": "Drachenblut",
-                                "price": "200 Dukaten",
-                                "description": "sehr selten, für mächtige Tränke"
-                            },
-                            {
-                                "name": "Phosphorpulver",
-                                "price": "10 Dukaten",
-                                "description": "erzeugt helles Licht, leicht entzündlich"
-                            },
-                            {
-                                "name": "Mandragora-Extrakt",
-                                "price": "50 Dukaten",
-                                "description": "starkes Halluzinogen"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Lebens-, Genuss- und Rauschmittel",
-                "content": [
-                    {
-                        "category": "Lebensmittel",
-                        "items": [
-                            {
-                                "name": "Brot",
-                                "price": "2 Heller",
-                                "description": "ein Laib, reicht für einen Tag"
-                            },
-                            {
-                                "name": "Fleisch (gekocht)",
-                                "price": "5 Heller",
-                                "description": "eine Portion"
-                            },
-                            {
-                                "name": "Käse",
-                                "price": "3 Heller",
-                                "description": "eine Portion"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Getränke",
-                        "items": [
-                            {
-                                "name": "Bier",
-                                "price": "1 Heller",
-                                "description": "ein Krug, einfach"
-                            },
-                            {
-                                "name": "Wein (mittelmäßig)",
-                                "price": "5 Heller",
-                                "description": "eine Karaffe"
-                            },
-                            {
-                                "name": "Schnaps",
-                                "price": "10 Heller",
-                                "description": "ein Schank"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Rauschmittel",
-                        "items": [
-                            {
-                                "name": "Tabak",
-                                "price": "2 Heller",
-                                "description": "eine kleine Tüte"
-                            },
-                            {
-                                "name": "Opium",
-                                "price": "1 Dukat",
-                                "description": "eine Dosis"
-                            },
-                            {
-                                "name": "Kräutermischung (beruhigend)",
-                                "price": "5 Heller",
-                                "description": "eine Portion"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Kräuter & Pflanzen",
-                "content": [
-                    {
-                        "category": "Heilkräuter",
-                        "items": [
-                            {
-                                "name": "Baldrianwurzel",
-                                "price": "3 Silberstücke",
-                                "description": "beruhigend, fördert Schlaf"
-                            },
-                            {
-                                "name": "Efeublätter",
-                                "price": "5 Silberstücke",
-                                "description": "hilft gegen Hautreizungen"
-                            },
-                            {
-                                "name": "Arnika",
-                                "price": "4 Silberstücke",
-                                "description": "entzündungshemmend"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Küchenkräuter",
-                        "items": [
-                            {
-                                "name": "Rosmarin",
-                                "price": "1 Silberstück",
-                                "description": "aromatisch, für Fleischgerichte"
-                            },
-                            {
-                                "name": "Thymian",
-                                "price": "1 Silberstück",
-                                "description": "aromatisch, für Suppen"
-                            },
-                            {
-                                "name": "Petersilie",
-                                "price": "1 Silberstück",
-                                "description": "frisch oder getrocknet"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Besondere Pflanzen",
-                        "items": [
-                            {
-                                "name": "Nachtschatten",
-                                "price": "15 Silberstücke",
-                                "description": "hochgiftig, für alchemistische Zwecke"
-                            },
-                            {
-                                "name": "Feuerkraut",
-                                "price": "10 Silberstücke",
-                                "description": "scharf, für Rauschmittel"
-                            },
-                            {
-                                "name": "Seidenblatt",
-                                "price": "20 Silberstücke",
-                                "description": "selten, leicht halluzinogen"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "title": "Gifte",
-                "content": [
-                    {
-                        "category": "Bekannte Gifte",
-                        "items": [
-                            {
-                                "name": "Schlafgift",
-                                "price": "20 Dukaten",
-                                "description": "bewirkt tiefe Bewusstlosigkeit"
-                            },
-                            {
-                                "name": "Nervengift",
-                                "price": "50 Dukaten",
-                                "description": "lähmt die Bewegungsfähigkeit"
-                            },
-                            {
-                                "name": "Todesgift",
-                                "price": "100 Dukaten",
-                                "description": "führt bei Einnahme zum Tod"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Tierische Gifte",
-                        "items": [
-                            {
-                                "name": "Schlangengift",
-                                "price": "30 Dukaten",
-                                "description": "wirkt schnell, lähmend und tödlich"
-                            },
-                            {
-                                "name": "Skorpiongift",
-                                "price": "25 Dukaten",
-                                "description": "stark schmerzlindernd, tödlich"
-                            },
-                            {
-                                "name": "Spinnengift",
-                                "price": "40 Dukaten",
-                                "description": "bewirkt Atemstillstand"
-                            }
-                        ]
-                    },
-                    {
-                        "category": "Pflanzliche Gifte",
-                        "items": [
-                            {
-                                "name": "Tollkirschenextrakt",
-                                "price": "15 Dukaten",
-                                "description": "halluzinogen und toxisch"
-                            },
-                            {
-                                "name": "Fingerhutgift",
-                                "price": "20 Dukaten",
-                                "description": "stark herzbeeinflussend"
-                            },
-                            {
-                                "name": "Alraunenextrakt",
-                                "price": "50 Dukaten",
-                                "description": "bewirkt Bewusstlosigkeit"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-              "title": "Gefäße und Behälter",
-              "content": [
-                {
-                  "category": "Flaschen und Krüge",
-                  "items": [
-                    {
-                      "name": "Tonkrug",
-                      "price": "5 Heller",
-                      "description": "robust, für Getränke geeignet"
-                    },
-                    {
-                      "name": "Glasflasche (1 Schank)",
-                      "price": "1 Silberstück",
-                      "description": "transparent, mit Korken"
-                    },
-                    {
-                      "name": "Metallflasche",
-                      "price": "3 Silberstücke",
-                      "description": "bruchsicher, für Reisen"
-                    }
-                  ]
-                },
-                {
-                  "category": "Töpfe und Dosen",
-                  "items": [
-                    {
-                      "name": "Tontopf (klein)",
-                      "price": "1 Heller",
-                      "description": "zum Kochen oder Lagern"
-                    },
-                    {
-                      "name": "Metalltiegel",
-                      "price": "8 Heller",
-                      "description": "hitzeresistent, für Alchemie"
-                    },
-                    {
-                      "name": "Holzdose",
-                      "price": "2 Heller",
-                      "description": "leicht, für trockene Waren"
-                    }
-                  ]
-                },
-                {
-                  "category": "Säcke und Kisten",
-                  "items": [
-                    {
-                      "name": "Leinensack",
-                      "price": "3 Heller",
-                      "description": "leicht, für Getreide oder andere Güter"
-                    },
-                    {
-                      "name": "Holzkiste",
-                      "price": "1 Silberstück",
-                      "description": "stabil, stapelbar"
-                    },
-                    {
-                      "name": "Lederkoffer",
-                      "price": "5 Silberstücke",
-                      "description": "für Reisen oder Wertsachen"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "title": "Musikinstrumente",
-              "content": [
-                {
-                  "category": "Saiteninstrumente",
-                  "items": [
-                    {
-                      "name": "Laute",
-                      "price": "15 Dukaten",
-                      "description": "klassisches Instrument, handgefertigt"
-                    },
-                    {
-                      "name": "Handharfe",
-                      "price": "20 Dukaten",
-                      "description": "klein, tragbar"
-                    },
-                    {
-                      "name": "Drehleier",
-                      "price": "40 Dukaten",
-                      "description": "für Volksmusik, mechanisch"
-                    }
-                  ]
-                },
-                {
-                  "category": "Blasinstrumente",
-                  "items": [
-                    {
-                      "name": "Flöte (Holz)",
-                      "price": "2 Silberstücke",
-                      "description": "einfach, für Anfänger"
-                    },
-                    {
-                      "name": "Silberflöte",
-                      "price": "30 Dukaten",
-                      "description": "hochwertig, für professionelle Musiker"
-                    },
-                    {
-                      "name": "Jagdhorn",
-                      "price": "5 Dukaten",
-                      "description": "zur Signalgebung"
-                    }
-                  ]
-                },
-                {
-                  "category": "Schlaginstrumente",
-                  "items": [
-                    {
-                      "name": "Tamburin",
-                      "price": "1 Dukat",
-                      "description": "einfach, rhythmisch"
-                    },
-                    {
-                      "name": "Trommel",
-                      "price": "8 Dukaten",
-                      "description": "groß, für Paraden oder Schlachten"
-                    },
-                    {
-                      "name": "Pauke",
-                      "price": "20 Dukaten",
-                      "description": "tiefe Töne, groß"
-                    }
-                  ]
-                },
-                {
-                  "category": "Sonstige Instrumente",
-                  "items": [
-                    {
-                      "name": "Okarina",
-                      "price": "3 Silberstücke",
-                      "description": "kleines Blasinstrument"
-                    },
-                    {
-                      "name": "Glockenspiel",
-                      "price": "15 Dukaten",
-                      "description": "vielseitig, für harmonische Melodien"
-                    },
-                    {
-                      "name": "Zither",
-                      "price": "25 Dukaten",
-                      "description": "komplexes Saiteninstrument"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "title": "Löhne und Dienstleistungen",
-              "content": [
-                {
-                  "category": "Ungelernte Arbeiter",
-                  "items": [
-                    {
-                      "name": "Tagelöhner",
-                      "price_per_day": "5 Heller",
-                      "description": "allgemeine, körperliche Arbeit"
-                    },
-                    {
-                      "name": "Stallbursche",
-                      "price_per_day": "7 Heller",
-                      "description": "für Stall- und Pferdearbeiten"
-                    },
-                    {
-                      "name": "Schankmagd",
-                      "price_per_day": "1 Silberstück",
-                      "description": "für Tavernenarbeiten"
-                    }
-                  ]
-                },
-                {
-                  "category": "Gelehrte und Spezialisten",
-                  "items": [
-                    {
-                      "name": "Heiler",
-                      "price_per_treatment": "10 Silberstücke",
-                      "description": "medizinische Behandlung von Wunden"
-                    },
-                    {
-                      "name": "Magier (einfache Zauber)",
-                      "price_per_spell": "1 Dukat",
-                      "description": "wie Licht oder Schutzzauber"
-                    },
-                    {
-                      "name": "Schreiber",
-                      "price_per_document": "15 Silberstücke",
-                      "description": "Erstellen von Dokumenten oder Verträgen"
-                    }
-                  ]
-                },
-                {
-                  "category": "Künstler und Unterhalter",
-                  "items": [
-                    {
-                      "name": "Barde",
-                      "price_per_evening": "5 Silberstücke",
-                      "description": "Musik und Unterhaltung"
-                    },
-                    {
-                      "name": "Gaukler",
-                      "price_per_show": "8 Silberstücke",
-                      "description": "Akrobatik und Zaubertricks"
-                    },
-                    {
-                      "name": "Maler (Porträt)",
-                      "price_per_piece": "10 Dukaten",
-                      "description": "hochwertige Kunstwerke"
-                    }
-                  ]
-                },
-                {
-                  "category": "Söldner und Wachen",
-                  "items": [
-                    {
-                      "name": "Söldner (einfach)",
-                      "price_per_day": "2 Silberstücke",
-                      "description": "Schutz und Kampf"
-                    },
-                    {
-                      "name": "Elite-Söldner",
-                      "price_per_day": "1 Dukat",
-                      "description": "professionelle Krieger"
-                    },
-                    {
-                      "name": "Wachmann",
-                      "price_per_day": "5 Silberstücke",
-                      "description": "für Stadt- und Gebäudeüberwachung"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "title": "Allgemeine Preise in der Taverne",
-              "content": [
-                {
-                  "category": "Essen",
-                  "items": [
-                    {
-                      "name": "Eintopf",
-                      "price": "5 Heller",
-                      "description": "einfaches Gericht mit Brot"
-                    },
-                    {
-                      "name": "Braten",
-                      "price": "1 Silberstück",
-                      "description": "eine Portion Fleisch mit Beilagen"
-                    },
-                    {
-                      "name": "Fischplatte",
-                      "price": "2 Silberstücke",
-                      "description": "frischer Fisch mit Gemüse"
-                    }
-                  ]
-                },
-                {
-                  "category": "Getränke",
-                  "items": [
-                    {
-                      "name": "Krug Bier",
-                      "price": "1 Heller",
-                      "description": "ein Krug, einfache Qualität"
-                    },
-                    {
-                      "name": "Becher Wein",
-                      "price": "5 Heller",
-                      "description": "mittelmäßiger Rot- oder Weißwein"
-                    },
-                    {
-                      "name": "Schank Schnaps",
-                      "price": "10 Heller",
-                      "description": "starkes alkoholisches Getränk"
-                    }
-                  ]
-                },
-                {
-                  "category": "Unterkunft",
-                  "items": [
-                    {
-                      "name": "Gemeinschaftsraum (pro Nacht)",
-                      "price": "5 Heller",
-                      "description": "Schlafsaal, einfach"
-                    },
-                    {
-                      "name": "Einzelzimmer (pro Nacht)",
-                      "price": "1 Silberstück",
-                      "description": "kleines, privates Zimmer"
-                    },
-                    {
-                      "name": "Luxuszimmer (pro Nacht)",
-                      "price": "5 Silberstücke",
-                      "description": "geräumig, mit Bett und Schrank"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "title": "Grundstücke, Haus-/Burgbaukosten",
-              "content": [
-                {
-                  "category": "Grundstücke",
-                  "items": [
-                    {
-                      "name": "Baugrund in der Stadt (pro m²)",
-                      "price": "10 Dukaten",
-                      "description": "teures Stadtgebiet"
-                    },
-                    {
-                      "name": "Baugrund auf dem Land (pro m²)",
-                      "price": "2 Dukaten",
-                      "description": "ländliche Gegend, erschlossen"
-                    },
-                    {
-                      "name": "Unerschlossenes Land (pro m²)",
-                      "price": "1 Dukat",
-                      "description": "wildes Land, nicht erschlossen"
-                    }
-                  ]
-                },
-                {
-                  "category": "Hausbau",
-                  "items": [
-                    {
-                      "name": "Einfaches Haus (pro m²)",
-                      "price": "50 Dukaten",
-                      "description": "Holzbau, einfachste Ausstattung"
-                    },
-                    {
-                      "name": "Mittleres Haus (pro m²)",
-                      "price": "100 Dukaten",
-                      "description": "gemauerter Bau, komfortabel"
-                    },
-                    {
-                      "name": "Luxushaus (pro m²)",
-                      "price": "300 Dukaten",
-                      "description": "aufwendiger Bau, edle Materialien"
-                    }
-                  ]
-                },
-                {
-                  "category": "Burgbau",
-                  "items": [
-                    {
-                      "name": "Kleine Burg (pro m²)",
-                      "price": "500 Dukaten",
-                      "description": "einfache Festung, begrenzte Verteidigung"
-                    },
-                    {
-                      "name": "Mittlere Burg (pro m²)",
-                      "price": "1000 Dukaten",
-                      "description": "gut befestigt, Platz für eine Garnison"
-                    },
-                    {
-                      "name": "Große Festung (pro m²)",
-                      "price": "3000 Dukaten",
-                      "description": "massive Verteidigungsanlagen, großzügige Bauweise"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "title": "Feste/Feiern, Tavernen-/Mietunterkunft",
-              "content": [
-                {
-                  "category": "Feste und Feiern",
-                  "items": [
-                    {
-                      "name": "Einfaches Fest (pro Person)",
-                      "price": "10 Heller",
-                      "description": "einfache Speisen und Getränke"
-                    },
-                    {
-                      "name": "Mittleres Fest (pro Person)",
-                      "price": "1 Silberstück",
-                      "description": "inklusive Unterhaltung"
-                    },
-                    {
-                      "name": "Luxusfest (pro Person)",
-                      "price": "10 Silberstücke",
-                      "description": "aufwendige Speisen und Darbietungen"
-                    }
-                  ]
-                },
-                {
-                  "category": "Tavernenunterkunft",
-                  "items": [
-                    {
-                      "name": "Schlafsaal (pro Nacht)",
-                      "price": "5 Heller",
-                      "description": "ein Bett im Gemeinschaftsraum"
-                    },
-                    {
-                      "name": "Privatzimmer (pro Nacht)",
-                      "price": "1 Silberstück",
-                      "description": "kleines, einfaches Zimmer"
-                    },
-                    {
-                      "name": "Luxusunterkunft (pro Nacht)",
-                      "price": "5 Silberstücke",
-                      "description": "komfortables Zimmer mit Service"
-                    }
-                  ]
-                },
-                {
-                  "category": "Raummiete",
-                  "items": [
-                    {
-                      "name": "Kleiner Saal (pro Abend)",
-                      "price": "1 Dukat",
-                      "description": "für Versammlungen oder Feiern"
-                    },
-                    {
-                      "name": "Großer Saal (pro Abend)",
-                      "price": "5 Dukaten",
-                      "description": "für große Feste oder Veranstaltungen"
-                    },
-                    {
-                      "name": "Festplatz (pro Tag)",
-                      "price": "10 Dukaten",
-                      "description": "für Märkte oder Großveranstaltungen"
-                    }
-                  ]
-                }
-              ]
-            },{
-                "title": "Sonstige Kategorien",
-                "content": [
-                  {
-                    "category": "Werkzeuge für Spezialisten",
-                    "items": [
-                      {
-                        "name": "Schmiedewerkzeug",
-                        "price": "15 Dukaten",
-                        "description": "für professionelle Schmiedearbeiten"
-                      },
-                      {
-                        "name": "Zimmermannswerkzeug",
-                        "price": "10 Dukaten",
-                        "description": "für Holzarbeiten und Bauprojekte"
-                      },
-                      {
-                        "name": "Alchemistenlabor (mobil)",
-                        "price": "50 Dukaten",
-                        "description": "tragbare Ausstattung für Alchemie"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Exotische Waren",
-                    "items": [
-                      {
-                        "name": "Seidenstoff",
-                        "price": "5 Dukaten pro Elle",
-                        "description": "hochwertiger Stoff aus fernen Ländern"
-                      },
-                      {
-                        "name": "Gewürze",
-                        "price": "10 Silberstücke pro Einheit",
-                        "description": "exotische und seltene Gewürze"
-                      },
-                      {
-                        "name": "Parfüm",
-                        "price": "1 Dukat pro Flasche",
-                        "description": "feiner Duft aus seltenen Essenzen"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Magische Gegenstände",
-                    "items": [
-                      {
-                        "name": "Magischer Ring",
-                        "price": "200 Dukaten",
-                        "description": "verleiht Schutz vor magischen Angriffen"
-                      },
-                      {
-                        "name": "Zauberstab",
-                        "price": "300 Dukaten",
-                        "description": "verstärkt Zauberkräfte"
-                      },
-                      {
-                        "name": "Schutzamulett",
-                        "price": "150 Dukaten",
-                        "description": "schützt vor Flüchen"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Individuelle Anpassungen",
-                "content": [
-                  {
-                    "category": "Personalisierte Gegenstände",
-                    "items": [
-                      {
-                        "name": "Graviertes Schwert",
-                        "price": "50 Dukaten",
-                        "description": "eine individuelle Gravur wird hinzugefügt"
-                      },
-                      {
-                        "name": "Personalisierter Ring",
-                        "price": "25 Dukaten",
-                        "description": "mit eingraviertem Namen oder Symbol"
-                      },
-                      {
-                        "name": "Bestickter Umhang",
-                        "price": "15 Dukaten",
-                        "description": "mit persönlichem Wappen oder Muster"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Maßanfertigungen",
-                    "items": [
-                      {
-                        "name": "Maßgeschneiderte Kleidung",
-                        "price": "10% Aufpreis",
-                        "description": "basierend auf Standardpreisen"
-                      },
-                      {
-                        "name": "Individuelles Möbelstück",
-                        "price": "20% Aufpreis",
-                        "description": "nach Wunsch gefertigt"
-                      },
-                      {
-                        "name": "Speziell angepasste Rüstung",
-                        "price": "30% Aufpreis",
-                        "description": "optimiert für den Träger"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Künstlerische Werke",
-                    "items": [
-                      {
-                        "name": "Porträtmalerei",
-                        "price": "50 Dukaten",
-                        "description": "hochwertiges Gemälde des Auftraggebers"
-                      },
-                      {
-                        "name": "Spezielle Skulptur",
-                        "price": "100 Dukaten",
-                        "description": "nach Vorlage oder Beschreibung"
-                      },
-                      {
-                        "name": "Einzigartiger Schmuck",
-                        "price": "200 Dukaten",
-                        "description": "einmaliges Design, exklusiv angefertigt"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Exklusive Dienstleistungen",
-                "content": [
-                  {
-                    "category": "Magische Unterstützung",
-                    "items": [
-                      {
-                        "name": "Magische Beratung",
-                        "price": "10 Dukaten pro Stunde",
-                        "description": "Ratschläge von erfahrenen Magiern"
-                      },
-                      {
-                        "name": "Ritualzauber",
-                        "price": "50 Dukaten",
-                        "description": "zur Unterstützung komplexer Aufgaben"
-                      },
-                      {
-                        "name": "Magische Analyse",
-                        "price": "30 Dukaten",
-                        "description": "Prüfung von magischen Gegenständen"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Exklusive Handwerker",
-                    "items": [
-                      {
-                        "name": "Meisterschmied",
-                        "price": "20 Dukaten pro Auftrag",
-                        "description": "fertigt Waffen oder Rüstungen von höchster Qualität"
-                      },
-                      {
-                        "name": "Edelsteinschleifer",
-                        "price": "10 Dukaten pro Stein",
-                        "description": "veredelt Edelsteine für Schmuck oder magische Zwecke"
-                      },
-                      {
-                        "name": "Kunstmaler",
-                        "price": "15 Dukaten pro Gemälde",
-                        "description": "erstellen von Kunstwerken nach Wunsch"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Spezieller Schutz",
-                    "items": [
-                      {
-                        "name": "Bewaffnete Eskorte",
-                        "price": "5 Dukaten pro Tag",
-                        "description": "für Reisen durch gefährliche Gebiete"
-                      },
-                      {
-                        "name": "Geheimhaltungsschutz",
-                        "price": "10 Dukaten",
-                        "description": "Schutz von privaten Informationen"
-                      },
-                      {
-                        "name": "Körperwache",
-                        "price": "8 Dukaten pro Tag",
-                        "description": "individuelle Sicherheit durch ausgebildetes Personal"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Seltene und Verbotene Waren",
-                "content": [
-                  {
-                    "category": "Illegale Substanzen",
-                    "items": [
-                      {
-                        "name": "Tiefschatten-Elixier",
-                        "price": "100 Dukaten",
-                        "description": "ermöglicht Unsichtbarkeit für kurze Zeit"
-                      },
-                      {
-                        "name": "Alraunen-Gift",
-                        "price": "50 Dukaten",
-                        "description": "verursacht lähmende Halluzinationen"
-                      },
-                      {
-                        "name": "Schwarzer Lotus",
-                        "price": "200 Dukaten",
-                        "description": "extrem giftig, oft für Attentate genutzt"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Geächtete Artefakte",
-                    "items": [
-                      {
-                        "name": "Verfluchtes Schwert",
-                        "price": "500 Dukaten",
-                        "description": "mächtige Waffe, aber mit dunklen Nebenwirkungen"
-                      },
-                      {
-                        "name": "Runenstein der Schatten",
-                        "price": "300 Dukaten",
-                        "description": "ermöglicht Kontrolle über Schattenwesen"
-                      },
-                      {
-                        "name": "Nekromantenstab",
-                        "price": "800 Dukaten",
-                        "description": "verleiht die Fähigkeit, Untote zu kontrollieren"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Seltene Naturprodukte",
-                    "items": [
-                      {
-                        "name": "Feuerorchidee",
-                        "price": "25 Dukaten",
-                        "description": "seltene Pflanze, in Vulkangebieten zu finden"
-                      },
-                      {
-                        "name": "Eisblatt",
-                        "price": "30 Dukaten",
-                        "description": "wächst nur in extrem kalten Regionen"
-                      },
-                      {
-                        "name": "Drachenblut (rein)",
-                        "price": "500 Dukaten",
-                        "description": "legendäre Zutat für mächtige alchemistische Tränke"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Raritäten und Sammlerstücke",
-                "content": [
-                  {
-                    "category": "Antike Waffen",
-                    "items": [
-                      {
-                        "name": "Schwert des ersten Königs",
-                        "price": "1000 Dukaten",
-                        "description": "eine Waffe von historischer Bedeutung"
-                      },
-                      {
-                        "name": "Runenverzierter Bogen",
-                        "price": "800 Dukaten",
-                        "description": "antiker Bogen mit magischen Eigenschaften"
-                      },
-                      {
-                        "name": "Drachentöter-Speer",
-                        "price": "1500 Dukaten",
-                        "description": "legendärer Speer, angeblich zum Töten von Drachen"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Historische Schriften",
-                    "items": [
-                      {
-                        "name": "Chroniken von Gareth",
-                        "price": "200 Dukaten",
-                        "description": "einzigartiges Manuskript über die Geschichte der Region"
-                      },
-                      {
-                        "name": "Verbotenes Zauberbuch",
-                        "price": "500 Dukaten",
-                        "description": "enthalten mächtige und gefährliche Zauber"
-                      },
-                      {
-                        "name": "Elfenhymnen",
-                        "price": "300 Dukaten",
-                        "description": "gesammelte Werke antiker Elfenlieder"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Seltene Edelsteine",
-                    "items": [
-                      {
-                        "name": "Dämmerstein",
-                        "price": "400 Dukaten",
-                        "description": "verleiht dem Träger erhöhte Wahrnehmung"
-                      },
-                      {
-                        "name": "Sternensplitter",
-                        "price": "500 Dukaten",
-                        "description": "glänzt im Dunkeln, von magischer Herkunft"
-                      },
-                      {
-                        "name": "Drachenauge",
-                        "price": "1000 Dukaten",
-                        "description": "ein legendärer Edelstein mit unbekannten Kräften"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Exotische Dienstleistungen",
-                "content": [
-                  {
-                    "category": "Kulturelle Darbietungen",
-                    "items": [
-                      {
-                        "name": "Elfentanz",
-                        "price": "20 Dukaten pro Aufführung",
-                        "description": "eine seltene und bezaubernde Kunstform"
-                      },
-                      {
-                        "name": "Orkisches Trommelfest",
-                        "price": "15 Dukaten pro Veranstaltung",
-                        "description": "kraftvolle und rhythmische Darbietung"
-                      },
-                      {
-                        "name": "Gauklerakrobatik",
-                        "price": "10 Dukaten pro Show",
-                        "description": "beeindruckende Kunststücke und Tricks"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Spezialausbildung",
-                    "items": [
-                      {
-                        "name": "Schwertkampfausbildung",
-                        "price": "50 Dukaten pro Woche",
-                        "description": "intensives Training durch erfahrene Meister"
-                      },
-                      {
-                        "name": "Alchemie-Intensivkurs",
-                        "price": "100 Dukaten pro Monat",
-                        "description": "Vertiefung in die Herstellung komplexer Tränke"
-                      },
-                      {
-                        "name": "Diplomatenlehre",
-                        "price": "200 Dukaten pro Lehrgang",
-                        "description": "umfassende Ausbildung in Verhandlung und Etikette"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Magische Dienste",
-                    "items": [
-                      {
-                        "name": "Fluchbrechung",
-                        "price": "150 Dukaten",
-                        "description": "entfernt mächtige Flüche oder Verhexungen"
-                      },
-                      {
-                        "name": "Teleportationszauber",
-                        "price": "200 Dukaten",
-                        "description": "ermöglicht Reisen über große Entfernungen"
-                      },
-                      {
-                        "name": "Geisterbeschwörung",
-                        "price": "300 Dukaten",
-                        "description": "ermöglicht Kommunikation mit Verstorbenen"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Legendäre Artefakte",
-                "content": [
-                  {
-                    "category": "Waffen",
-                    "items": [
-                      {
-                        "name": "Schwert der Ewigkeit",
-                        "price": "5000 Dukaten",
-                        "description": "unzerstörbar, soll von einem Gott gesegnet sein"
-                      },
-                      {
-                        "name": "Stab des Weltenwanderers",
-                        "price": "4000 Dukaten",
-                        "description": "ermöglicht Reisen zwischen Dimensionen"
-                      },
-                      {
-                        "name": "Bogen des Mondjägers",
-                        "price": "3000 Dukaten",
-                        "description": "perfekt für den Einsatz in der Dunkelheit"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Rüstungen",
-                    "items": [
-                      {
-                        "name": "Drachenhautpanzer",
-                        "price": "6000 Dukaten",
-                        "description": "nahezu undurchdringlich, gefertigt aus Drachenleder"
-                      },
-                      {
-                        "name": "Helm der Wahrheit",
-                        "price": "2000 Dukaten",
-                        "description": "verhindert Illusionen und Lügen"
-                      },
-                      {
-                        "name": "Schild der Unbesiegbarkeit",
-                        "price": "4500 Dukaten",
-                        "description": "blockt jegliche physische Angriffe ab"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Magische Objekte",
-                    "items": [
-                      {
-                        "name": "Amulett der Unsterblichkeit",
-                        "price": "10,000 Dukaten",
-                        "description": "gewährt dem Träger ewiges Leben, aber mit Risiken"
-                      },
-                      {
-                        "name": "Kristall der Allsicht",
-                        "price": "8000 Dukaten",
-                        "description": "enthüllt verborgene Geheimnisse"
-                      },
-                      {
-                        "name": "Ring der Elemente",
-                        "price": "7000 Dukaten",
-                        "description": "kontrolliert Feuer, Wasser, Luft und Erde"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Mystische Kreaturen und Begleiter",
-                "content": [
-                  {
-                    "category": "Reittiere",
-                    "items": [
-                      {
-                        "name": "Pegasus",
-                        "price": "3000 Dukaten",
-                        "description": "fliegendes Pferd, bekannt für seine Eleganz"
-                      },
-                      {
-                        "name": "Höllenross",
-                        "price": "5000 Dukaten",
-                        "description": "dämonisches Reittier, extrem schnell und furchteinflößend"
-                      },
-                      {
-                        "name": "Einhorn",
-                        "price": "4000 Dukaten",
-                        "description": "magisches und edles Wesen, Symbol der Reinheit"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Wächtertiere",
-                    "items": [
-                      {
-                        "name": "Höllenhund",
-                        "price": "2000 Dukaten",
-                        "description": "furchterregender und loyaler Beschützer"
-                      },
-                      {
-                        "name": "Griffin",
-                        "price": "3500 Dukaten",
-                        "description": "halb Löwe, halb Adler, ideal für den Schutz von Schätzen"
-                      },
-                      {
-                        "name": "Elementargeist",
-                        "price": "4000 Dukaten",
-                        "description": "magisches Wesen, das einen bestimmten Bereich bewacht"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Exotische Begleiter",
-                    "items": [
-                      {
-                        "name": "Feendrache",
-                        "price": "2500 Dukaten",
-                        "description": "kleines, magisches Wesen, oft als Glücksbringer"
-                      },
-                      {
-                        "name": "Schattenkatze",
-                        "price": "1500 Dukaten",
-                        "description": "lautloser Jäger, perfekt für Spione"
-                      },
-                      {
-                        "name": "Phönix",
-                        "price": "6000 Dukaten",
-                        "description": "unsterblicher Vogel, der aus seiner Asche wiedergeboren wird"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Flüche und Dunkle Rituale",
-                "content": [
-                  {
-                    "category": "Flüche",
-                    "items": [
-                      {
-                        "name": "Fluch des Alterns",
-                        "price": "300 Dukaten",
-                        "description": "beschleunigt das Altern der Zielperson"
-                      },
-                      {
-                        "name": "Fluch der Pein",
-                        "price": "500 Dukaten",
-                        "description": "verursacht unendliche Schmerzen"
-                      },
-                      {
-                        "name": "Fluch des Verlusts",
-                        "price": "400 Dukaten",
-                        "description": "führt dazu, dass der Verfluchte alles verliert, was ihm wichtig ist"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Beschwörungsrituale",
-                    "items": [
-                      {
-                        "name": "Dämonenbeschwörung",
-                        "price": "800 Dukaten",
-                        "description": "ruft einen mächtigen Dämon zur Unterstützung"
-                      },
-                      {
-                        "name": "Schattenritual",
-                        "price": "600 Dukaten",
-                        "description": "bietet die Fähigkeit, in den Schatten zu verschwinden"
-                      },
-                      {
-                        "name": "Blutpakt",
-                        "price": "1000 Dukaten",
-                        "description": "ein mächtiger Vertrag mit dunklen Mächten"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Schutzrituale",
-                    "items": [
-                      {
-                        "name": "Ritual der Reinheit",
-                        "price": "200 Dukaten",
-                        "description": "reinigt einen Ort von bösen Mächten"
-                      },
-                      {
-                        "name": "Geisterabwehr",
-                        "price": "300 Dukaten",
-                        "description": "schützt vor Geisterattacken und Besessenheit"
-                      },
-                      {
-                        "name": "Bindung des Lichtes",
-                        "price": "500 Dukaten",
-                        "description": "ruft eine Schutzsphäre aus reinem Licht herbei"
-                      }
-                    ]
-                  }
-                ]
-              },{
-                "title": "Technologische Errungenschaften",
-                "content": [
-                  {
-                    "category": "Mechanische Konstruktionen",
-                    "items": [
-                      {
-                        "name": "Mechanischer Wächter",
-                        "price": "1500 Dukaten",
-                        "description": "automatisierter Beschützer, reagiert auf Eindringlinge"
-                      },
-                      {
-                        "name": "Uhrwerkdrache",
-                        "price": "3000 Dukaten",
-                        "description": "eine mechanische Nachbildung eines Drachen, beeindruckend und gefährlich"
-                      },
-                      {
-                        "name": "Selbstfahrender Wagen",
-                        "price": "2000 Dukaten",
-                        "description": "mit mechanischem Antrieb, benötigt keine Zugtiere"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Innovative Werkzeuge",
-                    "items": [
-                      {
-                        "name": "Automatischer Schmiedehammer",
-                        "price": "500 Dukaten",
-                        "description": "erhöht die Effizienz von Schmiedearbeiten erheblich"
-                      },
-                      {
-                        "name": "Alchemie-Mischmaschine",
-                        "price": "800 Dukaten",
-                        "description": "ermöglicht das gleichzeitige Mischen mehrerer Substanzen"
-                      },
-                      {
-                        "name": "Taschenuhr",
-                        "price": "100 Dukaten",
-                        "description": "kleine tragbare Uhr, präzise und handlich"
-                      }
-                    ]
-                  },
-                  {
-                    "category": "Militärische Geräte",
-                    "items": [
-                      {
-                        "name": "Balliste (mobil)",
-                        "price": "5000 Dukaten",
-                        "description": "großes mechanisches Geschütz für Schlachten"
-                      },
-                      {
-                        "name": "Explosivbolzen",
-                        "price": "50 Dukaten pro Stück",
-                        "description": "für Ballisten, richtet großen Schaden an"
-                      },
-                      {
-                        "name": "Magischer Geschosswerfer",
-                        "price": "7000 Dukaten",
-                        "description": "kombiniert Mechanik und Magie für Fernkampf"
-                      }
-                    ]
-                  }
-                ]
-            }
-
-
-
-
+  "document": {
+    "title": "Gesamt-Preisliste für DSA 4.0 und 4.1",
+    "created_by": "Lars Hofmann",
+    "based_on": [
+      "Das schwarze Auge - Meisterschirm für die 4. Edition - Spielhilfe",
+      "Efferds Wogen",
+      "Katakomben und Kavernen",
+      "Handelsherr und Kiepenkerl"
+    ],
+    "sections": [
+      {
+        "title": "Maße und Gewichte",
+        "content": {
+          "length_units": {
+            "Finger": "2 cm",
+            "Spann": "20 cm",
+            "Schritt": "1 m",
+            "Meile": "1 km"
+          },
+          "area_units": {
+            "Rechtspann": "20 x 20 cm (400 cm²)",
+            "Rechtschritt": "1 x 1 m (1 m²)",
+            "Platz": "25 x 25 m (625 m²)",
+            "Acker": "1 Hektar (100 x 100 m oder 10.000 m²)"
+          },
+          "volume_units": {
+            "Hohlfinger": "8 cm³",
+            "Schank": "0.2 L",
+            "Maß": "0.8 L",
+            "Faß": "80 L"
+          },
+          "weight_units": {
+            "Gran": "0.04 g",
+            "Karat": "0.2 g",
+            "Skrupel": "1 g",
+            "Unze": "25 g",
+            "Stein": "1 kg"
+          }
+        }
+      },
+      {
+        "title": "Währungen",
+        "content": [
+          {
+            "currency": "Dublone",
+            "value_in_standard_units": "20 ST",
+            "material": "Gold",
+            "weight": "2 Unzen"
+          },
+          {
+            "currency": "Großer Oreal",
+            "value_in_standard_units": "1 ST",
+            "material": "Gold-Kupfer-Legierung",
+            "weight": "5 Skrupel"
+          }
         ]
-    }
+      },
+      {
+        "title": "Kleidung",
+        "content": [
+          {
+            "type": "Leinen/Wolle",
+            "conditions": {
+              "normal": "5 Silberstücke",
+              "used": "1 Silberstück",
+              "faulty": "5 Heller",
+              "extravagant": "10 Silberstücke"
+            },
+            "weight_in_grams": 300
+          },
+          {
+            "type": "Seide",
+            "conditions": {
+              "normal": "5 Dukaten",
+              "used": "15 Silberstücke",
+              "faulty": "6 Silberstücke",
+              "extravagant": "8 Dukaten"
+            },
+            "weight_in_grams": 140
+          },
+          {
+            "type": "Pelz",
+            "conditions": {
+              "normal": "6 Dukaten",
+              "used": "4 Dukaten",
+              "faulty": "2 Dukaten",
+              "extravagant": "9 Dukaten"
+            },
+            "weight_in_grams": 1700
+          },
+          {
+            "type": "Mantel/Reitmantel (Leder)",
+            "conditions": {
+              "normal": "8 Dukaten",
+              "used": "15 Silberstücke",
+              "faulty": "75 Heller",
+              "extravagant": "12 Dukaten"
+            },
+            "weight_in_grams": 2800
+          }
+        ]
+      },
+      {
+        "title": "Tiere und Tierzubehör",
+        "content": [
+          {
+            "type": "Reittiere",
+            "examples": [
+              {
+                "name": "Pferd",
+                "price": {
+                  "untrained": "55 Dukaten",
+                  "trained": "140 Dukaten",
+                  "combat_ready": "380 Dukaten"
+                }
+              },
+              {
+                "name": "Esel",
+                "price": {
+                  "untrained": "25 Dukaten",
+                  "trained": "40 Dukaten",
+                  "combat_ready": null
+                }
+              },
+              {
+                "name": "Kamel",
+                "price": {
+                  "untrained": "65 Dukaten",
+                  "trained": "155 Dukaten",
+                  "combat_ready": "375 Dukaten"
+                }
+              }
+            ]
+          },
+          {
+            "type": "Zubehör",
+            "items": [
+              {
+                "name": "Zaumzeug (einfach)",
+                "price": "10 Silberstücke"
+              },
+              {
+                "name": "Reitsattel (einfach)",
+                "price": "50 Silberstücke"
+              },
+              {
+                "name": "Satteldecke",
+                "price": "5 Silberstücke"
+              },
+              {
+                "name": "Packsattel",
+                "price": "80 Silberstücke"
+              },
+              {
+                "name": "Heu (pro Portion)",
+                "price": "1 Silberstück"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Werkzeuge, Optik und Feinmechanik",
+        "content": [
+          {
+            "category": "Werkzeuge",
+            "items": [
+              {
+                "name": "Hammer (Schmiede-/Vorschlaghammer)",
+                "price": "2 Dukaten",
+                "weight": "5 Stein"
+              },
+              {
+                "name": "Spaten",
+                "price": "1 Dukat",
+                "weight": "3 Stein"
+              },
+              {
+                "name": "Schleif-/Wetzstein",
+                "price": "5 Silberstücke",
+                "weight": "1 Stein"
+              }
+            ]
+          },
+          {
+            "category": "Optik und Feinmechanik",
+            "items": [
+              {
+                "name": "Fernglas",
+                "price": "200 Dukaten",
+                "weight": "2 Stein"
+              },
+              {
+                "name": "Brennglas",
+                "price": "15 Silberstücke",
+                "weight": "0.5 Stein"
+              },
+              {
+                "name": "Spiegel (polierte Bronze)",
+                "price": "10 Dukaten",
+                "weight": "1 Stein"
+              }
+            ]
+          },
+          {
+            "category": "Schreibwaren",
+            "items": [
+              {
+                "name": "Papier (10 Blatt, gutes Papier)",
+                "price": "1 Dukat"
+              },
+              {
+                "name": "Tinte (1 Portion)",
+                "price": "5 Silberstücke"
+              },
+              {
+                "name": "Feder (Gänsekiel)",
+                "price": "2 Heller"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Einrichtung",
+        "content": [
+          {
+            "category": "Möbel",
+            "items": [
+              {
+                "name": "Stuhl (Holz)",
+                "price": "1 Silberstück"
+              },
+              {
+                "name": "Hocker",
+                "price": "5 Silberstücke"
+              },
+              {
+                "name": "Polstersessel",
+                "price": "10 Dukaten"
+              },
+              {
+                "name": "Holztisch",
+                "price": "1 Dukat"
+              }
+            ]
+          },
+          {
+            "category": "Spiegel",
+            "items": [
+              {
+                "name": "Handspiegel",
+                "price": "8 Silberstücke"
+              },
+              {
+                "name": "Wandspiegel (polierte Bronze)",
+                "price": "10 Dukaten"
+              },
+              {
+                "name": "Wandspiegel (Glas)",
+                "price": "50 Dukaten"
+              }
+            ]
+          },
+          {
+            "category": "Heiz- und Kochgeräte",
+            "items": [
+              {
+                "name": "Kohlebecken",
+                "price": "5 Silberstücke"
+              },
+              {
+                "name": "Ofen (Ton)",
+                "price": "5 Dukaten"
+              },
+              {
+                "name": "Ofen (Gusseisen)",
+                "price": "15-30 Dukaten"
+              }
+            ]
+          },
+          {
+            "category": "Sonstiges",
+            "items": [
+              {
+                "name": "Teppich (je nach Muster)",
+                "price": "5-30 Silberstücke"
+              },
+              {
+                "name": "Wandteppich",
+                "price": "5-10 Dukaten"
+              },
+              {
+                "name": "Badezuber",
+                "price": "5-30 Silberstücke"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Edelsteine, Halbedelsteine, Metalle und Luxusmaterialien",
+        "content": [
+          {
+            "category": "Edelsteine",
+            "items": [
+              {
+                "name": "Diamant",
+                "price_per_gram": "90 Silberstücke",
+                "description": "geschliffen"
+              },
+              {
+                "name": "Rubin",
+                "price_per_gram": "80 Silberstücke",
+                "description": "geschliffen"
+              },
+              {
+                "name": "Smaragd",
+                "price_per_gram": "70 Silberstücke",
+                "description": "geschliffen"
+              }
+            ]
+          },
+          {
+            "category": "Halbedelsteine",
+            "items": [
+              {
+                "name": "Bernstein",
+                "price_per_gram": "12 Silberstücke",
+                "description": "geschliffen"
+              },
+              {
+                "name": "Amethyst",
+                "price_per_gram": "15 Silberstücke",
+                "description": "geschliffen"
+              },
+              {
+                "name": "Aventurin",
+                "price_per_gram": "10 Silberstücke",
+                "description": "geschliffen"
+              }
+            ]
+          },
+          {
+            "category": "Metalle",
+            "items": [
+              {
+                "name": "Gold",
+                "price_per_unit": "22 Dukaten",
+                "description": "Feingold"
+              },
+              {
+                "name": "Silber",
+                "price_per_unit": "4 Dukaten",
+                "description": "Reinsilber"
+              },
+              {
+                "name": "Eisen",
+                "price_per_unit": "2 Dukaten",
+                "description": "Schmiedeeisen"
+              }
+            ]
+          },
+          {
+            "category": "Luxusmaterialien",
+            "items": [
+              {
+                "name": "Elfenbein",
+                "price_per_unit": "40 Silberstücke",
+                "description": "aus Mammut"
+              },
+              {
+                "name": "Perlmutt",
+                "price_per_unit": "50 Silberstücke",
+                "description": "fein verarbeitet"
+              },
+              {
+                "name": "Kristallglas",
+                "price_per_unit": "80 Silberstücke",
+                "description": "klar und rein"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Fahrzeuge, Schiffe und Fahrzeugausrüstung",
+        "content": [
+          {
+            "category": "Landfahrzeuge",
+            "items": [
+              {
+                "name": "Pferdewagen",
+                "price": "200 Dukaten",
+                "description": "einfacher, zweiachsiger Wagen"
+              },
+              {
+                "name": "Reisewagen",
+                "price": "500 Dukaten",
+                "description": "bequemer, überdachter Wagen"
+              },
+              {
+                "name": "Karren",
+                "price": "50 Dukaten",
+                "description": "offener, einachsiger Wagen"
+              }
+            ]
+          },
+          {
+            "category": "Schiffe",
+            "items": [
+              {
+                "name": "Fischerboot",
+                "price": "100 Dukaten",
+                "description": "kleines Boot, Platz für 2 Personen"
+              },
+              {
+                "name": "Segelschiff",
+                "price": "1000 Dukaten",
+                "description": "mittleres Handelsschiff"
+              },
+              {
+                "name": "Kriegsgaleere",
+                "price": "5000 Dukaten",
+                "description": "großes Kriegsschiff mit Ruderern und Segeln"
+              }
+            ]
+          },
+          {
+            "category": "Fahrzeugausrüstung",
+            "items": [
+              {
+                "name": "Ersatzrad",
+                "price": "20 Dukaten",
+                "description": "für Wagen und Karren"
+              },
+              {
+                "name": "Segel (Ersatz)",
+                "price": "50 Dukaten",
+                "description": "aus festem Leinen, für Schiffe"
+              },
+              {
+                "name": "Anker",
+                "price": "30 Dukaten",
+                "description": "groß, aus Schmiedeeisen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Alchemistische Stoffe",
+        "content": [
+          {
+            "category": "Tränke",
+            "items": [
+              {
+                "name": "Heiltrank",
+                "price": "25 Dukaten",
+                "description": "beschleunigt die Heilung von Wunden"
+              },
+              {
+                "name": "Magischer Trank",
+                "price": "50 Dukaten",
+                "description": "stellt magische Energie (AsP) wieder her"
+              },
+              {
+                "name": "Wahrheitstrank",
+                "price": "70 Dukaten",
+                "description": "zwingt den Trinker zur Wahrheit"
+              }
+            ]
+          },
+          {
+            "category": "Alchemistische Grundstoffe",
+            "items": [
+              {
+                "name": "Schwefel",
+                "price": "2 Dukaten",
+                "description": "Grundstoff für viele alchemistische Prozesse"
+              },
+              {
+                "name": "Quecksilber",
+                "price": "8 Dukaten",
+                "description": "hochgiftig, vielseitig verwendbar"
+              },
+              {
+                "name": "Alraunenwurzel",
+                "price": "15 Dukaten",
+                "description": "magisch aufgeladen, selten"
+              }
+            ]
+          },
+          {
+            "category": "Besondere Substanzen",
+            "items": [
+              {
+                "name": "Drachenblut",
+                "price": "200 Dukaten",
+                "description": "sehr selten, für mächtige Tränke"
+              },
+              {
+                "name": "Phosphorpulver",
+                "price": "10 Dukaten",
+                "description": "erzeugt helles Licht, leicht entzündlich"
+              },
+              {
+                "name": "Mandragora-Extrakt",
+                "price": "50 Dukaten",
+                "description": "starkes Halluzinogen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Lebens-, Genuss- und Rauschmittel",
+        "content": [
+          {
+            "category": "Lebensmittel",
+            "items": [
+              {
+                "name": "Brot",
+                "price": "2 Heller",
+                "description": "ein Laib, reicht für einen Tag"
+              },
+              {
+                "name": "Fleisch (gekocht)",
+                "price": "5 Heller",
+                "description": "eine Portion"
+              },
+              {
+                "name": "Käse",
+                "price": "3 Heller",
+                "description": "eine Portion"
+              }
+            ]
+          },
+          {
+            "category": "Getränke",
+            "items": [
+              {
+                "name": "Bier",
+                "price": "1 Heller",
+                "description": "ein Krug, einfach"
+              },
+              {
+                "name": "Wein (mittelmäßig)",
+                "price": "5 Heller",
+                "description": "eine Karaffe"
+              },
+              {
+                "name": "Schnaps",
+                "price": "10 Heller",
+                "description": "ein Schank"
+              }
+            ]
+          },
+          {
+            "category": "Rauschmittel",
+            "items": [
+              {
+                "name": "Tabak",
+                "price": "2 Heller",
+                "description": "eine kleine Tüte"
+              },
+              {
+                "name": "Opium",
+                "price": "1 Dukat",
+                "description": "eine Dosis"
+              },
+              {
+                "name": "Kräutermischung (beruhigend)",
+                "price": "5 Heller",
+                "description": "eine Portion"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Kräuter & Pflanzen",
+        "content": [
+          {
+            "category": "Heilkräuter",
+            "items": [
+              {
+                "name": "Baldrianwurzel",
+                "price": "3 Silberstücke",
+                "description": "beruhigend, fördert Schlaf"
+              },
+              {
+                "name": "Efeublätter",
+                "price": "5 Silberstücke",
+                "description": "hilft gegen Hautreizungen"
+              },
+              {
+                "name": "Arnika",
+                "price": "4 Silberstücke",
+                "description": "entzündungshemmend"
+              }
+            ]
+          },
+          {
+            "category": "Küchenkräuter",
+            "items": [
+              {
+                "name": "Rosmarin",
+                "price": "1 Silberstück",
+                "description": "aromatisch, für Fleischgerichte"
+              },
+              {
+                "name": "Thymian",
+                "price": "1 Silberstück",
+                "description": "aromatisch, für Suppen"
+              },
+              {
+                "name": "Petersilie",
+                "price": "1 Silberstück",
+                "description": "frisch oder getrocknet"
+              }
+            ]
+          },
+          {
+            "category": "Besondere Pflanzen",
+            "items": [
+              {
+                "name": "Nachtschatten",
+                "price": "15 Silberstücke",
+                "description": "hochgiftig, für alchemistische Zwecke"
+              },
+              {
+                "name": "Feuerkraut",
+                "price": "10 Silberstücke",
+                "description": "scharf, für Rauschmittel"
+              },
+              {
+                "name": "Seidenblatt",
+                "price": "20 Silberstücke",
+                "description": "selten, leicht halluzinogen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Gifte",
+        "content": [
+          {
+            "category": "Bekannte Gifte",
+            "items": [
+              {
+                "name": "Schlafgift",
+                "price": "20 Dukaten",
+                "description": "bewirkt tiefe Bewusstlosigkeit"
+              },
+              {
+                "name": "Nervengift",
+                "price": "50 Dukaten",
+                "description": "lähmt die Bewegungsfähigkeit"
+              },
+              {
+                "name": "Todesgift",
+                "price": "100 Dukaten",
+                "description": "führt bei Einnahme zum Tod"
+              }
+            ]
+          },
+          {
+            "category": "Tierische Gifte",
+            "items": [
+              {
+                "name": "Schlangengift",
+                "price": "30 Dukaten",
+                "description": "wirkt schnell, lähmend und tödlich"
+              },
+              {
+                "name": "Skorpiongift",
+                "price": "25 Dukaten",
+                "description": "stark schmerzlindernd, tödlich"
+              },
+              {
+                "name": "Spinnengift",
+                "price": "40 Dukaten",
+                "description": "bewirkt Atemstillstand"
+              }
+            ]
+          },
+          {
+            "category": "Pflanzliche Gifte",
+            "items": [
+              {
+                "name": "Tollkirschenextrakt",
+                "price": "15 Dukaten",
+                "description": "halluzinogen und toxisch"
+              },
+              {
+                "name": "Fingerhutgift",
+                "price": "20 Dukaten",
+                "description": "stark herzbeeinflussend"
+              },
+              {
+                "name": "Alraunenextrakt",
+                "price": "50 Dukaten",
+                "description": "bewirkt Bewusstlosigkeit"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Gefäße und Behälter",
+        "content": [
+          {
+            "category": "Flaschen und Krüge",
+            "items": [
+              {
+                "name": "Tonkrug",
+                "price": "5 Heller",
+                "description": "robust, für Getränke geeignet"
+              },
+              {
+                "name": "Glasflasche (1 Schank)",
+                "price": "1 Silberstück",
+                "description": "transparent, mit Korken"
+              },
+              {
+                "name": "Metallflasche",
+                "price": "3 Silberstücke",
+                "description": "bruchsicher, für Reisen"
+              }
+            ]
+          },
+          {
+            "category": "Töpfe und Dosen",
+            "items": [
+              {
+                "name": "Tontopf (klein)",
+                "price": "1 Heller",
+                "description": "zum Kochen oder Lagern"
+              },
+              {
+                "name": "Metalltiegel",
+                "price": "8 Heller",
+                "description": "hitzeresistent, für Alchemie"
+              },
+              {
+                "name": "Holzdose",
+                "price": "2 Heller",
+                "description": "leicht, für trockene Waren"
+              }
+            ]
+          },
+          {
+            "category": "Säcke und Kisten",
+            "items": [
+              {
+                "name": "Leinensack",
+                "price": "3 Heller",
+                "description": "leicht, für Getreide oder andere Güter"
+              },
+              {
+                "name": "Holzkiste",
+                "price": "1 Silberstück",
+                "description": "stabil, stapelbar"
+              },
+              {
+                "name": "Lederkoffer",
+                "price": "5 Silberstücke",
+                "description": "für Reisen oder Wertsachen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Musikinstrumente",
+        "content": [
+          {
+            "category": "Saiteninstrumente",
+            "items": [
+              {
+                "name": "Laute",
+                "price": "15 Dukaten",
+                "description": "klassisches Instrument, handgefertigt"
+              },
+              {
+                "name": "Handharfe",
+                "price": "20 Dukaten",
+                "description": "klein, tragbar"
+              },
+              {
+                "name": "Drehleier",
+                "price": "40 Dukaten",
+                "description": "für Volksmusik, mechanisch"
+              }
+            ]
+          },
+          {
+            "category": "Blasinstrumente",
+            "items": [
+              {
+                "name": "Flöte (Holz)",
+                "price": "2 Silberstücke",
+                "description": "einfach, für Anfänger"
+              },
+              {
+                "name": "Silberflöte",
+                "price": "30 Dukaten",
+                "description": "hochwertig, für professionelle Musiker"
+              },
+              {
+                "name": "Jagdhorn",
+                "price": "5 Dukaten",
+                "description": "zur Signalgebung"
+              }
+            ]
+          },
+          {
+            "category": "Schlaginstrumente",
+            "items": [
+              {
+                "name": "Tamburin",
+                "price": "1 Dukat",
+                "description": "einfach, rhythmisch"
+              },
+              {
+                "name": "Trommel",
+                "price": "8 Dukaten",
+                "description": "groß, für Paraden oder Schlachten"
+              },
+              {
+                "name": "Pauke",
+                "price": "20 Dukaten",
+                "description": "tiefe Töne, groß"
+              }
+            ]
+          },
+          {
+            "category": "Sonstige Instrumente",
+            "items": [
+              {
+                "name": "Okarina",
+                "price": "3 Silberstücke",
+                "description": "kleines Blasinstrument"
+              },
+              {
+                "name": "Glockenspiel",
+                "price": "15 Dukaten",
+                "description": "vielseitig, für harmonische Melodien"
+              },
+              {
+                "name": "Zither",
+                "price": "25 Dukaten",
+                "description": "komplexes Saiteninstrument"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Löhne und Dienstleistungen",
+        "content": [
+          {
+            "category": "Ungelernte Arbeiter",
+            "items": [
+              {
+                "name": "Tagelöhner",
+                "price_per_day": "5 Heller",
+                "description": "allgemeine, körperliche Arbeit"
+              },
+              {
+                "name": "Stallbursche",
+                "price_per_day": "7 Heller",
+                "description": "für Stall- und Pferdearbeiten"
+              },
+              {
+                "name": "Schankmagd",
+                "price_per_day": "1 Silberstück",
+                "description": "für Tavernenarbeiten"
+              }
+            ]
+          },
+          {
+            "category": "Gelehrte und Spezialisten",
+            "items": [
+              {
+                "name": "Heiler",
+                "price_per_treatment": "10 Silberstücke",
+                "description": "medizinische Behandlung von Wunden"
+              },
+              {
+                "name": "Magier (einfache Zauber)",
+                "price_per_spell": "1 Dukat",
+                "description": "wie Licht oder Schutzzauber"
+              },
+              {
+                "name": "Schreiber",
+                "price_per_document": "15 Silberstücke",
+                "description": "Erstellen von Dokumenten oder Verträgen"
+              }
+            ]
+          },
+          {
+            "category": "Künstler und Unterhalter",
+            "items": [
+              {
+                "name": "Barde",
+                "price_per_evening": "5 Silberstücke",
+                "description": "Musik und Unterhaltung"
+              },
+              {
+                "name": "Gaukler",
+                "price_per_show": "8 Silberstücke",
+                "description": "Akrobatik und Zaubertricks"
+              },
+              {
+                "name": "Maler (Porträt)",
+                "price_per_piece": "10 Dukaten",
+                "description": "hochwertige Kunstwerke"
+              }
+            ]
+          },
+          {
+            "category": "Söldner und Wachen",
+            "items": [
+              {
+                "name": "Söldner (einfach)",
+                "price_per_day": "2 Silberstücke",
+                "description": "Schutz und Kampf"
+              },
+              {
+                "name": "Elite-Söldner",
+                "price_per_day": "1 Dukat",
+                "description": "professionelle Krieger"
+              },
+              {
+                "name": "Wachmann",
+                "price_per_day": "5 Silberstücke",
+                "description": "für Stadt- und Gebäudeüberwachung"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Allgemeine Preise in der Taverne",
+        "content": [
+          {
+            "category": "Essen",
+            "items": [
+              {
+                "name": "Eintopf",
+                "price": "5 Heller",
+                "description": "einfaches Gericht mit Brot"
+              },
+              {
+                "name": "Braten",
+                "price": "1 Silberstück",
+                "description": "eine Portion Fleisch mit Beilagen"
+              },
+              {
+                "name": "Fischplatte",
+                "price": "2 Silberstücke",
+                "description": "frischer Fisch mit Gemüse"
+              }
+            ]
+          },
+          {
+            "category": "Getränke",
+            "items": [
+              {
+                "name": "Krug Bier",
+                "price": "1 Heller",
+                "description": "ein Krug, einfache Qualität"
+              },
+              {
+                "name": "Becher Wein",
+                "price": "5 Heller",
+                "description": "mittelmäßiger Rot- oder Weißwein"
+              },
+              {
+                "name": "Schank Schnaps",
+                "price": "10 Heller",
+                "description": "starkes alkoholisches Getränk"
+              }
+            ]
+          },
+          {
+            "category": "Unterkunft",
+            "items": [
+              {
+                "name": "Gemeinschaftsraum (pro Nacht)",
+                "price": "5 Heller",
+                "description": "Schlafsaal, einfach"
+              },
+              {
+                "name": "Einzelzimmer (pro Nacht)",
+                "price": "1 Silberstück",
+                "description": "kleines, privates Zimmer"
+              },
+              {
+                "name": "Luxuszimmer (pro Nacht)",
+                "price": "5 Silberstücke",
+                "description": "geräumig, mit Bett und Schrank"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Grundstücke, Haus-/Burgbaukosten",
+        "content": [
+          {
+            "category": "Grundstücke",
+            "items": [
+              {
+                "name": "Baugrund in der Stadt (pro m²)",
+                "price": "10 Dukaten",
+                "description": "teures Stadtgebiet"
+              },
+              {
+                "name": "Baugrund auf dem Land (pro m²)",
+                "price": "2 Dukaten",
+                "description": "ländliche Gegend, erschlossen"
+              },
+              {
+                "name": "Unerschlossenes Land (pro m²)",
+                "price": "1 Dukat",
+                "description": "wildes Land, nicht erschlossen"
+              }
+            ]
+          },
+          {
+            "category": "Hausbau",
+            "items": [
+              {
+                "name": "Einfaches Haus (pro m²)",
+                "price": "50 Dukaten",
+                "description": "Holzbau, einfachste Ausstattung"
+              },
+              {
+                "name": "Mittleres Haus (pro m²)",
+                "price": "100 Dukaten",
+                "description": "gemauerter Bau, komfortabel"
+              },
+              {
+                "name": "Luxushaus (pro m²)",
+                "price": "300 Dukaten",
+                "description": "aufwendiger Bau, edle Materialien"
+              }
+            ]
+          },
+          {
+            "category": "Burgbau",
+            "items": [
+              {
+                "name": "Kleine Burg (pro m²)",
+                "price": "500 Dukaten",
+                "description": "einfache Festung, begrenzte Verteidigung"
+              },
+              {
+                "name": "Mittlere Burg (pro m²)",
+                "price": "1000 Dukaten",
+                "description": "gut befestigt, Platz für eine Garnison"
+              },
+              {
+                "name": "Große Festung (pro m²)",
+                "price": "3000 Dukaten",
+                "description": "massive Verteidigungsanlagen, großzügige Bauweise"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Feste/Feiern, Tavernen-/Mietunterkunft",
+        "content": [
+          {
+            "category": "Feste und Feiern",
+            "items": [
+              {
+                "name": "Einfaches Fest (pro Person)",
+                "price": "10 Heller",
+                "description": "einfache Speisen und Getränke"
+              },
+              {
+                "name": "Mittleres Fest (pro Person)",
+                "price": "1 Silberstück",
+                "description": "inklusive Unterhaltung"
+              },
+              {
+                "name": "Luxusfest (pro Person)",
+                "price": "10 Silberstücke",
+                "description": "aufwendige Speisen und Darbietungen"
+              }
+            ]
+          },
+          {
+            "category": "Tavernenunterkunft",
+            "items": [
+              {
+                "name": "Schlafsaal (pro Nacht)",
+                "price": "5 Heller",
+                "description": "ein Bett im Gemeinschaftsraum"
+              },
+              {
+                "name": "Privatzimmer (pro Nacht)",
+                "price": "1 Silberstück",
+                "description": "kleines, einfaches Zimmer"
+              },
+              {
+                "name": "Luxusunterkunft (pro Nacht)",
+                "price": "5 Silberstücke",
+                "description": "komfortables Zimmer mit Service"
+              }
+            ]
+          },
+          {
+            "category": "Raummiete",
+            "items": [
+              {
+                "name": "Kleiner Saal (pro Abend)",
+                "price": "1 Dukat",
+                "description": "für Versammlungen oder Feiern"
+              },
+              {
+                "name": "Großer Saal (pro Abend)",
+                "price": "5 Dukaten",
+                "description": "für große Feste oder Veranstaltungen"
+              },
+              {
+                "name": "Festplatz (pro Tag)",
+                "price": "10 Dukaten",
+                "description": "für Märkte oder Großveranstaltungen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Sonstige Kategorien",
+        "content": [
+          {
+            "category": "Werkzeuge für Spezialisten",
+            "items": [
+              {
+                "name": "Schmiedewerkzeug",
+                "price": "15 Dukaten",
+                "description": "für professionelle Schmiedearbeiten"
+              },
+              {
+                "name": "Zimmermannswerkzeug",
+                "price": "10 Dukaten",
+                "description": "für Holzarbeiten und Bauprojekte"
+              },
+              {
+                "name": "Alchemistenlabor (mobil)",
+                "price": "50 Dukaten",
+                "description": "tragbare Ausstattung für Alchemie"
+              }
+            ]
+          },
+          {
+            "category": "Exotische Waren",
+            "items": [
+              {
+                "name": "Seidenstoff",
+                "price": "5 Dukaten pro Elle",
+                "description": "hochwertiger Stoff aus fernen Ländern"
+              },
+              {
+                "name": "Gewürze",
+                "price": "10 Silberstücke pro Einheit",
+                "description": "exotische und seltene Gewürze"
+              },
+              {
+                "name": "Parfüm",
+                "price": "1 Dukat pro Flasche",
+                "description": "feiner Duft aus seltenen Essenzen"
+              }
+            ]
+          },
+          {
+            "category": "Magische Gegenstände",
+            "items": [
+              {
+                "name": "Magischer Ring",
+                "price": "200 Dukaten",
+                "description": "verleiht Schutz vor magischen Angriffen"
+              },
+              {
+                "name": "Zauberstab",
+                "price": "300 Dukaten",
+                "description": "verstärkt Zauberkräfte"
+              },
+              {
+                "name": "Schutzamulett",
+                "price": "150 Dukaten",
+                "description": "schützt vor Flüchen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Individuelle Anpassungen",
+        "content": [
+          {
+            "category": "Personalisierte Gegenstände",
+            "items": [
+              {
+                "name": "Graviertes Schwert",
+                "price": "50 Dukaten",
+                "description": "eine individuelle Gravur wird hinzugefügt"
+              },
+              {
+                "name": "Personalisierter Ring",
+                "price": "25 Dukaten",
+                "description": "mit eingraviertem Namen oder Symbol"
+              },
+              {
+                "name": "Bestickter Umhang",
+                "price": "15 Dukaten",
+                "description": "mit persönlichem Wappen oder Muster"
+              }
+            ]
+          },
+          {
+            "category": "Maßanfertigungen",
+            "items": [
+              {
+                "name": "Maßgeschneiderte Kleidung",
+                "price": "10% Aufpreis",
+                "description": "basierend auf Standardpreisen"
+              },
+              {
+                "name": "Individuelles Möbelstück",
+                "price": "20% Aufpreis",
+                "description": "nach Wunsch gefertigt"
+              },
+              {
+                "name": "Speziell angepasste Rüstung",
+                "price": "30% Aufpreis",
+                "description": "optimiert für den Träger"
+              }
+            ]
+          },
+          {
+            "category": "Künstlerische Werke",
+            "items": [
+              {
+                "name": "Porträtmalerei",
+                "price": "50 Dukaten",
+                "description": "hochwertiges Gemälde des Auftraggebers"
+              },
+              {
+                "name": "Spezielle Skulptur",
+                "price": "100 Dukaten",
+                "description": "nach Vorlage oder Beschreibung"
+              },
+              {
+                "name": "Einzigartiger Schmuck",
+                "price": "200 Dukaten",
+                "description": "einmaliges Design, exklusiv angefertigt"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Exklusive Dienstleistungen",
+        "content": [
+          {
+            "category": "Magische Unterstützung",
+            "items": [
+              {
+                "name": "Magische Beratung",
+                "price": "10 Dukaten pro Stunde",
+                "description": "Ratschläge von erfahrenen Magiern"
+              },
+              {
+                "name": "Ritualzauber",
+                "price": "50 Dukaten",
+                "description": "zur Unterstützung komplexer Aufgaben"
+              },
+              {
+                "name": "Magische Analyse",
+                "price": "30 Dukaten",
+                "description": "Prüfung von magischen Gegenständen"
+              }
+            ]
+          },
+          {
+            "category": "Exklusive Handwerker",
+            "items": [
+              {
+                "name": "Meisterschmied",
+                "price": "20 Dukaten pro Auftrag",
+                "description": "fertigt Waffen oder Rüstungen von höchster Qualität"
+              },
+              {
+                "name": "Edelsteinschleifer",
+                "price": "10 Dukaten pro Stein",
+                "description": "veredelt Edelsteine für Schmuck oder magische Zwecke"
+              },
+              {
+                "name": "Kunstmaler",
+                "price": "15 Dukaten pro Gemälde",
+                "description": "erstellen von Kunstwerken nach Wunsch"
+              }
+            ]
+          },
+          {
+            "category": "Spezieller Schutz",
+            "items": [
+              {
+                "name": "Bewaffnete Eskorte",
+                "price": "5 Dukaten pro Tag",
+                "description": "für Reisen durch gefährliche Gebiete"
+              },
+              {
+                "name": "Geheimhaltungsschutz",
+                "price": "10 Dukaten",
+                "description": "Schutz von privaten Informationen"
+              },
+              {
+                "name": "Körperwache",
+                "price": "8 Dukaten pro Tag",
+                "description": "individuelle Sicherheit durch ausgebildetes Personal"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Seltene und Verbotene Waren",
+        "content": [
+          {
+            "category": "Illegale Substanzen",
+            "items": [
+              {
+                "name": "Tiefschatten-Elixier",
+                "price": "100 Dukaten",
+                "description": "ermöglicht Unsichtbarkeit für kurze Zeit"
+              },
+              {
+                "name": "Alraunen-Gift",
+                "price": "50 Dukaten",
+                "description": "verursacht lähmende Halluzinationen"
+              },
+              {
+                "name": "Schwarzer Lotus",
+                "price": "200 Dukaten",
+                "description": "extrem giftig, oft für Attentate genutzt"
+              }
+            ]
+          },
+          {
+            "category": "Geächtete Artefakte",
+            "items": [
+              {
+                "name": "Verfluchtes Schwert",
+                "price": "500 Dukaten",
+                "description": "mächtige Waffe, aber mit dunklen Nebenwirkungen"
+              },
+              {
+                "name": "Runenstein der Schatten",
+                "price": "300 Dukaten",
+                "description": "ermöglicht Kontrolle über Schattenwesen"
+              },
+              {
+                "name": "Nekromantenstab",
+                "price": "800 Dukaten",
+                "description": "verleiht die Fähigkeit, Untote zu kontrollieren"
+              }
+            ]
+          },
+          {
+            "category": "Seltene Naturprodukte",
+            "items": [
+              {
+                "name": "Feuerorchidee",
+                "price": "25 Dukaten",
+                "description": "seltene Pflanze, in Vulkangebieten zu finden"
+              },
+              {
+                "name": "Eisblatt",
+                "price": "30 Dukaten",
+                "description": "wächst nur in extrem kalten Regionen"
+              },
+              {
+                "name": "Drachenblut (rein)",
+                "price": "500 Dukaten",
+                "description": "legendäre Zutat für mächtige alchemistische Tränke"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Raritäten und Sammlerstücke",
+        "content": [
+          {
+            "category": "Antike Waffen",
+            "items": [
+              {
+                "name": "Schwert des ersten Königs",
+                "price": "1000 Dukaten",
+                "description": "eine Waffe von historischer Bedeutung"
+              },
+              {
+                "name": "Runenverzierter Bogen",
+                "price": "800 Dukaten",
+                "description": "antiker Bogen mit magischen Eigenschaften"
+              },
+              {
+                "name": "Drachentöter-Speer",
+                "price": "1500 Dukaten",
+                "description": "legendärer Speer, angeblich zum Töten von Drachen"
+              }
+            ]
+          },
+          {
+            "category": "Historische Schriften",
+            "items": [
+              {
+                "name": "Chroniken von Gareth",
+                "price": "200 Dukaten",
+                "description": "einzigartiges Manuskript über die Geschichte der Region"
+              },
+              {
+                "name": "Verbotenes Zauberbuch",
+                "price": "500 Dukaten",
+                "description": "enthalten mächtige und gefährliche Zauber"
+              },
+              {
+                "name": "Elfenhymnen",
+                "price": "300 Dukaten",
+                "description": "gesammelte Werke antiker Elfenlieder"
+              }
+            ]
+          },
+          {
+            "category": "Seltene Edelsteine",
+            "items": [
+              {
+                "name": "Dämmerstein",
+                "price": "400 Dukaten",
+                "description": "verleiht dem Träger erhöhte Wahrnehmung"
+              },
+              {
+                "name": "Sternensplitter",
+                "price": "500 Dukaten",
+                "description": "glänzt im Dunkeln, von magischer Herkunft"
+              },
+              {
+                "name": "Drachenauge",
+                "price": "1000 Dukaten",
+                "description": "ein legendärer Edelstein mit unbekannten Kräften"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Exotische Dienstleistungen",
+        "content": [
+          {
+            "category": "Kulturelle Darbietungen",
+            "items": [
+              {
+                "name": "Elfentanz",
+                "price": "20 Dukaten pro Aufführung",
+                "description": "eine seltene und bezaubernde Kunstform"
+              },
+              {
+                "name": "Orkisches Trommelfest",
+                "price": "15 Dukaten pro Veranstaltung",
+                "description": "kraftvolle und rhythmische Darbietung"
+              },
+              {
+                "name": "Gauklerakrobatik",
+                "price": "10 Dukaten pro Show",
+                "description": "beeindruckende Kunststücke und Tricks"
+              }
+            ]
+          },
+          {
+            "category": "Spezialausbildung",
+            "items": [
+              {
+                "name": "Schwertkampfausbildung",
+                "price": "50 Dukaten pro Woche",
+                "description": "intensives Training durch erfahrene Meister"
+              },
+              {
+                "name": "Alchemie-Intensivkurs",
+                "price": "100 Dukaten pro Monat",
+                "description": "Vertiefung in die Herstellung komplexer Tränke"
+              },
+              {
+                "name": "Diplomatenlehre",
+                "price": "200 Dukaten pro Lehrgang",
+                "description": "umfassende Ausbildung in Verhandlung und Etikette"
+              }
+            ]
+          },
+          {
+            "category": "Magische Dienste",
+            "items": [
+              {
+                "name": "Fluchbrechung",
+                "price": "150 Dukaten",
+                "description": "entfernt mächtige Flüche oder Verhexungen"
+              },
+              {
+                "name": "Teleportationszauber",
+                "price": "200 Dukaten",
+                "description": "ermöglicht Reisen über große Entfernungen"
+              },
+              {
+                "name": "Geisterbeschwörung",
+                "price": "300 Dukaten",
+                "description": "ermöglicht Kommunikation mit Verstorbenen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Legendäre Artefakte",
+        "content": [
+          {
+            "category": "Waffen",
+            "items": [
+              {
+                "name": "Schwert der Ewigkeit",
+                "price": "5000 Dukaten",
+                "description": "unzerstörbar, soll von einem Gott gesegnet sein"
+              },
+              {
+                "name": "Stab des Weltenwanderers",
+                "price": "4000 Dukaten",
+                "description": "ermöglicht Reisen zwischen Dimensionen"
+              },
+              {
+                "name": "Bogen des Mondjägers",
+                "price": "3000 Dukaten",
+                "description": "perfekt für den Einsatz in der Dunkelheit"
+              }
+            ]
+          },
+          {
+            "category": "Rüstungen",
+            "items": [
+              {
+                "name": "Drachenhautpanzer",
+                "price": "6000 Dukaten",
+                "description": "nahezu undurchdringlich, gefertigt aus Drachenleder"
+              },
+              {
+                "name": "Helm der Wahrheit",
+                "price": "2000 Dukaten",
+                "description": "verhindert Illusionen und Lügen"
+              },
+              {
+                "name": "Schild der Unbesiegbarkeit",
+                "price": "4500 Dukaten",
+                "description": "blockt jegliche physische Angriffe ab"
+              }
+            ]
+          },
+          {
+            "category": "Magische Objekte",
+            "items": [
+              {
+                "name": "Amulett der Unsterblichkeit",
+                "price": "10,000 Dukaten",
+                "description": "gewährt dem Träger ewiges Leben, aber mit Risiken"
+              },
+              {
+                "name": "Kristall der Allsicht",
+                "price": "8000 Dukaten",
+                "description": "enthüllt verborgene Geheimnisse"
+              },
+              {
+                "name": "Ring der Elemente",
+                "price": "7000 Dukaten",
+                "description": "kontrolliert Feuer, Wasser, Luft und Erde"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Mystische Kreaturen und Begleiter",
+        "content": [
+          {
+            "category": "Reittiere",
+            "items": [
+              {
+                "name": "Pegasus",
+                "price": "3000 Dukaten",
+                "description": "fliegendes Pferd, bekannt für seine Eleganz"
+              },
+              {
+                "name": "Höllenross",
+                "price": "5000 Dukaten",
+                "description": "dämonisches Reittier, extrem schnell und furchteinflößend"
+              },
+              {
+                "name": "Einhorn",
+                "price": "4000 Dukaten",
+                "description": "magisches und edles Wesen, Symbol der Reinheit"
+              }
+            ]
+          },
+          {
+            "category": "Wächtertiere",
+            "items": [
+              {
+                "name": "Höllenhund",
+                "price": "2000 Dukaten",
+                "description": "furchterregender und loyaler Beschützer"
+              },
+              {
+                "name": "Griffin",
+                "price": "3500 Dukaten",
+                "description": "halb Löwe, halb Adler, ideal für den Schutz von Schätzen"
+              },
+              {
+                "name": "Elementargeist",
+                "price": "4000 Dukaten",
+                "description": "magisches Wesen, das einen bestimmten Bereich bewacht"
+              }
+            ]
+          },
+          {
+            "category": "Exotische Begleiter",
+            "items": [
+              {
+                "name": "Feendrache",
+                "price": "2500 Dukaten",
+                "description": "kleines, magisches Wesen, oft als Glücksbringer"
+              },
+              {
+                "name": "Schattenkatze",
+                "price": "1500 Dukaten",
+                "description": "lautloser Jäger, perfekt für Spione"
+              },
+              {
+                "name": "Phönix",
+                "price": "6000 Dukaten",
+                "description": "unsterblicher Vogel, der aus seiner Asche wiedergeboren wird"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Flüche und Dunkle Rituale",
+        "content": [
+          {
+            "category": "Flüche",
+            "items": [
+              {
+                "name": "Fluch des Alterns",
+                "price": "300 Dukaten",
+                "description": "beschleunigt das Altern der Zielperson"
+              },
+              {
+                "name": "Fluch der Pein",
+                "price": "500 Dukaten",
+                "description": "verursacht unendliche Schmerzen"
+              },
+              {
+                "name": "Fluch des Verlusts",
+                "price": "400 Dukaten",
+                "description": "führt dazu, dass der Verfluchte alles verliert, was ihm wichtig ist"
+              }
+            ]
+          },
+          {
+            "category": "Beschwörungsrituale",
+            "items": [
+              {
+                "name": "Dämonenbeschwörung",
+                "price": "800 Dukaten",
+                "description": "ruft einen mächtigen Dämon zur Unterstützung"
+              },
+              {
+                "name": "Schattenritual",
+                "price": "600 Dukaten",
+                "description": "bietet die Fähigkeit, in den Schatten zu verschwinden"
+              },
+              {
+                "name": "Blutpakt",
+                "price": "1000 Dukaten",
+                "description": "ein mächtiger Vertrag mit dunklen Mächten"
+              }
+            ]
+          },
+          {
+            "category": "Schutzrituale",
+            "items": [
+              {
+                "name": "Ritual der Reinheit",
+                "price": "200 Dukaten",
+                "description": "reinigt einen Ort von bösen Mächten"
+              },
+              {
+                "name": "Geisterabwehr",
+                "price": "300 Dukaten",
+                "description": "schützt vor Geisterattacken und Besessenheit"
+              },
+              {
+                "name": "Bindung des Lichtes",
+                "price": "500 Dukaten",
+                "description": "ruft eine Schutzsphäre aus reinem Licht herbei"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Technologische Errungenschaften",
+        "content": [
+          {
+            "category": "Mechanische Konstruktionen",
+            "items": [
+              {
+                "name": "Mechanischer Wächter",
+                "price": "1500 Dukaten",
+                "description": "automatisierter Beschützer, reagiert auf Eindringlinge"
+              },
+              {
+                "name": "Uhrwerkdrache",
+                "price": "3000 Dukaten",
+                "description": "eine mechanische Nachbildung eines Drachen, beeindruckend und gefährlich"
+              },
+              {
+                "name": "Selbstfahrender Wagen",
+                "price": "2000 Dukaten",
+                "description": "mit mechanischem Antrieb, benötigt keine Zugtiere"
+              }
+            ]
+          },
+          {
+            "category": "Innovative Werkzeuge",
+            "items": [
+              {
+                "name": "Automatischer Schmiedehammer",
+                "price": "500 Dukaten",
+                "description": "erhöht die Effizienz von Schmiedearbeiten erheblich"
+              },
+              {
+                "name": "Alchemie-Mischmaschine",
+                "price": "800 Dukaten",
+                "description": "ermöglicht das gleichzeitige Mischen mehrerer Substanzen"
+              },
+              {
+                "name": "Taschenuhr",
+                "price": "100 Dukaten",
+                "description": "kleine tragbare Uhr, präzise und handlich"
+              }
+            ]
+          },
+          {
+            "category": "Militärische Geräte",
+            "items": [
+              {
+                "name": "Balliste (mobil)",
+                "price": "5000 Dukaten",
+                "description": "großes mechanisches Geschütz für Schlachten"
+              },
+              {
+                "name": "Explosivbolzen",
+                "price": "50 Dukaten pro Stück",
+                "description": "für Ballisten, richtet großen Schaden an"
+              },
+              {
+                "name": "Magischer Geschosswerfer",
+                "price": "7000 Dukaten",
+                "description": "kombiniert Mechanik und Magie für Fernkampf"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Handwerksgilden und Privilegien",
+        "content": [
+          {
+            "category": "Gildenmitgliedschaft",
+            "items": [
+              {
+                "name": "Schmiedegilde",
+                "price": "100 Dukaten pro Jahr",
+                "description": "ermöglicht Zugang zu Schmiedeausrüstung und Ressourcen"
+              },
+              {
+                "name": "Alchemistengilde",
+                "price": "200 Dukaten pro Jahr",
+                "description": "zugang zu exklusiven Rezepten und Materialien"
+              },
+              {
+                "name": "Künstlergilde",
+                "price": "50 Dukaten pro Jahr",
+                "description": "bietet Netzwerke und Unterstützung für Künstler"
+              }
+            ]
+          },
+          {
+            "category": "Gildenrechte",
+            "items": [
+              {
+                "name": "Handelsprivileg",
+                "price": "500 Dukaten",
+                "description": "ermöglicht exklusiven Handel in bestimmten Regionen"
+              },
+              {
+                "name": "Produktionsrecht",
+                "price": "300 Dukaten",
+                "description": "erlaubt die Herstellung bestimmter Produkte"
+              },
+              {
+                "name": "Meistertitel",
+                "price": "1000 Dukaten",
+                "description": "anerkanntes Zertifikat für höchste Handwerkskunst"
+              }
+            ]
+          },
+          {
+            "category": "Exklusive Dienstleistungen",
+            "items": [
+              {
+                "name": "Gildenvermittler",
+                "price": "50 Dukaten",
+                "description": "hilft bei Handelsabkommen oder Streitigkeiten"
+              },
+              {
+                "name": "Privilegierte Ausbildung",
+                "price": "200 Dukaten pro Lehrgang",
+                "description": "exklusive Schulungen durch erfahrene Meister"
+              },
+              {
+                "name": "Rechtsbeistand",
+                "price": "20 Dukaten pro Fall",
+                "description": "juristische Unterstützung durch die Gilde"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Religiöse Artefakte und Rituale",
+        "content": [
+          {
+            "category": "Heilige Artefakte",
+            "items": [
+              {
+                "name": "Segensamulett",
+                "price": "150 Dukaten",
+                "description": "bietet Schutz vor Flüchen und Dunkelheit"
+              },
+              {
+                "name": "Göttliches Schwert",
+                "price": "1000 Dukaten",
+                "description": "verleiht zusätzliche Kraft im Namen der Götter"
+              },
+              {
+                "name": "Reliquienkasten",
+                "price": "500 Dukaten",
+                "description": "enthält Überreste eines Heiligen"
+              }
+            ]
+          },
+          {
+            "category": "Zeremonielle Rituale",
+            "items": [
+              {
+                "name": "Segen eines Hohepriesters",
+                "price": "50 Dukaten",
+                "description": "verstärkt den Glauben und bietet Schutz"
+              },
+              {
+                "name": "Ritual der Erneuerung",
+                "price": "100 Dukaten",
+                "description": "heilt spirituelle und körperliche Wunden"
+              },
+              {
+                "name": "Lichtweihe",
+                "price": "80 Dukaten",
+                "description": "beseitigt Dunkelheit und Schatten aus einem Gebiet"
+              }
+            ]
+          },
+          {
+            "category": "Religiöse Kleidung und Symbole",
+            "items": [
+              {
+                "name": "Geweihter Umhang",
+                "price": "200 Dukaten",
+                "description": "verstärkt die Präsenz bei religiösen Zeremonien"
+              },
+              {
+                "name": "Heilige Insignien",
+                "price": "150 Dukaten",
+                "description": "zeigen die Verbindung zu einer bestimmten Gottheit"
+              },
+              {
+                "name": "Gebetsbuch",
+                "price": "20 Dukaten",
+                "description": "enthält heilige Texte und Rituale"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Abenteurerausrüstung",
+        "content": [
+          {
+            "category": "Überlebensausrüstung",
+            "items": [
+              {
+                "name": "Seil (20 m)",
+                "price": "5 Silberstücke",
+                "description": "starkes Seil, ideal für Klettern und Transport"
+              },
+              {
+                "name": "Zelt (für 2 Personen)",
+                "price": "10 Silberstücke",
+                "description": "leicht und tragbar"
+              },
+              {
+                "name": "Wasserschlauch (5 Liter)",
+                "price": "3 Silberstücke",
+                "description": "für die Wasserversorgung unterwegs"
+              }
+            ]
+          },
+          {
+            "category": "Werkzeuge",
+            "items": [
+              {
+                "name": "Brecheisen",
+                "price": "1 Dukat",
+                "description": "zum Öffnen von Türen oder Truhen"
+              },
+              {
+                "name": "Fackeln (Paket mit 5)",
+                "price": "2 Silberstücke",
+                "description": "für Licht in dunklen Umgebungen"
+              },
+              {
+                "name": "Dietriche (Set)",
+                "price": "10 Silberstücke",
+                "description": "zum Öffnen von Schlössern"
+              }
+            ]
+          },
+          {
+            "category": "Karten und Orientierung",
+            "items": [
+              {
+                "name": "Karte einer Region",
+                "price": "5 Silberstücke",
+                "description": "detaillierte geografische Informationen"
+              },
+              {
+                "name": "Kompass",
+                "price": "10 Silberstücke",
+                "description": "hilft bei der Orientierung"
+              },
+              {
+                "name": "Sternenkarte",
+                "price": "1 Dukat",
+                "description": "für nächtliche Navigation"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Schätze und seltene Funde",
+        "content": [
+          {
+            "category": "Antike Münzen",
+            "items": [
+              {
+                "name": "Goldene Drachenmünze",
+                "price": "200 Dukaten",
+                "description": "eine Münze aus einer längst vergangenen Epoche"
+              },
+              {
+                "name": "Elfische Silbermünze",
+                "price": "100 Dukaten",
+                "description": "zeigt kunstvolle Gravuren"
+              },
+              {
+                "name": "Bronzemünze der Zwerge",
+                "price": "50 Dukaten",
+                "description": "eine seltene Sammlermünze"
+              }
+            ]
+          },
+          {
+            "category": "Historische Artefakte",
+            "items": [
+              {
+                "name": "Königliche Krone",
+                "price": "3000 Dukaten",
+                "description": "trägt die Macht eines alten Herrschers"
+              },
+              {
+                "name": "Elfenbogen",
+                "price": "1500 Dukaten",
+                "description": "legendäre Waffe, bekannt für Präzision"
+              },
+              {
+                "name": "Drachenhorn",
+                "price": "2500 Dukaten",
+                "description": "ein Relikt aus der Zeit der Drachen"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Zutaten für exotische Magie",
+        "content": [
+          {
+            "category": "Pflanzliche Zutaten",
+            "items": [
+              {
+                "name": "Mondkraut",
+                "price": "15 Dukaten",
+                "description": "verstärkt magische Heiltränke"
+              },
+              {
+                "name": "Nachtschattenblüten",
+                "price": "20 Dukaten",
+                "description": "essentiell für Unsichtbarkeitszauber"
+              },
+              {
+                "name": "Feuerwurzel",
+                "price": "30 Dukaten",
+                "description": "verleiht explosive Kraft"
+              }
+            ]
+          },
+          {
+            "category": "Tierische Zutaten",
+            "items": [
+              {
+                "name": "Drachenzahn",
+                "price": "100 Dukaten",
+                "description": "für mächtige Schutzzauber"
+              },
+              {
+                "name": "Greifenfeder",
+                "price": "50 Dukaten",
+                "description": "verstärkt Flugzauber"
+              },
+              {
+                "name": "Phönixasche",
+                "price": "200 Dukaten",
+                "description": "essentiell für Wiederauferstehungszauber"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Regionale Handelswaren",
+        "content": [
+          {
+            "category": "Waren aus dem Süden",
+            "items": [
+              {
+                "name": "Seide aus Fasar",
+                "price": "10 Dukaten pro Elle",
+                "description": "hochwertig und begehrt"
+              },
+              {
+                "name": "Gewürzmischungen",
+                "price": "5 Silberstücke",
+                "description": "intensiv und selten"
+              },
+              {
+                "name": "Zitrusfrüchte",
+                "price": "3 Silberstücke",
+                "description": "frisch und aromatisch"
+              }
+            ]
+          },
+          {
+            "category": "Produkte des Nordens",
+            "items": [
+              {
+                "name": "Felle aus Thorwal",
+                "price": "8 Silberstücke",
+                "description": "warm und robust"
+              },
+              {
+                "name": "Bernstein",
+                "price": "15 Silberstücke",
+                "description": "wertvoll und dekorativ"
+              },
+              {
+                "name": "Walöl",
+                "price": "5 Silberstücke pro Liter",
+                "description": "für Lampen oder Salben"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
