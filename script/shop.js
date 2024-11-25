@@ -76,7 +76,7 @@ function addToInventory(itemName, itemPreis, itemWärung) {
         case "Dukaten":
             wallet.dukaten -= preis;
             break;
-        case "Silberlinge":
+        case "Silber":
             wallet.silber -= preis;
             break;
         case "Heller":
