@@ -46,13 +46,26 @@ function updateSpecialSection(section, sectionId) {
 }
 
 function updateCharakterInfo(charakterInfo) {
-    for (let key in charakterInfo) {
-        const sanitizedKey = sanitizeKey(key);
-        const input = document.getElementById(`charakterInfo_${sanitizedKey}`);
-        if (input) {
-            charakterInfo[key] = input.value;
+    const getIdValue = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            return element.value;
+        } else {
+            console.error(`Element mit ID ${id} nicht gefunden.`);
+            return '';
         }
-    }
+    };
+
+    charakterInfo.name = getIdValue('name');
+    charakterInfo.alter = getIdValue('alter');
+    charakterInfo.geschlecht = getIdValue('geschlecht');
+    charakterInfo.rasse = getIdValue('rassen-select'); // Rasse speichern
+    charakterInfo.klasse = getIdValue('klassen-select'); // Klasse speichern
+    charakterInfo.größe = getIdValue('größe');
+    charakterInfo.gewicht = getIdValue('gewicht');
+    charakterInfo.haarfarbe = getIdValue('haarfarbe');
+    charakterInfo.augenfarbe = getIdValue('augenfarbe');
+    charakterInfo.titel = getIdValue('titel');
 }
 
 function saveChanges(data) {
@@ -107,10 +120,10 @@ function saveChanges(data) {
     }
 
     if (charakter.geld) {
-        charakter.geld = { ...wallet };
+        charakter.geld = { ...wallet }; // Beispiel: Aktualisierung des Geld-Objekts
     }
 
-    data.inventory = inventory; // inventory ist dein bestehendes Objekt
+    data.inventory = saveInventory(); // Inventar speichern
 
     const jsonString = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });

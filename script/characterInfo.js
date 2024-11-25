@@ -32,8 +32,10 @@ function updateCharakterInfo(charakterInfo) {
     charakterInfo.name = getIdValue('name');
     charakterInfo.alter = getIdValue('alter');
     charakterInfo.geschlecht = getIdValue('geschlecht');
-    charakterInfo.rasse = getIdValue('rassen-select');
-    charakterInfo.klasse = getIdValue('klassen-select');
+    charakterInfo.rasse = getIdValue('rassen-select'); // Sicherstellen, dass dieser Wert übernommen wird
+    charakterInfo.klasse = getIdValue('klassen-select'); // Sicherstellen, dass dieser Wert übernommen wird
+    console.log(charakterInfo.rasse)
+    console.log(charakterInfo.klasse)
     charakterInfo.größe = getIdValue('größe');
     charakterInfo.gewicht = getIdValue('gewicht');
     charakterInfo.haarfarbe = getIdValue('haarfarbe');
