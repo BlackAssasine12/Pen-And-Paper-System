@@ -74,17 +74,44 @@ document.getElementById('toggleHiddenCheckbox').addEventListener('change', funct
 function setInputsToMinOrMax(isMin) {
     // Alle Eingabefelder mit min und max finden
     const inputs = document.querySelectorAll('input[min][max]');
-    
+    const mainInput = document.getElementById('erfahrung_Gesteigerte');
+    let totalAdjustment = 0; // Variable für die Gesamtsumme der Änderungen
+
     inputs.forEach(input => {
-      const min = parseFloat(input.min);
-      const max = parseFloat(input.max);
-      // Setze den Wert je nach Auswahl
-      input.value = isMin ? min : max;
+        const min = parseFloat(input.min);
+        const max = parseFloat(input.max);
+        const initialValue = parseFloat(input.value) || 0;
+
+        // Setze den Wert je nach Auswahl
+        const newValue = isMin ? min : max;
+        input.value = newValue;
+
+        const diff = newValue - initialValue; // Differenz berechnen
+
+        if (!isNaN(diff)) {
+            // Berechne den Anpassungswert basierend auf Klassen
+            let adjustmentValue = 1;
+            const classList = input.classList;
+
+            classList.forEach(cls => {
+                if (adjustments[cls] !== undefined) {
+                    adjustmentValue = parseFloat(adjustments[cls]) || 1;
+                }
+            });
+
+            // Gesamtsumme aktualisieren
+            totalAdjustment += diff * adjustmentValue;
+        }
     });
 
-    alert(`Alle Eingaben wurden auf ${isMin ? 'Min' : 'Max'} gesetzt.`);
-  }
+    // Hauptinput "erfahrung_Gesteigerte" aktualisieren
+    if (mainInput) {
+        mainInput.value = parseFloat(mainInput.value) + totalAdjustment;
+    }
+    updateCharakterCalculation()
+    alert(`Alle Eingaben wurden auf ${isMin ? 'Min' : 'Max'} gesetzt. Erfahrung gesteigerte wurde entsprechend angepasst.`);
+}
 
-  // Event-Listener für Buttons
-  document.getElementById('setMin').addEventListener('click', () => setInputsToMinOrMax(true));
-  document.getElementById('setMax').addEventListener('click', () => setInputsToMinOrMax(false));
+// Event-Listener für Buttons
+document.getElementById('setMin').addEventListener('click', () => setInputsToMinOrMax(true));
+document.getElementById('setMax').addEventListener('click', () => setInputsToMinOrMax(false));
