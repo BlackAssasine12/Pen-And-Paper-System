@@ -148,6 +148,10 @@ input[type=checkbox] {
   justify-content: space-between;
 }
 
+.ShopHeader {
+  text-decoration: underline;
+}
+
 #ShopButton {
   display: flex;
   width: 38px;

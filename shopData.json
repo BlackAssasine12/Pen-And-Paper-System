@@ -2,18 +2,18 @@
     "Waffenzubehör": [
         {
             "Item": "Schwertgürtel",
-            "Preis": 40.15,
-            "Währung": "Silberlinge"
+            "Preis": 2,
+            "Währung": "Silber"
         },
         {
             "Item": "Beingurt",
-            "Preis": 15.5,
-            "Währung": "Silberlinge"
+            "Preis": 1,
+            "Währung": "Silber"
         },
         {
             "Item": "Dolchscheide",
-            "Preis": 10.8,
-            "Währung": "Silberlinge"
+            "Preis": 8,
+            "Währung": "Heller"
         }
     ],
     "Munition": [
@@ -36,81 +36,96 @@
     "Beleuchtung": [
         {
             "Item": "Kerze, 1 Spann",
-            "Preis": 2.1,
+            "Preis": 2,
             "Währung": "Heller"
         },
         {
             "Item": "Pechfackel",
-            "Preis": 20.5,
+            "Preis": 5,
             "Währung": "Heller"
         },
         {
             "Item": "Öllampe",
-            "Preis": 15.3,
-            "Währung": "Silberlinge"
+            "Preis": 1,
+            "Währung": "Silber"
         }
     ],
     "Behälter": [
         {
             "Item": "Lederrucksack, 15 Stein",
-            "Preis": 40.4,
-            "Währung": "Silberlinge"
+            "Preis": 5,
+            "Währung": "Silber"
         },
         {
             "Item": "Gürteltaschen",
-            "Preis": 5.5,
+            "Preis": 5,
             "Währung": "Heller"
         },
         {
             "Item": "Pergamenthülle",
-            "Preis": 2.2,
-            "Währung": "Silberlinge"
+            "Preis": 2,
+            "Währung": "Heller"
         }
     ],
     "Koch- und Essgeschirr": [
         {
             "Item": "Trinkbecher, Holz",
-            "Preis": 2.3,
+            "Preis": 3,
             "Währung": "Heller"
         },
         {
             "Item": "Teller, Holz",
-            "Preis": 4.4,
+            "Preis": 4,
             "Währung": "Heller"
         },
         {
             "Item": "Eisenpfanne, 1 Spann",
-            "Preis": 40.4,
-            "Währung": "Silberlinge"
+            "Preis": 1,
+            "Währung": "Silber"
         }
     ],
     "Werkzeug": [
         {
             "Item": "Messer",
-            "Preis": 10.5,
-            "Währung": "Silberlinge"
+            "Preis": 1,
+            "Währung": "Silber"
         },
         {
             "Item": "Hammer",
-            "Preis": 20.6,
-            "Währung": "Silberlinge"
+            "Preis": 1,
+            "Währung": "Silber"
         },
         {
             "Item": "Brecheisen",
-            "Preis": 90.10,
-            "Währung": "Silberlinge"
+            "Preis": 5,
+            "Währung": "Silber"
+        },
+        {
+            "Item": "Brecheisen",
+            "Preis": 1,
+            "Währung": "Dukaten"
+        },
+        {
+            "Item": "Schleifstein",
+            "Preis": 5,
+            "Währung": "Silber"
+        },
+        {
+            "Item": "Spaten",
+            "Preis": 1,
+            "Währung": "Dukaten"
         }
     ],
     "Sonstiger Reisebedarf": [
         {
             "Item": "Zelt, 2 Personen",
-            "Preis": 60.2,
+            "Preis": 1,
             "Währung": "Dukaten"
         },
         {
             "Item": "Wolldecke",
-            "Preis": 60.2,
-            "Währung": "Silberlinge"
+            "Preis": 5,
+            "Währung": "Silber"
         },
         {
             "Item": "Schlafsack",
@@ -121,18 +136,45 @@
     "Essen": [
         {
             "Item": "Proviant, pro Tag",
-            "Preis": 40.3,
-            "Währung": "Silberlinge"
+            "Preis": 5,
+            "Währung": "Heller"
         },
         {
             "Item": "Brot",
-            "Preis": 40.15,
-            "Währung": "Kreuzer"
+            "Preis": 4,
+            "Währung": "Heller"
         },
         {
             "Item": "Weißbrot",
-            "Preis": 40.3,
+            "Preis": 5,
             "Währung": "Heller"
+        },
+        {
+            "Item": "Fleisch (gekocht)",
+            "Preis": 5,
+            "Währung": "Heller"
+        },
+        {
+            "Item": "Bier",
+            "Preis": 1,
+            "Währung": "Heller"
+        }
+    ],
+    "Reittiere": [
+        {
+            "Item": "Pferd (untrainiert)",
+            "Preis": 55,
+            "Währung": "Dukaten"
+        },
+        {
+            "Item": "Esel",
+            "Preis": 25,
+            "Währung": "Dukaten"
+        },
+        {
+            "Item": "Kamel (untrainiert)",
+            "Preis": 65,
+            "Währung": "Dukaten"
         }
     ]
 }
