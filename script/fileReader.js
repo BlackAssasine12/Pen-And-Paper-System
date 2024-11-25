@@ -1,7 +1,7 @@
 // fileReader.js
 
 let myData;
-
+let fileName;
 document.getElementById('fileInput').addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
@@ -9,7 +9,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
         reader.onload = function (e) {
             const data = JSON.parse(e.target.result);
             myData = data;
-        
+            fileName = file.name
             initializeWallet(data);
             generateCharakterAttributes(data);
             genCharInfo(data);

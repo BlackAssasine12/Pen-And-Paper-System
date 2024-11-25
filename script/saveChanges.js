@@ -117,7 +117,7 @@ function saveChanges(data) {
 
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'charakter.json';
+    a.download = `${fileName}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
