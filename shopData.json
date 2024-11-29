@@ -48,6 +48,11 @@
             "Item": "Öllampe",
             "Preis": 1,
             "Währung": "Silber"
+        },
+        {
+            "Item": "Lampen Öl ~1h",
+            "Preis": 5,
+            "Währung": "Heller"
         }
     ],
     "Behälter": [
@@ -97,11 +102,6 @@
         },
         {
             "Item": "Brecheisen",
-            "Preis": 5,
-            "Währung": "Silber"
-        },
-        {
-            "Item": "Brecheisen",
             "Preis": 1,
             "Währung": "Dukaten"
         },
@@ -131,6 +131,16 @@
             "Item": "Schlafsack",
             "Preis": 1,
             "Währung": "Dukaten"
+        },
+        {
+            "Item": "Zunderkästchen",
+            "Preis": 5,
+            "Währung": "Heller"
+        },
+        {
+            "Item": "Feuerstahl",
+            "Preis": 6,
+            "Währung": "Heller"
         }
     ],
     "Essen": [

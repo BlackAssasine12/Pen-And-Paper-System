@@ -15,7 +15,7 @@ document.getElementById('fileInput').addEventListener('change', function (event)
             genCharInfo(data);
             bindHideButtons();
             updateCharakterCalculation();
-        
+
             // Inventar laden
             if (data.inventory) {
                 inventory = data.inventory; // Inventory-Objekt aktualisieren
@@ -28,10 +28,13 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 
 function loadInventory(inventory) {
     const ul = document.getElementById('inventory');
+    // console.log(inventory)
     ul.innerHTML = ''; // Bestehende Inhalte entfernen
     inventory.forEach(item => {
         const li = document.createElement('li');
-        li.textContent = `${item.name} - ${item.count}x`;
+        li.textContent = `${item.name} - ${item.quantity}x`;
+        // console.log(item.quantity)
+
         ul.appendChild(li);
     });
 }
