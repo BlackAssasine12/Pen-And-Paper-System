@@ -213,6 +213,10 @@ Der Spieler spricht mit dem Spielleiter ab, welchen Wurf er machen soll. <br>
 Magie wird grundsätzlich nach den Attributen gewürfelt. <br>
 Ausgleichspunkte sind die Punkte, die du in den benutzten Elementen insgesamt zur Verfügung hast, geteilt durch die Anzahl der Elemente, die du für den Zauber benutzt hast.
 
+## Meucheln
+Bedinungen: Der Gegner darf dich nicht bemerkt haben und du brauchst eine Nahkampfwaffe womit du gut umgehen kannst.
+Meucheln tötet im Normalfall sofort.
+
 # Berechnungen für Charakterwerte
 
 ## Lebenspunkte (LP)
