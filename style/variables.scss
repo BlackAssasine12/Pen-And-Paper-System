@@ -5,6 +5,10 @@ $secondary-color: #666666;
 $background-color: #e1d4b7;
 $text-color: #36251b;
 $rd_color: #ffffff;
+$container-bg-color: rgba(230, 220, 200, 0.9);
+$container-border-color: #a68a7d;
+$container-shadow: 0 2px 4px rgba(54, 37, 27, 0.2);
+
 
 $border-color: #1f110a;
 $input_color: transparent;
@@ -26,19 +30,16 @@ $text-shadow: 2px 2px 0px rgba(235, 220, 181, 1);
 }
 
 .card {
-    background-image: url("../assets/pappenheimer.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
+    background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid $container-border-color;
+    box-shadow: $container-shadow;
     padding: 10px;
-}
-
-.backgroundIMG {
-    background-image: url("../assets/wood.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-}
+  }
+  
+  .backgroundIMG {
+    background-color: $background-color;
+  }
 
 
 #dragfield {

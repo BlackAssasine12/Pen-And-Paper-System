@@ -12,217 +12,534 @@
 </head>
 
 <body>
-    <!-- <h1 style="color: red;">In bearbeitung, kann zu fehlern kommen</h1> -->
-    <label class="toggleLabel">
-        <input type="checkbox" id="toggleListenersCheckbox">Kostenloses Steigern
-    </label>
-    <label class="toggleLabel">
-        <input type="checkbox" id="toggleHiddenCheckbox">Ausgeblendeten Item Container Anzeigen
-    </label>
-    <button id="ASkillVert">Automatische Umrechnung</button>
-
-    <div class="content">
-        <div class="Rowflex">
-            <div class="infoFlexContainer">
-                <h6>Charakterinformation</h6>
-                <div class="mediumFlexItem">Name: <input class="eingabefeld" value=" " id="name" type="text"></div>
-                <div class="mediumFlexItem">Geschlecht: <input class="eingabefeld" value=" " id="geschlecht"
-                        type="text"></div>
-                <div class="mediumFlexItem">Größe: <input class="eingabefeld" value=" " id="größe" type="text"></div>
-                <div class="mediumFlexItem">Alter: <input class="eingabefeld" value=" " id="alter" type="text"></div>
-
-                <div class="mediumFlexItem">Gewicht: <input class="eingabefeld" value=" " id="gewicht" type="text">
-                </div>
-                <div class="mediumFlexItem">Haarfarbe: <input class="eingabefeld" value=" " id="haarfarbe" type="text">
-                </div>
-                <div class="mediumFlexItem">Augenfarbe: <input class="eingabefeld" value=" " id="augenfarbe"
-                        type="text"></div>
-                <div class="mediumFlexItem">Titel: <input class="eingabefeld" value=" " id="titel" type="text"></div>
-                <div class="rakla-select">
-                    <div class="mediumFlexItem">
-                        <label for="rassen-select">Rasse: </label>
-                        <select name="rassen-select" id="rassen-select" class="infoFlexItem">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                    <div class="mediumFlexItem">
-                        <label for="klassen-select">Klasse: </label>
-                        <select name="klassen-select" id="klassen-select" class="infoFlexItem">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="WalletContainer FlexItemContainer" id="WalletContainer">
-                <h6>Geldbeutel</h6>
-                <form id="inputField" onsubmit="return false">
-                    <input type="number" placeholder="Enter a number" id="NumberInput" value="0">
-                    <select name="Währund" id="CurrencyField" onchange="">
-                        <option id="dukaten" value="dukaten">Dukaten</option>
-                        <option id="silber" value="silber">Silberlinge</option>
-                        <option id="heller" value="heller">Heller</option>
-                        <option id="kreuzer" value="kreuzer">Kreuzer</option>
-                    </select>
-                    <button type="submit" id="wadd" onclick="TheChoosenOne()">Add Wallet</button>
-                    <button type="submit" id="wconvert" onclick="wConvert()">Convert Wallet</button>
-
-                    <div style="margin-top: 20px;">
-                        <div>Dukaten: <p id="showDukaten"></p>
-                        </div>
-                        <div>Silberlinge: <p id="showSilber"></p>
-                        </div>
-                        <div>Heller: <p id="showHeller"></p>
-                        </div>
-                        <div>Kreuzer: <p id="showKreuzer"></p>
-                        </div>
-                    </div>
-                    <button type="submit" id="wReset" onclick="wReset()" style="margin-top: 20px;">Reset
-                        Wallet</button>
-            </div>
-        </div>
-
-        </form>
-        <div id="FileReaderInOutput">
-            <input type="file" id="fileInput">
-            <div id="charakterContainer"></div>
-            <button id="saveButton">Speichern</button>
-            <!-- <button id="resetLocalStorage">Reset Local Storage</button> -->
-            <!-- <button id="downloadJson">Download JSON</button> -->
-            <a href="./charbogen/charakter.json" download="charakter.json">Neue JSON-Datei herunterladen</a>
-        </div>
-
-        <div class="Rowflex">
-            <div class="FlexItemContainer BigFlexItemContainer" id="ShopContainer">
-                <span class="Rowflex ShopHead">
-                    <h1>Reise-Shop</h1>
-                    <span class="JCRight">
-                        <button id="ShopButton">-</button>
-                    </span>
-                </span>
-                <div id="shop"></div>
-            </div>
-            <div class="FlexItemContainer BigFlexItemContainer" id="InvContainer">
-                <h2>Inventar</h2>
-                <ul id="inventory"></ul>
-                <div id="inventoryControls">
-                    <input type="text" id="itemNameInput" placeholder="Artikelname">
-                    <button onclick="addToInventoryFromInput()">Hinzufügen</button>
-                    <button onclick="removeFromInventoryFromInput()">Entfernen</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="Würfelsektion">
-            <div id="inBodyDiv">
-
-                <form onsubmit="return false">
-                    <button onclick="toggleDiv()">Dice</button>
-
-                    <div id="divDice" style="display: none;">
-                        <div class="container">
-                            <input class="FlexInputs" type="number" id="DiceCount" placeholder="Dice Count" value="">
-                            <input class="FlexInputs" type="number" id="DiceSides" placeholder="Dice Sides" value=""
-                                style="display: none;">
-                            <select name="ChooseDice" id="Dicer" onchange="DiceChooser()">
-                                <option value="custom" id="custom">Custom</option>
-                                <option value="d100" id="d100">d100</option>
-                                <option value="d20" id="d20" selected>d20</option>
-                                <option value="d10" id="d10">d10</option>
-                                <option value="d6" id="d6">d6</option>
-                            </select>
-                        </div>
-                        <button onsubmit="return false" onclick="Roll()">Roll</button>
-                        <div id="showDice" class="dice-container" style="margin-top: 10px;"></div>
-                    </div>
-                </form>
-            </div>
-
-            <div id="container" style="display: none;">
-
-                <div class="calc" onclick="InToHTML(7)">
-                    <p>7</p>
-                </div>
-                <div class="calc" onclick="InToHTML(8)">
-                    <p>8</p>
-                </div>
-                <div class="calc" onclick="InToHTML(9)">
-                    <p>9</p>
-                </div>
-                <div class="calc" onclick="InToHTML('/')" id="divided">
-                    <p>/</p>
-                </div>
-
-                <div class="calc" onclick="InToHTML(4)">
-                    <p>4</p>
-                </div>
-                <div class="calc" onclick="InToHTML(5)">
-                    <p>5</p>
-                </div>
-                <div class="calc" onclick="InToHTML(6)">
-                    <p>6</p>
-                </div>
-                <div class="calc" onclick="InToHTML('*')" id="multiplied">
-                    <p>*</p>
-                </div>
-
-                <div class="calc" onclick="InToHTML(1)">
-                    <p>1</p>
-                </div>
-                <div class="calc" onclick="InToHTML(2)">
-                    <p>2</p>
-                </div>
-                <div class="calc" onclick="InToHTML(3)">
-                    <p>3</p>
-                </div>
-
-                <div class="calc" onclick="InToHTML('+')" id="plus">
-                    <p>+</p>
-                </div>
-                <div class="calc" onclick="clearEqField()" id="clear">
-                    <p>C</p>
-                </div>
-                <div class="calc" onclick="InToHTML(0)">
-                    <p>0</p>
-                </div>
-                <div class="calc" onclick="InToHTML('-')" id="minus">
-                    <p>-</p>
-                </div>
-
-                <div class="calc" id="equals" onclick="calculate()">
-                    <p>=</p>
-                </div>
-
-                <div class="calc" id="dragfield"></div>
-                <div class="calc" onclick="InToHTML('.')" id="point">
-                    <p>,</p>
-                </div>
-                <div class="calc"></div>
-                <div class="calc"></div>
-                <div id="FieldContainer">
-                    <div id="eqField"></div>
-                    <div id="evField"></div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="skinContainer FlexItemContainer BigFlexItemContainer" id="skinContainer">
-            <h2>Einstellungen</h2>
-
-            <label for="fontInput">Schriftart eingeben:</label>
-            <input type="text" id="fontInput" placeholder="z.B. Arial, Verdana, Times New Roman">
-            <button onclick="changeFont()">Schriftart ändern</button>
-
-            <label for="colorInput">Schriftfarbe eingeben:</label>
-            <input type="color" id="colorInput" placeholder="red | #9B232E | rgb(155,35,46)">
-            <button onclick="changeColor()">Schriftfarbe ändern</button>
-
-            <button id="setMin">Alle auf Min setzen</button>
-            <button id="setMax">Alle auf Max setzen</button>
-        </div>
-
+    <div class="top-controls">
+        <label class="toggleLabel">
+            <input type="checkbox" id="toggleListenersCheckbox">Kostenloses Steigern
+        </label>
+        <label class="toggleLabel">
+            <input type="checkbox" id="toggleHiddenCheckbox">Ausgeblendeten Item Container Anzeigen
+        </label>
+        <button id="ASkillVert">Automatische Umrechnung</button>
     </div>
+
+    <div class="tabs-container">
+        <ul class="tab-nav">
+            <li class="tab-item active" data-tab="charakter-tab">Charakter</li>
+            <li class="tab-item" data-tab="magie-tab">Magie</li>
+            <li class="tab-item" data-tab="ausgeblendete-tab">Ausgeblendete</li>
+            <li class="tab-item" data-tab="inventar-tab">Inventar & Shop</li>
+            <li class="tab-item" data-tab="werkzeuge-tab">Werkzeuge</li>
+            <li class="tab-item" data-tab="einstellungen-tab">Einstellungen</li>
+        </ul>
+
+        <div class="content">
+            <!-- Charakter Tab -->
+            <div class="tab-content active" id="charakter-tab">
+                <div id="FileReaderInOutput">
+                    <div class="file-upload-container">
+                        <input type="file" id="fileInput">
+                        <button id="saveButton">Speichern</button>
+                        <a href="./charbogen/charakter.json" download="charakter.json">Neue JSON-Datei herunterladen</a>
+                    </div>
+                </div>
+
+                <div class="main-character-content">
+                    <!-- Charakterinfo Box -->
+                    <div class="infoFlexContainer">
+                        <h6>Charakterinformation</h6>
+                        <div class="mediumFlexItem">Name: <input class="eingabefeld" value=" " id="name" type="text"></div>
+                        <div class="mediumFlexItem">Geschlecht: <input class="eingabefeld" value=" " id="geschlecht" type="text"></div>
+                        <div class="mediumFlexItem">Größe: <input class="eingabefeld" value=" " id="größe" type="text"></div>
+                        <div class="mediumFlexItem">Alter: <input class="eingabefeld" value=" " id="alter" type="text"></div>
+                        <div class="mediumFlexItem">Gewicht: <input class="eingabefeld" value=" " id="gewicht" type="text"></div>
+                        <div class="mediumFlexItem">Haarfarbe: <input class="eingabefeld" value=" " id="haarfarbe" type="text"></div>
+                        <div class="mediumFlexItem">Augenfarbe: <input class="eingabefeld" value=" " id="augenfarbe" type="text"></div>
+                        <div class="mediumFlexItem">Titel: <input class="eingabefeld" value=" " id="titel" type="text"></div>
+                        <div class="rakla-select">
+                            <div class="mediumFlexItem">
+                                <label for="rassen-select">Rasse: </label>
+                                <select name="rassen-select" id="rassen-select" class="infoFlexItem">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div class="mediumFlexItem">
+                                <label for="klassen-select">Klasse: </label>
+                                <select name="klassen-select" id="klassen-select" class="infoFlexItem">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="three-column-grid">
+                        <!-- Geldbeutel -->
+                        <div class="WalletContainer FlexItemContainer" id="WalletContainer">
+                            <h6>Geldbeutel</h6>
+                            <form id="inputField" onsubmit="return false">
+                                <input type="number" placeholder="Enter a number" id="NumberInput" value="0">
+                                <select name="Währund" id="CurrencyField" onchange="">
+                                    <option id="dukaten" value="dukaten">Dukaten</option>
+                                    <option id="silber" value="silber">Silberlinge</option>
+                                    <option id="heller" value="heller">Heller</option>
+                                    <option id="kreuzer" value="kreuzer">Kreuzer</option>
+                                </select>
+                                <button type="submit" id="wadd" onclick="TheChoosenOne()">Add Wallet</button>
+                                <button type="submit" id="wconvert" onclick="wConvert()">Convert Wallet</button>
+
+                                <div style="margin-top: 20px;">
+                                    <div>Dukaten: <p id="showDukaten"></p></div>
+                                    <div>Silberlinge: <p id="showSilber"></p></div>
+                                    <div>Heller: <p id="showHeller"></p></div>
+                                    <div>Kreuzer: <p id="showKreuzer"></p></div>
+                                </div>
+                                <button type="submit" id="wReset" onclick="wReset()" style="margin-top: 20px;">Reset Wallet</button>
+                            </form>
+                        </div>
+
+                        <!-- Erfahrung -->
+                        <div class="FlexItemContainer" id="erfahrungContainer">
+                            <h6>Erfahrung</h6>
+                            <div class="FlexItem">
+                                <label>Level:</label>
+                                <input class="stg attributeInput erfahrung" type="number" value="0" id="erfahrung_level">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>XP:</label>
+                                <input class="stg attributeInput erfahrung" type="number" value="0" id="erfahrung_xp">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Steigerungspunkte:</label>
+                                <input class="stg attributeInput erfahrung" type="number" value="0" id="erfahrung_Steigerungspunkte">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Gesteigerte:</label>
+                                <input class="stg attributeInput erfahrung" type="number" value="0" id="erfahrung_Gesteigerte">
+                                <span class="readonly-value">×</span>
+                            </div>
+                        </div>
+
+                        <!-- Kampf Basiswerte -->
+                        <div class="FlexItemContainer" id="kampfBasisContainer">
+                            <h6>Kampf Basiswerte</h6>
+                            <div class="FlexItem">
+                                <label>Wurfwaffen Basiswert:</label>
+                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0" id="KampfBasiswerte_Wurfwaffen_Basiswert">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Schusswaffen Basiswert:</label>
+                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0" id="KampfBasiswerte_Schusswaffen_Basiswert">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Attacke Basiswert:</label>
+                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0" id="KampfBasiswerte_Attacke_Basiswert">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Parade Basiswert:</label>
+                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0" id="KampfBasiswerte_Parade_Basiswert">
+                                <span class="readonly-value">×</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modifier -->
+                    <div class="FlexItemContainer" id="modifierContainer">
+                        <h6>Modifier</h6>
+                        <div class="modifier-grid">
+                            <div class="FlexItem">
+                                <label>Magie:</label>
+                                <input class="stg attributeInput modifier" type="number" value="0" id="modifier_magie">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>ASP:</label>
+                                <input class="stg attributeInput modifier" type="number" value="0" id="modifier_asp">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>LP:</label>
+                                <input class="stg attributeInput modifier" type="number" value="0" id="modifier_lp">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Fernkampf:</label>
+                                <input class="stg attributeInput modifier" type="number" value="0" id="modifier_fernkampf">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Nahkampf:</label>
+                                <input class="stg attributeInput modifier" type="number" value="0" id="modifier_nahkampf">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Gift:</label>
+                                <input class="stg attributeInput modifier" type="number" value="0" id="modifier_gift">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Stealth:</label>
+                                <input class="stg attributeInput modifier" type="number" value="0" id="modifier_stealth">
+                                <span class="readonly-value">×</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kampftalente -->
+                    <div class="FlexItemContainer BigFlexItemContainer" id="kampfTalenteContainer">
+                        <h6>Kampf Talente (AT/PA/Skillwert)</h6>
+                        <div class="kampf-talente-grid" id="kampfTalenteGridContainer">
+                            <!-- Wird dynamisch befüllt -->
+                        </div>
+                    </div>
+
+                    <!-- Sonderwerte -->
+                    <div class="FlexItemContainer" id="sonderwerteContainer">
+                        <h6>Sonderwerte</h6>
+                        <div class="sonderwerte-grid">
+                            <div class="FlexItem">
+                                <label>Aktuelle LP:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Aktuelle_LP">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Maximale LP:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Maximale_LP">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Ausdauer:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Ausdauer">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Maximale Ausdauer:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Maximale_Ausdauer">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Astralenergie:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Astralenergie">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Maximale Astralenergie:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Maximale_Astralenergie">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Magiebegabung:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Magiebegabung">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Magieresistenz:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Magieresistenz">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Giftresistenz:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Giftresistenz">
+                                <span class="readonly-value">×</span>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Schnelligkeit:</label>
+                                <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Schnelligkeit">
+                                <span class="readonly-value">×</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attribute -->
+                    <div class="FlexItemContainer" id="attributeContainer">
+                        <h6>Attribute</h6>
+                        <div class="attribute-grid">
+                            <div class="FlexItem">
+                                <label>Konstitution:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Konstitution">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Körperkraft:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Körperkraft">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Gewandheit:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Gewandheit">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Klugheit:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Klugheit">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Intuition:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Intuition">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Geschicklichkeit:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Geschicklichkeit">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Tarnung:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Tarnung">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Fingerfertigkeit:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Fingerfertigkeit">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Sinnesschärfe:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Sinnesschärfe">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Charisma:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Charisma">
+                                <button class="hidebutton">X</button>
+                            </div>
+                            <div class="FlexItem">
+                                <label>Willenskraft:</label>
+                                <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Willenskraft">
+                                <button class="hidebutton">X</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weitere Talente Container werden dynamisch geladen -->
+                    <div id="charakterContainer"></div>
+                </div>
+            </div>
+
+            <!-- Magie Tab -->
+            <div class="tab-content" id="magie-tab">
+                <div class="FlexItemContainer" id="magischeElementeContainer">
+                    <h6>Magische Elemente</h6>
+                    <div class="magische-elemente-grid">
+                        <div class="FlexItem" id="Magische_Elemente_Feuer_Tooltip">
+                            <label>Feuer:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Feuer">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Wasser_Tooltip">
+                            <label>Wasser:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Wasser">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Erde_Tooltip">
+                            <label>Erde:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Erde">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Luft_Tooltip">
+                            <label>Luft:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Luft">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Natur_Tooltip">
+                            <label>Natur:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Natur">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Heilung_Tooltip">
+                            <label>Heilung:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Heilung">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Dunkle_Tooltip">
+                            <label>Dunkle:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Dunkle">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Helle_Tooltip">
+                            <label>Helle:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Helle">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Schatten_Tooltip">
+                            <label>Schatten:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Schatten">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Licht_Tooltip">
+                            <label>Licht:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Licht">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Holz_Tooltip">
+                            <label>Holz:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Holz">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Metall_Tooltip">
+                            <label>Metall:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Metall">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Eis_Tooltip">
+                            <label>Eis:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Eis">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Leben_Tooltip">
+                            <label>Leben:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Leben">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Nekromantie_Tooltip">
+                            <label>Nekromantie:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Nekromantie">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Blitz_Tooltip">
+                            <label>Blitz:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Blitz">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Blut_Tooltip">
+                            <label>Blut:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Blut">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Gravitation_Tooltip">
+                            <label>Gravitation:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Gravitation">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Erschaffung_Tooltip">
+                            <label>Erschaffung:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Erschaffung">
+                            <button class="hidebutton">X</button>
+                        </div>
+                        <div class="FlexItem" id="Magische_Elemente_Raumzeit_Tooltip">
+                            <label>Raumzeit:</label>
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Raumzeit">
+                            <button class="hidebutton">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ausgeblendete Tab (umbenannt von "Attribute") -->
+            <div class="tab-content" id="ausgeblendete-tab">
+                <div class="hidden-items">
+                    <h6>Ausgeblendete Items</h6>
+                    <div id="hiddenItemsContainer"></div>
+                </div>
+            </div>
+
+            <!-- Inventar & Shop Tab -->
+            <div class="tab-content" id="inventar-tab">
+                <div class="Rowflex">
+                    <div class="FlexItemContainer BigFlexItemContainer" id="ShopContainer">
+                        <span class="Rowflex ShopHead">
+                            <h1>Reise-Shop</h1>
+                            <span class="JCRight">
+                                <button id="ShopButton">-</button>
+                            </span>
+                        </span>
+                        <div id="shop"></div>
+                    </div>
+                    <div class="FlexItemContainer BigFlexItemContainer" id="InvContainer">
+                        <h2>Inventar</h2>
+                        <ul id="inventory"></ul>
+                        <div id="inventoryControls">
+                            <input type="text" id="itemNameInput" placeholder="Artikelname">
+                            <button onclick="addToInventoryFromInput()">Hinzufügen</button>
+                            <button onclick="removeFromInventoryFromInput()">Entfernen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Werkzeuge Tab -->
+            <div class="tab-content" id="werkzeuge-tab">
+                <div id="Würfelsektion">
+                    <div id="inBodyDiv">
+                        <form onsubmit="return false">
+                            <button onclick="toggleDiv()">Dice</button>
+
+                            <div id="divDice" style="display: none;">
+                                <div class="container">
+                                    <input class="FlexInputs" type="number" id="DiceCount" placeholder="Dice Count" value="">
+                                    <input class="FlexInputs" type="number" id="DiceSides" placeholder="Dice Sides" value="" style="display: none;">
+                                    <select name="ChooseDice" id="Dicer" onchange="DiceChooser()">
+                                        <option value="custom" id="custom">Custom</option>
+                                        <option value="d100" id="d100">d100</option>
+                                        <option value="d20" id="d20" selected>d20</option>
+                                        <option value="d10" id="d10">d10</option>
+                                        <option value="d6" id="d6">d6</option>
+                                    </select>
+                                </div>
+                                <button onsubmit="return false" onclick="Roll()">Roll</button>
+                                <div id="showDice" class="dice-container" style="margin-top: 10px;"></div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div id="container" style="display: none;">
+                        <div class="calc" onclick="InToHTML(7)"><p>7</p></div>
+                        <div class="calc" onclick="InToHTML(8)"><p>8</p></div>
+                        <div class="calc" onclick="InToHTML(9)"><p>9</p></div>
+                        <div class="calc" onclick="InToHTML('/')" id="divided"><p>/</p></div>
+
+                        <div class="calc" onclick="InToHTML(4)"><p>4</p></div>
+                        <div class="calc" onclick="InToHTML(5)"><p>5</p></div>
+                        <div class="calc" onclick="InToHTML(6)"><p>6</p></div>
+                        <div class="calc" onclick="InToHTML('*')" id="multiplied"><p>*</p></div>
+
+                        <div class="calc" onclick="InToHTML(1)"><p>1</p></div>
+                        <div class="calc" onclick="InToHTML(2)"><p>2</p></div>
+                        <div class="calc" onclick="InToHTML(3)"><p>3</p></div>
+                        <div class="calc" onclick="InToHTML('+')" id="plus"><p>+</p></div>
+
+                        <div class="calc" onclick="clearEqField()" id="clear"><p>C</p></div>
+                        <div class="calc" onclick="InToHTML(0)"><p>0</p></div>
+                        <div class="calc" onclick="InToHTML('-')" id="minus"><p>-</p></div>
+                        <div class="calc" id="equals" onclick="calculate()"><p>=</p></div>
+
+                        <div class="calc" id="dragfield"></div>
+                        <div class="calc" onclick="InToHTML('.')" id="point"><p>,</p></div>
+                        <div class="calc"></div>
+                        <div class="calc"></div>
+                        <div id="FieldContainer">
+                            <div id="eqField"></div>
+                            <div id="evField"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Einstellungen Tab -->
+            <div class="tab-content" id="einstellungen-tab">
+                <div class="skinContainer FlexItemContainer BigFlexItemContainer" id="skinContainer">
+                    <h2>Einstellungen</h2>
+
+                    <label for="fontInput">Schriftart eingeben:</label>
+                    <input type="text" id="fontInput" placeholder="z.B. Arial, Verdana, Times New Roman">
+                    <button onclick="changeFont()">Schriftart ändern</button>
+
+                    <label for="colorInput">Schriftfarbe eingeben:</label>
+                    <input type="color" id="colorInput" placeholder="red | #9B232E | rgb(155,35,46)">
+                    <button onclick="changeColor()">Schriftfarbe ändern</button>
+
+                    <button id="setMin">Alle auf Min setzen</button>
+                    <button id="setMax">Alle auf Max setzen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="./script/rechner.js"></script>
     <script src="./script/dice.js"></script>
     <script src="./script/adjustments.js"></script>
@@ -238,6 +555,7 @@
     <script src="./script/spezialDice.js"></script>
     <script src="./script/shop.js"></script>
     <script src="./script/skin.js"></script>
+    <script src="./script/tabs.js"></script>
 </body>
 
 </html>
