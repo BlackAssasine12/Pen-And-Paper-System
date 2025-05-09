@@ -439,7 +439,107 @@
                 </div>
             </div>
 
-            <!-- ... Die restlichen Tabs bleiben unverändert ... -->
+            <!-- Ausgeblendete Tab -->
+            <div class="tab-content" id="ausgeblendete-tab">
+                <div id="hiddenItemsContainer" class="hidden-items">
+                    <!-- Hier werden ausgeblendete Elemente angezeigt -->
+                </div>
+            </div>
+
+            <!-- Inventar & Shop Tab -->
+            <div class="tab-content" id="inventar-tab">
+                <div class="FlexItemContainer" id="ShopContainer">
+                    <h6>Shop</h6>
+                    <button id="ShopButton">-</button>
+                    <div id="shop" class="shop-container"></div>
+                </div>
+                <div class="FlexItemContainer" id="InvContainer">
+                    <h6>Inventar</h6>
+                    <div>
+                        <input type="text" id="itemNameInput" placeholder="Artikelname">
+                        <button onclick="addToInventoryFromInput()">Hinzufügen</button>
+                        <button onclick="removeFromInventoryFromInput()">Entfernen</button>
+                    </div>
+                    <ul id="inventory" class="inventory-list"></ul>
+                </div>
+            </div>
+
+            <!-- Werkzeuge Tab -->
+            <div class="tab-content" id="werkzeuge-tab">
+                <div class="FlexItemContainer">
+                    <h6>Würfelsystem</h6>
+                    <div class="dice-controls">
+                        <select id="Dicer" onchange="DiceChooser()">
+                            <option value="d100">W100</option>
+                            <option value="d20" selected>W20</option>
+                            <option value="d10">W10</option>
+                            <option value="d6">W6</option>
+                            <option value="custom">Eigener Würfel</option>
+                        </select>
+                        <input type="number" id="DiceCount" value="1" min="1" max="20">
+                        <input type="number" id="DiceSides" value="20" min="2" max="1000" class="disNone">
+                        <button onclick="Roll()">Würfeln</button>
+                    </div>
+                    <div id="showDice" class="dice-results"></div>
+                </div>
+
+                <div class="FlexItemContainer calculator-container">
+                    <h6>Rechner</h6>
+                    <div id="calculator">
+                        <div id="calc-display">
+                            <div id="eqField" class="equation-field"></div>
+                            <div id="evField" class="result-field"></div>
+                        </div>
+                        <div class="calculator-buttons">
+                            <button onclick="clearEqField()" class="calc-button function-button">C</button>
+                            <button onclick="InToHTML('(')" class="calc-button function-button">(</button>
+                            <button onclick="InToHTML(')')" class="calc-button function-button">)</button>
+                            <button onclick="InToHTML('/')" class="calc-button operator-button">/</button>
+                            
+                            <button onclick="InToHTML('7')" class="calc-button">7</button>
+                            <button onclick="InToHTML('8')" class="calc-button">8</button>
+                            <button onclick="InToHTML('9')" class="calc-button">9</button>
+                            <button onclick="InToHTML('*')" class="calc-button operator-button">×</button>
+                            
+                            <button onclick="InToHTML('4')" class="calc-button">4</button>
+                            <button onclick="InToHTML('5')" class="calc-button">5</button>
+                            <button onclick="InToHTML('6')" class="calc-button">6</button>
+                            <button onclick="InToHTML('-')" class="calc-button operator-button">-</button>
+                            
+                            <button onclick="InToHTML('1')" class="calc-button">1</button>
+                            <button onclick="InToHTML('2')" class="calc-button">2</button>
+                            <button onclick="InToHTML('3')" class="calc-button">3</button>
+                            <button onclick="InToHTML('+')" class="calc-button operator-button">+</button>
+                            
+                            <button onclick="InToHTML('0')" class="calc-button">0</button>
+                            <button onclick="InToHTML('.')" class="calc-button">.</button>
+                            <button onclick="calculate()" class="calc-button equal-button">=</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Einstellungen Tab -->
+            <div class="tab-content" id="einstellungen-tab">
+                <div class="FlexItemContainer">
+                    <h6>Charakter Einstellungen</h6>
+                    <button id="setMin">Alle Werte auf Minimum setzen</button>
+                    <button id="setMax">Alle Werte auf Maximum setzen</button>
+                </div>
+                <div class="FlexItemContainer">
+                    <h6>Layout Einstellungen</h6>
+                    <div>
+                        <label for="fontInput">Schriftart:</label>
+                        <input type="text" id="fontInput" placeholder="z.B. Arial, sans-serif">
+                        <button onclick="changeFont()">Ändern</button>
+                    </div>
+                    <div>
+                        <label for="colorInput">Textfarbe:</label>
+                        <input type="color" id="colorInput" value="#36251b">
+                        <button onclick="changeColor()">Ändern</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

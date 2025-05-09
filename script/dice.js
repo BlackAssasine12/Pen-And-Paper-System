@@ -13,18 +13,7 @@ function Roll() {
     let DiceCount = parseInt(document.getElementById("DiceCount").value);
     let DiceSide = parseInt(document.getElementById("DiceSides").value);
     let resultTotal = "";
-    const container = document.getElementById("container");
     const showDice = document.getElementById("showDice");
-
-    // Toggle the container visibility if DiceCount is 666
-    if (DiceCount === 666) {
-        if (container.style.display === "none") {
-            container.style.display = "grid";
-        } else {
-            container.style.display = "none";
-        }
-        return;
-    }
 
     showDice.innerHTML = "";
     for (let i = 0; i < DiceCount; i++) {
@@ -34,7 +23,7 @@ function Roll() {
         resultTotal += `[${result}]` + ", ";
         showDice.appendChild(resultContainer);
     }
-    zuTaschenrechner()
+    zuTaschenrechner();
 }
 
 function zuTaschenrechner() {

@@ -47,14 +47,14 @@ function bindHideButtons() {
                 hiddenItem.appendChild(restoreButton);
                 hiddenItemsContainer.appendChild(hiddenItem);
                 
-                // Checkbox setzen und Tab anzeigen, wenn ein Element ausgeblendet wird
-                document.getElementById('toggleHiddenCheckbox').checked = true;
-                const tabItems = document.querySelectorAll('.tab-item');
-                tabItems.forEach(item => {
-                    if(item.getAttribute('data-tab') === 'ausgeblendete-tab') {
-                        item.click();
-                    }
-                });
+                // Den automatischen Tab-Wechsel entfernen (folgende Zeilen auskommentieren oder löschen):
+                // document.getElementById('toggleHiddenCheckbox').checked = true;
+                // const tabItems = document.querySelectorAll('.tab-item');
+                // tabItems.forEach(item => {
+                //     if(item.getAttribute('data-tab') === 'ausgeblendete-tab') {
+                //         item.click();
+                //     }
+                // });
             }
         });
     });

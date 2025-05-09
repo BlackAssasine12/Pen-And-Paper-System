@@ -16,7 +16,7 @@
   width: 100%;
 }
 
-.three-column-container > div {
+.three-column-container>div {
   flex: 1;
   min-width: calc(33% - 15px);
   max-width: calc(33.333% - 15px);
@@ -24,7 +24,8 @@
 }
 
 /* Container-Styling */
-.FlexItemContainer, .infoFlexContainer {
+.FlexItemContainer,
+.infoFlexContainer {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -52,8 +53,8 @@ h6 {
 }
 
 /* Zeilen in den Containern */
-.FlexItem, 
-.mediumFlexItem, 
+.FlexItem,
+.mediumFlexItem,
 .BigFlexItem {
   display: flex;
   align-items: center;
@@ -87,10 +88,10 @@ h6 {
   gap: 8px;
 }
 
-.modifier-flex > div,
-.attribute-flex > div,
-.sonderwerte-flex > div,
-.magische-elemente-flex > div {
+.modifier-flex>div,
+.attribute-flex>div,
+.sonderwerte-flex>div,
+.magische-elemente-flex>div {
   flex: 0 0 calc(100% - 8px);
   width: 100%;
 }
@@ -104,14 +105,14 @@ h6 {
 
 /* Responsive-Anpassungen */
 @media screen and (max-width: 1200px) {
-  .three-column-container > div {
+  .three-column-container>div {
     flex: 0 0 calc(50% - 15px);
     max-width: calc(50% - 15px);
   }
 }
 
 @media screen and (max-width: 768px) {
-  .three-column-container > div {
+  .three-column-container>div {
     flex: 0 0 100%;
     max-width: 100%;
   }
@@ -171,7 +172,7 @@ select {
 }
 
 /* Die Select-Elemente für Rasse und Klasse gleich groß machen */
-#rassen-select, 
+#rassen-select,
 #klassen-select {
   width: 65%;
   height: 32px;
@@ -183,4 +184,105 @@ select {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+/* Würfel-System Styling */
+.dice-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.dice-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+/* Rechner Styling */
+/* Optimiertes Taschenrechner-Styling */
+.calculator-container {
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+#calculator {
+  width: 100%;
+  border: 1px solid #a68a7d;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: rgba(230, 220, 200, 0.3);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#calc-display {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 8px 10px;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid #a68a7d;
+}
+
+.equation-field {
+  min-height: 20px;
+  font-size: 14px;
+  color: #555;
+  text-align: right;
+  margin-bottom: 4px;
+  overflow: auto;
+  word-break: break-all;
+}
+
+.result-field {
+  min-height: 24px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #36251b;
+  text-align: right;
+  overflow: auto;
+  word-break: break-all;
+}
+
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  padding: 10px;
+}
+
+.calc-button {
+  height: 36px;
+  border: 1px solid rgba(166, 138, 125, 0.5);
+  border-radius: 4px;
+  font-size: 16px;
+  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.9), rgba(215, 200, 175, 0.8));
+  color: #36251b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.calc-button:hover {
+  background: linear-gradient(to bottom, rgba(215, 200, 175, 0.9), rgba(200, 180, 155, 0.8));
+}
+
+.calc-button:active {
+  transform: translateY(1px);
+}
+
+.function-button {
+  background: linear-gradient(to bottom, rgba(220, 220, 230, 0.9), rgba(200, 200, 210, 0.8));
+}
+
+.operator-button {
+  background: linear-gradient(to bottom, rgba(210, 230, 210, 0.9), rgba(190, 210, 190, 0.8));
+  font-weight: bold;
+}
+
+.equal-button {
+  background: linear-gradient(to bottom, rgba(210, 220, 240, 0.9), rgba(180, 200, 230, 0.8));
+  font-weight: bold;
 }
