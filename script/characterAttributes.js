@@ -113,14 +113,17 @@ function fillExistingContainer(container, attributes, sectionId) {
     }
 }
 
+// characterAttributes.js
+// Anpassen der createSection-Funktion für Flexbox-Layout
+
 function createSection(title, attributes, sectionId) {
     const container = document.createElement('div');
     container.classList.add("FlexItemContainer");
     container.innerHTML = `<h6>${title}</h6>`;
 
     if (Array.isArray(attributes)) {
-        const grid = document.createElement('div');
-        grid.classList.add(`${sectionId.toLowerCase()}-grid`);
+        const flexContainer = document.createElement('div');
+        flexContainer.classList.add(`${sectionId.toLowerCase()}-flex`);
         
         attributes.forEach((attribute) => {
             const sanitizedName = attribute.Name.replace(/\s+/g, '_');
@@ -137,13 +140,49 @@ function createSection(title, attributes, sectionId) {
                     id="${sectionId}_${sanitizedName}">
                 <button class="hidebutton">X</button>
             `;
-            grid.appendChild(flexItem);
+            flexContainer.appendChild(flexItem);
         });
         
-        container.appendChild(grid);
+        container.appendChild(flexContainer);
     }
     
     return container;
+}
+
+function fillExistingContainer(container, attributes, sectionId) {
+    if (!container || !attributes) return;
+    
+    // Container-Inhalt leeren, aber den Titel (h6) beibehalten
+    const title = container.querySelector('h6');
+    container.innerHTML = '';
+    if (title) container.appendChild(title);
+    
+    // Für magische Elemente oder andere Objekte
+    if (typeof attributes === 'object' && !Array.isArray(attributes)) {
+        const flexContainer = document.createElement('div');
+        flexContainer.classList.add(`${sectionId}-flex`);
+        
+        for (let key in attributes) {
+            const sanitizedKey = key.replace(/\s+/g, '_');
+            const flexItem = document.createElement('div');
+            flexItem.classList.add('FlexItem');
+            flexItem.id = `${sectionId}_${sanitizedKey}_Tooltip`;
+
+            let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
+            flexItem.innerHTML = `
+                <label>${attributeString}</label>
+                <input 
+                    class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}" 
+                    type="number" 
+                    value="${attributes[key]}" 
+                    id="${sectionId}_${sanitizedKey}">
+                <button class="hidebutton">X</button>
+            `;
+            flexContainer.appendChild(flexItem);
+        }
+        
+        container.appendChild(flexContainer);
+    }
 }
 
 

@@ -88,37 +88,51 @@
   border: 1px solid $container-border-color;
 }
 
+/* Flexbox statt Grid für die Hauptstruktur */
 .main-character-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 15px;
 }
 
-.three-column-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+/* 3er-Block Layout für Container */
+.three-column-container {
+  display: flex;
+  flex-wrap: wrap;
   gap: 15px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.three-column-container > div {
+  flex: 0 0 calc(33.333% - 15px);
   margin-bottom: 15px;
 }
 
-.modifier-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+/* Flexbox für alle Grids */
+.modifier-flex,
+.attribute-flex,
+.sonderwerte-flex,
+.magische-elemente-flex,
+.kampf-talente-flex,
+.assassinen-talente-flex,
+.talente1-flex,
+.talente2-flex,
+.handwerkstalente-flex {
+  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
-.attribute-grid, 
-.sonderwerte-grid,
-.magische-elemente-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 10px;
+.modifier-flex > div,
+.attribute-flex > div,
+.sonderwerte-flex > div,
+.magische-elemente-flex > div {
+  flex: 0 0 calc(33.333% - 10px);
 }
 
-.kampf-talente-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 10px;
+.kampf-talente-flex > div {
+  flex: 0 0 calc(50% - 10px);
 }
 
 .hidden-items {
@@ -136,7 +150,20 @@
   color: #666;
 }
 
-// Responsive styles
+/* Responsive Anpassungen */
+@media screen and (max-width: 1200px) {
+  .three-column-container > div {
+    flex: 0 0 calc(50% - 15px);
+  }
+  
+  .modifier-flex > div,
+  .attribute-flex > div,
+  .sonderwerte-flex > div,
+  .magische-elemente-flex > div {
+    flex: 0 0 calc(50% - 10px);
+  }
+}
+
 @media screen and (max-width: 768px) {
   .tab-nav {
     flex-direction: column;
@@ -153,13 +180,12 @@
     border-radius: 8px;
   }
   
-  .main-character-content,
-  .three-column-grid,
-  .modifier-grid,
-  .attribute-grid,
-  .sonderwerte-grid,
-  .magische-elemente-grid,
-  .kampf-talente-grid {
-    grid-template-columns: 1fr;
+  .three-column-container > div,
+  .modifier-flex > div,
+  .attribute-flex > div,
+  .sonderwerte-flex > div,
+  .magische-elemente-flex > div,
+  .kampf-talente-flex > div {
+    flex: 0 0 100%;
   }
 }
