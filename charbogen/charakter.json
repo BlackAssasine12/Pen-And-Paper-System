@@ -422,5 +422,10 @@
                 }
             ]
         }
+    },
+    "inventory": [],
+    "magieSystem": {
+        "advancementPoints": 0,
+        "magicAbilities": []
     }
 }

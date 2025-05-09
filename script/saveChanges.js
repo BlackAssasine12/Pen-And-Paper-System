@@ -1,4 +1,4 @@
-// saveChanges.js
+// saveChanges.js - Komplett überarbeitet für das neue Magie-System
 
 // Hilfsfunktion zur Ersetzung von Leerzeichen durch Unterstriche
 function sanitizeKey(key) {
@@ -81,6 +81,28 @@ function updateCharakterInfo(charakterInfo) {
     charakterInfo.titel = getIdValue('titel');
 }
 
+// Speichert die Magie-Daten aus dem VanillaMagicSystem
+function saveMagieSystem(data) {
+    // Falls die magieSystem-Variable nicht existiert, erstellen wir sie
+    if (!data.magieSystem) {
+        data.magieSystem = {
+            advancementPoints: 0,
+            magicAbilities: []
+        };
+    }
+    
+    // Speichere die Steigerungspunkte
+    const steigerungspunkteInput = document.getElementById("erfahrung_Steigerungspunkte");
+    if (steigerungspunkteInput) {
+        data.magieSystem.advancementPoints = parseInt(steigerungspunkteInput.value) || 0;
+    }
+    
+    // Speichere die Magischen Fähigkeiten, wenn die globale Variable existiert
+    if (window.characterMagic && Array.isArray(window.characterMagic)) {
+        data.magieSystem.magicAbilities = window.characterMagic;
+    }
+}
+
 function saveChanges(data) {
     const charakter = data.charakter;
 
@@ -124,16 +146,16 @@ function saveChanges(data) {
         if (fähigkeiten.Handwerkstalente) {
             updateSectionValues(fähigkeiten.Handwerkstalente, 'Handwerkstalente');
         }
-        if (charakter.Magische_Elemente) {
-            updateSectionValues(charakter.Magische_Elemente, 'Magische_Elemente');
-        }
         if (fähigkeiten.Gespeicherte_Kampftalente) {
             updateSectionValues(fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
         }
     }
 
+    // Speichern der Magie-Daten mit der neuen Funktion
+    saveMagieSystem(data);
+
     if (charakter.geld) {
-        charakter.geld = { ...wallet }; // Beispiel: Aktualisierung des Geld-Objekts
+        charakter.geld = { ...wallet }; // Aktualisierung des Geld-Objekts
     }
 
     data.inventory = saveInventory(); // Inventar speichern
@@ -177,6 +199,57 @@ function saveInventory() {
     return inventory;
 }
 
+// Laden der Magie-Daten beim Datei-Upload
+function loadMagieSystem(data) {
+    // Handle neue Struktur
+    if (data.magieSystem && data.magieSystem.magicAbilities) {
+        window.characterMagic = data.magieSystem.magicAbilities;
+        
+        if (data.magieSystem.advancementPoints !== undefined) {
+            window.advancementPoints = data.magieSystem.advancementPoints;
+            const advancementPointsSpan = document.getElementById('advancement-points');
+            if (advancementPointsSpan) {
+                advancementPointsSpan.textContent = window.advancementPoints;
+            }
+        }
+    } 
+    // Fallback für alte Struktur (Konvertierung)
+    else if (data.charakter && data.charakter.Magische_Elemente) {
+        // Alte Struktur in neue Struktur konvertieren
+        window.characterMagic = [];
+        for (const [element, level] of Object.entries(data.charakter.Magische_Elemente)) {
+            if (level > 0) {
+                window.characterMagic.push({
+                    element,
+                    type: 'Angriff', // Standard-Typ für die Konvertierung
+                    level
+                });
+            }
+        }
+        
+        // Konvertieren und alte Struktur entfernen
+        if (!data.magieSystem) {
+            data.magieSystem = {
+                advancementPoints: data.charakter.werte ? data.charakter.werte.Steigerungspunkte : 0,
+                magicAbilities: window.characterMagic
+            };
+        }
+        
+        // Alte Struktur entfernen
+        if (data.charakter.Magische_Elemente) {
+            delete data.charakter.Magische_Elemente;
+        }
+    }
+    
+    // Wenn das Magie-System initialisiert ist, aktualisiere die Anzeige
+    if (typeof renderMagicList === 'function') {
+        renderMagicList();
+    }
+    if (typeof updatePreview === 'function') {
+        updatePreview();
+    }
+}
+
 // Event-Listener für den "Standard-Name" Button
 document.addEventListener('DOMContentLoaded', function() {
     const generateFilenameButton = document.getElementById('generateFilenameButton');
@@ -187,6 +260,29 @@ document.addEventListener('DOMContentLoaded', function() {
             const filenameInput = document.getElementById('filenameInput');
             if (filenameInput) {
                 filenameInput.value = generateStandardFilename(characterName);
+            }
+        });
+    }
+    
+    // Erweiterung der fileReader.js um das neue Magie-System zu laden
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+        const originalFileReaderHandler = fileInput.onchange;
+        fileInput.addEventListener('change', function(event) {
+            // Original-Handler aufrufen
+            if (originalFileReaderHandler) {
+                originalFileReaderHandler(event);
+            }
+            
+            // Zusätzlich das Magie-System laden
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = JSON.parse(e.target.result);
+                    loadMagieSystem(data);
+                };
+                reader.readAsText(file);
             }
         });
     }

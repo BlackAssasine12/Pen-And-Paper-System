@@ -74,133 +74,196 @@ let characterName = "";
 
 // DOM-Elemente initialisieren
 function initVanillaMagicSystem() {
-    const elementSelect = document.getElementById('elementSelect');
-    const customElementContainer = document.getElementById('customElementContainer');
-    const customElementInput = document.getElementById('customElement');
-    const magicTypeSelect = document.getElementById('magicTypeSelect');
-    const magicLevelInput = document.getElementById('magicLevel');
-    const levelErrorDiv = document.getElementById('levelError');
-    const addMagicBtn = document.getElementById('addMagicBtn');
-    const magicListDiv = document.getElementById('magic-list');
-    const advancementPointsSpan = document.getElementById('advancement-points');
-    const addPointsBtn = document.getElementById('add-points-btn');
-    const characterNameInput = document.getElementById('characterName');
-    const saveButton = document.getElementById('saveButton');
-    const loadButton = document.getElementById('loadButton');
-    const fileInput = document.getElementById('fileInput');
-    const previewContent = document.getElementById('previewContent');
-    
-    // Populiere die Select-Elemente
-    populateSelectElements();
-    
-    // Event-Listener hinzufügen
-    elementSelect.addEventListener('change', toggleCustomElement);
-    addMagicBtn.addEventListener('click', addMagic);
-    addPointsBtn.addEventListener('click', addPoints);
-    saveButton.addEventListener('click', saveCharacter);
-    loadButton.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', handleFileUpload);
-    characterNameInput.addEventListener('input', (e) => {
-        characterName = e.target.value;
-        updatePreview();
-    });
-    
-    // Synchronisiere mit dem Hauptcharakterbogen
-    synchronizeWithCharacterSheet();
+    try {
+        const elementSelect = document.getElementById('elementSelect');
+        const customElementContainer = document.getElementById('customElementContainer');
+        const customElementInput = document.getElementById('customElement');
+        const magicTypeSelect = document.getElementById('magicTypeSelect');
+        const magicLevelInput = document.getElementById('magicLevel');
+        const levelErrorDiv = document.getElementById('levelError');
+        const addMagicBtn = document.getElementById('addMagicBtn');
+        const magicListDiv = document.getElementById('magic-list');
+        const advancementPointsSpan = document.getElementById('advancement-points');
+        const addPointsBtn = document.getElementById('add-points-btn');
+        const characterNameInput = document.getElementById('characterName');
+        const saveButton = document.getElementById('saveButton');
+        const loadButton = document.getElementById('loadButton');
+        const fileInput = document.getElementById('fileInput');
+        const previewContent = document.getElementById('previewContent');
+        
+        // Sicherstellen, dass die globalen Variablen initialisiert sind
+        window.characterMagic = window.characterMagic || [];
+        window.advancementPoints = window.advancementPoints || 0;
+        
+        // Populiere die Select-Elemente
+        populateSelectElements();
+        
+        // Event-Listener hinzufügen
+        elementSelect.addEventListener('change', toggleCustomElement);
+        addMagicBtn.addEventListener('click', addMagic);
+        addPointsBtn.addEventListener('click', addPoints);
+        saveButton.addEventListener('click', saveCharacter);
+        loadButton.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileUpload);
+        characterNameInput.addEventListener('input', (e) => {
+            characterName = e.target.value;
+            updatePreview();
+        });
+        
+        // Synchronisiere mit dem Hauptcharakterbogen
+        synchronizeWithCharacterSheet();
+        
+        // Event-Listener für Änderungen am Steigerungspunkte-Input im Charakter-Tab
+        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        if (steigerungspunkteInput) {
+            steigerungspunkteInput.addEventListener('change', synchronizeWithCharacterSheet);
+            steigerungspunkteInput.addEventListener('input', synchronizeWithCharacterSheet);
+        }
+        
+        console.log("VanillaMagicSystem erfolgreich initialisiert");
+    } catch (error) {
+        console.error("Fehler bei der Initialisierung des VanillaMagicSystems:", error);
+    }
 }
 
 function populateSelectElements() {
-    const elementSelect = document.getElementById('elementSelect');
-    const magicTypeSelect = document.getElementById('magicTypeSelect');
-    
-    // Elemente-Select leeren und neu füllen
-    elementSelect.innerHTML = '<option value="">-- Element wählen --</option>';
-    magicData.elements.forEach(element => {
-        const option = document.createElement('option');
-        option.value = element;
-        option.textContent = element;
-        elementSelect.appendChild(option);
-    });
-    elementSelect.innerHTML += '<option value="custom">Eigenes Element eingeben</option>';
-    
-    // Magietypen-Select leeren und neu füllen
-    magicTypeSelect.innerHTML = '<option value="">-- Magie-Art wählen --</option>';
-    magicData.magicTypes.forEach(type => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.textContent = type;
-        magicTypeSelect.appendChild(option);
-    });
+    try {
+        const elementSelect = document.getElementById('elementSelect');
+        const magicTypeSelect = document.getElementById('magicTypeSelect');
+        
+        if (!elementSelect || !magicTypeSelect) {
+            console.error("Select-Elemente nicht gefunden");
+            return;
+        }
+        
+        // Elemente-Select leeren und neu füllen
+        elementSelect.innerHTML = '<option value="">-- Element wählen --</option>';
+        magicData.elements.forEach(element => {
+            const option = document.createElement('option');
+            option.value = element;
+            option.textContent = element;
+            elementSelect.appendChild(option);
+        });
+        elementSelect.innerHTML += '<option value="custom">Eigenes Element eingeben</option>';
+        
+        // Magietypen-Select leeren und neu füllen
+        magicTypeSelect.innerHTML = '<option value="">-- Magie-Art wählen --</option>';
+        magicData.magicTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            magicTypeSelect.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Fehler beim Populieren der Select-Elemente:", error);
+    }
 }
 
 function toggleCustomElement() {
-    const elementSelect = document.getElementById('elementSelect');
-    const customElementContainer = document.getElementById('customElementContainer');
-    
-    if (elementSelect.value === 'custom') {
-        customElementContainer.classList.remove('hidden');
-    } else {
-        customElementContainer.classList.add('hidden');
+    try {
+        const elementSelect = document.getElementById('elementSelect');
+        const customElementContainer = document.getElementById('customElementContainer');
+        
+        if (!elementSelect || !customElementContainer) {
+            console.error("Elemente für Custom-Element nicht gefunden");
+            return;
+        }
+        
+        if (elementSelect.value === 'custom') {
+            customElementContainer.classList.remove('hidden');
+        } else {
+            customElementContainer.classList.add('hidden');
+        }
+    } catch (error) {
+        console.error("Fehler beim Umschalten des Custom-Elements:", error);
     }
 }
 
 function addMagic() {
-    const elementSelect = document.getElementById('elementSelect');
-    const customElementInput = document.getElementById('customElement');
-    const magicTypeSelect = document.getElementById('magicTypeSelect');
-    const magicLevelInput = document.getElementById('magicLevel');
-    const levelErrorDiv = document.getElementById('levelError');
-    
-    let elementToAdd = elementSelect.value;
-    const selectedMagicType = magicTypeSelect.value;
-    const magicLevel = parseInt(magicLevelInput.value);
-    
-    // Validierungen
-    if (elementToAdd === 'custom') {
-        elementToAdd = customElementInput.value.trim();
-        if (!elementToAdd) {
-            showError(levelErrorDiv, 'Bitte gib ein eigenes Element ein');
+    try {
+        // Synchronisiere erst mit dem Charakter-Tab
+        synchronizeWithCharacterSheet();
+        
+        const elementSelect = document.getElementById('elementSelect');
+        const customElementInput = document.getElementById('customElement');
+        const magicTypeSelect = document.getElementById('magicTypeSelect');
+        const magicLevelInput = document.getElementById('magicLevel');
+        const levelErrorDiv = document.getElementById('levelError');
+        
+        if (!elementSelect || !customElementInput || !magicTypeSelect || !magicLevelInput || !levelErrorDiv) {
+            console.error("Erforderliche Elemente für addMagic nicht gefunden");
             return;
         }
+        
+        let elementToAdd = elementSelect.value;
+        const selectedMagicType = magicTypeSelect.value;
+        const magicLevel = parseInt(magicLevelInput.value);
+        
+        // Validierungen
+        if (elementToAdd === 'custom') {
+            elementToAdd = customElementInput.value.trim();
+            if (!elementToAdd) {
+                showError(levelErrorDiv, 'Bitte gib ein eigenes Element ein');
+                return;
+            }
+        }
+        
+        if (!elementToAdd || elementToAdd === '') {
+            showError(levelErrorDiv, 'Bitte wähle ein Element aus');
+            return;
+        }
+        
+        if (!selectedMagicType) {
+            showError(levelErrorDiv, 'Bitte wähle eine Magie-Art aus');
+            return;
+        }
+        
+        if (magicLevel < 1 || magicLevel > 21) {
+            showError(levelErrorDiv, 'Level muss zwischen 1 und 21 liegen');
+            return;
+        }
+    
+        // Füge neue Magie hinzu
+        const newMagic = {
+            element: elementToAdd,
+            type: selectedMagicType,
+            level: magicLevel
+        };
+        
+        // Sicherstellen, dass das Array initialisiert ist
+        if (!window.characterMagic) {
+            window.characterMagic = [];
+        }
+        
+        characterMagic.push(newMagic);
+        magicLevelInput.value = 1;
+        
+        // UI aktualisieren
+        renderMagicList();
+        updatePreview();
+        
+        // Aktualisiere die Berechnungen (wichtig für die Magiebegabung-Berechnung)
+        if (typeof updateCharakterCalculation === 'function') {
+            updateCharakterCalculation();
+        }
+    
+        // Fehlermeldungen zurücksetzen
+        levelErrorDiv.classList.add('hidden');
+        
+        console.log("Magie hinzugefügt:", newMagic);
+    } catch (error) {
+        console.error("Fehler beim Hinzufügen von Magie:", error);
+        alert("Es ist ein Fehler beim Hinzufügen von Magie aufgetreten. Siehe Konsole für Details.");
     }
-    
-    if (!elementToAdd || elementToAdd === '') {
-        showError(levelErrorDiv, 'Bitte wähle ein Element aus');
-        return;
-    }
-    
-    if (!selectedMagicType) {
-        showError(levelErrorDiv, 'Bitte wähle eine Magie-Art aus');
-        return;
-    }
-    
-    if (magicLevel < 1 || magicLevel > 21) {
-        showError(levelErrorDiv, 'Level muss zwischen 1 und 21 liegen');
-        return;
-    }
-
-    // Füge neue Magie hinzu
-    const newMagic = {
-        element: elementToAdd,
-        type: selectedMagicType,
-        level: magicLevel
-    };
-    
-    characterMagic.push(newMagic);
-    magicLevelInput.value = 1;
-    
-    // UI aktualisieren
-    renderMagicList();
-    updatePreview();
-    
-    // Aktualisiere die Magie-Elemente im Charakter-Sheet
-    updateCharacterSheetMagic();
-
-    // Fehlermeldungen zurücksetzen
-    levelErrorDiv.classList.add('hidden');
 }
 
 function showError(element, message) {
+    if (!element) {
+        console.error("Fehler-Element nicht gefunden");
+        alert(message);
+        return;
+    }
+    
     element.textContent = message;
     element.classList.remove('hidden');
     setTimeout(() => {
@@ -209,37 +272,94 @@ function showError(element, message) {
 }
 
 function removeMagic(index) {
-    characterMagic.splice(index, 1);
-    renderMagicList();
-    updatePreview();
-    updateCharacterSheetMagic();
+    try {
+        if (!window.characterMagic || !Array.isArray(window.characterMagic)) {
+            console.error("characterMagic ist nicht initialisiert oder kein Array");
+            return;
+        }
+        
+        if (index < 0 || index >= characterMagic.length) {
+            console.error("Ungültiger Index für removeMagic:", index);
+            return;
+        }
+        
+        characterMagic.splice(index, 1);
+        renderMagicList();
+        updatePreview();
+        
+        // Aktualisiere die Charakterwerte
+        if (typeof updateCharakterCalculation === 'function') {
+            updateCharakterCalculation();
+        }
+    } catch (error) {
+        console.error("Fehler beim Entfernen von Magie:", error);
+    }
 }
 
 function levelUpMagic(index) {
-    const magic = characterMagic[index];
-    
-    if (magic.level >= 21) {
-        alert('Maximales Level (21) bereits erreicht!');
-        return;
+    try {
+        // Zuerst den aktuellen Wert vom Charakter-Tab übernehmen
+        synchronizeWithCharacterSheet();
+        
+        if (!window.characterMagic || !Array.isArray(window.characterMagic)) {
+            console.error("characterMagic ist nicht initialisiert oder kein Array");
+            return;
+        }
+        
+        if (index < 0 || index >= characterMagic.length) {
+            console.error("Ungültiger Index für levelUpMagic:", index);
+            return;
+        }
+        
+        const magic = characterMagic[index];
+        
+        if (magic.level >= 21) {
+            alert('Maximales Level (21) bereits erreicht!');
+            return;
+        }
+        
+        const cost = getLevelUpCost(magic.level);
+        
+        if (advancementPoints < cost) {
+            alert(`Nicht genügend Steigerungspunkte! Du brauchst ${cost} Punkte, um auf Level ${magic.level + 1} zu steigern.`);
+            return;
+        }
+        
+        // Erhöhe Level
+        magic.level++;
+        
+        // Steigerungspunkte entsprechend reduzieren
+        advancementPoints -= cost;
+        
+        // UI aktualisieren
+        const advancementPointsSpan = document.getElementById('advancement-points');
+        if (advancementPointsSpan) {
+            advancementPointsSpan.textContent = advancementPoints;
+        }
+        
+        // Synchronisiere den neuen Wert zurück zum Charakter-Tab
+        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        if (steigerungspunkteInput) {
+            steigerungspunkteInput.value = advancementPoints;
+            
+            // Hier wichtig: Die Änderung beim change-Event berücksichtigen
+            if (typeof updateCharakterCalculation === 'function') {
+                updateCharakterCalculation();
+            } else {
+                // Fallback: Event auslösen, damit andere Handler reagieren können
+                const event = new Event('change');
+                steigerungspunkteInput.dispatchEvent(event);
+            }
+            
+            console.log("Steigerungspunkte nach Level-Up:", advancementPoints);
+        }
+        
+        renderMagicList();
+        updatePreview();
+    } catch (error) {
+        console.error("Fehler beim Level-Up:", error);
+        alert("Es ist ein Fehler beim Steigern des Levels aufgetreten. Siehe Konsole für Details.");
     }
-    
-    const cost = getLevelUpCost(magic.level);
-    
-    if (advancementPoints < cost) {
-        alert(`Nicht genügend Steigerungspunkte! Du brauchst ${cost} Punkte, um auf Level ${magic.level + 1} zu steigern.`);
-        return;
-    }
-    
-    // Erhöhe Level und ziehe Punkte ab
-    characterMagic[index].level++;
-    advancementPoints -= cost;
-    
-    // UI aktualisieren
-    const advancementPointsSpan = document.getElementById('advancement-points');
-    advancementPointsSpan.textContent = advancementPoints;
-    renderMagicList();
-    updatePreview();
-    updateCharacterSheetMagic();
 }
 
 function getLevelUpCost(currentLevel) {
@@ -255,306 +375,362 @@ function getIcon(type, key) {
 }
 
 function addPoints() {
-    const pointsToAdd = parseInt(prompt('Wie viele Steigerungspunkte möchtest du hinzufügen?', '5'));
-    
-    if (!isNaN(pointsToAdd) && pointsToAdd > 0) {
-        advancementPoints += pointsToAdd;
-        document.getElementById('advancement-points').textContent = advancementPoints;
+    try {
+        // Zuerst den aktuellen Wert vom Charakter-Tab übernehmen
+        synchronizeWithCharacterSheet();
         
-        // Synchronisiere mit dem Charakter-Sheet
-        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
-        if (steigerungspunkteInput) {
-            steigerungspunkteInput.value = parseInt(steigerungspunkteInput.value) + pointsToAdd;
+        const pointsToAdd = parseInt(prompt('Wie viele Steigerungspunkte möchtest du hinzufügen?', '5'));
+        
+        if (!isNaN(pointsToAdd) && pointsToAdd > 0) {
+            advancementPoints += pointsToAdd;
+            
+            // UI aktualisieren
+            const advancementPointsSpan = document.getElementById('advancement-points');
+            if (advancementPointsSpan) {
+                advancementPointsSpan.textContent = advancementPoints;
+            }
+            
+            // Synchronisiere mit dem Charakter-Sheet
+            const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+            if (steigerungspunkteInput) {
+                steigerungspunkteInput.value = advancementPoints;
+                
+                // Hier wichtig: Die Änderung beim change-Event berücksichtigen
+                if (typeof updateCharakterCalculation === 'function') {
+                    updateCharakterCalculation();
+                } else {
+                    // Fallback: Event auslösen, damit andere Handler reagieren können
+                    const event = new Event('change');
+                    steigerungspunkteInput.dispatchEvent(event);
+                }
+                
+                console.log("Steigerungspunkte nach Punkten hinzufügen:", advancementPoints);
+            }
         }
+    } catch (error) {
+        console.error("Fehler beim Hinzufügen von Punkten:", error);
+        alert("Es ist ein Fehler beim Hinzufügen von Steigerungspunkten aufgetreten. Siehe Konsole für Details.");
     }
 }
 
 function renderMagicList() {
-    const magicListDiv = document.getElementById('magic-list');
-    magicListDiv.innerHTML = '';
-    
-    if (characterMagic.length === 0) {
-        magicListDiv.innerHTML = '<p>Noch keine Magien hinzugefügt. Füge oben deine erste Magie hinzu!</p>';
-        return;
+    try {
+        const magicListDiv = document.getElementById('magic-list');
+        if (!magicListDiv) {
+            console.error("magic-list Element nicht gefunden");
+            return;
+        }
+        
+        magicListDiv.innerHTML = '';
+        
+        if (!window.characterMagic || !Array.isArray(window.characterMagic) || characterMagic.length === 0) {
+            magicListDiv.innerHTML = '<p>Noch keine Magien hinzugefügt. Füge oben deine erste Magie hinzu!</p>';
+            return;
+        }
+        
+        characterMagic.forEach((magic, index) => {
+            const elementIcon = getIcon('element', magic.element);
+            const typeIcon = getIcon('magicType', magic.type);
+            
+            // Kosten für nächstes Level berechnen
+            const nextLevelCost = magic.level < 21 ? getLevelUpCost(magic.level) : null;
+            const levelUpDisabled = nextLevelCost > advancementPoints || magic.level >= 21;
+            
+            const magicDiv = document.createElement('div');
+            magicDiv.className = 'added-magic';
+            
+            magicDiv.innerHTML = `
+                <div class="magic-info">
+                    <span class="magic-icon">${elementIcon}</span>
+                    <strong>${magic.element}</strong> - 
+                    <span class="magic-icon">${typeIcon}</span>
+                    <span class="magic-type">${magic.type}</span>
+                    <span>Level <strong>${magic.level}</strong></span>
+                    ${nextLevelCost ? `
+                        <span class="tooltip">
+                            <i>ℹ️</i>
+                            <span class="tooltip-content">Nächstes Level: ${nextLevelCost} Punkte</span>
+                        </span>
+                    ` : ''}
+                </div>
+                <div class="magic-controls">
+                    <button class="btn btn-level-up" ${levelUpDisabled ? 'disabled' : ''}>
+                        ⬆️ Level
+                    </button>
+                    <button class="btn btn-remove">
+                        🗑️
+                    </button>
+                </div>
+            `;
+            
+            // Event-Listener hinzufügen
+            const levelUpBtn = magicDiv.querySelector('.btn-level-up');
+            const removeBtn = magicDiv.querySelector('.btn-remove');
+            
+            if (levelUpBtn) {
+                levelUpBtn.addEventListener('click', () => levelUpMagic(index));
+            }
+            
+            if (removeBtn) {
+                removeBtn.addEventListener('click', () => removeMagic(index));
+            }
+            
+            magicListDiv.appendChild(magicDiv);
+        });
+    } catch (error) {
+        console.error("Fehler beim Rendern der Magic-Liste:", error);
     }
-    
-    characterMagic.forEach((magic, index) => {
-        const elementIcon = getIcon('element', magic.element);
-        const typeIcon = getIcon('magicType', magic.type);
-        
-        // Kosten für nächstes Level berechnen
-        const nextLevelCost = magic.level < 21 ? getLevelUpCost(magic.level) : null;
-        const levelUpDisabled = nextLevelCost > advancementPoints || magic.level >= 21;
-        
-        const magicDiv = document.createElement('div');
-        magicDiv.className = 'added-magic';
-        
-        magicDiv.innerHTML = `
-            <div class="magic-info">
-                <span class="magic-icon">${elementIcon}</span>
-                <strong>${magic.element}</strong> - 
-                <span class="magic-icon">${typeIcon}</span>
-                <span class="magic-type">${magic.type}</span>
-                <span>Level <strong>${magic.level}</strong></span>
-                ${nextLevelCost ? `
-                    <span class="tooltip">
-                        <i>ℹ️</i>
-                        <span class="tooltip-content">Nächstes Level: ${nextLevelCost} Punkte</span>
-                    </span>
-                ` : ''}
-            </div>
-            <div class="magic-controls">
-                <button class="btn btn-level-up" ${levelUpDisabled ? 'disabled' : ''}>
-                    ⬆️ Level
-                </button>
-                <button class="btn btn-remove">
-                    🗑️
-                </button>
-            </div>
-        `;
-        
-        // Event-Listener hinzufügen
-        const levelUpBtn = magicDiv.querySelector('.btn-level-up');
-        const removeBtn = magicDiv.querySelector('.btn-remove');
-        
-        levelUpBtn.addEventListener('click', () => levelUpMagic(index));
-        removeBtn.addEventListener('click', () => removeMagic(index));
-        
-        magicListDiv.appendChild(magicDiv);
-    });
 }
 
 function updatePreview() {
-    const previewContent = document.getElementById('previewContent');
-    
-    if (characterMagic.length === 0) {
-        previewContent.innerHTML = '<p>Füge Magien hinzu, um die Vorschau zu sehen.</p>';
-        return;
-    }
-    
-    // Gruppiere Magie nach Element
-    const elementGroups = {};
-    characterMagic.forEach(magic => {
-        if (!elementGroups[magic.element]) {
-            elementGroups[magic.element] = [];
+    try {
+        const previewContent = document.getElementById('previewContent');
+        if (!previewContent) {
+            console.error("previewContent Element nicht gefunden");
+            return;
         }
-        elementGroups[magic.element].push(magic);
-    });
-    
-    let previewHTML = `
-        <h2>${characterName || 'Unbenannter Charakter'}</h2>
-        <div class="stats-box">
-            <div class="stat-item">
-                <span class="stat-label">Steigerungspunkte:</span>
-                <span class="stat-value">${advancementPoints}</span>
-            </div>
-        </div>
-        <div class="magic-abilities">
-    `;
-    
-    for (const [element, magicList] of Object.entries(elementGroups)) {
-        const elementIcon = getIcon('element', element);
         
-        previewHTML += `
-            <div class="element-section">
-                <h3 class="element-title">
-                    ${elementIcon} ${element}
-                </h3>
-                <div class="magic-items">
-        `;
+        if (!window.characterMagic || !Array.isArray(window.characterMagic) || characterMagic.length === 0) {
+            previewContent.innerHTML = '<p>Füge Magien hinzu, um die Vorschau zu sehen.</p>';
+            return;
+        }
         
-        magicList.forEach(magic => {
-            const typeIcon = getIcon('magicType', magic.type);
-            
-            previewHTML += `
-                <div class="magic-item">
-                    <div class="magic-info">
-                        <span class="magic-icon">${typeIcon}</span>
-                        <span class="magic-type">${magic.type}</span>
-                    </div>
-                    <span class="magic-level">${magic.level}</span>
-                </div>
-            `;
+        // Gruppiere Magie nach Element
+        const elementGroups = {};
+        characterMagic.forEach(magic => {
+            if (!elementGroups[magic.element]) {
+                elementGroups[magic.element] = [];
+            }
+            elementGroups[magic.element].push(magic);
         });
         
-        previewHTML += `
+        let previewHTML = `
+            <h2>${characterName || 'Unbenannter Charakter'}</h2>
+            <div class="stats-box">
+                <div class="stat-item">
+                    <span class="stat-label">Steigerungspunkte:</span>
+                    <span class="stat-value">${advancementPoints}</span>
                 </div>
             </div>
+            <div class="magic-abilities">
         `;
+        
+        for (const [element, magicList] of Object.entries(elementGroups)) {
+            const elementIcon = getIcon('element', element);
+            
+            previewHTML += `
+                <div class="element-section">
+                    <h3 class="element-title">
+                        ${elementIcon} ${element}
+                    </h3>
+                    <div class="magic-items">
+            `;
+            
+            magicList.forEach(magic => {
+                const typeIcon = getIcon('magicType', magic.type);
+                
+                previewHTML += `
+                    <div class="magic-item">
+                        <div class="magic-info">
+                            <span class="magic-icon">${typeIcon}</span>
+                            <span class="magic-type">${magic.type}</span>
+                        </div>
+                        <span class="magic-level">${magic.level}</span>
+                    </div>
+                `;
+            });
+            
+            previewHTML += `
+                    </div>
+                </div>
+            `;
+        }
+        
+        previewHTML += '</div>';
+        previewContent.innerHTML = previewHTML;
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren der Preview:", error);
     }
-    
-    previewHTML += '</div>';
-    previewContent.innerHTML = previewHTML;
 }
 
 function saveCharacter() {
-    if (characterMagic.length === 0) {
-        alert('Füge mindestens eine Magie hinzu, bevor du speicherst');
-        return;
+    try {
+        if (!window.characterMagic || !Array.isArray(window.characterMagic) || characterMagic.length === 0) {
+            alert('Füge mindestens eine Magie hinzu, bevor du speicherst');
+            return;
+        }
+        
+        const characterData = {
+            name: characterName || 'Unbenannter Charakter',
+            advancementPoints,
+            magic: characterMagic
+        };
+        
+        const jsonString = JSON.stringify(characterData, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${characterData.name.replace(/\s+/g, '_')}_magie.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert('Magie-Daten erfolgreich gespeichert!');
+    } catch (error) {
+        console.error("Fehler beim Speichern des Charakters:", error);
+        alert("Fehler beim Speichern: " + error.message);
     }
-    
-    const characterData = {
-        name: characterName || 'Unbenannter Charakter',
-        advancementPoints,
-        magic: characterMagic
-    };
-    
-    const jsonString = JSON.stringify(characterData, null, 2);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${characterData.name.replace(/\s+/g, '_')}_magie.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    alert('Magie-Daten erfolgreich gespeichert!');
 }
 
 function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const loadedData = JSON.parse(e.target.result);
-            
-            // Validiere geladene Daten
-            if (!loadedData.name || !Array.isArray(loadedData.magic)) {
-                throw new Error('Ungültiges Dateiformat');
-            }
-            
-            // Setze Charakternamen
-            characterName = loadedData.name;
-            document.getElementById('characterName').value = characterName;
-            
-            // Setze Magie-Daten
-            characterMagic = loadedData.magic;
-            
-            // Behandle Steigerungspunkte
-            if (loadedData.advancementPoints !== undefined) {
-                advancementPoints = loadedData.advancementPoints;
-                document.getElementById('advancement-points').textContent = advancementPoints;
-            }
-            
-            // UI aktualisieren
-            renderMagicList();
-            updatePreview();
-            updateCharacterSheetMagic();
-            
-            alert('Magie-Daten erfolgreich geladen!');
-        } catch (error) {
-            alert('Fehler beim Laden der Datei: ' + error.message);
-        }
-    };
-    
-    reader.readAsText(file);
-}
-
-// Synchronisiere mit dem Haupt-Charakter-Sheet
-function synchronizeWithCharacterSheet() {
-    // Lade die aktuellen Steigerungspunkte, falls verfügbar
-    const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
-    if (steigerungspunkteInput) {
-        advancementPoints = parseInt(steigerungspunkteInput.value) || 20;
-        document.getElementById('advancement-points').textContent = advancementPoints;
-    }
-    
-    // Lade den Charakternamen, falls verfügbar
-    const nameInput = document.getElementById('name');
-    if (nameInput) {
-        characterName = nameInput.value.trim();
-        document.getElementById('characterName').value = characterName;
-    }
-    
-    // Lade die bestehenden magischen Elemente aus dem Charakter-Sheet
-    loadMagicElementsFromCharacterSheet();
-}
-
-// Lade Magische Elemente aus dem Charakter-Sheet
-function loadMagicElementsFromCharacterSheet() {
-    // Sammle alle Magischen Elemente aus dem bestehenden Charakter-Sheet
-    const magicElements = {};
-    const magicInputs = document.querySelectorAll('.Magische_Elemente');
-    
-    magicInputs.forEach(input => {
-        const element = input.id.replace('Magische_Elemente_', '');
-        const level = parseInt(input.value) || 0;
+    try {
+        const file = event.target.files[0];
+        if (!file) return;
         
-        if (level > 0) {
-            magicElements[element] = level;
-        }
-    });
-    
-    // Konvertiere die Elemente in das Format für characterMagic
-    characterMagic = [];
-    for (const [element, level] of Object.entries(magicElements)) {
-        if (level > 0) {
-            characterMagic.push({
-                element,
-                type: 'Angriff', // Standard-Typ, da das alte System keine Typen hatte
-                level
-            });
-        }
-    }
-    
-    // UI aktualisieren
-    renderMagicList();
-    updatePreview();
-}
-
-// Aktualisiere die Magischen Elemente im Charakter-Sheet
-function updateCharacterSheetMagic() {
-    // Zuerst alle Magischen Elemente zurücksetzen
-    const magicInputs = document.querySelectorAll('.Magische_Elemente');
-    magicInputs.forEach(input => {
-        input.value = 0;
-    });
-    
-    // Dann für jedes Element den höchsten Level nehmen und im Charakter-Sheet setzen
-    const magicElements = {};
-    characterMagic.forEach(magic => {
-        if (!magicElements[magic.element] || magicElements[magic.element] < magic.level) {
-            magicElements[magic.element] = magic.level;
-        }
-    });
-    
-    // Die Werte ins Charakter-Sheet übertragen
-    for (const [element, level] of Object.entries(magicElements)) {
-        const input = document.getElementById(`Magische_Elemente_${element}`);
-        if (input) {
-            input.value = level;
-        }
-    }
-    
-    // Berechnung der Charakterwerte aktualisieren
-    if (typeof updateCharakterCalculation === 'function') {
-        updateCharakterCalculation();
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const loadedData = JSON.parse(e.target.result);
+                
+                // Validiere geladene Daten
+                if (!loadedData.name || !Array.isArray(loadedData.magic)) {
+                    throw new Error('Ungültiges Dateiformat');
+                }
+                
+                // Setze Charakternamen
+                characterName = loadedData.name;
+                const characterNameInput = document.getElementById('characterName');
+                if (characterNameInput) {
+                    characterNameInput.value = characterName;
+                }
+                
+                // Setze Magie-Daten
+                characterMagic = loadedData.magic;
+                
+                // Behandle Steigerungspunkte
+                if (loadedData.advancementPoints !== undefined) {
+                    advancementPoints = loadedData.advancementPoints;
+                    const advancementPointsSpan = document.getElementById('advancement-points');
+                    if (advancementPointsSpan) {
+                        advancementPointsSpan.textContent = advancementPoints;
+                    }
+                }
+                
+                // UI aktualisieren
+                renderMagicList();
+                updatePreview();
+                
+                alert('Magie-Daten erfolgreich geladen!');
+            } catch (error) {
+                alert('Fehler beim Laden der Datei: ' + error.message);
+            }
+        };
+        
+        reader.readAsText(file);
+    } catch (error) {
+        console.error("Fehler beim Datei-Upload:", error);
+        alert("Fehler beim Laden der Datei: " + error.message);
     }
 }
 
-// Initialisiere das System, wenn das DOM geladen ist
+// Verbesserte synchronizeWithCharacterSheet-Funktion
+function synchronizeWithCharacterSheet() {
+    try {
+        // Lade die aktuellen Steigerungspunkte, falls verfügbar
+        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        if (steigerungspunkteInput) {
+            const punkteValue = parseInt(steigerungspunkteInput.value) || 0;
+            advancementPoints = punkteValue;
+            
+            const advancementPointsSpan = document.getElementById('advancement-points');
+            if (advancementPointsSpan) {
+                advancementPointsSpan.textContent = advancementPoints;
+            }
+            console.log("Steigerungspunkte synchronisiert:", advancementPoints);
+        }
+        
+        // Lade den Charakternamen, falls verfügbar
+        const nameInput = document.getElementById('name');
+        if (nameInput) {
+            characterName = nameInput.value.trim();
+            const characterNameInput = document.getElementById('characterName');
+            if (characterNameInput) {
+                characterNameInput.value = characterName;
+            }
+        }
+    } catch (error) {
+        console.error("Fehler bei der Synchronisation mit dem Charakterbogen:", error);
+    }
+}
+
+// Tab-Wechsel-Erkennung und Initialisierung
 document.addEventListener('DOMContentLoaded', function() {
+    // Zuerst globale Variablen initialisieren, damit sie überall verfügbar sind
+    window.characterMagic = window.characterMagic || [];
+    window.advancementPoints = window.advancementPoints || 0;
+    
+    // Tab-Wechsel erkennen und Synchronisation auslösen
+    const tabItems = document.querySelectorAll('.tab-item');
+    
+    tabItems.forEach(tab => {
+        tab.addEventListener('click', function() {
+            if (this.getAttribute('data-tab') === 'magie-tab') {
+                // Wenn der Magie-Tab aktiviert wird, Magie-System initialisieren
+                console.log("Magie-Tab aktiviert, initialisiere System");
+                
+                // Sicherstellen, dass das Magiesystem initialisiert ist
+                setTimeout(() => {
+                    if (document.getElementById('magie-tab') && 
+                        !document.getElementById('magie-tab').querySelector('.vanilla-magic-system')) {
+                        console.log("Initialisiere Magie-System");
+                        initializeVanillaMagicSystem();
+                    }
+                    // Synchronisieren mit dem Charakterbogen
+                    setTimeout(synchronizeWithCharacterSheet, 100);
+                }, 50);
+            }
+        });
+    });
+    
+    // Initialisiere das VanillaMagicSystem, wenn die Seite geladen ist
     if (document.getElementById('magie-tab')) {
+        console.log("Magie-Tab gefunden, initialisiere System");
         initializeVanillaMagicSystem();
     }
 });
 
-// Funktion zum Initialisieren des Systems nach DOM-Manipulation
+// Verbesserte Funktion zum Initialisieren des Systems nach DOM-Manipulation
 function initializeVanillaMagicSystem() {
+    console.log("Starte Initialisierung von VanillaMagicSystem");
+    
     const magieTab = document.getElementById('magie-tab');
-    if (!magieTab) return;
+    if (!magieTab) {
+        console.error("Magie-Tab nicht gefunden");
+        return;
+    }
+    
+    // Prüfen, ob das System bereits initialisiert wurde
+    if (magieTab.querySelector('.vanilla-magic-system')) {
+        console.log("Magie-System bereits initialisiert");
+        return;
+    }
+    
+    console.log("Erstelle Magie-System HTML");
     
     // HTML für das Vanilla Magic System einfügen
     const vanillaMagicHTML = createVanillaMagicHTML();
     magieTab.appendChild(vanillaMagicHTML);
     
     // System initialisieren
+    console.log("Initialisiere Magie-System");
     initVanillaMagicSystem();
+    
+    // Nach der Initialisierung einmal die Steigerungspunkte synchronisieren
+    console.log("Synchronisiere mit dem Charakterbogen nach Initialisierung");
+    setTimeout(synchronizeWithCharacterSheet, 100);
 }
 
 // Erstellt das HTML für das Vanilla Magic System
