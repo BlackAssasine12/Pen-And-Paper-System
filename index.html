@@ -40,6 +40,9 @@
                         <input type="file" id="fileInput">
                         <button id="saveButton">Speichern</button>
                         <a href="./charbogen/charakter.json" download="charakter.json">Neue JSON-Datei herunterladen</a>
+                        <label for="filenameInput">Dateiname:</label>
+                        <input type="text" id="filenameInput" placeholder="Dateiname (automatisch mit Datum)">
+                        <button id="generateFilenameButton">Standard-Name</button>
                     </div>
                 </div>
 
@@ -49,14 +52,22 @@
                         <!-- Charakterinfo Box -->
                         <div class="infoFlexContainer">
                             <h6>Charakterinformation</h6>
-                            <div class="mediumFlexItem">Name: <input class="eingabefeld" value=" " id="name" type="text"></div>
-                            <div class="mediumFlexItem">Geschlecht: <input class="eingabefeld" value=" " id="geschlecht" type="text"></div>
-                            <div class="mediumFlexItem">Größe: <input class="eingabefeld" value=" " id="größe" type="text"></div>
-                            <div class="mediumFlexItem">Alter: <input class="eingabefeld" value=" " id="alter" type="text"></div>
-                            <div class="mediumFlexItem">Gewicht: <input class="eingabefeld" value=" " id="gewicht" type="text"></div>
-                            <div class="mediumFlexItem">Haarfarbe: <input class="eingabefeld" value=" " id="haarfarbe" type="text"></div>
-                            <div class="mediumFlexItem">Augenfarbe: <input class="eingabefeld" value=" " id="augenfarbe" type="text"></div>
-                            <div class="mediumFlexItem">Titel: <input class="eingabefeld" value=" " id="titel" type="text"></div>
+                            <div class="mediumFlexItem">Name: <input class="eingabefeld" value=" " id="name"
+                                    type="text"></div>
+                            <div class="mediumFlexItem">Geschlecht: <input class="eingabefeld" value=" " id="geschlecht"
+                                    type="text"></div>
+                            <div class="mediumFlexItem">Größe: <input class="eingabefeld" value=" " id="größe"
+                                    type="text"></div>
+                            <div class="mediumFlexItem">Alter: <input class="eingabefeld" value=" " id="alter"
+                                    type="text"></div>
+                            <div class="mediumFlexItem">Gewicht: <input class="eingabefeld" value=" " id="gewicht"
+                                    type="text"></div>
+                            <div class="mediumFlexItem">Haarfarbe: <input class="eingabefeld" value=" " id="haarfarbe"
+                                    type="text"></div>
+                            <div class="mediumFlexItem">Augenfarbe: <input class="eingabefeld" value=" " id="augenfarbe"
+                                    type="text"></div>
+                            <div class="mediumFlexItem">Titel: <input class="eingabefeld" value=" " id="titel"
+                                    type="text"></div>
                             <div class="rakla-select">
                                 <div class="mediumFlexItem">
                                     <label for="rassen-select">Rasse: </label>
@@ -88,12 +99,17 @@
                                 <button type="submit" id="wconvert" onclick="wConvert()">Convert Wallet</button>
 
                                 <div style="margin-top: 20px;">
-                                    <div>Dukaten: <p id="showDukaten"></p></div>
-                                    <div>Silberlinge: <p id="showSilber"></p></div>
-                                    <div>Heller: <p id="showHeller"></p></div>
-                                    <div>Kreuzer: <p id="showKreuzer"></p></div>
+                                    <div>Dukaten: <p id="showDukaten"></p>
+                                    </div>
+                                    <div>Silberlinge: <p id="showSilber"></p>
+                                    </div>
+                                    <div>Heller: <p id="showHeller"></p>
+                                    </div>
+                                    <div>Kreuzer: <p id="showKreuzer"></p>
+                                    </div>
                                 </div>
-                                <button type="submit" id="wReset" onclick="wReset()" style="margin-top: 20px;">Reset Wallet</button>
+                                <button type="submit" id="wReset" onclick="wReset()" style="margin-top: 20px;">Reset
+                                    Wallet</button>
                             </form>
                         </div>
 
@@ -102,7 +118,8 @@
                             <h6>Erfahrung</h6>
                             <div class="FlexItem">
                                 <label>Level:</label>
-                                <input class="stg attributeInput erfahrung" type="number" value="0" id="erfahrung_level">
+                                <input class="stg attributeInput erfahrung" type="number" value="0"
+                                    id="erfahrung_level">
                                 <span class="readonly-value">×</span>
                             </div>
                             <div class="FlexItem">
@@ -112,12 +129,14 @@
                             </div>
                             <div class="FlexItem">
                                 <label>Steigerungspunkte:</label>
-                                <input class="stg attributeInput erfahrung" type="number" value="0" id="erfahrung_Steigerungspunkte">
+                                <input class="stg attributeInput erfahrung" type="number" value="0"
+                                    id="erfahrung_Steigerungspunkte">
                                 <span class="readonly-value">×</span>
                             </div>
                             <div class="FlexItem">
                                 <label>Gesteigerte:</label>
-                                <input class="stg attributeInput erfahrung" type="number" value="0" id="erfahrung_Gesteigerte">
+                                <input class="stg attributeInput erfahrung" type="number" value="0"
+                                    id="erfahrung_Gesteigerte">
                                 <span class="readonly-value">×</span>
                             </div>
                         </div>
@@ -130,22 +149,26 @@
                             <h6>Kampf Basiswerte</h6>
                             <div class="FlexItem">
                                 <label>Wurfwaffen Basiswert:</label>
-                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0" id="KampfBasiswerte_Wurfwaffen_Basiswert">
+                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0"
+                                    id="KampfBasiswerte_Wurfwaffen_Basiswert">
                                 <span class="readonly-value">×</span>
                             </div>
                             <div class="FlexItem">
                                 <label>Schusswaffen Basiswert:</label>
-                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0" id="KampfBasiswerte_Schusswaffen_Basiswert">
+                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0"
+                                    id="KampfBasiswerte_Schusswaffen_Basiswert">
                                 <span class="readonly-value">×</span>
                             </div>
                             <div class="FlexItem">
                                 <label>Attacke Basiswert:</label>
-                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0" id="KampfBasiswerte_Attacke_Basiswert">
+                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0"
+                                    id="KampfBasiswerte_Attacke_Basiswert">
                                 <span class="readonly-value">×</span>
                             </div>
                             <div class="FlexItem">
                                 <label>Parade Basiswert:</label>
-                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0" id="KampfBasiswerte_Parade_Basiswert">
+                                <input class="stg attributeInput KampfBasiswerte" type="number" value="0"
+                                    id="KampfBasiswerte_Parade_Basiswert">
                                 <span class="readonly-value">×</span>
                             </div>
                         </div>
@@ -156,12 +179,14 @@
                             <div class="modifier-flex">
                                 <div class="FlexItem">
                                     <label>Magie:</label>
-                                    <input class="stg attributeInput modifier" type="number" value="0" id="modifier_magie">
+                                    <input class="stg attributeInput modifier" type="number" value="0"
+                                        id="modifier_magie">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>ASP:</label>
-                                    <input class="stg attributeInput modifier" type="number" value="0" id="modifier_asp">
+                                    <input class="stg attributeInput modifier" type="number" value="0"
+                                        id="modifier_asp">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
@@ -171,22 +196,26 @@
                                 </div>
                                 <div class="FlexItem">
                                     <label>Fernkampf:</label>
-                                    <input class="stg attributeInput modifier" type="number" value="0" id="modifier_fernkampf">
+                                    <input class="stg attributeInput modifier" type="number" value="0"
+                                        id="modifier_fernkampf">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Nahkampf:</label>
-                                    <input class="stg attributeInput modifier" type="number" value="0" id="modifier_nahkampf">
+                                    <input class="stg attributeInput modifier" type="number" value="0"
+                                        id="modifier_nahkampf">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Gift:</label>
-                                    <input class="stg attributeInput modifier" type="number" value="0" id="modifier_gift">
+                                    <input class="stg attributeInput modifier" type="number" value="0"
+                                        id="modifier_gift">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Stealth:</label>
-                                    <input class="stg attributeInput modifier" type="number" value="0" id="modifier_stealth">
+                                    <input class="stg attributeInput modifier" type="number" value="0"
+                                        id="modifier_stealth">
                                     <span class="readonly-value">×</span>
                                 </div>
                             </div>
@@ -198,57 +227,68 @@
                             <div class="attribute-flex">
                                 <div class="FlexItem">
                                     <label>Konstitution:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Konstitution">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Konstitution">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Körperkraft:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Körperkraft">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Körperkraft">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Gewandheit:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Gewandheit">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Gewandheit">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Klugheit:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Klugheit">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Klugheit">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Intuition:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Intuition">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Intuition">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Geschicklichkeit:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Geschicklichkeit">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Geschicklichkeit">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Tarnung:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Tarnung">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Tarnung">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Fingerfertigkeit:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Fingerfertigkeit">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Fingerfertigkeit">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Sinnesschärfe:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Sinnesschärfe">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Sinnesschärfe">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Charisma:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Charisma">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Charisma">
                                     <button class="hidebutton">X</button>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Willenskraft:</label>
-                                    <input class="stg attributeInput attribute" type="number" value="9" id="attribute_Willenskraft">
+                                    <input class="stg attributeInput attribute" type="number" value="9"
+                                        id="attribute_Willenskraft">
                                     <button class="hidebutton">X</button>
                                 </div>
                             </div>
@@ -263,52 +303,62 @@
                             <div class="sonderwerte-flex">
                                 <div class="FlexItem">
                                     <label>Aktuelle LP:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Aktuelle_LP">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Aktuelle_LP">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Maximale LP:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Maximale_LP">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Maximale_LP">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Ausdauer:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Ausdauer">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Ausdauer">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Maximale Ausdauer:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Maximale_Ausdauer">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Maximale_Ausdauer">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Astralenergie:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Astralenergie">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Astralenergie">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Maximale Astralenergie:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Maximale_Astralenergie">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Maximale_Astralenergie">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Magiebegabung:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Magiebegabung">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Magiebegabung">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Magieresistenz:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Magieresistenz">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Magieresistenz">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Giftresistenz:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Giftresistenz">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Giftresistenz">
                                     <span class="readonly-value">×</span>
                                 </div>
                                 <div class="FlexItem">
                                     <label>Schnelligkeit:</label>
-                                    <input class="stg attributeInput sonderwerte" type="number" value="0" id="sonderwerte_Schnelligkeit">
+                                    <input class="stg attributeInput sonderwerte" type="number" value="0"
+                                        id="sonderwerte_Schnelligkeit">
                                     <span class="readonly-value">×</span>
                                 </div>
                             </div>
@@ -337,102 +387,122 @@
                     <div class="magische-elemente-flex">
                         <div class="FlexItem" id="Magische_Elemente_Feuer_Tooltip">
                             <label>Feuer:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Feuer">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Feuer">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Wasser_Tooltip">
                             <label>Wasser:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Wasser">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Wasser">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Erde_Tooltip">
                             <label>Erde:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Erde">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Erde">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Luft_Tooltip">
                             <label>Luft:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Luft">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Luft">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Natur_Tooltip">
                             <label>Natur:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Natur">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Natur">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Heilung_Tooltip">
                             <label>Heilung:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Heilung">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Heilung">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Dunkle_Tooltip">
                             <label>Dunkle:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Dunkle">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Dunkle">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Helle_Tooltip">
                             <label>Helle:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Helle">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Helle">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Schatten_Tooltip">
                             <label>Schatten:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Schatten">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Schatten">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Licht_Tooltip">
                             <label>Licht:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Licht">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Licht">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Holz_Tooltip">
                             <label>Holz:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Holz">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Holz">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Metall_Tooltip">
                             <label>Metall:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Metall">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Metall">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Eis_Tooltip">
                             <label>Eis:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Eis">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Eis">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Leben_Tooltip">
                             <label>Leben:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Leben">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Leben">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Nekromantie_Tooltip">
                             <label>Nekromantie:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Nekromantie">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Nekromantie">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Blitz_Tooltip">
                             <label>Blitz:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Blitz">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Blitz">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Blut_Tooltip">
                             <label>Blut:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Blut">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Blut">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Gravitation_Tooltip">
                             <label>Gravitation:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Gravitation">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Gravitation">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Erschaffung_Tooltip">
                             <label>Erschaffung:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Erschaffung">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Erschaffung">
                             <button class="hidebutton">X</button>
                         </div>
                         <div class="FlexItem" id="Magische_Elemente_Raumzeit_Tooltip">
                             <label>Raumzeit:</label>
-                            <input class="stg attributeInput Magische_Elemente" type="number" value="0" id="Magische_Elemente_Raumzeit">
+                            <input class="stg attributeInput Magische_Elemente" type="number" value="0"
+                                id="Magische_Elemente_Raumzeit">
                             <button class="hidebutton">X</button>
                         </div>
                     </div>
@@ -495,22 +565,22 @@
                             <button onclick="InToHTML('(')" class="calc-button function-button">(</button>
                             <button onclick="InToHTML(')')" class="calc-button function-button">)</button>
                             <button onclick="InToHTML('/')" class="calc-button operator-button">/</button>
-                            
+
                             <button onclick="InToHTML('7')" class="calc-button">7</button>
                             <button onclick="InToHTML('8')" class="calc-button">8</button>
                             <button onclick="InToHTML('9')" class="calc-button">9</button>
                             <button onclick="InToHTML('*')" class="calc-button operator-button">×</button>
-                            
+
                             <button onclick="InToHTML('4')" class="calc-button">4</button>
                             <button onclick="InToHTML('5')" class="calc-button">5</button>
                             <button onclick="InToHTML('6')" class="calc-button">6</button>
                             <button onclick="InToHTML('-')" class="calc-button operator-button">-</button>
-                            
+
                             <button onclick="InToHTML('1')" class="calc-button">1</button>
                             <button onclick="InToHTML('2')" class="calc-button">2</button>
                             <button onclick="InToHTML('3')" class="calc-button">3</button>
                             <button onclick="InToHTML('+')" class="calc-button operator-button">+</button>
-                            
+
                             <button onclick="InToHTML('0')" class="calc-button">0</button>
                             <button onclick="InToHTML('.')" class="calc-button">.</button>
                             <button onclick="calculate()" class="calc-button equal-button">=</button>

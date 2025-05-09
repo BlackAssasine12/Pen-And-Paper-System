@@ -24,6 +24,10 @@ document.getElementById('fileInput').addEventListener('change', function (event)
         };
         reader.readAsText(file);
     }
+    const filenameInput = document.getElementById('filenameInput');
+    if (filenameInput && file) {
+        filenameInput.value = file.name;
+    }
 });
 
 function loadInventory(inventory) {
@@ -33,5 +37,5 @@ function loadInventory(inventory) {
             quantity: item.quantity || item.count || 0
         };
     });
-    renderInventory(); 
+    renderInventory();
 }

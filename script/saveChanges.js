@@ -5,6 +5,19 @@ function sanitizeKey(key) {
     return key.replace(/\s+/g, '_');
 }
 
+// Funktion zum Generieren eines Standarddateinamens mit Charakter-Name, Datum und Uhrzeit
+function generateStandardFilename(characterName = "") {
+    const now = new Date();
+    const datePart = now.toLocaleDateString().replace(/\//g, '-');
+    const timePart = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }).replace(':', '-');
+    
+    let name = characterName || "Charakter";
+    // Leerzeichen durch Unterstriche ersetzen, Sonderzeichen entfernen
+    name = name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
+    
+    return `${name}_${datePart}_${timePart}.json`;
+}
+
 function updateSectionValues(section, sectionId) {
     const specialSections = ['Assassinen_Talente', 'Talente_1', 'Talente_2', 'Handwerkstalente'];
 
@@ -128,9 +141,23 @@ function saveChanges(data) {
     const jsonString = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
 
+    // Den Dateinamen aus dem Eingabefeld holen oder einen Standardnamen generieren
+    const filenameInput = document.getElementById('filenameInput');
+    let filename = filenameInput.value.trim();
+    
+    // Wenn kein Name eingegeben wurde, Standardnamen erzeugen
+    if (!filename) {
+        filename = generateStandardFilename(charakter.charakterInfo.name);
+    }
+    
+    // Sicherstellen, dass die Datei eine .json-Endung hat
+    if (!filename.toLowerCase().endsWith('.json')) {
+        filename += '.json';
+    }
+
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `${fileName}`;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -142,7 +169,25 @@ function saveInventory() {
     items.forEach(item => {
         const text = item.textContent;
         const [name, quantity] = text.split(' - ');
-        inventory.push({ name, quantity: parseInt(quantity.replace('x', '')) });
+        inventory.push({ 
+            name, 
+            quantity: parseInt(quantity.replace('x', '')) 
+        });
     });
     return inventory;
 }
+
+// Event-Listener für den "Standard-Name" Button
+document.addEventListener('DOMContentLoaded', function() {
+    const generateFilenameButton = document.getElementById('generateFilenameButton');
+    if (generateFilenameButton) {
+        generateFilenameButton.addEventListener('click', function() {
+            const nameInput = document.getElementById('name');
+            const characterName = nameInput ? nameInput.value : '';
+            const filenameInput = document.getElementById('filenameInput');
+            if (filenameInput) {
+                filenameInput.value = generateStandardFilename(characterName);
+            }
+        });
+    }
+});
