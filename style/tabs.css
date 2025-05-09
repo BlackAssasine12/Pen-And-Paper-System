@@ -1,48 +1,10 @@
 @charset "UTF-8";
-.textShadow, .tab-item {
-  text-shadow: 2px 2px 0px rgb(235, 220, 181);
-}
-
-.card {
-  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
-  border-radius: 5px;
-  border: 1px solid #a68a7d;
-  box-shadow: 0 2px 4px rgba(54, 37, 27, 0.2);
-  padding: 10px;
-}
-
-.backgroundIMG {
-  background-color: #e1d4b7;
-}
-
-#dragfield {
-  background-color: #a68a7d;
-}
-
-#container {
-  position: absolute;
-  grid-template-columns: repeat(4, 60px);
-  grid-template-rows: repeat(4, 60px);
-  gap: 2px;
-}
-
-.disNone {
-  display: none;
-}
-
-.disFlex {
-  display: flex;
-}
-
-.disBlock {
-  display: block;
-}
-
+/* Tabs-Styling angepasst für das gewünschte Layout */
 .tabs-container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 }
 
 .tab-nav {
@@ -50,12 +12,12 @@
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
-  margin: 0 0 20px 0;
+  margin: 0 0 15px 0;
   border-bottom: 2px solid #a68a7d;
 }
 
 .tab-item {
-  padding: 10px 15px;
+  padding: 8px 15px;
   margin-right: 5px;
   background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
   border: 1px solid #a68a7d;
@@ -88,7 +50,7 @@
 
 .tab-content {
   display: none;
-  padding: 20px;
+  padding: 15px;
   border: 1px solid #a68a7d;
   border-radius: 0 8px 8px 8px;
   background: linear-gradient(to bottom, rgba(225, 212, 183, 0.9), rgba(225, 212, 183, 0.7));
@@ -105,7 +67,7 @@
   padding: 10px;
   background: linear-gradient(to bottom, rgba(166, 138, 125, 0.4), rgba(166, 138, 125, 0.3));
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   border: 1px solid #a68a7d;
 }
 
@@ -113,60 +75,39 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   padding: 10px;
   background: linear-gradient(to bottom, rgba(166, 138, 125, 0.4), rgba(166, 138, 125, 0.3));
   border-radius: 8px;
   border: 1px solid #a68a7d;
 }
 
-/* Flexbox statt Grid für die Hauptstruktur */
-.main-character-content {
+/* Korrektur für die Scrollbars und Overflow-Verhalten */
+#shop {
+  overflow-y: auto;
+  max-height: 400px;
+  scrollbar-width: thin;
+}
+
+#inventory {
+  overflow-y: auto;
+  max-height: 400px;
+  scrollbar-width: thin;
+}
+
+/* Anpassungen für verbesserte Lesbarkeit im Layout */
+.kampf-talente-flex {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-}
-
-/* 3er-Block Layout für Container */
-.three-column-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 15px;
-  width: 100%;
-}
-
-.three-column-container > div {
-  flex: 0 0 calc(33.333% - 15px);
-  margin-bottom: 15px;
-}
-
-/* Flexbox für alle Grids */
-.modifier-flex,
-.attribute-flex,
-.sonderwerte-flex,
-.magische-elemente-flex,
-.kampf-talente-flex,
-.assassinen-talente-flex,
-.talente1-flex,
-.talente2-flex,
-.handwerkstalente-flex {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.modifier-flex > div,
-.attribute-flex > div,
-.sonderwerte-flex > div,
-.magische-elemente-flex > div {
-  flex: 0 0 calc(33.333% - 10px);
+  gap: 8px;
 }
 
 .kampf-talente-flex > div {
-  flex: 0 0 calc(50% - 10px);
+  flex: 0 0 calc(50% - 8px);
+  width: calc(50% - 8px);
 }
 
+/* Verbesserte Container-Sichtbarkeit */
 .hidden-items {
   display: block;
   background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
@@ -174,45 +115,12 @@
   border: 1px solid #a68a7d;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   padding: 15px;
+  margin-top: 15px;
 }
 
-.readonly-value {
-  font-weight: bold;
-  margin-left: 5px;
-  color: #666;
-}
-
-/* Responsive Anpassungen */
-@media screen and (max-width: 1200px) {
-  .three-column-container > div {
-    flex: 0 0 calc(50% - 15px);
-  }
-  .modifier-flex > div,
-  .attribute-flex > div,
-  .sonderwerte-flex > div,
-  .magische-elemente-flex > div {
-    flex: 0 0 calc(50% - 10px);
-  }
-}
-@media screen and (max-width: 768px) {
-  .tab-nav {
-    flex-direction: column;
-    gap: 5px;
-  }
-  .tab-item {
-    border-radius: 8px;
-    width: 100%;
-    text-align: center;
-  }
-  .tab-content {
-    border-radius: 8px;
-  }
-  .three-column-container > div,
-  .modifier-flex > div,
-  .attribute-flex > div,
-  .sonderwerte-flex > div,
-  .magische-elemente-flex > div,
-  .kampf-talente-flex > div {
-    flex: 0 0 100%;
+/* Gleichmäßigere Verteilung im drei-Spalten Layout */
+@media screen and (min-width: 1201px) {
+  .three-column-container {
+    justify-content: space-between;
   }
 }/*# sourceMappingURL=tabs.css.map */

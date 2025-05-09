@@ -1,4 +1,5 @@
-.textShadow, .tab-item {
+@charset "UTF-8";
+.textShadow {
   text-shadow: 2px 2px 0px rgb(235, 220, 181);
 }
 
@@ -37,7 +38,7 @@
   display: block;
 }
 
-.textShadow, .tab-item {
+.textShadow {
   text-shadow: 2px 2px 0px rgb(235, 220, 181);
 }
 
@@ -107,30 +108,59 @@ li {
   list-style-type: none;
 }
 
-.FlexItemContainer {
+/* Neue layout.scss basierend auf dem Bild */
+/* Grundlegende Container-Struktur */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+/* Drei-Spalten-Layout */
+.three-column-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.three-column-container > div {
+  flex: 1;
+  min-width: calc(33% - 15px);
+  max-width: calc(33.333% - 15px);
+  margin-bottom: 0;
+}
+
+/* Container-Styling */
+.FlexItemContainer, .infoFlexContainer {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 340px;
-  margin: 18px;
-  margin-top: 0;
-  margin-bottom: 12px;
+  /* Feste Breite entfernen und stattdessen Flex-Basis nutzen */
+  margin: 0;
   background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
   border-radius: 8px;
   border: 1px solid #a68a7d;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  padding: 12px;
 }
 
 .infoFlexContainer {
-  margin: 38px;
-  margin-top: 0;
-  margin-bottom: 0;
-  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
-  border-radius: 8px;
-  border: 1px solid #a68a7d;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  height: 100%;
 }
 
+/* Überschriften in Containern */
+h6 {
+  font-size: 18px;
+  color: #36251b;
+  border-bottom: 2px solid #a68a7d;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+/* Zeilen in den Containern */
 .FlexItem,
 .mediumFlexItem,
 .BigFlexItem {
@@ -138,26 +168,132 @@ li {
   align-items: center;
   border-radius: 6px;
   height: 35px;
-  margin-top: 10px;
+  margin-top: 5px;
   padding: 0 5px;
   justify-content: space-between;
   background-color: rgba(255, 255, 255, 0.3);
   transition: background-color 0.2s;
 }
+
 .FlexItem:hover,
 .mediumFlexItem:hover,
 .BigFlexItem:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-h6 {
-  font-size: 24px;
-  color: #36251b;
-  border-bottom: 2px solid #a68a7d;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
+/* Spezialfall Wallet Container */
+.WalletContainer {
+  flex-direction: column;
 }
 
+/* Layout für die flexbox-grids innerhalb der Container */
+.modifier-flex,
+.attribute-flex,
+.sonderwerte-flex,
+.magische-elemente-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modifier-flex > div,
+.attribute-flex > div,
+.sonderwerte-flex > div,
+.magische-elemente-flex > div {
+  flex: 0 0 calc(100% - 8px);
+  width: 100%;
+}
+
+/* Anpassungen für die großen Container */
+.BigFlexItemContainer {
+  flex: 1 0 100%;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Responsive-Anpassungen */
+@media screen and (max-width: 1200px) {
+  .three-column-container > div {
+    flex: 0 0 calc(50% - 15px);
+    max-width: calc(50% - 15px);
+  }
+}
+@media screen and (max-width: 768px) {
+  .three-column-container > div {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+/* Anpassungen für Labels und Inputs */
+label {
+  flex: 1;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+input[type=text],
+input[type=number],
+select {
+  min-width: 80px;
+  flex: 0 0 auto;
+  height: 28px;
+}
+
+.readonly-value {
+  margin-left: 8px;
+  opacity: 0.7;
+}
+
+/* Spezielle Anpassung für die Charakterinfo */
+.mediumFlexItem {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.mediumFlexItem label {
+  text-align: left;
+  flex: 0 0 auto;
+}
+
+.infoFlexContainer {
+  padding: 15px;
+}
+
+.infoFlexContainer .eingabefeld {
+  width: 65%;
+  text-align: left;
+  margin-left: auto;
+}
+
+.rakla-select {
+  width: 90%;
+  margin-top: 10px;
+}
+
+.rakla-select .mediumFlexItem {
+  width: 100%;
+}
+
+/* Die Select-Elemente für Rasse und Klasse gleich groß machen */
+#rassen-select,
+#klassen-select {
+  width: 65%;
+  height: 32px;
+  flex: 0 0 65%;
+}
+
+/* Main Content Container */
+.main-character-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Anpassungen für components.scss */
+/* Verbessertes Button-Styling */
 button {
   background: linear-gradient(to bottom, rgba(166, 138, 125, 0.5), rgba(166, 138, 125, 0.7));
   color: #36251b;
@@ -167,6 +303,7 @@ button {
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s;
+  margin: 0;
 }
 button:hover {
   background: linear-gradient(to bottom, rgba(166, 138, 125, 0.7), rgba(166, 138, 125, 0.9));
@@ -182,7 +319,7 @@ button.hidebutton {
   border: 0;
   outline: none;
   color: #36251b;
-  padding: 8px 16px;
+  padding: 8px;
   border-radius: 4px;
   font-weight: bold;
 }
@@ -192,17 +329,18 @@ button.hidebutton:hover {
   box-shadow: none;
 }
 
+/* Input und Select Styling */
 input[type=text],
 input[type=number],
 select {
-  padding: 8px;
+  padding: 5px 8px;
   border: none;
   border-bottom: #1f110a 2px solid;
   border-radius: 4px;
   font-size: 1rem;
   background-color: rgba(255, 255, 255, 0.5);
-  width: 220px;
   transition: all 0.2s;
+  max-width: 100%;
 }
 input[type=text]:focus,
 input[type=number]:focus,
@@ -213,22 +351,47 @@ select:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-#ShopContainer {
+input[type=number] {
+  width: 70px;
+  text-align: center;
+}
+
+/* Anpassungen für den Wallet-Bereich */
+#inputField {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#inputField > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+#NumberInput {
+  width: 80px;
+}
+
+#CurrencyField {
+  flex-grow: 1;
+  margin: 0 5px;
+}
+
+/* Angepasste Shop-Container Stile */
+#ShopContainer, #InvContainer {
   background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
   border: 1px solid #a68a7d;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  height: 508px;
+  height: auto;
+  max-height: 500px;
+  margin-bottom: 15px;
 }
 
-#InvContainer {
-  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
-  border: 1px solid #a68a7d;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-}
-
-#inventory li {
+/* Verbesserte Inventar-Items */
+#inventory li, #shop li {
   background-color: rgba(255, 255, 255, 0.3);
   margin: 5px 0;
   padding: 8px;
@@ -236,66 +399,42 @@ select:focus {
   border-left: 3px solid #a68a7d;
   transition: background-color 0.2s;
 }
-#inventory li:hover {
+#inventory li:hover, #shop li:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
-#container {
-  position: absolute;
-  grid-template-columns: repeat(4, 60px);
-  grid-template-rows: repeat(4, 60px);
-  gap: 2px;
-  background-color: rgba(230, 220, 200, 0.8);
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border: 1px solid #a68a7d;
+/* Eingabefelder für Name, Geschlecht etc. */
+.eingabefeld {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  border-bottom: 1px solid #36251b;
+  background-color: transparent;
+  padding: 5px 3px;
+  font-family: inherit;
+  font-size: 1rem;
 }
 
-.textShadow, .tab-item {
-  text-shadow: 2px 2px 0px rgb(235, 220, 181);
+/* Speziell für die Charakterinfo-Eingabefelder */
+.infoFlexContainer .eingabefeld {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  border: 1px solid rgba(54, 37, 27, 0.2);
 }
 
-.card {
-  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
-  border-radius: 5px;
-  border: 1px solid #a68a7d;
-  box-shadow: 0 2px 4px rgba(54, 37, 27, 0.2);
-  padding: 10px;
+/* Spezifische Anpassungen für die Wallet-Anzeige */
+#showDukaten, #showSilber, #showHeller, #showKreuzer {
+  display: inline-block;
+  margin: 0;
+  font-weight: bold;
 }
 
-.backgroundIMG {
-  background-color: #e1d4b7;
-}
-
-#dragfield {
-  background-color: #a68a7d;
-}
-
-#container {
-  position: absolute;
-  grid-template-columns: repeat(4, 60px);
-  grid-template-rows: repeat(4, 60px);
-  gap: 2px;
-}
-
-.disNone {
-  display: none;
-}
-
-.disFlex {
-  display: flex;
-}
-
-.disBlock {
-  display: block;
-}
-
+/* Tabs-Styling angepasst für das gewünschte Layout */
 .tabs-container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
 }
 
 .tab-nav {
@@ -303,14 +442,14 @@ select:focus {
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
-  margin: 0 0 20px 0;
+  margin: 0 0 15px 0;
   border-bottom: 2px solid #a68a7d;
 }
 
 .tab-item {
-  padding: 10px 15px;
+  padding: 8px 15px;
   margin-right: 5px;
-  background-color: rgba(166, 138, 125, 0.4);
+  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
   border: 1px solid #a68a7d;
   border-bottom: none;
   border-radius: 8px 8px 0 0;
@@ -322,10 +461,10 @@ select:focus {
   transition: all 0.3s ease;
 }
 .tab-item:hover {
-  background-color: rgba(166, 138, 125, 0.6);
+  background: linear-gradient(to bottom, rgba(215, 200, 175, 0.95), rgba(200, 180, 155, 0.85));
 }
 .tab-item.active {
-  background-color: #a68a7d;
+  background: linear-gradient(to bottom, rgba(166, 138, 125, 0.8), rgba(166, 138, 125, 0.6));
   color: #fff;
   border-bottom: 1px solid #a68a7d;
 }
@@ -341,7 +480,7 @@ select:focus {
 
 .tab-content {
   display: none;
-  padding: 20px;
+  padding: 15px;
   border: 1px solid #a68a7d;
   border-radius: 0 8px 8px 8px;
   background: linear-gradient(to bottom, rgba(225, 212, 183, 0.9), rgba(225, 212, 183, 0.7));
@@ -356,32 +495,62 @@ select:focus {
   flex-wrap: wrap;
   gap: 10px;
   padding: 10px;
-  background-color: rgba(166, 138, 125, 0.3);
+  background: linear-gradient(to bottom, rgba(166, 138, 125, 0.4), rgba(166, 138, 125, 0.3));
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #a68a7d;
 }
 
 .file-upload-container {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   padding: 10px;
-  background-color: rgba(166, 138, 125, 0.3);
+  background: linear-gradient(to bottom, rgba(166, 138, 125, 0.4), rgba(166, 138, 125, 0.3));
   border-radius: 8px;
+  border: 1px solid #a68a7d;
 }
 
-@media screen and (max-width: 768px) {
-  .tab-nav {
-    flex-direction: column;
-    gap: 5px;
-  }
-  .tab-item {
-    border-radius: 8px;
-    width: 100%;
-    text-align: center;
-  }
-  .tab-content {
-    border-radius: 8px;
+/* Korrektur für die Scrollbars und Overflow-Verhalten */
+#shop {
+  overflow-y: auto;
+  max-height: 400px;
+  scrollbar-width: thin;
+}
+
+#inventory {
+  overflow-y: auto;
+  max-height: 400px;
+  scrollbar-width: thin;
+}
+
+/* Anpassungen für verbesserte Lesbarkeit im Layout */
+.kampf-talente-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kampf-talente-flex > div {
+  flex: 0 0 calc(50% - 8px);
+  width: calc(50% - 8px);
+}
+
+/* Verbesserte Container-Sichtbarkeit */
+.hidden-items {
+  display: block;
+  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
+  border-radius: 8px;
+  border: 1px solid #a68a7d;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  margin-top: 15px;
+}
+
+/* Gleichmäßigere Verteilung im drei-Spalten Layout */
+@media screen and (min-width: 1201px) {
+  .three-column-container {
+    justify-content: space-between;
   }
 }/*# sourceMappingURL=main.css.map */

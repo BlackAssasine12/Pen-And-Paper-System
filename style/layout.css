@@ -1,109 +1,57 @@
-.textShadow {
-  text-shadow: 2px 2px 0px rgb(235, 220, 181);
-}
-
-.card, .infoFlexContainer, .FlexItemContainer {
-  background-image: url("../assets/pappenheimer.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-}
-
-.backgroundIMG {
-  background-image: url("../assets/wood.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-#dragfield {
-  background-color: #a68a7d;
-}
-
-#container {
-  position: absolute;
-  grid-template-columns: repeat(4, 60px);
-  grid-template-rows: repeat(4, 60px);
-  gap: 2px;
-}
-
-.disNone {
-  display: none;
-}
-
-.disFlex {
-  display: flex;
-}
-
-.disBlock {
-  display: block;
-}
-
+@charset "UTF-8";
+/* Neue layout.scss basierend auf dem Bild */
+/* Grundlegende Container-Struktur */
 .container {
   max-width: 1200px;
-  margin: 0;
-  padding: 24px;
+  margin: 0 auto;
+  padding: 12px;
 }
 
-.flex {
+/* Drei-Spalten-Layout */
+.three-column-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
-.hidden-items {
-  display: none;
-}
-
-.FlexItemContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 340px;
-  margin: 18px;
-  margin-top: 0;
-  margin-bottom: 12px;
-}
-
-.infoFlexContainer {
-  margin: 38px;
-  margin-top: 0;
+.three-column-container > div {
+  flex: 1;
+  min-width: calc(33% - 15px);
+  max-width: calc(33.333% - 15px);
   margin-bottom: 0;
 }
 
-.BigFlexItemContainer {
-  width: 420px;
-}
-
-.Rowflex,
-.attributeFlexContainer {
+/* Container-Styling */
+.FlexItemContainer, .infoFlexContainer {
   display: flex;
-  flex-direction: row;
-  margin: 20px 0;
-  padding: 0;
-  margin: 0;
-}
-
-.WalletContainer {
   flex-direction: column;
-  width: 320px !important;
+  gap: 8px;
+  /* Feste Breite entfernen und stattdessen Flex-Basis nutzen */
+  margin: 0;
+  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
+  border-radius: 8px;
+  border: 1px solid #a68a7d;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  padding: 12px;
 }
 
-.attributeFlexContainer {
-  flex-wrap: wrap;
+.infoFlexContainer {
+  height: 100%;
 }
 
-label {
-  flex: 1;
-  margin-right: 10px;
-  text-align: left;
+/* Überschriften in Containern */
+h6 {
+  font-size: 18px;
+  color: #36251b;
+  border-bottom: 2px solid #a68a7d;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  margin-top: 0;
 }
 
-.mediumFlexItem {
-  width: 320px;
-}
-
+/* Zeilen in den Containern */
 .FlexItem,
 .mediumFlexItem,
 .BigFlexItem {
@@ -111,7 +59,126 @@ label {
   align-items: center;
   border-radius: 6px;
   height: 35px;
-  margin-top: 10px;
+  margin-top: 5px;
   padding: 0 5px;
   justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: background-color 0.2s;
+}
+
+.FlexItem:hover,
+.mediumFlexItem:hover,
+.BigFlexItem:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Spezialfall Wallet Container */
+.WalletContainer {
+  flex-direction: column;
+}
+
+/* Layout für die flexbox-grids innerhalb der Container */
+.modifier-flex,
+.attribute-flex,
+.sonderwerte-flex,
+.magische-elemente-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modifier-flex > div,
+.attribute-flex > div,
+.sonderwerte-flex > div,
+.magische-elemente-flex > div {
+  flex: 0 0 calc(100% - 8px);
+  width: 100%;
+}
+
+/* Anpassungen für die großen Container */
+.BigFlexItemContainer {
+  flex: 1 0 100%;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Responsive-Anpassungen */
+@media screen and (max-width: 1200px) {
+  .three-column-container > div {
+    flex: 0 0 calc(50% - 15px);
+    max-width: calc(50% - 15px);
+  }
+}
+@media screen and (max-width: 768px) {
+  .three-column-container > div {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+/* Anpassungen für Labels und Inputs */
+label {
+  flex: 1;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+input[type=text],
+input[type=number],
+select {
+  min-width: 80px;
+  flex: 0 0 auto;
+  height: 28px;
+}
+
+.readonly-value {
+  margin-left: 8px;
+  opacity: 0.7;
+}
+
+/* Spezielle Anpassung für die Charakterinfo */
+.mediumFlexItem {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.mediumFlexItem label {
+  text-align: left;
+  flex: 0 0 auto;
+}
+
+.infoFlexContainer {
+  padding: 15px;
+}
+
+.infoFlexContainer .eingabefeld {
+  width: 65%;
+  text-align: left;
+  margin-left: auto;
+}
+
+.rakla-select {
+  width: 90%;
+  margin-top: 10px;
+}
+
+.rakla-select .mediumFlexItem {
+  width: 100%;
+}
+
+/* Die Select-Elemente für Rasse und Klasse gleich groß machen */
+#rassen-select,
+#klassen-select {
+  width: 65%;
+  height: 32px;
+  flex: 0 0 65%;
+}
+
+/* Main Content Container */
+.main-character-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }/*# sourceMappingURL=layout.css.map */

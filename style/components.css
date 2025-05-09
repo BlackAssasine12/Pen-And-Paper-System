@@ -1,204 +1,137 @@
 @charset "UTF-8";
-.textShadow, #ShopButton, div, h6, label {
-  text-shadow: 2px 2px 0px rgb(235, 220, 181);
-}
-
-.card {
-  background-image: url("../assets/pappenheimer.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-}
-
-.backgroundIMG {
-  background-image: url("../assets/wood.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-#dragfield {
-  background-color: #a68a7d;
-}
-
-#container {
-  position: absolute;
-  grid-template-columns: repeat(4, 60px);
-  grid-template-rows: repeat(4, 60px);
-  gap: 2px;
-}
-
-.disNone {
-  display: none;
-}
-
-.disFlex {
-  display: flex;
-}
-
-.disBlock {
-  display: block;
-}
-
-label {
-  font-size: 1rem;
-  color: #36251b;
-  font-weight: bold;
-}
-
-h6 {
-  font-size: 24px;
-}
-
-#divDice input,
-#divDice select {
-  padding: 8px;
-  border: none;
-  border-bottom: #1f110a 4px solid;
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: #ffffff;
-  width: 220px;
-}
-#divDice .container {
-  display: flex;
-  flex-direction: row;
-}
-#divDice .container input {
-  margin-right: 5px;
-}
-
+/* Anpassungen für components.scss */
+/* Verbessertes Button-Styling */
 button {
-  background-color: rgba(166, 138, 125, 0.4);
-  color: #fff;
+  background: linear-gradient(to bottom, rgba(166, 138, 125, 0.5), rgba(166, 138, 125, 0.7));
+  color: #36251b;
   padding: 8px 16px;
-  border: 1px solid black;
+  border: 1px solid rgba(54, 37, 27, 0.3);
   border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+  margin: 0;
 }
 button:hover {
-  background-color: #8e7062;
+  background: linear-gradient(to bottom, rgba(166, 138, 125, 0.7), rgba(166, 138, 125, 0.9));
+  transform: translateY(-1px);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+button:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 button.hidebutton {
-  background-color: transparent;
+  background: transparent;
   border: 0;
   outline: none;
   color: #36251b;
-  padding: 8px 16px;
+  padding: 8px;
   border-radius: 4px;
   font-weight: bold;
 }
 button.hidebutton:hover {
-  background-color: rgba(255, 156, 102, 0.5);
+  background-color: rgba(255, 156, 102, 0.2);
+  transform: none;
+  box-shadow: none;
 }
 
+/* Input und Select Styling */
 input[type=text],
 input[type=number],
 select {
-  padding: 8px;
+  padding: 5px 8px;
   border: none;
-  border-bottom: #1f110a 4px solid;
+  border-bottom: #1f110a 2px solid;
   border-radius: 4px;
   font-size: 1rem;
-  background-color: transparent;
-  width: 220px;
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s;
+  max-width: 100%;
+}
+input[type=text]:focus,
+input[type=number]:focus,
+select:focus {
+  outline: none;
+  border-bottom-color: #a68a7d;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 input[type=number] {
-  width: 84px;
+  width: 70px;
+  text-align: center;
 }
 
-#FileReaderInOutput,
-#Würfelsektion {
-  padding: 16px;
-  border-radius: 4px;
-  margin-top: 24px;
-  margin: 12px;
-}
-
-a,
-.toggleLabel,
-#fileInput {
-  color: #ffffff !important;
-  text-shadow: none !important;
-}
-
-input[type=checkbox] {
-  width: 16px;
-  align-items: center;
+/* Anpassungen für den Wallet-Bereich */
+#inputField {
+  display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
-#ShopContainer {
-  height: 508px;
-}
-
-#shop {
-  overflow: scroll;
-  scrollbar-width: none;
-}
-
-#wReset:hover {
-  background-color: red;
-}
-
-.ShopHead {
-  align-items: center;
+#inputField > div {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
-.ShopHeader {
-  text-decoration: underline;
+#NumberInput {
+  width: 80px;
 }
 
-#ShopButton {
-  display: flex;
-  width: 38px;
-  height: 38px;
-  margin: 13px;
+#CurrencyField {
+  flex-grow: 1;
+  margin: 0 5px;
+}
+
+/* Angepasste Shop-Container Stile */
+#ShopContainer, #InvContainer {
+  background: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
+  border: 1px solid #a68a7d;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  height: auto;
+  max-height: 500px;
+  margin-bottom: 15px;
+}
+
+/* Verbesserte Inventar-Items */
+#inventory li, #shop li {
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 4px;
+  border-left: 3px solid #a68a7d;
+  transition: background-color 0.2s;
+}
+#inventory li:hover, #shop li:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Eingabefelder für Name, Geschlecht etc. */
+.eingabefeld {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  border-bottom: 1px solid #36251b;
+  background-color: transparent;
+  padding: 5px 3px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+/* Speziell für die Charakterinfo-Eingabefelder */
+.infoFlexContainer .eingabefeld {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  border: 1px solid rgba(54, 37, 27, 0.2);
+}
+
+/* Spezifische Anpassungen für die Wallet-Anzeige */
+#showDukaten, #showSilber, #showHeller, #showKreuzer {
+  display: inline-block;
+  margin: 0;
   font-weight: bold;
-  color: #36251b;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
-}
-
-div.calc {
-  display: flex;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  padding-bottom: auto;
-  border: solid #ffffff 2px;
-  border-radius: 5px;
-  background-color: #98825f;
-  font-size: 40px;
-  cursor: pointer;
-}
-
-div.calc:hover {
-  background-color: #ffffff;
-  color: #36251b;
-}
-
-#FieldContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-div#eqField,
-#evField {
-  display: flex;
-  width: 248px;
-  height: 60px;
-  border: solid #ffffff 2px;
-  border-radius: 5px;
-  background-color: #666666;
-  font-size: 40px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }/*# sourceMappingURL=components.css.map */
