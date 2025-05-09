@@ -1,3 +1,4 @@
+// Komplette shop.js Datei
 let inventory = [];
 let shopData = {};
 
@@ -9,7 +10,6 @@ async function loadShopData() {
             throw new Error(`Fehler beim Laden der Shop-Daten: ${response.statusText}`);
         }
         shopData = await response.json();
-        console.log(shopData)
         renderShop();
     } catch (error) {
         console.error("Fehler beim Laden der Shop-Daten:", error);
@@ -39,8 +39,8 @@ function renderShop() {
 function removeFromInventory(itemName, count = 1) {
     const existingItem = inventory.find(entry => entry.name === itemName);
     if (existingItem) {
-        if (existingItem.count > count) {
-            existingItem.count -= count;
+        if (existingItem.quantity > count) {
+            existingItem.quantity -= count;
         } else {
             inventory = inventory.filter(entry => entry.name !== itemName);
         }
@@ -69,30 +69,59 @@ function removeFromInventoryFromInput() {
     }
 }
 
-// Bestehende Funktion für das Hinzufügen angepasst
-function addToInventory(itemName, itemPreis, itemWärung) {
-    let preis = Math.round(itemPreis * 100) / 100;
-    switch (itemWärung) {
-        case "Dukaten":
-            wallet.dukaten -= preis;
-            break;
-        case "Silber":
-            wallet.silber -= preis;
-            break;
-        case "Heller":
-            wallet.heller -= preis;
-            break;
-        case "Kreuzer":
-            wallet.kreuzer -= preis;
-            break;
+// Währungswerte in Kreuzer
+const currencyValues = {
+    "Dukaten": 1000,
+    "Silber": 100,
+    "Heller": 10,
+    "Kreuzer": 1
+};
+
+// Neue Funktion für den Kauf mit automatischer Umrechnung
+function addToInventory(itemName, itemPreis, itemWährung) {
+    // Preis in Kreuzer umrechnen (kleinste Einheit)
+    let preisInKreuzer = 0;
+    if (itemWährung && itemPreis) {
+        preisInKreuzer = Math.round(itemPreis * currencyValues[itemWährung]);
     }
+    
+    // Gesamtes Geld im Wallet in Kreuzer berechnen
+    let totalKreuzer = wallet.dukaten * 1000 + wallet.silber * 100 + wallet.heller * 10 + wallet.kreuzer;
+    
+    // Prüfen, ob genug Geld vorhanden ist
+    if (totalKreuzer < preisInKreuzer) {
+        alert("Nicht genug Geld! Der Kauf wurde abgebrochen.");
+        return;
+    }
+    
+    // Geld abziehen
+    totalKreuzer -= preisInKreuzer;
+    
+    // Neues Geld zurück in die Währungen umrechnen
+    wallet.dukaten = Math.floor(totalKreuzer / 1000);
+    totalKreuzer %= 1000;
+    
+    wallet.silber = Math.floor(totalKreuzer / 100);
+    totalKreuzer %= 100;
+    
+    wallet.heller = Math.floor(totalKreuzer / 10);
+    totalKreuzer %= 10;
+    
+    wallet.kreuzer = Math.floor(totalKreuzer);
+    
+    // Wallet-Gesamtwert aktualisieren
+    wallet.wInsg = wallet.dukaten * 1000 + wallet.silber * 100 + wallet.heller * 10 + wallet.kreuzer;
+    
+    // Artikel ins Inventar hinzufügen
     const existingItem = inventory.find(entry => entry.name === itemName);
     if (existingItem) {
-        existingItem.count++;
+        existingItem.quantity = (existingItem.quantity || 0) + 1;
     } else {
-        inventory.push({ name: itemName, count: 1 });
+        inventory.push({ name: itemName, quantity: 1 });
     }
+    
     renderInventory();
+    // alert(`${itemName} wurde gekauft!`);
 }
 
 // Funktion zum Anzeigen des Inventars
@@ -100,8 +129,9 @@ function renderInventory() {
     const inventoryList = document.getElementById("inventory");
     inventoryList.innerHTML = "";
     inventory.forEach(entry => {
+        const quantity = entry.quantity || entry.count || 0;
         const listItem = document.createElement("li");
-        listItem.textContent = `${entry.name} - ${entry.count}x`;
+        listItem.textContent = `${entry.name} - ${quantity}x`;
         inventoryList.appendChild(listItem);
     });
     updateWalletDisplay();

@@ -27,11 +27,11 @@ document.getElementById('fileInput').addEventListener('change', function (event)
 });
 
 function loadInventory(inventory) {
-    const ul = document.getElementById('inventory');
-    ul.innerHTML = ''; // Bestehende Inhalte entfernen
-    inventory.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = `${item.name} - ${item.quantity}x`;
-        ul.appendChild(li);
+    window.inventory = inventory.map(item => {
+        return {
+            name: item.name,
+            quantity: item.quantity || item.count || 0
+        };
     });
+    renderInventory(); 
 }
