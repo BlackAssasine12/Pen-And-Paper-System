@@ -25,28 +25,6 @@
             "heller": 0,
             "kreuzer": 0
         },
-        "Magische_Elemente": {
-            "Feuer": 0,
-            "Wasser": 0,
-            "Erde": 0,
-            "Luft": 0,
-            "Natur": 0,
-            "Heilung": 0,
-            "Dunkle": 0,
-            "Helle": 0,
-            "Schatten": 0,
-            "Licht": 0,
-            "Holz": 0,
-            "Metall": 0,
-            "Eis": 0,
-            "Leben": 0,
-            "Nekromantie": 0,
-            "Blitz": 0,
-            "Blut": 0,
-            "Gravitation": 0,
-            "Erschaffung": 0,
-            "Raumzeit": 0
-        },
         "fähigkeiten": {
             "modifier": {
                 "magie": 0,

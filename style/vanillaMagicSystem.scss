@@ -1,0 +1,296 @@
+//vanillaMagicSystem.scss
+@import 'variables';
+
+// Mixin für Karten-Styling
+@mixin card-style {
+  background: $vanilla-card-gradient;
+  border-radius: 8px;
+  border: 1px solid $vanilla-primary-color;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+// Mixin für flexible Boxen
+@mixin flex-row {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Hauptstyling
+.vanilla-magic-system {
+  font-family: 'Quintessential', serif;
+  color: $vanilla-text-color;
+  margin-top: 20px;
+
+  .card {
+    @include card-style;
+    margin-bottom: 20px;
+  }
+
+  .scroll-decoration {
+    position: absolute;
+    top: 10px;
+    width: 20px;
+    height: 80%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 100"><path d="M1,1 C5,20 5,40 1,50 C5,60 5,80 1,99" stroke="%23a68a7d" fill="none" stroke-width="1"/></svg>');
+    background-repeat: repeat-y;
+    opacity: 0.5;
+
+    &.scroll-left {
+      left: 5px;
+    }
+
+    &.scroll-right {
+      right: 5px;
+      transform: scaleX(-1);
+    }
+  }
+
+  h2, h3 {
+    color: $vanilla-text-color;
+    margin-top: 0;
+    border-bottom: 2px solid $vanilla-primary-color;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+  }
+
+  .info-box {
+    background-color: $vanilla-bg-light;
+    border: 1px solid $vanilla-primary-color;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+
+    &-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid $vanilla-primary-color;
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.5);
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: darken($vanilla-primary-color, 10%);
+        background-color: rgba(255, 255, 255, 0.7);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+    }
+
+    input[type="number"] {
+      width: 80px;
+    }
+  }
+
+  .stats-box {
+    @include flex-row;
+    background-color: $vanilla-bg-light;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+    gap: 10px;
+
+    .stat-item {
+      @include flex-row;
+      gap: 5px;
+    }
+
+    .stat-label {
+      font-weight: bold;
+    }
+
+    .stat-value {
+      font-size: 1.2rem;
+    }
+  }
+
+  .magic-title {
+    @include flex-row;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+  }
+
+  .magic-list {
+    margin-top: 20px;
+    @include flex-column;
+    gap: 8px;
+  }
+
+  .added-magic {
+    @include flex-row;
+    justify-content: space-between;
+    background-color: $vanilla-bg-light;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .magic-info {
+    @include flex-row;
+    gap: 8px;
+  }
+
+  .magic-controls {
+    @include flex-row;
+    gap: 5px;
+  }
+
+  .btn {
+    background: linear-gradient(to bottom, rgba($vanilla-primary-color, 0.5), rgba($vanilla-primary-color, 0.7));
+    color: $vanilla-text-color;
+    padding: 8px 16px;
+    border: 1px solid rgba($vanilla-text-color, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s;
+
+    &:hover {
+      background: linear-gradient(to bottom, rgba($vanilla-primary-color, 0.7), rgba($vanilla-primary-color, 0.9));
+      transform: translateY(-1px);
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  .magic-icon {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba($vanilla-primary-color, 0.3);
+    border-radius: 50%;
+  }
+
+  .character-preview {
+    min-height: 300px;
+  }
+
+  .element-section {
+    margin-bottom: 20px;
+
+    .element-title {
+      border-bottom: 1px solid $vanilla-primary-color;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+
+    .magic-items {
+      @include flex-column;
+      gap: 8px;
+    }
+
+    .magic-item {
+      @include flex-row;
+      justify-content: space-between;
+      background-color: $vanilla-bg-light;
+      padding: 8px;
+      border-radius: 4px;
+      
+      .magic-level {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .error {
+    color: $vanilla-error-color;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+
+    .tooltip-content {
+      visibility: hidden;
+      width: 150px;
+      background-color: $vanilla-tooltip-bg;
+      color: $vanilla-tooltip-text;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -75px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover .tooltip-content {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+}
+
+// Responsive Anpassungen
+@media screen and (max-width: 768px) {
+  .vanilla-magic-system {
+    .added-magic {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+
+      .magic-controls {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  }
+}

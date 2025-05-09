@@ -25,6 +25,14 @@ $basic_font: "Quintessential", serif;
 
 $text-shadow: 2px 2px 0px rgba(235, 220, 181, 1);
 
+$vanilla-primary-color: #a68a7d;
+$vanilla-text-color: #36251b;
+$vanilla-bg-light: rgba(255, 255, 255, 0.3);
+$vanilla-card-gradient: linear-gradient(to bottom, rgba(230, 220, 200, 0.95), rgba(215, 200, 175, 0.85));
+$vanilla-error-color: #ff4122;
+$vanilla-tooltip-bg: #36251b;
+$vanilla-tooltip-text: #fff;
+
 .textShadow {
     text-shadow: $text-shadow;
 }
