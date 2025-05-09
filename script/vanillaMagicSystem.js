@@ -1,4 +1,4 @@
-// script/vanillaMagicSystem.js
+// script/vanillaMagicSystem.js - Mit bidirektionaler Synchronisation
 
 // Magiedaten
 const magicData = {
@@ -71,6 +71,92 @@ const levelUpCosts = [0, 2, 4, 6, 9, 12, 15, 18, 22, 26, 30, 34, 38, 43, 48, 53,
 let characterMagic = [];
 let advancementPoints = 20;
 let characterName = "";
+
+// Verbesserte synchronizeWithCharacterSheet-Funktion für bidirektionale Synchronisierung
+function synchronizeWithCharacterSheet() {
+    try {
+        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        
+        // 1. Von Charakter-Tab zum Magie-Tab
+        if (steigerungspunkteInput) {
+            const punkteValue = parseInt(steigerungspunkteInput.value) || 0;
+            
+            // Nur aktualisieren, wenn die Werte unterschiedlich sind
+            if (advancementPoints !== punkteValue) {
+                advancementPoints = punkteValue;
+                
+                const advancementPointsSpan = document.getElementById('advancement-points');
+                if (advancementPointsSpan) {
+                    advancementPointsSpan.textContent = advancementPoints;
+                }
+                console.log("Steigerungspunkte vom Charakter-Tab übernommen:", advancementPoints);
+            }
+        }
+        
+        // Lade den Charakternamen, falls verfügbar
+        const nameInput = document.getElementById('name');
+        if (nameInput) {
+            characterName = nameInput.value.trim();
+            const characterNameInput = document.getElementById('characterName');
+            if (characterNameInput) {
+                characterNameInput.value = characterName;
+            }
+        }
+    } catch (error) {
+        console.error("Fehler bei der Synchronisation mit dem Charakterbogen:", error);
+    }
+}
+
+// Funktion zum expliziten Synchronisieren von Magie-Tab zum Charakter-Tab
+function syncMagieToCharacter() {
+    try {
+        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        if (steigerungspunkteInput) {
+            // Aktualisiere den Wert im Charakter-Tab mit dem Wert aus dem Magie-Tab
+            if (parseInt(steigerungspunkteInput.value) !== advancementPoints) {
+                steigerungspunkteInput.value = advancementPoints;
+                
+                // Wichtig: Aktualisiere auch die Gesteigerten-Punkte basierend auf dem neuen Wert
+                updateGesteigertePoints();
+                
+                // Löse die Berechnung im Charakter-Tab aus
+                if (typeof updateCharakterCalculation === 'function') {
+                    updateCharakterCalculation();
+                } else {
+                    // Fallback: Event auslösen, damit andere Handler reagieren können
+                    const event = new Event('change');
+                    steigerungspunkteInput.dispatchEvent(event);
+                }
+                
+                console.log("Steigerungspunkte an Charakter-Tab gesendet:", advancementPoints);
+            }
+        }
+    } catch (error) {
+        console.error("Fehler bei der Synchronisation zum Charakterbogen:", error);
+    }
+}
+
+// Hilfsfunktion zur Aktualisierung der Gesteigerte-Punkte
+function updateGesteigertePoints() {
+    try {
+        const levelInput = document.getElementById('erfahrung_level');
+        const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
+        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        
+        if (levelInput && gesteigerteInput && steigerungspunkteInput) {
+            const level = parseInt(levelInput.value) || 0;
+            const steigerungspunkte = parseInt(steigerungspunkteInput.value) || 0;
+            
+            // Formel: Gesteigerte = (level * 30 + 100) - Steigerungspunkte
+            const gesteigerte = (level * 30 + 100) - steigerungspunkte;
+            gesteigerteInput.value = gesteigerte;
+            
+            console.log("Gesteigerte Punkte aktualisiert:", gesteigerte);
+        }
+    } catch (error) {
+        console.error("Fehler bei der Aktualisierung der Gesteigerte-Punkte:", error);
+    }
+}
 
 // DOM-Elemente initialisieren
 function initVanillaMagicSystem() {
@@ -242,10 +328,8 @@ function addMagic() {
         renderMagicList();
         updatePreview();
         
-        // Aktualisiere die Berechnungen (wichtig für die Magiebegabung-Berechnung)
-        if (typeof updateCharakterCalculation === 'function') {
-            updateCharakterCalculation();
-        }
+        // WICHTIG: Synchronisiere zum Charakter-Tab, da die Magie-Summe geändert wurde
+        syncMagieToCharacter();
     
         // Fehlermeldungen zurücksetzen
         levelErrorDiv.classList.add('hidden');
@@ -283,14 +367,17 @@ function removeMagic(index) {
             return;
         }
         
+        // Entferne die Magie
         characterMagic.splice(index, 1);
+        
+        // UI aktualisieren
         renderMagicList();
         updatePreview();
         
-        // Aktualisiere die Charakterwerte
-        if (typeof updateCharakterCalculation === 'function') {
-            updateCharakterCalculation();
-        }
+        // WICHTIG: Aktualisiere den Charakter-Tab, da sich die Magie-Summe geändert hat
+        syncMagieToCharacter();
+        
+        console.log("Magie entfernt, Index:", index);
     } catch (error) {
         console.error("Fehler beim Entfernen von Magie:", error);
     }
@@ -337,25 +424,13 @@ function levelUpMagic(index) {
             advancementPointsSpan.textContent = advancementPoints;
         }
         
-        // Synchronisiere den neuen Wert zurück zum Charakter-Tab
-        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
-        if (steigerungspunkteInput) {
-            steigerungspunkteInput.value = advancementPoints;
-            
-            // Hier wichtig: Die Änderung beim change-Event berücksichtigen
-            if (typeof updateCharakterCalculation === 'function') {
-                updateCharakterCalculation();
-            } else {
-                // Fallback: Event auslösen, damit andere Handler reagieren können
-                const event = new Event('change');
-                steigerungspunkteInput.dispatchEvent(event);
-            }
-            
-            console.log("Steigerungspunkte nach Level-Up:", advancementPoints);
-        }
+        // WICHTIG: Bidirektionale Synchronisation - zum Charakter-Tab senden
+        syncMagieToCharacter();
         
         renderMagicList();
         updatePreview();
+        
+        console.log(`Magie ${magic.element} auf Level ${magic.level} gesteigert.`);
     } catch (error) {
         console.error("Fehler beim Level-Up:", error);
         alert("Es ist ein Fehler beim Steigern des Levels aufgetreten. Siehe Konsole für Details.");
@@ -390,22 +465,10 @@ function addPoints() {
                 advancementPointsSpan.textContent = advancementPoints;
             }
             
-            // Synchronisiere mit dem Charakter-Sheet
-            const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
-            if (steigerungspunkteInput) {
-                steigerungspunkteInput.value = advancementPoints;
-                
-                // Hier wichtig: Die Änderung beim change-Event berücksichtigen
-                if (typeof updateCharakterCalculation === 'function') {
-                    updateCharakterCalculation();
-                } else {
-                    // Fallback: Event auslösen, damit andere Handler reagieren können
-                    const event = new Event('change');
-                    steigerungspunkteInput.dispatchEvent(event);
-                }
-                
-                console.log("Steigerungspunkte nach Punkten hinzufügen:", advancementPoints);
-            }
+            // WICHTIG: Bidirektionale Synchronisation - zum Charakter-Tab senden
+            syncMagieToCharacter();
+            
+            console.log("Steigerungspunkte hinzugefügt:", pointsToAdd, "Neue Summe:", advancementPoints);
         }
     } catch (error) {
         console.error("Fehler beim Hinzufügen von Punkten:", error);
@@ -623,6 +686,9 @@ function handleFileUpload(event) {
                 renderMagicList();
                 updatePreview();
                 
+                // Synchronisiere Änderungen zum Hauptsystem
+                syncMagieToCharacter();
+                
                 alert('Magie-Daten erfolgreich geladen!');
             } catch (error) {
                 alert('Fehler beim Laden der Datei: ' + error.message);
@@ -633,36 +699,6 @@ function handleFileUpload(event) {
     } catch (error) {
         console.error("Fehler beim Datei-Upload:", error);
         alert("Fehler beim Laden der Datei: " + error.message);
-    }
-}
-
-// Verbesserte synchronizeWithCharacterSheet-Funktion
-function synchronizeWithCharacterSheet() {
-    try {
-        // Lade die aktuellen Steigerungspunkte, falls verfügbar
-        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
-        if (steigerungspunkteInput) {
-            const punkteValue = parseInt(steigerungspunkteInput.value) || 0;
-            advancementPoints = punkteValue;
-            
-            const advancementPointsSpan = document.getElementById('advancement-points');
-            if (advancementPointsSpan) {
-                advancementPointsSpan.textContent = advancementPoints;
-            }
-            console.log("Steigerungspunkte synchronisiert:", advancementPoints);
-        }
-        
-        // Lade den Charakternamen, falls verfügbar
-        const nameInput = document.getElementById('name');
-        if (nameInput) {
-            characterName = nameInput.value.trim();
-            const characterNameInput = document.getElementById('characterName');
-            if (characterNameInput) {
-                characterNameInput.value = characterName;
-            }
-        }
-    } catch (error) {
-        console.error("Fehler bei der Synchronisation mit dem Charakterbogen:", error);
     }
 }
 
@@ -702,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Verbesserte Funktion zum Initialisieren des Systems nach DOM-Manipulation
+// Funktion zum Initialisieren des Systems nach DOM-Manipulation
 function initializeVanillaMagicSystem() {
     console.log("Starte Initialisierung von VanillaMagicSystem");
     
@@ -712,116 +748,116 @@ function initializeVanillaMagicSystem() {
         return;
     }
     
-    // Prüfen, ob das System bereits initialisiert wurde
-    if (magieTab.querySelector('.vanilla-magic-system')) {
-        console.log("Magie-System bereits initialisiert");
-        return;
-    }
-    
-    console.log("Erstelle Magie-System HTML");
-    
-    // HTML für das Vanilla Magic System einfügen
-    const vanillaMagicHTML = createVanillaMagicHTML();
-    magieTab.appendChild(vanillaMagicHTML);
-    
-    // System initialisieren
-    console.log("Initialisiere Magie-System");
-    initVanillaMagicSystem();
-    
-    // Nach der Initialisierung einmal die Steigerungspunkte synchronisieren
-    console.log("Synchronisiere mit dem Charakterbogen nach Initialisierung");
-    setTimeout(synchronizeWithCharacterSheet, 100);
+   // Prüfen, ob das System bereits initialisiert wurde
+   if (magieTab.querySelector('.vanilla-magic-system')) {
+    console.log("Magie-System bereits initialisiert");
+    return;
+}
+
+console.log("Erstelle Magie-System HTML");
+
+// HTML für das Vanilla Magic System einfügen
+const vanillaMagicHTML = createVanillaMagicHTML();
+magieTab.appendChild(vanillaMagicHTML);
+
+// System initialisieren
+console.log("Initialisiere Magie-System");
+initVanillaMagicSystem();
+
+// Nach der Initialisierung einmal die Steigerungspunkte synchronisieren
+console.log("Synchronisiere mit dem Charakterbogen nach Initialisierung");
+setTimeout(synchronizeWithCharacterSheet, 100);
 }
 
 // Erstellt das HTML für das Vanilla Magic System
 function createVanillaMagicHTML() {
-    const container = document.createElement('div');
-    container.className = 'vanilla-magic-system';
-    
-    container.innerHTML = `
-        <div class="card">
-            <div class="scroll-decoration scroll-left"></div>
-            <div class="scroll-decoration scroll-right"></div>
-            <h2>Magie-Charakterbogen</h2>
-            
-            <div class="info-box">
-                <div class="info-box-title">Hinweis</div>
-                <p>Füge mehrere Magie-Elemente und -Arten hinzu, um einen mächtigen Charakterbogen zu erstellen. Jedes Element kann mehrere Magiearten beherrschen!</p>
+const container = document.createElement('div');
+container.className = 'vanilla-magic-system';
+
+container.innerHTML = `
+    <div class="card">
+        <div class="scroll-decoration scroll-left"></div>
+        <div class="scroll-decoration scroll-right"></div>
+        <h2>Magie-Charakterbogen</h2>
+        
+        <div class="info-box">
+            <div class="info-box-title">Hinweis</div>
+            <p>Füge mehrere Magie-Elemente und -Arten hinzu, um einen mächtigen Charakterbogen zu erstellen. Jedes Element kann mehrere Magiearten beherrschen!</p>
+        </div>
+        
+        <div class="stats-box">
+            <div class="stat-item">
+                <span class="stat-label">Steigerungspunkte:</span>
+                <span id="advancement-points" class="stat-value">20</span>
             </div>
-            
-            <div class="stats-box">
-                <div class="stat-item">
-                    <span class="stat-label">Steigerungspunkte:</span>
-                    <span id="advancement-points" class="stat-value">20</span>
-                </div>
-                <button id="add-points-btn" class="btn btn-small">
-                    <i class="fas fa-plus-circle"></i> Punkte hinzufügen
-                </button>
-            </div>
-            
-            <div class="form-group">
-                <label for="characterName">Charaktername</label>
-                <input type="text" id="characterName" placeholder="Gib deinen Charakternamen ein">
-            </div>
-            
-            <div class="magic-title">
-                <i class="fas fa-magic"></i>
-                <h2>Magieauswahl</h2>
-                <i class="fas fa-magic"></i>
-            </div>
-            
-            <div class="form-group">
-                <label for="elementSelect">Magie-Element</label>
-                <select id="elementSelect">
-                    <option value="">-- Element wählen --</option>
-                </select>
-                
-                <div id="customElementContainer" class="hidden">
-                    <input type="text" id="customElement" placeholder="Eigenes Element eingeben">
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="magicTypeSelect">Magie-Art</label>
-                <select id="magicTypeSelect">
-                    <option value="">-- Magie-Art wählen --</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="magicLevel">Magie-Level (1-21)</label>
-                <input type="number" id="magicLevel" min="1" max="21" value="1">
-                <div id="levelError" class="error hidden"></div>
-            </div>
-            
-            <button id="addMagicBtn" class="btn">
-                <i class="fas fa-plus-circle"></i> Magie hinzufügen
+            <button id="add-points-btn" class="btn btn-small">
+                <i class="fas fa-plus-circle"></i> Punkte hinzufügen
             </button>
+        </div>
+        
+        <div class="form-group">
+            <label for="characterName">Charaktername</label>
+            <input type="text" id="characterName" placeholder="Gib deinen Charakternamen ein">
+        </div>
+        
+        <div class="magic-title">
+            <i class="fas fa-magic"></i>
+            <h2>Magieauswahl</h2>
+            <i class="fas fa-magic"></i>
+        </div>
+        
+        <div class="form-group">
+            <label for="elementSelect">Magie-Element</label>
+            <select id="elementSelect">
+                <option value="">-- Element wählen --</option>
+            </select>
             
-            <div id="magic-list" class="magic-list">
-                <!-- Hier werden hinzugefügte Magien angezeigt -->
-            </div>
-            
-            <div class="btn-group">
-                <button id="saveButton" class="btn">
-                    <i class="fas fa-save"></i> Magie speichern
-                </button>
-                <button id="loadButton" class="btn">
-                    <i class="fas fa-upload"></i> Magie laden
-                </button>
-                <input type="file" id="fileInput" style="display: none;" accept=".json">
+            <div id="customElementContainer" class="hidden">
+                <input type="text" id="customElement" placeholder="Eigenes Element eingeben">
             </div>
         </div>
         
-        <div class="card character-preview">
-            <div class="scroll-decoration scroll-left"></div>
-            <div class="scroll-decoration scroll-right"></div>
-            <h3>Charaktervorschau</h3>
-            <div id="previewContent">
-                <p>Füge Magien hinzu, um die Vorschau zu sehen.</p>
-            </div>
+        <div class="form-group">
+            <label for="magicTypeSelect">Magie-Art</label>
+            <select id="magicTypeSelect">
+                <option value="">-- Magie-Art wählen --</option>
+            </select>
         </div>
-    `;
+        
+        <div class="form-group">
+            <label for="magicLevel">Magie-Level (1-21)</label>
+            <input type="number" id="magicLevel" min="1" max="21" value="1">
+            <div id="levelError" class="error hidden"></div>
+        </div>
+        
+        <button id="addMagicBtn" class="btn">
+            <i class="fas fa-plus-circle"></i> Magie hinzufügen
+        </button>
+        
+        <div id="magic-list" class="magic-list">
+            <!-- Hier werden hinzugefügte Magien angezeigt -->
+        </div>
+        
+        <div class="btn-group">
+            <button id="saveButton" class="btn">
+                <i class="fas fa-save"></i> Magie speichern
+            </button>
+            <button id="loadButton" class="btn">
+                <i class="fas fa-upload"></i> Magie laden
+            </button>
+            <input type="file" id="fileInput" style="display: none;" accept=".json">
+        </div>
+    </div>
     
-    return container;
+    <div class="card character-preview">
+        <div class="scroll-decoration scroll-left"></div>
+        <div class="scroll-decoration scroll-right"></div>
+        <h3>Charaktervorschau</h3>
+        <div id="previewContent">
+            <p>Füge Magien hinzu, um die Vorschau zu sehen.</p>
+        </div>
+    </div>
+`;
+
+return container;
 }
