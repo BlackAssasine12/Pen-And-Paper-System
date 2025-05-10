@@ -434,41 +434,82 @@ function loadInventory(inventory) {
 }
 
 // Hilfsfunktion: Lädt das Magiesystem
+// Verbesserte loadMagieSystem Funktion für saveLoader.js
+
 function loadMagieSystem(data) {
     try {
         console.log("SaveLoader: Lade Magiesystem-Daten...");
         
         if (data.magieSystem) {
-            // 1. Magie-Fähigkeiten laden
-            if (Array.isArray(data.magieSystem.magicAbilities)) {
-                // Globale Variable aktualisieren (tiefe Kopie)
-                window.characterMagic = JSON.parse(JSON.stringify(data.magieSystem.magicAbilities));
-                console.log("SaveLoader: Magie-Fähigkeiten geladen:", window.characterMagic.length);
+            // 1. Prüfen, ob das MagicSystem-Modul verfügbar ist
+            if (typeof window.MagicSystem !== 'undefined') {
+                console.log("SaveLoader: Verwende das MagicSystem-Modul zum Laden der Magie");
+                
+                // MagicSystem initialisieren
+                window.MagicSystem.init();
+                
+                // Magie-Fähigkeiten laden
+                if (Array.isArray(data.magieSystem.magicAbilities)) {
+                    // Globale Variable aktualisieren
+                    window.characterMagic = JSON.parse(JSON.stringify(data.magieSystem.magicAbilities));
+                    
+                    // MagicSystem aktualisieren
+                    window.MagicSystem.syncFromGlobals();
+                    
+                    console.log("SaveLoader: Magie-Fähigkeiten geladen:", window.characterMagic.length);
+                } else {
+                    console.warn("SaveLoader: Keine gültigen Magie-Fähigkeiten in der Datei");
+                    window.characterMagic = [];
+                    window.MagicSystem.syncFromGlobals();
+                }
+                
+                // Steigerungspunkte laden
+                window.advancementPoints = data.magieSystem.advancementPoints || 0;
+                console.log("SaveLoader: Steigerungspunkte geladen:", window.advancementPoints);
+                
+                // MagicSystem aktualisieren
+                window.MagicSystem.syncFromGlobals();
+                
+                // UI aktualisieren, falls verfügbar
+                if (typeof window.renderMagicList === 'function') {
+                    window.renderMagicList();
+                }
+                
+                if (typeof window.updatePreview === 'function') {
+                    window.updatePreview();
+                }
             } else {
-                console.warn("SaveLoader: Keine gültigen Magie-Fähigkeiten in der Datei");
-                window.characterMagic = [];
-            }
-            
-            // 2. Steigerungspunkte laden
-            window.advancementPoints = data.magieSystem.advancementPoints || 0;
-            console.log("SaveLoader: Steigerungspunkte geladen:", window.advancementPoints);
-            
-            // 3. Versuche die UI zu aktualisieren
-            
-            // Magie-Liste aktualisieren
-            if (typeof window.renderMagicList === 'function') {
-                window.renderMagicList();
-                console.log("SaveLoader: Magie-Liste aktualisiert");
-            } else {
-                console.warn("SaveLoader: renderMagicList Funktion nicht verfügbar");
-            }
-            
-            // Vorschau aktualisieren
-            if (typeof window.updatePreview === 'function') {
-                window.updatePreview();
-                console.log("SaveLoader: Vorschau aktualisiert");
-            } else {
-                console.warn("SaveLoader: updatePreview Funktion nicht verfügbar");
+                // Fallback für ältere Version: direkt globale Variablen setzen
+                console.log("SaveLoader: Fallback-Methode zum Laden der Magie verwendet");
+                
+                // 1. Magie-Fähigkeiten laden
+                if (Array.isArray(data.magieSystem.magicAbilities)) {
+                    // Globale Variable aktualisieren (tiefe Kopie)
+                    window.characterMagic = JSON.parse(JSON.stringify(data.magieSystem.magicAbilities));
+                    console.log("SaveLoader: Magie-Fähigkeiten geladen:", window.characterMagic.length);
+                } else {
+                    console.warn("SaveLoader: Keine gültigen Magie-Fähigkeiten in der Datei");
+                    window.characterMagic = [];
+                }
+                
+                // 2. Steigerungspunkte laden
+                window.advancementPoints = data.magieSystem.advancementPoints || 0;
+                console.log("SaveLoader: Steigerungspunkte geladen:", window.advancementPoints);
+                
+                // 3. Versuche die UI zu aktualisieren
+                if (typeof window.renderMagicList === 'function') {
+                    window.renderMagicList();
+                    console.log("SaveLoader: Magie-Liste aktualisiert");
+                } else {
+                    console.warn("SaveLoader: renderMagicList Funktion nicht verfügbar");
+                }
+                
+                if (typeof window.updatePreview === 'function') {
+                    window.updatePreview();
+                    console.log("SaveLoader: Vorschau aktualisiert");
+                } else {
+                    console.warn("SaveLoader: updatePreview Funktion nicht verfügbar");
+                }
             }
             
             // Steigerungspunkte-Anzeige aktualisieren
@@ -484,18 +525,27 @@ function loadMagieSystem(data) {
             // Standardwerte setzen
             window.characterMagic = [];
             window.advancementPoints = 0;
+            
+            // MagicSystem aktualisieren, falls verfügbar
+            if (typeof window.MagicSystem !== 'undefined') {
+                window.MagicSystem.syncFromGlobals();
+            }
         }
     } catch (error) {
         console.error("SaveLoader Fehler beim Laden des Magiesystems:", error);
         // Standardwerte setzen
         window.characterMagic = [];
         window.advancementPoints = 0;
+        
+        // MagicSystem aktualisieren, falls verfügbar
+        if (typeof window.MagicSystem !== 'undefined') {
+            window.MagicSystem.syncFromGlobals();
+        }
     }
     
     // Steigerungspunkte zum Charakterbogen synchronisieren
     synchronizeToCharacterSheet();
 }
-
 // Hilfsfunktion: Aktualisiert die Steigerungspunkte-Anzeige
 function updateAdvancementPointsDisplay() {
     try {
