@@ -111,12 +111,31 @@ function saveCharacterData(data) {
             updateCharakterInfo(charakter.charakterInfo);
         }
 
-        // 2. Fähigkeiten aktualisieren
+        // 2. XP und Level separat aktualisieren, damit sie nicht verloren gehen
+        if (charakter.werte) {
+            const xpInput = document.getElementById('erfahrung_xp');
+            const levelInput = document.getElementById('erfahrung_level');
+            const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+            const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
+            
+            if (xpInput) charakter.werte.xp = parseInt(xpInput.value) || 0;
+            if (levelInput) charakter.werte.level = parseInt(levelInput.value) || 0;
+            if (steigerungspunkteInput) charakter.werte.Steigerungspunkte = parseInt(steigerungspunkteInput.value) || 0;
+            if (gesteigerteInput) charakter.werte.Gesteigerte = parseInt(gesteigerteInput.value) || 0;
+            
+            console.log("SaveLoader: XP/Level gespeichert:", {
+                xp: charakter.werte.xp,
+                level: charakter.werte.level,
+                steigerungspunkte: charakter.werte.Steigerungspunkte,
+                gesteigerte: charakter.werte.Gesteigerte
+            });
+        }
+
+        // 3. Fähigkeiten aktualisieren
         if (charakter.fähigkeiten) {
             const fähigkeiten = charakter.fähigkeiten;
             
             if (fähigkeiten.modifier) updateSectionValues(fähigkeiten.modifier, 'modifier');
-            if (charakter.werte) updateSectionValues(charakter.werte, 'erfahrung');
             if (fähigkeiten.sonderwerte) updateSectionValues(fähigkeiten.sonderwerte, 'sonderwerte');
             if (fähigkeiten.attribute) updateSectionValues(fähigkeiten.attribute, 'attribute');
             if (fähigkeiten.Assassinen_Talente) updateSectionValues(fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
@@ -128,18 +147,18 @@ function saveCharacterData(data) {
             if (fähigkeiten.Gespeicherte_Kampftalente) updateSectionValues(fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
         }
 
-        // 3. Geldbeutel aktualisieren
+        // 4. Geldbeutel aktualisieren
         if (charakter.geld && typeof wallet !== 'undefined') {
             charakter.geld = JSON.parse(JSON.stringify(wallet));
         }
 
-        // 4. Inventar speichern
+        // 5. Inventar speichern
         data.inventory = saveInventory();
         
-        // 5. Magiesystem speichern
+        // 6. Magiesystem speichern
         saveMagieSystem(data);
 
-        // 6. JSON erstellen und herunterladen
+        // 7. JSON erstellen und herunterladen
         const jsonString = JSON.stringify(data, null, 2);
         const blob = new Blob([jsonString], { type: 'application/json' });
 
@@ -188,7 +207,7 @@ function updateCharakterInfo(charakterInfo) {
     charakterInfo.geschlecht = getIdValue('geschlecht');
     charakterInfo.rasse = getIdValue('rassen-select');
     charakterInfo.klasse = getIdValue('klassen-select');
-    charakterInfo.größe = getIdValue('größe');
+    charakterInfo.größe = getIdValue('größe');  // Hier war der Fehler: "karakterInfo" statt "charakterInfo"
     charakterInfo.gewicht = getIdValue('gewicht');
     charakterInfo.haarfarbe = getIdValue('haarfarbe');
     charakterInfo.augenfarbe = getIdValue('augenfarbe');
@@ -296,11 +315,17 @@ function saveMagieSystem(data) {
         }
         
         // 2. Versuche Magie-Fähigkeiten zu speichern
-        // Priorität: globale Variable > vorhandene Daten
-        if (typeof window.characterMagic !== 'undefined' && Array.isArray(window.characterMagic)) {
-            // Tiefe Kopie erstellen
+        // Priorität: MagicSystem > globale Variable > vorhandene Daten
+        if (typeof window.MagicSystem !== 'undefined') {
+            // MagicSystem verwenden
+            window.MagicSystem.init();
+            window.MagicSystem.syncToGlobals();
+            data.magieSystem.magicAbilities = window.MagicSystem.getMagicList();
+            console.log("SaveLoader: Magie-Fähigkeiten vom MagicSystem gespeichert:", data.magieSystem.magicAbilities.length);
+        } else if (typeof window.characterMagic !== 'undefined' && Array.isArray(window.characterMagic)) {
+            // Globale Variable verwenden
             data.magieSystem.magicAbilities = JSON.parse(JSON.stringify(window.characterMagic));
-            console.log("SaveLoader: Magie-Fähigkeiten gespeichert:", data.magieSystem.magicAbilities.length);
+            console.log("SaveLoader: Magie-Fähigkeiten aus globaler Variable gespeichert:", data.magieSystem.magicAbilities.length);
         } else {
             console.warn("SaveLoader: Keine characterMagic-Variable gefunden");
             // Bestehende Daten beibehalten oder leeres Array verwenden
@@ -392,12 +417,15 @@ function handleFileUpload(event) {
             // 4. Magiesystem laden
             loadMagieSystem(data);
 
-            // 5. Berechnung aktualisieren
+            // 5. Fülle XP, Level, Steigerungspunkte und Gesteigerte explizit
+            loadXPAndLevel(data);
+
+            // 6. Berechnung aktualisieren
             if (typeof updateCharakterCalculation === 'function') {
                 updateCharakterCalculation();
             }
 
-            // 6. Dateinamen aktualisieren
+            // 7. Dateinamen aktualisieren
             const filenameInput = document.getElementById('filenameInput');
             if (filenameInput) {
                 filenameInput.value = file.name;
@@ -411,6 +439,43 @@ function handleFileUpload(event) {
     };
     
     reader.readAsText(file);
+}
+
+// Hilfsfunktion: Lädt und befüllt explizit XP, Level, usw.
+function loadXPAndLevel(data) {
+    try {
+        if (data.charakter && data.charakter.werte) {
+            const werte = data.charakter.werte;
+            
+            // Setze die Werte, falls vorhanden
+            const xpInput = document.getElementById('erfahrung_xp');
+            const levelInput = document.getElementById('erfahrung_level');
+            const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+            const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
+            
+            if (xpInput && werte.xp !== undefined) {
+                xpInput.value = werte.xp;
+                console.log("SaveLoader: XP geladen:", werte.xp);
+            }
+            
+            if (levelInput && werte.level !== undefined) {
+                levelInput.value = werte.level;
+                console.log("SaveLoader: Level geladen:", werte.level);
+            }
+            
+            if (steigerungspunkteInput && werte.Steigerungspunkte !== undefined) {
+                steigerungspunkteInput.value = werte.Steigerungspunkte;
+                console.log("SaveLoader: Steigerungspunkte geladen:", werte.Steigerungspunkte);
+            }
+            
+            if (gesteigerteInput && werte.Gesteigerte !== undefined) {
+                gesteigerteInput.value = werte.Gesteigerte;
+                console.log("SaveLoader: Gesteigerte geladen:", werte.Gesteigerte);
+            }
+        }
+    } catch (error) {
+        console.error("SaveLoader Fehler beim Laden von XP/Level:", error);
+    }
 }
 
 // Hilfsfunktion: Lädt das Inventar
@@ -434,8 +499,6 @@ function loadInventory(inventory) {
 }
 
 // Hilfsfunktion: Lädt das Magiesystem
-// Verbesserte loadMagieSystem Funktion für saveLoader.js
-
 function loadMagieSystem(data) {
     try {
         console.log("SaveLoader: Lade Magiesystem-Daten...");
@@ -464,11 +527,40 @@ function loadMagieSystem(data) {
                 }
                 
                 // Steigerungspunkte laden
-                window.advancementPoints = data.magieSystem.advancementPoints || 0;
-                console.log("SaveLoader: Steigerungspunkte geladen:", window.advancementPoints);
+                if (data.magieSystem.advancementPoints !== undefined) {
+                    window.advancementPoints = data.magieSystem.advancementPoints;
+                    
+                    // Aktualisiere MagicSystem
+                    window.MagicSystem.setAdvancementPoints(window.advancementPoints);
+                    
+                    console.log("SaveLoader: Steigerungspunkte geladen:", window.advancementPoints);
+                }
                 
-                // MagicSystem aktualisieren
-                window.MagicSystem.syncFromGlobals();
+                // Character-Level und XP laden
+                if (data.charakter && data.charakter.werte) {
+                    const characterLevel = data.charakter.werte.level || 0;
+                    const characterXP = data.charakter.werte.xp || 0;
+                    const gesteigertePoints = data.charakter.werte.Gesteigerte || 0;
+                    
+                    // Setze diese Werte im MagicSystem
+                    if (typeof window.MagicSystem.setCharacterLevel === 'function') {
+                        window.MagicSystem.setCharacterLevel(characterLevel);
+                    }
+                    
+                    if (typeof window.MagicSystem.setCharacterXP === 'function') {
+                        window.MagicSystem.setCharacterXP(characterXP);
+                    }
+                    
+                    if (typeof window.MagicSystem.setGesteigertePoints === 'function') {
+                        window.MagicSystem.setGesteigertePoints(gesteigertePoints);
+                    }
+                    
+                    console.log("SaveLoader: Character Level/XP geladen:", {
+                        level: characterLevel,
+                        xp: characterXP,
+                        gesteigerte: gesteigertePoints
+                    });
+                }
                 
                 // UI aktualisieren, falls verfügbar
                 if (typeof window.renderMagicList === 'function') {
@@ -493,8 +585,12 @@ function loadMagieSystem(data) {
                 }
                 
                 // 2. Steigerungspunkte laden
-                window.advancementPoints = data.magieSystem.advancementPoints || 0;
-                console.log("SaveLoader: Steigerungspunkte geladen:", window.advancementPoints);
+                if (data.magieSystem.advancementPoints !== undefined) {
+                    window.advancementPoints = data.magieSystem.advancementPoints;
+                    console.log("SaveLoader: Steigerungspunkte geladen:", window.advancementPoints);
+                } else {
+                    window.advancementPoints = 0;
+                }
                 
                 // 3. Versuche die UI zu aktualisieren
                 if (typeof window.renderMagicList === 'function') {
@@ -518,7 +614,7 @@ function loadMagieSystem(data) {
             // Ausgabe für Debug-Zwecke
             console.log("SaveLoader: Magie geladen:", JSON.stringify({
                 advancementPoints: window.advancementPoints,
-                abilitiesCount: window.characterMagic.length
+                abilitiesCount: window.characterMagic ? window.characterMagic.length : 0
             }));
         } else {
             console.warn("SaveLoader: Keine Magiesystem-Daten in der Datei");
@@ -546,6 +642,7 @@ function loadMagieSystem(data) {
     // Steigerungspunkte zum Charakterbogen synchronisieren
     synchronizeToCharacterSheet();
 }
+
 // Hilfsfunktion: Aktualisiert die Steigerungspunkte-Anzeige
 function updateAdvancementPointsDisplay() {
     try {
