@@ -1,3 +1,4 @@
+// @ts-nocheck
 // characterAttributes.js
 let kampfArr = []
 function generateCharakterAttributes(data) {

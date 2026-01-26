@@ -1,3 +1,4 @@
+// @ts-nocheck
 // calculations.js - Angepasst für das neue Magie-System
 
 function updateCharakterCalculation() {

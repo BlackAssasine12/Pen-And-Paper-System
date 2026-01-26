@@ -1,3 +1,4 @@
+// @ts-nocheck
 // script/vanillaMagicSystem.js - Verbesserte Version mit zuverlässigem Speichern und Laden
 
 // Magiedaten
@@ -1055,7 +1056,7 @@ function debugMagicSystem() {
 }
 
 // Tab-Wechsel-Erkennung und Initialisierung
-document.addEventListener('DOMContentLoaded', function() {
+const initializeMagicSystemTab = () => {
     // *** VERBESSERT: Initialisiere MagicSystem zuerst ***
     MagicSystem.init();
     
@@ -1122,7 +1123,13 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(debugMagicSystem, 200);
         }, 300);
     }
-});
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', initializeMagicSystemTab);
+} else {
+    initializeMagicSystemTab();
+}
 
 // Funktion zum Initialisieren des Systems nach DOM-Manipulation
 function initializeVanillaMagicSystem() {

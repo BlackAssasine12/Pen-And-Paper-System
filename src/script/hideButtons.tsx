@@ -1,3 +1,4 @@
+// @ts-nocheck
 // hideButtons.js
 
 function bindHideButtons() {

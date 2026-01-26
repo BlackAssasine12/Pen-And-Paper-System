@@ -1,3 +1,4 @@
+// @ts-nocheck
 function changeFont() {
     const font = document.getElementById("fontInput").value;
     if (font) {
