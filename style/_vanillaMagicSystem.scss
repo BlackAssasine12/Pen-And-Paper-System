@@ -1,5 +1,7 @@
 //vanillaMagicSystem.scss
-@import 'variables';
+@use 'variables' as *;
+@use 'sass:color';
+
 
 // Mixin für Karten-Styling
 @mixin card-style {

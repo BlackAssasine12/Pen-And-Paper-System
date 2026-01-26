@@ -1,6 +1,7 @@
-@import 'variables';
-@import 'base';
-@import 'layout';
-@import 'components';
-@import 'tabs';
-@import 'vanillaMagicSystem';
+@use 'variables' as *;
+@use 'sass:color';
+@use 'base';
+@use 'layout';
+@use 'components';
+@use 'tabs';
+@use 'vanillaMagicSystem';
