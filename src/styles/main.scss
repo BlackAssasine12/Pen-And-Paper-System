@@ -60,14 +60,67 @@ select {
   padding-bottom: 1.5rem;
 }
 
-.toggle-label {
+.tabs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.tab-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tab-item button {
+  border: 1px solid #d9c6b7;
+  background: #fbf7f2;
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #4b4038;
+}
+
+.tab-item.active button {
+  background: #a45b27;
+  border-color: #a45b27;
+  color: #ffffff;
+}
+
+.tab-item button:hover {
+  border-color: #a45b27;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  background: #fdfaf6;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #efe7dc;
+}
+
+.toggle-label,
+.toggleLabel {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   font-size: 0.95rem;
 }
 
-.toggle-label input {
+.toggle-label input,
+.toggleLabel input {
   accent-color: #a45b27;
   width: 1.1rem;
   height: 1.1rem;
