@@ -26,6 +26,7 @@ const invokeLegacy = (name: string, ...args: unknown[]) => {
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("charakter");
+  const baseUrl = import.meta.env.BASE_URL ?? "/";
 
   return (
     <div className="tabs-container">
@@ -51,7 +52,7 @@ const Tabs = () => {
               <button type="button" id="saveButton">
                 Speichern
               </button>
-              <a href="./charbogen/charakter.json" download="charakter.json">
+              <a href={`${baseUrl}charbogen/charakter.json`} download="charakter.json">
                 Neue JSON-Datei herunterladen
               </a>
               <label htmlFor="filenameInput">Dateiname:</label>

@@ -1,26 +1,32 @@
+// @ts-nocheck
 // ANLEITUNG:
-// 1. Erstellen Sie eine neue Datei namens "saveLoader.js" im "script"-Verzeichnis
+// 1. Erstellen Sie eine neue Datei namens "saveLoader.tsx" im "src/script"-Verzeichnis
 // 2. Kopieren Sie den gesamten unten stehenden Code in diese Datei
 // 3. Entfernen Sie aus Ihrer index.html jede Zeile mit:
 //    - "saveChanges.js"
 //    - "fileReader.js" 
 //    - "unifiedSaveSystem.js"
 // 4. Fügen Sie stattdessen am Ende Ihrer Script-Tags ein:
-//    <script src="./script/saveLoader.js"></script>
+//    <script src="./script/saveLoader.tsx"></script>
 
-// saveLoader.js - Einheitliches Speicher- und Ladesystem
+// saveLoader.tsx - Einheitliches Speicher- und Ladesystem
 
 // Globale Variablen
 let myData = null;
 let fileName = null;
 
-// Warte auf DOM-Bereitschaft
-document.addEventListener('DOMContentLoaded', function() {
+const initializeSaveLoader = () => {
     console.log("SaveLoader: Initialisiere Speicher- und Ladesystem...");
-    
+
     // Initialisiere Event-Listener
     setupEventListeners();
-});
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', initializeSaveLoader);
+} else {
+    initializeSaveLoader();
+}
 
 // Einrichtung der Event-Listener
 function setupEventListeners() {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // adjustments.js
 
 // Objekt für Steigerungswerte

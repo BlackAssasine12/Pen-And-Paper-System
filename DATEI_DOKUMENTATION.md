@@ -40,56 +40,56 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - **charbogen/InfoListe.json**
   - Datenquelle für Rassen- und Klassenlisten, strukturiert nach Kategorien. Wird beim Laden der Seite in Dropdowns übernommen.
 
-## Ordner `script/`
+## Ordner `src/script/`
 
 ### Kernlogik für Charakterbogen
 
-- **script/adjustments.js**
+- **src/script/adjustments.tsx**
   - Enthält Standard-Steigerungswerte (z. B. Attribute, Magie, Talente) und passt diese dynamisch an die gewählte Klassenkategorie an.
-- **script/calculations.js**
+- **src/script/calculations.tsx**
   - Berechnet abgeleitete Werte (LP, AUSD, MB, ASP, MR, Giftresistenz, Basiswerte etc.) aus Eingaben und synchronisiert Steigerungspunkte mit dem Magiesystem. Enthält zudem die automatische Skill-Verteilung.
-- **script/characterAttributes.js**
+- **src/script/characterAttributes.tsx**
   - Generiert die dynamischen UI-Abschnitte für Attribute/Talente (inkl. Kampf-Talente) und befüllt bestehende Container. Verantwortlich für das Rendern von Eingabefeldern und Tooltips.
-- **script/characterInfo.js**
+- **src/script/characterInfo.tsx**
   - Lädt und speichert die Charakter-Stammdaten (Name, Alter, Klasse usw.) zwischen JSON und UI.
-- **script/inputListeners.js**
+- **src/script/inputListeners.tsx**
   - Verwaltet Event-Listener für automatische Berechnungen und Steigerungspunkte. Enthält Funktionen zum Setzen von Min/Max-Werten für Eingabefelder.
-- **script/hideButtons.js**
+- **src/script/hideButtons.tsx**
   - Ermöglicht das Ausblenden einzelner Eingabefelder und verschiebt sie in den Tab „Ausgeblendete“, inkl. Wiederherstellungsfunktion.
 
 ### Magie- und Zaubersystem
 
-- **script/vanillaMagicSystem.js**
+- **src/script/vanillaMagicSystem.tsx**
   - Implementiert das Magiesystem: Datenmodelle, UI-Rendering, Steigerungskosten, Element-Anforderungen, Synchronisierung mit dem Charakterbogen sowie Speichern/Laden.
 
 ### Speichern/Laden und Datenfluss
 
-- **script/saveLoader.js**
+- **src/script/saveLoader.tsx**
   - Zentrales Speicher-/Ladesystem für Charakterdaten. Migriert ältere Magiestrukturen, synchronisiert Inventar, Geldbeutel, Magiesystem und Charakterwerte, und erzeugt JSON-Downloads.
 
 ### Inventar/Shop
 
-- **script/shop.js**
+- **src/script/shop.tsx**
   - Lädt Shop-Daten aus `shopData.json`, rendert Kategorien/Items, verwaltet Käufe, Inventar und Wallet-Umrechnung.
 
 ### Werkzeuge (Würfel & Rechner)
 
-- **script/dice.js**
+- **src/script/dice.tsx**
   - Würfelsystem mit Anzeige der Würfelergebnisse als SVG-Oktaeder, inklusive Sonderlogik (z. B. d20/d100 Auswahl).
-- **script/spezialDice.js**
+- **src/script/spezialDice.tsx**
   - Experimentelles Skript für „gute/schlechte“ Würfel-Logik (derzeit nur Logging).
-- **script/rechner.js**
+- **src/script/rechner.tsx**
   - Einfacher Taschenrechner im Werkzeuge-Tab (String-Ausdruck + `eval`).
 
 ### UI/UX & Komfort
 
-- **script/tabs.js**
+- **src/script/tabs.tsx**
   - Tab-Steuerung der Oberfläche und Logik für den „Ausgeblendete“-Tab.
-- **script/skin.js**
+- **src/script/skin.tsx**
   - Anpassungen für Schriftart und Textfarbe im UI.
-- **script/wallet.js**
+- **src/script/wallet.tsx**
   - Wallet-/Währungsverwaltung (Dukaten, Silber, Heller, Kreuzer) inkl. Anzeige und Umrechnung.
-- **script/liste.js**
+- **src/script/liste.tsx**
   - Lädt `InfoListe.json` und füllt die Dropdowns für Rassen und Klassen, inklusive Klassenkategorien für Steigerungsanpassungen.
 
 ## Ordner `style/`

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // characterInfo.js
 
 function genCharInfo(data) {

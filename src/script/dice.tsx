@@ -1,3 +1,4 @@
+// @ts-nocheck
 //dice.js
 "use strict";
 
