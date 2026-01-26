@@ -1,15 +1,15 @@
 const TopControls = () => {
   return (
     <section className="top-controls" aria-label="Schnellaktionen">
-      <label className="toggle-label">
-        <input type="checkbox" name="kostenloses-steigern" />
+      <label className="toggleLabel">
+        <input type="checkbox" id="toggleListenersCheckbox" />
         Kostenloses Steigern
       </label>
-      <label className="toggle-label">
-        <input type="checkbox" name="hidden-container" />
-        Ausgeblendeten Item-Container anzeigen
+      <label className="toggleLabel">
+        <input type="checkbox" id="toggleHiddenCheckbox" />
+        Ausgeblendeten Item Container Anzeigen
       </label>
-      <button type="button" className="ghost-button">
+      <button type="button" id="ASkillVert">
         Automatische Umrechnung
       </button>
     </section>
