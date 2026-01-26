@@ -10,22 +10,139 @@
 
 body {
   margin: 0;
+  background-color: #f7f4ef;
+}
+
+button,
+input,
+select {
+  font: inherit;
 }
 
 .app {
   min-height: 100vh;
-  padding: 2rem 3rem;
+  padding: 2.5rem 3.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .app__header {
-  margin-bottom: 2rem;
+  max-width: 780px;
+}
+
+.app__header h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+}
+
+.app__header p {
+  margin: 0;
+  color: #4b4038;
 }
 
 .app__content {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.top-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: center;
+  border-bottom: 1px solid #efe7dc;
+  padding-bottom: 1.5rem;
+}
+
+.toggle-label {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.toggle-label input {
+  accent-color: #a45b27;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.ghost-button {
+  border: 1px solid #a45b27;
+  background: transparent;
+  color: #a45b27;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ghost-button:hover {
+  background: #f6ece4;
+}
+
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tabs__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tabs__button {
+  border: 1px solid #d9c6b7;
+  background: #fbf7f2;
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #4b4038;
+}
+
+.tabs__button.is-active {
+  background: #a45b27;
+  border-color: #a45b27;
+  color: #ffffff;
+}
+
+.tabs__button:hover {
+  border-color: #a45b27;
+}
+
+.tabs__panel {
+  background: #fdfaf6;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #efe7dc;
+}
+
+.panel h2 {
+  margin-top: 0;
+}
+
+.panel__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 1rem;
+}
+
+.panel__card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #f1e6da;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.04);
 }
 
 ul {
