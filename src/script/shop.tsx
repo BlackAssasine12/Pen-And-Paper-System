@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Komplette shop.js Datei
 let inventory = [];
 let shopData = {};
@@ -5,7 +6,8 @@ let shopData = {};
 // Funktion, um Shop-Daten zu laden
 async function loadShopData() {
     try {
-        const response = await fetch("shopData.json");
+        const baseUrl = import.meta.env.BASE_URL ?? "/";
+        const response = await fetch(`${baseUrl}shopData.json`);
         if (!response.ok) {
             throw new Error(`Fehler beim Laden der Shop-Daten: ${response.statusText}`);
         }

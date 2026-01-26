@@ -1,3 +1,4 @@
+// @ts-nocheck
 // characterAttributes.js
 let kampfArr = []
 function generateCharakterAttributes(data) {
@@ -148,43 +149,6 @@ function createSection(title, attributes, sectionId) {
     
     return container;
 }
-
-function fillExistingContainer(container, attributes, sectionId) {
-    if (!container || !attributes) return;
-    
-    // Container-Inhalt leeren, aber den Titel (h6) beibehalten
-    const title = container.querySelector('h6');
-    container.innerHTML = '';
-    if (title) container.appendChild(title);
-    
-    // Für magische Elemente oder andere Objekte
-    if (typeof attributes === 'object' && !Array.isArray(attributes)) {
-        const flexContainer = document.createElement('div');
-        flexContainer.classList.add(`${sectionId}-flex`);
-        
-        for (let key in attributes) {
-            const sanitizedKey = key.replace(/\s+/g, '_');
-            const flexItem = document.createElement('div');
-            flexItem.classList.add('FlexItem');
-            flexItem.id = `${sectionId}_${sanitizedKey}_Tooltip`;
-
-            let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
-            flexItem.innerHTML = `
-                <label>${attributeString}</label>
-                <input 
-                    class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}" 
-                    type="number" 
-                    value="${attributes[key]}" 
-                    id="${sectionId}_${sanitizedKey}">
-                <button class="hidebutton">X</button>
-            `;
-            flexContainer.appendChild(flexItem);
-        }
-        
-        container.appendChild(flexContainer);
-    }
-}
-
 
 function addToolTip() {
     const ids = ['Magische_Elemente_Schatten_Tooltip', 'Magische_Elemente_Licht_Tooltip', 'Magische_Elemente_Holz_Tooltip', 'Magische_Elemente_Metall_Tooltip', 'Magische_Elemente_Eis_Tooltip', 'Magische_Elemente_Leben_Tooltip', 'Magische_Elemente_Nekromantie_Tooltip', 'Magische_Elemente_Blitz_Tooltip', 'Magische_Elemente_Gravitation_Tooltip', 'Magische_Elemente_Erschaffung_Tooltip', 'Magische_Elemente_Raumzeit_Tooltip', "Magische_Elemente_Gift_Tooltip","Magische_Elemente_Blut_Tooltip"];

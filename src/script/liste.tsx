@@ -1,6 +1,8 @@
+// @ts-nocheck
 // Laden der JSON-Daten und Initialisierung
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('../charbogen/InfoListe.json')
+const initializeListe = () => {
+    const baseUrl = import.meta.env.BASE_URL ?? "/";
+    fetch(`${baseUrl}charbogen/InfoListe.json`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Netzwerkantwort war nicht ok');
@@ -59,4 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
         .catch(error => console.error('Error fetching JSON:', error));
-});
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', initializeListe);
+} else {
+    initializeListe();
+}

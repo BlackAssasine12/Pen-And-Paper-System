@@ -1,6 +1,7 @@
+// @ts-nocheck
 // tabs.js
 
-document.addEventListener('DOMContentLoaded', function() {
+const initializeTabs = () => {
     // Tab functionality
     const tabItems = document.querySelectorAll('.tab-item');
     const tabContents = document.querySelectorAll('.tab-content');
@@ -49,4 +50,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (tabItems.length > 0) {
         tabItems[0].click();
     }
-});
+};
+
+if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', initializeTabs);
+} else {
+    initializeTabs();
+}
