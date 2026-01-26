@@ -9,7 +9,15 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - **README.md**
   - Enthält Regeln, Klassenkosten, Beispielaufträge sowie Berechnungsformeln für Charakterwerte. Dient als Regel- und Referenzdokumentation für Spielleiter und Spieler.
 - **index.html**
-  - Hauptoberfläche (Charakterbogen). Definiert Tabs (Charakter, Magie, Ausgeblendete, Inventar & Shop, Werkzeuge, Einstellungen), Eingabefelder, Steuerelemente und die Grundstruktur für alle UI-Module.
+  - Einstiegspunkt für die neue Vite/React-Dokumentation (Root-Div + TSX-Bundle).
+- **package.json**
+  - Vite/React-Setup inkl. Scripts und Abhängigkeiten für die Dokumentations-App.
+- **tsconfig.json**
+  - TypeScript-Konfiguration für den React-Code im Ordner `src/`.
+- **tsconfig.node.json**
+  - TypeScript-Konfiguration für die Vite-Konfiguration.
+- **vite.config.ts**
+  - Vite-Konfiguration (React-Plugin).
 - **preislisteKomplett.json**
   - Umfangreiche Preisliste (DSA 4.0/4.1) mit Abschnitten zu Maßen, Gewichten und Ausrüstung. Dient als Datenquelle für Wirtschaft/Shop oder als Referenz.
 - **shopData.json**
@@ -108,3 +116,17 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - Kompilierte CSS-Datei aus den SCSS-Quellen.
 - **style/main.css.map**
   - Source Map zur Debug-Unterstützung im Browser.
+
+## Ordner `legacy/`
+
+- **legacy/index.html**
+  - Ehemalige Hauptoberfläche des Charakterbogens (aus der Wurzelebene verschoben, bleibt als Referenz erhalten).
+
+## Ordner `src/`
+
+- **src/main.tsx**
+  - Einstiegspunkt der React-App, rendert das Dokumentations-UI.
+- **src/App.tsx**
+  - Grundgerüst der Dokumentations-Seite (Placeholder-Inhalte).
+- **src/styles/main.scss**
+  - SCSS-Basisstyles für die neue Dokumentations-App (ohne Frameworks).
