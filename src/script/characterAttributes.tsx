@@ -63,7 +63,7 @@ function generateCharakterAttributes(data) {
     fillExistingContainer(modifierContainer, charakter.fähigkeiten.modifier, 'modifier');
     fillExistingContainer(sonderwerteContainer, charakter.fähigkeiten.sonderwerte, 'sonderwerte');
     fillExistingContainer(attributeContainer, charakter.fähigkeiten.attribute, 'attribute');
-    
+
     // Magische Elemente im Magie-Tab anzeigen
     fillExistingContainer(magieContainer, charakter.Magische_Elemente, 'Magische_Elemente');
 
@@ -78,19 +78,57 @@ function generateCharakterAttributes(data) {
     addToolTip();
 }
 
+
+
+// characterAttributes.js
+// Anpassen der createSection-Funktion für Flexbox-Layout
+
+function createSection(title, attributes, sectionId) {
+    const container = document.createElement('div');
+    container.classList.add("FlexItemContainer");
+    container.innerHTML = `<h6>${title}</h6>`;
+
+    if (Array.isArray(attributes)) {
+        const flexContainer = document.createElement('div');
+        flexContainer.classList.add(`${sectionId.toLowerCase()}-flex`);
+
+        attributes.forEach((attribute) => {
+            const sanitizedName = attribute.Name.replace(/\s+/g, '_');
+            const flexItem = document.createElement('div');
+            flexItem.classList.add('FlexItem');
+
+            let attributeString = `${attribute.Name} (${attribute.Attribute}): `;
+            flexItem.innerHTML = `
+                <label>${attributeString}</label>
+                <input 
+                    class="stg attributeInput ${sectionId}" 
+                    type="number" 
+                    value="${attribute.Wert}" 
+                    id="${sectionId}_${sanitizedName}">
+                <button class="hidebutton">X</button>
+            `;
+            flexContainer.appendChild(flexItem);
+        });
+
+        container.appendChild(flexContainer);
+    }
+
+    return container;
+}
+
 function fillExistingContainer(container, attributes, sectionId) {
     if (!container || !attributes) return;
-    
+
     // Container-Inhalt leeren, aber den Titel (h6) beibehalten
     const title = container.querySelector('h6');
     container.innerHTML = '';
     if (title) container.appendChild(title);
-    
+
     // Für magische Elemente oder andere Objekte
     if (typeof attributes === 'object' && !Array.isArray(attributes)) {
         const grid = document.createElement('div');
         grid.classList.add(`${sectionId}-grid`);
-        
+
         for (let key in attributes) {
             const sanitizedKey = key.replace(/\s+/g, '_');
             const flexItem = document.createElement('div');
@@ -109,88 +147,16 @@ function fillExistingContainer(container, attributes, sectionId) {
             `;
             grid.appendChild(flexItem);
         }
-        
+
         container.appendChild(grid);
-    }
-}
-
-// characterAttributes.js
-// Anpassen der createSection-Funktion für Flexbox-Layout
-
-function createSection(title, attributes, sectionId) {
-    const container = document.createElement('div');
-    container.classList.add("FlexItemContainer");
-    container.innerHTML = `<h6>${title}</h6>`;
-
-    if (Array.isArray(attributes)) {
-        const flexContainer = document.createElement('div');
-        flexContainer.classList.add(`${sectionId.toLowerCase()}-flex`);
-        
-        attributes.forEach((attribute) => {
-            const sanitizedName = attribute.Name.replace(/\s+/g, '_');
-            const flexItem = document.createElement('div');
-            flexItem.classList.add('FlexItem');
-
-            let attributeString = `${attribute.Name} (${attribute.Attribute}): `;
-            flexItem.innerHTML = `
-                <label>${attributeString}</label>
-                <input 
-                    class="stg attributeInput ${sectionId}" 
-                    type="number" 
-                    value="${attribute.Wert}" 
-                    id="${sectionId}_${sanitizedName}">
-                <button class="hidebutton">X</button>
-            `;
-            flexContainer.appendChild(flexItem);
-        });
-        
-        container.appendChild(flexContainer);
-    }
-    
-    return container;
-}
-
-function fillExistingContainer(container, attributes, sectionId) {
-    if (!container || !attributes) return;
-    
-    // Container-Inhalt leeren, aber den Titel (h6) beibehalten
-    const title = container.querySelector('h6');
-    container.innerHTML = '';
-    if (title) container.appendChild(title);
-    
-    // Für magische Elemente oder andere Objekte
-    if (typeof attributes === 'object' && !Array.isArray(attributes)) {
-        const flexContainer = document.createElement('div');
-        flexContainer.classList.add(`${sectionId}-flex`);
-        
-        for (let key in attributes) {
-            const sanitizedKey = key.replace(/\s+/g, '_');
-            const flexItem = document.createElement('div');
-            flexItem.classList.add('FlexItem');
-            flexItem.id = `${sectionId}_${sanitizedKey}_Tooltip`;
-
-            let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
-            flexItem.innerHTML = `
-                <label>${attributeString}</label>
-                <input 
-                    class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}" 
-                    type="number" 
-                    value="${attributes[key]}" 
-                    id="${sectionId}_${sanitizedKey}">
-                <button class="hidebutton">X</button>
-            `;
-            flexContainer.appendChild(flexItem);
-        }
-        
-        container.appendChild(flexContainer);
     }
 }
 
 
 function addToolTip() {
-    const ids = ['Magische_Elemente_Schatten_Tooltip', 'Magische_Elemente_Licht_Tooltip', 'Magische_Elemente_Holz_Tooltip', 'Magische_Elemente_Metall_Tooltip', 'Magische_Elemente_Eis_Tooltip', 'Magische_Elemente_Leben_Tooltip', 'Magische_Elemente_Nekromantie_Tooltip', 'Magische_Elemente_Blitz_Tooltip', 'Magische_Elemente_Gravitation_Tooltip', 'Magische_Elemente_Erschaffung_Tooltip', 'Magische_Elemente_Raumzeit_Tooltip', "Magische_Elemente_Gift_Tooltip","Magische_Elemente_Blut_Tooltip"];
-    const tooltips = ["Benötigt: Luft Dunkle", "Benötigt: Helle Feuer", "Benötigt: Erde Wasser", "Benötigt: Erde Feuer", "Benötigt: Luft Wasser", "Benötigt: Heilung Natur", "Benötigt: Dunkle Leben", "Benötigt: Licht Luft", "Benötigt: Erde Luft", "Benötigt: Feuer Wasser Erde Luft Natur Dunkle Helle", "Benötigt: Alle Elemente", "Benötigt: Natur Wasser","Benötigt: Leben Wasser"];
-    
+    const ids = ['Magische_Elemente_Schatten_Tooltip', 'Magische_Elemente_Licht_Tooltip', 'Magische_Elemente_Holz_Tooltip', 'Magische_Elemente_Metall_Tooltip', 'Magische_Elemente_Eis_Tooltip', 'Magische_Elemente_Leben_Tooltip', 'Magische_Elemente_Nekromantie_Tooltip', 'Magische_Elemente_Blitz_Tooltip', 'Magische_Elemente_Gravitation_Tooltip', 'Magische_Elemente_Erschaffung_Tooltip', 'Magische_Elemente_Raumzeit_Tooltip', "Magische_Elemente_Gift_Tooltip", "Magische_Elemente_Blut_Tooltip"];
+    const tooltips = ["Benötigt: Luft Dunkle", "Benötigt: Helle Feuer", "Benötigt: Erde Wasser", "Benötigt: Erde Feuer", "Benötigt: Luft Wasser", "Benötigt: Heilung Natur", "Benötigt: Dunkle Leben", "Benötigt: Licht Luft", "Benötigt: Erde Luft", "Benötigt: Feuer Wasser Erde Luft Natur Dunkle Helle", "Benötigt: Alle Elemente", "Benötigt: Natur Wasser", "Benötigt: Leben Wasser"];
+
     ids.forEach((id, index) => {
         const element = document.getElementById(id);
         if (element) {
