@@ -1,6 +1,7 @@
 # Dateiübersicht und Zweck der Bestandteile
 
 Dieses Projekt ist ein Digitaler Charakterbogen für ein selbst erfundenes pen and paper system basierend auf DSA
+Das Projektziel ist das hier in einer TypeScript/Light React/Vite version um zu bauen, ohne jegliche css frameworks/bibiliotheken außer scss zu bauen.
 
 Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-Paper-System**. Sie ist nach Ordnern gegliedert und erklärt, welche Teile der Anwendung (Charakterbogen, Magiesystem, Shop, Layout usw.) die jeweiligen Dateien abdecken.
 
