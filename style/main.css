@@ -688,7 +688,7 @@ input[type=number] {
 .vanilla-magic-system .form-group input[type=number]:focus,
 .vanilla-magic-system .form-group select:focus {
   outline: none;
-  border-color: rgb(142.4657534247, 111.7808219178, 97.5342465753);
+  border-color: rgb(154.1739726027, 122.4534246575, 107.7260273973);
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
