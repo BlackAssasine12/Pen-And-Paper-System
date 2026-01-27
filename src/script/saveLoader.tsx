@@ -10,6 +10,7 @@
 //    <script src="./script/saveLoader.tsx"></script>
 
 // saveLoader.tsx - Einheitliches Speicher- und Ladesystem
+import { readNumericInput, readTextInput, writeInputValue } from "./characterState";
 
 // Globale Variablen
 let myData = null;
@@ -124,10 +125,10 @@ function saveCharacterData(data) {
             const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
             const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
             
-            if (xpInput) charakter.werte.xp = parseInt(xpInput.value) || 0;
-            if (levelInput) charakter.werte.level = parseInt(levelInput.value) || 0;
-            if (steigerungspunkteInput) charakter.werte.Steigerungspunkte = parseInt(steigerungspunkteInput.value) || 0;
-            if (gesteigerteInput) charakter.werte.Gesteigerte = parseInt(gesteigerteInput.value) || 0;
+            if (xpInput) charakter.werte.xp = readNumericInput('erfahrung_xp', 0);
+            if (levelInput) charakter.werte.level = readNumericInput('erfahrung_level', 0);
+            if (steigerungspunkteInput) charakter.werte.Steigerungspunkte = readNumericInput('erfahrung_Steigerungspunkte', 0);
+            if (gesteigerteInput) charakter.werte.Gesteigerte = readNumericInput('erfahrung_Gesteigerte', 0);
             
             console.log("SaveLoader: XP/Level gespeichert:", {
                 xp: charakter.werte.xp,
@@ -203,21 +204,16 @@ function sanitizeKey(key) {
 
 // Hilfsfunktion: Aktualisiert Charakterinfo
 function updateCharakterInfo(charakterInfo) {
-    const getIdValue = (id) => {
-        const element = document.getElementById(id);
-        return element ? element.value : '';
-    };
-
-    charakterInfo.name = getIdValue('name');
-    charakterInfo.alter = getIdValue('alter');
-    charakterInfo.geschlecht = getIdValue('geschlecht');
-    charakterInfo.rasse = getIdValue('rassen-select');
-    charakterInfo.klasse = getIdValue('klassen-select');
-    charakterInfo.größe = getIdValue('größe');  // Hier war der Fehler: "karakterInfo" statt "charakterInfo"
-    charakterInfo.gewicht = getIdValue('gewicht');
-    charakterInfo.haarfarbe = getIdValue('haarfarbe');
-    charakterInfo.augenfarbe = getIdValue('augenfarbe');
-    charakterInfo.titel = getIdValue('titel');
+    charakterInfo.name = readTextInput('name');
+    charakterInfo.alter = readTextInput('alter');
+    charakterInfo.geschlecht = readTextInput('geschlecht');
+    charakterInfo.rasse = readTextInput('rassen-select');
+    charakterInfo.klasse = readTextInput('klassen-select');
+    charakterInfo.größe = readTextInput('größe');
+    charakterInfo.gewicht = readTextInput('gewicht');
+    charakterInfo.haarfarbe = readTextInput('haarfarbe');
+    charakterInfo.augenfarbe = readTextInput('augenfarbe');
+    charakterInfo.titel = readTextInput('titel');
 }
 
 // Hilfsfunktion: Aktualisiert Sektionswerte
@@ -460,22 +456,22 @@ function loadXPAndLevel(data) {
             const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
             
             if (xpInput && werte.xp !== undefined) {
-                xpInput.value = werte.xp;
+                writeInputValue('erfahrung_xp', werte.xp);
                 console.log("SaveLoader: XP geladen:", werte.xp);
             }
             
             if (levelInput && werte.level !== undefined) {
-                levelInput.value = werte.level;
+                writeInputValue('erfahrung_level', werte.level);
                 console.log("SaveLoader: Level geladen:", werte.level);
             }
             
             if (steigerungspunkteInput && werte.Steigerungspunkte !== undefined) {
-                steigerungspunkteInput.value = werte.Steigerungspunkte;
+                writeInputValue('erfahrung_Steigerungspunkte', werte.Steigerungspunkte);
                 console.log("SaveLoader: Steigerungspunkte geladen:", werte.Steigerungspunkte);
             }
             
             if (gesteigerteInput && werte.Gesteigerte !== undefined) {
-                gesteigerteInput.value = werte.Gesteigerte;
+                writeInputValue('erfahrung_Gesteigerte', werte.Gesteigerte);
                 console.log("SaveLoader: Gesteigerte geladen:", werte.Gesteigerte);
             }
         }

@@ -48,6 +48,8 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - Enthält Standard-Steigerungswerte (z. B. Attribute, Magie, Talente) und passt diese dynamisch an die gewählte Klassenkategorie an.
 - **src/script/calculations.tsx**
   - Berechnet abgeleitete Werte (LP, AUSD, MB, ASP, MR, Giftresistenz, Basiswerte etc.) aus Eingaben und synchronisiert Steigerungspunkte mit dem Magiesystem. Enthält zudem die automatische Skill-Verteilung.
+- **src/script/characterState.tsx**
+  - Zentrale Datenbrücke für Eingabe- und berechnete Werte: liest Eingaben, hält Zustand im Hintergrund und schreibt berechnete Werte kontrolliert ins UI zurück.
 - **src/script/characterAttributes.tsx**
   - Generiert die dynamischen UI-Abschnitte für Attribute/Talente (inkl. Kampf-Talente) und befüllt bestehende Container. Verantwortlich für das Rendern von Eingabefeldern und Tooltips.
 - **src/script/characterInfo.tsx**

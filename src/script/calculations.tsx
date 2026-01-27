@@ -1,5 +1,6 @@
 // @ts-nocheck
 // calculations.js - Angepasst für das neue Magie-System
+import { readNumericInput, writeDerivedValue, writeInputValue } from "./characterState";
 
 function updateCharakterCalculation() {
   let KO, KK, GE, KL, IN, FF, CH, GESCH, Tarnung, WIL, LP, AUSD, maxASP, MB, MR, level, xp, magicModifier, aspModifier, lpModifier, fernModifier, nahModifier, schuss, wurf, Attacke, Parade, Giftresistenz, giftModifier, Sin, Steigerungspunkte, Gesteigerte, Schnelligkeit;
@@ -22,26 +23,26 @@ function updateCharakterCalculation() {
 
   // Werte aus den Eingabefeldern holen mit Fehlerbehandlung
   try {
-    lpModifier = parseInt(document.getElementById("modifier_lp").value) || 0;
-    aspModifier = parseInt(document.getElementById("modifier_asp").value) || 0;
-    magicModifier = parseInt(document.getElementById("modifier_magie").value) || 0;
-    fernModifier = parseInt(document.getElementById("modifier_fernkampf").value) || 0;
-    nahModifier = parseInt(document.getElementById("modifier_nahkampf").value) || 0;
-    giftModifier = parseInt(document.getElementById("modifier_gift").value) || 0;
+    lpModifier = readNumericInput("modifier_lp", 0);
+    aspModifier = readNumericInput("modifier_asp", 0);
+    magicModifier = readNumericInput("modifier_magie", 0);
+    fernModifier = readNumericInput("modifier_fernkampf", 0);
+    nahModifier = readNumericInput("modifier_nahkampf", 0);
+    giftModifier = readNumericInput("modifier_gift", 0);
 
-    xp = parseInt(document.getElementById("erfahrung_xp").value) || 0;
-    KK = parseInt(document.getElementById("attribute_Körperkraft").value) || 9;
-    GE = parseInt(document.getElementById("attribute_Gewandheit").value) || 9;
-    KL = parseInt(document.getElementById("attribute_Klugheit").value) || 9;
-    IN = parseInt(document.getElementById("attribute_Intuition").value) || 9;
-    FF = parseInt(document.getElementById("attribute_Fingerfertigkeit").value) || 9;
-    CH = parseInt(document.getElementById("attribute_Charisma").value) || 9;
-    GESCH = parseInt(document.getElementById("attribute_Geschicklichkeit").value) || 9;
-    Tarnung = parseInt(document.getElementById("attribute_Tarnung").value) || 9;
-    Sin = parseInt(document.getElementById("attribute_Sinnesschärfe").value) || 9;
-    WIL = parseInt(document.getElementById("attribute_Willenskraft").value) || 9;
-    KO = parseInt(document.getElementById("attribute_Konstitution").value) || 9;
-    Gesteigerte = parseInt(document.getElementById("erfahrung_Gesteigerte").value) || 0;
+    xp = readNumericInput("erfahrung_xp", 0);
+    KK = readNumericInput("attribute_Körperkraft", 9);
+    GE = readNumericInput("attribute_Gewandheit", 9);
+    KL = readNumericInput("attribute_Klugheit", 9);
+    IN = readNumericInput("attribute_Intuition", 9);
+    FF = readNumericInput("attribute_Fingerfertigkeit", 9);
+    CH = readNumericInput("attribute_Charisma", 9);
+    GESCH = readNumericInput("attribute_Geschicklichkeit", 9);
+    Tarnung = readNumericInput("attribute_Tarnung", 9);
+    Sin = readNumericInput("attribute_Sinnesschärfe", 9);
+    WIL = readNumericInput("attribute_Willenskraft", 9);
+    KO = readNumericInput("attribute_Konstitution", 9);
+    Gesteigerte = readNumericInput("erfahrung_Gesteigerte", 0);
   } catch (error) {
     console.error("Fehler beim Auslesen der Eingabewerte:", error);
     // Setze Standardwerte
@@ -65,10 +66,7 @@ function updateCharakterCalculation() {
     }
 
     // Setze den Level
-    const levelInput = document.getElementById("erfahrung_level");
-    if (levelInput) {
-      levelInput.value = level;
-    }
+    writeInputValue("erfahrung_level", level);
 
     // Berechnungen der Werte
     LP = lpModifier * 3 + level * 6 + 20 + KO;
@@ -85,18 +83,18 @@ function updateCharakterCalculation() {
     Schnelligkeit = Math.round((KK + GE + Sin) / 4)
 
     // Setze die berechneten Werte
-    document.getElementById("sonderwerte_Maximale_LP").value = LP;
-    document.getElementById("sonderwerte_Maximale_Ausdauer").value = AUSD;
-    document.getElementById("sonderwerte_Magiebegabung").value = MB;
-    document.getElementById("sonderwerte_Maximale_Astralenergie").value = maxASP;
-    document.getElementById("sonderwerte_Magieresistenz").value = MR;
-    document.getElementById("sonderwerte_Giftresistenz").value = Giftresistenz;
-    document.getElementById("KampfBasiswerte_Wurfwaffen_Basiswert").value = wurf;
-    document.getElementById("KampfBasiswerte_Schusswaffen_Basiswert").value = schuss;
-    document.getElementById("KampfBasiswerte_Attacke_Basiswert").value = Attacke;
-    document.getElementById("KampfBasiswerte_Parade_Basiswert").value = Parade;
-    document.getElementById("erfahrung_Steigerungspunkte").value = Steigerungspunkte;
-    document.getElementById("sonderwerte_Schnelligkeit").value = Schnelligkeit;
+    writeDerivedValue("sonderwerte_Maximale_LP", LP);
+    writeDerivedValue("sonderwerte_Maximale_Ausdauer", AUSD);
+    writeDerivedValue("sonderwerte_Magiebegabung", MB);
+    writeDerivedValue("sonderwerte_Maximale_Astralenergie", maxASP);
+    writeDerivedValue("sonderwerte_Magieresistenz", MR);
+    writeDerivedValue("sonderwerte_Giftresistenz", Giftresistenz);
+    writeDerivedValue("KampfBasiswerte_Wurfwaffen_Basiswert", wurf);
+    writeDerivedValue("KampfBasiswerte_Schusswaffen_Basiswert", schuss);
+    writeDerivedValue("KampfBasiswerte_Attacke_Basiswert", Attacke);
+    writeDerivedValue("KampfBasiswerte_Parade_Basiswert", Parade);
+    writeDerivedValue("erfahrung_Steigerungspunkte", Steigerungspunkte);
+    writeDerivedValue("sonderwerte_Schnelligkeit", Schnelligkeit);
 
     // Synchronisiere Steigerungspunkte mit dem Magie-System
     try {
