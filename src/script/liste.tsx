@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { klassenKategorien } from "./adjustments";
+import { setKlassenVariable } from "./adjustments";
 // Laden der JSON-Daten und Initialisierung
 const initializeListe = () => {
     const baseUrl = import.meta.env.BASE_URL ?? "/";
