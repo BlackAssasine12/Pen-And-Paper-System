@@ -399,6 +399,41 @@ function initVanillaMagicSystem() {
         const loadButton = document.getElementById('loadButton');
         const fileInput = document.getElementById('fileInput');
         const previewContent = document.getElementById('previewContent');
+
+        const requiredElements = [
+            elementSelect,
+            customElementContainer,
+            customElementInput,
+            magicTypeSelect,
+            magicLevelInput,
+            levelErrorDiv,
+            addMagicBtn,
+            magicListDiv,
+            addPointsBtn,
+            characterNameInput,
+            loadButton,
+            fileInput,
+            previewContent
+        ];
+
+        if (requiredElements.some((element) => !element)) {
+            console.error("VanillaMagicSystem: Fehlende DOM-Elemente, Initialisierung abgebrochen", {
+                elementSelect,
+                customElementContainer,
+                customElementInput,
+                magicTypeSelect,
+                magicLevelInput,
+                levelErrorDiv,
+                addMagicBtn,
+                magicListDiv,
+                addPointsBtn,
+                characterNameInput,
+                loadButton,
+                fileInput,
+                previewContent
+            });
+            return;
+        }
         
         // Populiere die Select-Elemente
         populateSelectElements();
@@ -410,7 +445,7 @@ function initVanillaMagicSystem() {
         
         // *** VERBESSERT: Speicherschaltfläche neu verknüpfen mit der Hauptspeicherfunktion ***
         const parentSaveButton = document.getElementById('saveButton');
-        if (parentSaveButton) {
+        if (parentSaveButton && saveButton) {
             console.log("Verbesserter Save-Button gefunden und neu verknüpft");
             saveButton.addEventListener('click', function() {
                 // Sicherstellen, dass die globalen Variablen aktuell sind
@@ -421,7 +456,7 @@ function initVanillaMagicSystem() {
                 
                 console.log("Hauptspeicherfunktion aufgerufen");
             });
-        } else {
+        } else if (saveButton) {
             // Fallback zum selbstständigen Speichern
             saveButton.addEventListener('click', saveCharacter);
         }
@@ -1063,6 +1098,7 @@ const initializeMagicSystemTab = () => {
     // Setze globale Funktionen für andere Skripte
     window.renderMagicList = renderMagicList;
     window.updatePreview = updatePreview;
+    window.initializeVanillaMagicSystem = initializeVanillaMagicSystem;
     
     // Tab-Wechsel erkennen und Synchronisation auslösen
     const tabItems = document.querySelectorAll('.tab-item');

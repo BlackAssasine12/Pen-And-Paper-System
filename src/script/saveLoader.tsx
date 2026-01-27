@@ -568,11 +568,18 @@ function loadMagieSystem(data) {
                     });
                 }
                 
+                const magieTab = document.getElementById('magie-tab');
+                if (magieTab &&
+                    !magieTab.querySelector('.vanilla-magic-system') &&
+                    typeof window.initializeVanillaMagicSystem === 'function') {
+                    window.initializeVanillaMagicSystem();
+                }
+
                 // UI aktualisieren, falls verfügbar
                 if (typeof window.renderMagicList === 'function') {
                     window.renderMagicList();
                 }
-                
+
                 if (typeof window.updatePreview === 'function') {
                     window.updatePreview();
                 }
@@ -598,6 +605,13 @@ function loadMagieSystem(data) {
                     window.advancementPoints = 0;
                 }
                 
+                const magieTab = document.getElementById('magie-tab');
+                if (magieTab &&
+                    !magieTab.querySelector('.vanilla-magic-system') &&
+                    typeof window.initializeVanillaMagicSystem === 'function') {
+                    window.initializeVanillaMagicSystem();
+                }
+
                 // 3. Versuche die UI zu aktualisieren
                 if (typeof window.renderMagicList === 'function') {
                     window.renderMagicList();
@@ -605,7 +619,7 @@ function loadMagieSystem(data) {
                 } else {
                     console.warn("SaveLoader: renderMagicList Funktion nicht verfügbar");
                 }
-                
+
                 if (typeof window.updatePreview === 'function') {
                     window.updatePreview();
                     console.log("SaveLoader: Vorschau aktualisiert");
