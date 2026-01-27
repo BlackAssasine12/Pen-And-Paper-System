@@ -1,18 +1,19 @@
 // @ts-nocheck
 // characterInfo.js
+import { writeInputValue } from "./characterState";
 
 function genCharInfo(data) {
     const charakter = data.charakter.charakterInfo;
-    document.getElementById('name').value = charakter.name;
-    document.getElementById('alter').value = charakter.alter;
-    document.getElementById('geschlecht').value = charakter.geschlecht;
-    document.getElementById('rassen-select').value = charakter.rasse;
-    document.getElementById('klassen-select').value = charakter.klasse;
-    document.getElementById('größe').value = charakter.größe;
-    document.getElementById('gewicht').value = charakter.gewicht;
-    document.getElementById('haarfarbe').value = charakter.haarfarbe;
-    document.getElementById('augenfarbe').value = charakter.augenfarbe;
-    document.getElementById('titel').value = charakter.titel;
+    writeInputValue('name', charakter.name);
+    writeInputValue('alter', charakter.alter);
+    writeInputValue('geschlecht', charakter.geschlecht);
+    writeInputValue('rassen-select', charakter.rasse);
+    writeInputValue('klassen-select', charakter.klasse);
+    writeInputValue('größe', charakter.größe);
+    writeInputValue('gewicht', charakter.gewicht);
+    writeInputValue('haarfarbe', charakter.haarfarbe);
+    writeInputValue('augenfarbe', charakter.augenfarbe);
+    writeInputValue('titel', charakter.titel);
 
     // Setze die adjustments basierend auf der geladenen Klasse
     setKlassenVariable(charakter.klasse);

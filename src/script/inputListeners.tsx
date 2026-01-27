@@ -1,10 +1,14 @@
 // @ts-nocheck
 // inputListeners.js
+import { syncInputElement } from "./characterState";
 
 function addInputChangeListeners() {
     const inputElements = document.querySelectorAll('.stg');
     inputElements.forEach(input => {
-        input.addEventListener('change', updateCharakterCalculation);
+        input.addEventListener('change', (event) => {
+            syncInputElement(event.target);
+            updateCharakterCalculation();
+        });
     });
 
     const mainInput = document.getElementById('erfahrung_Gesteigerte');
@@ -49,28 +53,40 @@ function handleInputChange(event) {
             }
         });
 
-        mainInput.value = parseFloat(mainInput.value) + (diff * adjustmentValue);
+        const updatedValue = parseFloat(mainInput.value) + (diff * adjustmentValue);
+        mainInput.value = updatedValue;
         input.setAttribute('data-initial', newValue);
+        syncInputElement(input);
+        syncInputElement(mainInput);
     }
 }
 
-document.getElementById('toggleListenersCheckbox').addEventListener('change', function () {
-    if (!this.checked) {
-        addInputChangeListeners();
-    } else {
-        removeInputChangeListeners();
-    }
-});
+const listenersCheckbox = document.getElementById('toggleListenersCheckbox');
+if (listenersCheckbox) {
+    listenersCheckbox.addEventListener('change', function () {
+        if (!this.checked) {
+            addInputChangeListeners();
+        } else {
+            removeInputChangeListeners();
+        }
+    });
+}
 
-document.getElementById('toggleHiddenCheckbox').addEventListener('change', function () {
-    let hiddenContainer = document.querySelector(".hidden-items")
-    if (!this.checked) {
-        hiddenContainer.style.display = 'none';
-    } else {
-        removeInputChangeListeners();
-        hiddenContainer.style.display = 'flex';
-    }
-});
+const hiddenCheckbox = document.getElementById('toggleHiddenCheckbox');
+if (hiddenCheckbox) {
+    hiddenCheckbox.addEventListener('change', function () {
+        let hiddenContainer = document.querySelector(".hidden-items")
+        if (!hiddenContainer) {
+            return;
+        }
+        if (!this.checked) {
+            hiddenContainer.style.display = 'none';
+        } else {
+            removeInputChangeListeners();
+            hiddenContainer.style.display = 'flex';
+        }
+    });
+}
 
 function setInputsToMinOrMax(isMin) {
     // Alle Eingabefelder mit min und max finden
@@ -86,6 +102,7 @@ function setInputsToMinOrMax(isMin) {
         // Setze den Wert je nach Auswahl
         const newValue = isMin ? min : max;
         input.value = newValue;
+        syncInputElement(input);
 
         const diff = newValue - initialValue; // Differenz berechnen
 
@@ -108,11 +125,18 @@ function setInputsToMinOrMax(isMin) {
     // Hauptinput "erfahrung_Gesteigerte" aktualisieren
     if (mainInput) {
         mainInput.value = parseFloat(mainInput.value) + totalAdjustment;
+        syncInputElement(mainInput);
     }
     updateCharakterCalculation()
     alert(`Alle Eingaben wurden auf ${isMin ? 'Min' : 'Max'} gesetzt. Erfahrung gesteigerte wurde entsprechend angepasst.`);
 }
 
 // Event-Listener für Buttons
-document.getElementById('setMin').addEventListener('click', () => setInputsToMinOrMax(true));
-document.getElementById('setMax').addEventListener('click', () => setInputsToMinOrMax(false));
+const setMinButton = document.getElementById('setMin');
+if (setMinButton) {
+    setMinButton.addEventListener('click', () => setInputsToMinOrMax(true));
+}
+const setMaxButton = document.getElementById('setMax');
+if (setMaxButton) {
+    setMaxButton.addEventListener('click', () => setInputsToMinOrMax(false));
+}
