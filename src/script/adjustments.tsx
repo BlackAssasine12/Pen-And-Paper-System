@@ -2,7 +2,7 @@
 // adjustments.js
 
 // Objekt für Steigerungswerte
-const adjustments = {
+export const adjustments = {
     'modifier_stealth': 10,
     'modifier_magie': 10,
     'modifier_asp': 10,
@@ -26,16 +26,9 @@ const adjustments = {
     'Wissenschaftliche_Talente': 3,
 };
 
-// Variable, um die Klassenkategorien zu speichern
-let klassenKategorien = {};
-
-// Funktion, um die Klassenkategorien zu setzen
-function setKlassenKategorien(klassen) {
-    klassenKategorien = klassen;
-}
 
 // Anpassung der Steigerungswerte nach Klassen
-function setKlassenVariable(selectedClass) {
+export function setKlassenVariable(selectedClass, klassenKategorien) {
     if (!selectedClass || !klassenKategorien) return;
 
     // Zurücksetzen der adjustments auf Standardwerte
@@ -87,7 +80,7 @@ function setKlassenVariable(selectedClass) {
 }
 
 // Funktion, um adjustments auf Standardwerte zurückzusetzen
-function resetAdjustmentsToDefault() {
+export function resetAdjustmentsToDefault() {
     adjustments.modifier_stealth = 10;
     adjustments.modifier_magie = 10;
     adjustments.modifier_asp = 10;

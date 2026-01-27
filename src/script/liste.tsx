@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { klassenKategorien } from "./adjustments";
 // Laden der JSON-Daten und Initialisierung
 const initializeListe = () => {
     const baseUrl = import.meta.env.BASE_URL ?? "/";
@@ -45,19 +46,16 @@ const initializeListe = () => {
                 }
             }
 
-            // Setze die Klassenkategorien für adjustments.js
-            setKlassenKategorien(klassen);
-
             // Event Listener für das Klassen-Dropdown
             klassenSelect.addEventListener('change', function () {
                 const selectedClass = this.value;
-                setKlassenVariable(selectedClass);
+                setKlassenVariable(selectedClass, klassen);
             });
 
             // Wenn bereits eine Klasse ausgewählt ist (z.B. beim Laden aus der JSON-Datei)
             const initialClass = klassenSelect.value;
             if (initialClass) {
-                setKlassenVariable(initialClass);
+                setKlassenVariable(initialClass, klassen);
             }
         })
         .catch(error => console.error('Error fetching JSON:', error));
