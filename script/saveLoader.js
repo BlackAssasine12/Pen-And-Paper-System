@@ -15,9 +15,9 @@ let myData = null;
 let fileName = null;
 
 // Warte auf DOM-Bereitschaft
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log("SaveLoader: Initialisiere Speicher- und Ladesystem...");
-    
+
     // Initialisiere Event-Listener
     setupEventListeners();
 });
@@ -26,14 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
 function setupEventListeners() {
     // Entferne alle möglicherweise bestehenden Event-Listener
     removeExistingListeners();
-    
+
     // Speichern-Button
     const saveButton = document.getElementById('saveButton');
     if (saveButton) {
-        saveButton.addEventListener('click', function(event) {
+        saveButton.addEventListener('click', function (event) {
             console.log("SaveLoader: Speichern-Button geklickt");
             event.preventDefault();
-            
+
             if (myData) {
                 saveCharacterData(myData);
             } else {
@@ -42,31 +42,31 @@ function setupEventListeners() {
             }
         });
     }
-    
+
     // Datei-Input
     const fileInput = document.getElementById('fileInput');
     if (fileInput) {
-        fileInput.addEventListener('change', function(event) {
+        fileInput.addEventListener('change', function (event) {
             console.log("SaveLoader: Datei ausgewählt für Upload");
             handleFileUpload(event);
         });
     }
-    
+
     // Dateiname-Generator-Button
     const generateFilenameButton = document.getElementById('generateFilenameButton');
     if (generateFilenameButton) {
-        generateFilenameButton.addEventListener('click', function() {
+        generateFilenameButton.addEventListener('click', function () {
             console.log("SaveLoader: Generiere Standard-Dateinamen");
             const nameInput = document.getElementById('name');
             const characterName = nameInput ? nameInput.value.trim() : '';
-            
+
             const filenameInput = document.getElementById('filenameInput');
             if (filenameInput) {
                 filenameInput.value = generateStandardFilename(characterName);
             }
         });
     }
-    
+
     console.log("SaveLoader: Event-Listener erfolgreich eingerichtet");
 }
 
@@ -80,7 +80,7 @@ function removeExistingListeners() {
             saveButton.parentNode.replaceChild(newSaveButton, saveButton);
         }
     }
-    
+
     // Datei-Input
     const fileInput = document.getElementById('fileInput');
     if (fileInput) {
@@ -89,7 +89,7 @@ function removeExistingListeners() {
             fileInput.parentNode.replaceChild(newFileInput, fileInput);
         }
     }
-    
+
     // Dateiname-Generator-Button
     const generateFilenameButton = document.getElementById('generateFilenameButton');
     if (generateFilenameButton) {
@@ -117,12 +117,12 @@ function saveCharacterData(data) {
             const levelInput = document.getElementById('erfahrung_level');
             const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
             const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
-            
+
             if (xpInput) charakter.werte.xp = parseInt(xpInput.value) || 0;
             if (levelInput) charakter.werte.level = parseInt(levelInput.value) || 0;
             if (steigerungspunkteInput) charakter.werte.Steigerungspunkte = parseInt(steigerungspunkteInput.value) || 0;
             if (gesteigerteInput) charakter.werte.Gesteigerte = parseInt(gesteigerteInput.value) || 0;
-            
+
             console.log("SaveLoader: XP/Level gespeichert:", {
                 xp: charakter.werte.xp,
                 level: charakter.werte.level,
@@ -134,17 +134,11 @@ function saveCharacterData(data) {
         // 3. Fähigkeiten aktualisieren
         if (charakter.fähigkeiten) {
             const fähigkeiten = charakter.fähigkeiten;
-            
-            if (fähigkeiten.modifier) updateSectionValues(fähigkeiten.modifier, 'modifier');
-            if (fähigkeiten.sonderwerte) updateSectionValues(fähigkeiten.sonderwerte, 'sonderwerte');
-            if (fähigkeiten.attribute) updateSectionValues(fähigkeiten.attribute, 'attribute');
-            if (fähigkeiten.Assassinen_Talente) updateSectionValues(fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
-            if (fähigkeiten.Talente_1) updateSectionValues(fähigkeiten.Talente_1, 'Talente_1');
-            if (fähigkeiten.Talente_2) updateSectionValues(fähigkeiten.Talente_2, 'Talente_2');
-            if (fähigkeiten.KampfBasiswerte) updateSectionValues(fähigkeiten.KampfBasiswerte, 'KampfBasiswerte');
-            if (fähigkeiten.Kampf_Talente) updateSectionValues(fähigkeiten.Kampf_Talente, 'Kampf_Talente');
-            if (fähigkeiten.Handwerkstalente) updateSectionValues(fähigkeiten.Handwerkstalente, 'Handwerkstalente');
-            if (fähigkeiten.Gespeicherte_Kampftalente) updateSectionValues(fähigkeiten.Gespeicherte_Kampftalente, 'Gespeicherte_Kampftalente');
+
+            for (let key in fähigkeiten) {
+                updateSectionValues(fähigkeiten[key], key);
+            }
+
         }
 
         // 4. Geldbeutel aktualisieren
@@ -154,7 +148,7 @@ function saveCharacterData(data) {
 
         // 5. Inventar speichern
         data.inventory = saveInventory();
-        
+
         // 6. Magiesystem speichern
         saveMagieSystem(data);
 
@@ -165,11 +159,11 @@ function saveCharacterData(data) {
         // Dateinamen bestimmen
         const filenameInput = document.getElementById('filenameInput');
         let filename = filenameInput ? filenameInput.value.trim() : '';
-        
+
         if (!filename) {
             filename = generateStandardFilename(charakter.charakterInfo ? charakter.charakterInfo.name : '');
         }
-        
+
         // .json-Endung hinzufügen, falls nicht vorhanden
         if (!filename.toLowerCase().endsWith('.json')) {
             filename += '.json';
@@ -182,7 +176,7 @@ function saveCharacterData(data) {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        
+
         console.log("SaveLoader: Charakterdaten erfolgreich gespeichert als", filename);
     } catch (error) {
         console.error("SaveLoader Fehler beim Speichern:", error);
@@ -216,6 +210,8 @@ function updateCharakterInfo(charakterInfo) {
 
 // Hilfsfunktion: Aktualisiert Sektionswerte
 function updateSectionValues(section, sectionId) {
+    console.log(sectionId)
+    console.log(section)
     const specialSections = ['Assassinen_Talente', 'Talente_1', 'Talente_2', 'Handwerkstalente'];
 
     if (specialSections.includes(sectionId)) {
@@ -228,7 +224,7 @@ function updateSectionValues(section, sectionId) {
                 let index = 0;
                 let input;
                 const sanitizedKey = sanitizeKey(key);
-                
+
                 while ((input = document.getElementById(`${sectionId}_${sanitizedKey}_${index}`)) !== null) {
                     section[key].push(parseFloat(input.value) || 0);
                     index++;
@@ -237,7 +233,7 @@ function updateSectionValues(section, sectionId) {
                 // Einfache Werte aktualisieren
                 const sanitizedKey = sanitizeKey(key);
                 const input = document.getElementById(`${sectionId}_${sanitizedKey}`);
-                
+
                 if (input) {
                     const parsedValue = parseFloat(input.value);
                     section[key] = isNaN(parsedValue) ? input.value : parsedValue;
@@ -252,7 +248,7 @@ function updateSpecialSection(section, sectionId) {
     section.forEach((item) => {
         const key = sanitizeKey(item.Name);
         const input = document.getElementById(`${sectionId}_${key}`);
-        
+
         if (input) {
             const parsedValue = parseFloat(input.value);
             item.Wert = isNaN(parsedValue) ? input.value : parsedValue;
@@ -265,20 +261,20 @@ function saveInventory() {
     try {
         const inventory = [];
         const items = document.querySelectorAll('#inventory li');
-        
+
         items.forEach(item => {
             const text = item.textContent;
             const parts = text.split(' - ');
-            
+
             if (parts.length >= 2) {
                 const name = parts[0];
                 const quantityText = parts[1];
                 const quantity = parseInt(quantityText.replace('x', '')) || 1;
-                
+
                 inventory.push({ name, quantity });
             }
         });
-        
+
         return inventory;
     } catch (error) {
         console.error("SaveLoader Fehler beim Speichern des Inventars:", error);
@@ -290,7 +286,7 @@ function saveInventory() {
 function saveMagieSystem(data) {
     try {
         console.log("SaveLoader: Speichere Magiesystem-Daten...");
-        
+
         // Sicherstellen, dass die magieSystem-Struktur existiert
         if (!data.magieSystem) {
             data.magieSystem = {
@@ -298,7 +294,7 @@ function saveMagieSystem(data) {
                 magicAbilities: []
             };
         }
-        
+
         // 1. Versuche Steigerungspunkte zu speichern
         // Priorität: globale Variable > DOM-Element
         if (typeof window.advancementPoints === 'number') {
@@ -313,7 +309,7 @@ function saveMagieSystem(data) {
                 console.warn("SaveLoader: Keine Steigerungspunkte gefunden");
             }
         }
-        
+
         // 2. Versuche Magie-Fähigkeiten zu speichern
         // Priorität: MagicSystem > globale Variable > vorhandene Daten
         if (typeof window.MagicSystem !== 'undefined') {
@@ -333,12 +329,12 @@ function saveMagieSystem(data) {
                 data.magieSystem.magicAbilities = [];
             }
         }
-        
+
         // Ausgabe für Debug-Zwecke
         console.log("SaveLoader: Magiesystem-Daten:", JSON.stringify(data.magieSystem));
     } catch (error) {
         console.error("SaveLoader Fehler beim Speichern des Magiesystems:", error);
-        
+
         // Bei Fehler sicherstellen, dass ein gültiges Objekt existiert
         if (!data.magieSystem) {
             data.magieSystem = {
@@ -354,11 +350,11 @@ function generateStandardFilename(characterName = "") {
     const now = new Date();
     const datePart = now.toLocaleDateString().replace(/\//g, '-');
     const timePart = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }).replace(':', '-');
-    
+
     let name = characterName.trim() || "Charakter";
     // Leerzeichen durch Unterstriche ersetzen, Sonderzeichen entfernen
     name = name.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '');
-    
+
     return `${name}_${datePart}_${timePart}.json`;
 }
 
@@ -371,13 +367,13 @@ function handleFileUpload(event) {
     }
 
     console.log("SaveLoader: Lade Datei:", file.name);
-    
+
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         try {
             // JSON-Daten parsen
             const data = JSON.parse(e.target.result);
-            
+
             // Globale Variablen setzen
             myData = data;
             fileName = file.name;
@@ -396,15 +392,15 @@ function handleFileUpload(event) {
             if (typeof initializeWallet === 'function') {
                 initializeWallet(data);
             }
-            
+
             if (typeof generateCharakterAttributes === 'function') {
                 generateCharakterAttributes(data);
             }
-            
+
             if (typeof genCharInfo === 'function') {
                 genCharInfo(data);
             }
-            
+
             if (typeof bindHideButtons === 'function') {
                 bindHideButtons();
             }
@@ -430,14 +426,14 @@ function handleFileUpload(event) {
             if (filenameInput) {
                 filenameInput.value = file.name;
             }
-            
+
             console.log("SaveLoader: Alle Daten erfolgreich geladen");
         } catch (error) {
             console.error("SaveLoader Fehler beim Laden der Datei:", error);
             alert("Fehler beim Laden der Datei: " + error.message);
         }
     };
-    
+
     reader.readAsText(file);
 }
 
@@ -446,28 +442,28 @@ function loadXPAndLevel(data) {
     try {
         if (data.charakter && data.charakter.werte) {
             const werte = data.charakter.werte;
-            
+
             // Setze die Werte, falls vorhanden
             const xpInput = document.getElementById('erfahrung_xp');
             const levelInput = document.getElementById('erfahrung_level');
             const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
             const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
-            
+
             if (xpInput && werte.xp !== undefined) {
                 xpInput.value = werte.xp;
                 console.log("SaveLoader: XP geladen:", werte.xp);
             }
-            
+
             if (levelInput && werte.level !== undefined) {
                 levelInput.value = werte.level;
                 console.log("SaveLoader: Level geladen:", werte.level);
             }
-            
+
             if (steigerungspunkteInput && werte.Steigerungspunkte !== undefined) {
                 steigerungspunkteInput.value = werte.Steigerungspunkte;
                 console.log("SaveLoader: Steigerungspunkte geladen:", werte.Steigerungspunkte);
             }
-            
+
             if (gesteigerteInput && werte.Gesteigerte !== undefined) {
                 gesteigerteInput.value = werte.Gesteigerte;
                 console.log("SaveLoader: Gesteigerte geladen:", werte.Gesteigerte);
@@ -488,7 +484,7 @@ function loadInventory(inventory) {
                 quantity: item.quantity || item.count || 0
             };
         });
-        
+
         // Inventar-Anzeige aktualisieren (falls Funktion verfügbar)
         if (typeof renderInventory === 'function') {
             renderInventory();
@@ -502,78 +498,78 @@ function loadInventory(inventory) {
 function loadMagieSystem(data) {
     try {
         console.log("SaveLoader: Lade Magiesystem-Daten...");
-        
+
         if (data.magieSystem) {
             // 1. Prüfen, ob das MagicSystem-Modul verfügbar ist
             if (typeof window.MagicSystem !== 'undefined') {
                 console.log("SaveLoader: Verwende das MagicSystem-Modul zum Laden der Magie");
-                
+
                 // MagicSystem initialisieren
                 window.MagicSystem.init();
-                
+
                 // Magie-Fähigkeiten laden
                 if (Array.isArray(data.magieSystem.magicAbilities)) {
                     // Globale Variable aktualisieren
                     window.characterMagic = JSON.parse(JSON.stringify(data.magieSystem.magicAbilities));
-                    
+
                     // MagicSystem aktualisieren
                     window.MagicSystem.syncFromGlobals();
-                    
+
                     console.log("SaveLoader: Magie-Fähigkeiten geladen:", window.characterMagic.length);
                 } else {
                     console.warn("SaveLoader: Keine gültigen Magie-Fähigkeiten in der Datei");
                     window.characterMagic = [];
                     window.MagicSystem.syncFromGlobals();
                 }
-                
+
                 // Steigerungspunkte laden
                 if (data.magieSystem.advancementPoints !== undefined) {
                     window.advancementPoints = data.magieSystem.advancementPoints;
-                    
+
                     // Aktualisiere MagicSystem
                     window.MagicSystem.setAdvancementPoints(window.advancementPoints);
-                    
+
                     console.log("SaveLoader: Steigerungspunkte geladen:", window.advancementPoints);
                 }
-                
+
                 // Character-Level und XP laden
                 if (data.charakter && data.charakter.werte) {
                     const characterLevel = data.charakter.werte.level || 0;
                     const characterXP = data.charakter.werte.xp || 0;
                     const gesteigertePoints = data.charakter.werte.Gesteigerte || 0;
-                    
+
                     // Setze diese Werte im MagicSystem
                     if (typeof window.MagicSystem.setCharacterLevel === 'function') {
                         window.MagicSystem.setCharacterLevel(characterLevel);
                     }
-                    
+
                     if (typeof window.MagicSystem.setCharacterXP === 'function') {
                         window.MagicSystem.setCharacterXP(characterXP);
                     }
-                    
+
                     if (typeof window.MagicSystem.setGesteigertePoints === 'function') {
                         window.MagicSystem.setGesteigertePoints(gesteigertePoints);
                     }
-                    
+
                     console.log("SaveLoader: Character Level/XP geladen:", {
                         level: characterLevel,
                         xp: characterXP,
                         gesteigerte: gesteigertePoints
                     });
                 }
-                
+
                 // UI aktualisieren, falls verfügbar
                 if (typeof window.renderMagicList === 'function') {
                     window.renderMagicList();
                 }
-                
+
                 if (typeof window.updatePreview === 'function') {
                     window.updatePreview();
                 }
             } else {
                 // Fallback für ältere Version: direkt globale Variablen setzen
                 console.log("SaveLoader: Fallback-Methode zum Laden der Magie verwendet");
-                
+
                 // 1. Magie-Fähigkeiten laden
                 if (Array.isArray(data.magieSystem.magicAbilities)) {
                     // Globale Variable aktualisieren (tiefe Kopie)
@@ -583,7 +579,7 @@ function loadMagieSystem(data) {
                     console.warn("SaveLoader: Keine gültigen Magie-Fähigkeiten in der Datei");
                     window.characterMagic = [];
                 }
-                
+
                 // 2. Steigerungspunkte laden
                 if (data.magieSystem.advancementPoints !== undefined) {
                     window.advancementPoints = data.magieSystem.advancementPoints;
@@ -591,7 +587,7 @@ function loadMagieSystem(data) {
                 } else {
                     window.advancementPoints = 0;
                 }
-                
+
                 // 3. Versuche die UI zu aktualisieren
                 if (typeof window.renderMagicList === 'function') {
                     window.renderMagicList();
@@ -599,7 +595,7 @@ function loadMagieSystem(data) {
                 } else {
                     console.warn("SaveLoader: renderMagicList Funktion nicht verfügbar");
                 }
-                
+
                 if (typeof window.updatePreview === 'function') {
                     window.updatePreview();
                     console.log("SaveLoader: Vorschau aktualisiert");
@@ -607,10 +603,10 @@ function loadMagieSystem(data) {
                     console.warn("SaveLoader: updatePreview Funktion nicht verfügbar");
                 }
             }
-            
+
             // Steigerungspunkte-Anzeige aktualisieren
             updateAdvancementPointsDisplay();
-            
+
             // Ausgabe für Debug-Zwecke
             console.log("SaveLoader: Magie geladen:", JSON.stringify({
                 advancementPoints: window.advancementPoints,
@@ -621,7 +617,7 @@ function loadMagieSystem(data) {
             // Standardwerte setzen
             window.characterMagic = [];
             window.advancementPoints = 0;
-            
+
             // MagicSystem aktualisieren, falls verfügbar
             if (typeof window.MagicSystem !== 'undefined') {
                 window.MagicSystem.syncFromGlobals();
@@ -632,13 +628,13 @@ function loadMagieSystem(data) {
         // Standardwerte setzen
         window.characterMagic = [];
         window.advancementPoints = 0;
-        
+
         // MagicSystem aktualisieren, falls verfügbar
         if (typeof window.MagicSystem !== 'undefined') {
             window.MagicSystem.syncFromGlobals();
         }
     }
-    
+
     // Steigerungspunkte zum Charakterbogen synchronisieren
     synchronizeToCharacterSheet();
 }
@@ -664,7 +660,7 @@ function synchronizeToCharacterSheet() {
         if (steigerungspunkteInput && window.advancementPoints !== undefined) {
             steigerungspunkteInput.value = window.advancementPoints;
             console.log("SaveLoader: Steigerungspunkte zum Charakterbogen synchronisiert:", window.advancementPoints);
-            
+
             // Berechnung aktualisieren
             if (typeof updateCharakterCalculation === 'function') {
                 updateCharakterCalculation();
@@ -679,7 +675,7 @@ function synchronizeToCharacterSheet() {
 function migrateToNewMagieSystem(data) {
     try {
         console.log("SaveLoader: Prüfe auf Notwendigkeit einer Magiesystem-Migration...");
-        
+
         // Sicherstellen, dass magieSystem existiert
         if (!data.magieSystem) {
             data.magieSystem = {
@@ -688,24 +684,24 @@ function migrateToNewMagieSystem(data) {
             };
             console.log("SaveLoader: Neue Magiesystem-Struktur erstellt");
         }
-        
+
         // Falls ein existierendes magieSystem keinen magicAbilities-Array hat
         if (!Array.isArray(data.magieSystem.magicAbilities)) {
             data.magieSystem.magicAbilities = [];
             console.log("SaveLoader: Leeren magicAbilities-Array erstellt");
         }
-        
+
         // Falls alte Struktur vorhanden
         if (data.charakter && data.charakter.Magische_Elemente) {
             console.log("SaveLoader: Alte Magische_Elemente-Struktur gefunden, Migration wird durchgeführt");
-            
+
             // Setze Steigerungspunkte, falls noch nicht gesetzt
-            if (data.magieSystem.advancementPoints === 0 && data.charakter.werte && 
+            if (data.magieSystem.advancementPoints === 0 && data.charakter.werte &&
                 data.charakter.werte.Steigerungspunkte !== undefined) {
                 data.magieSystem.advancementPoints = data.charakter.werte.Steigerungspunkte;
                 console.log("SaveLoader: Steigerungspunkte migriert:", data.magieSystem.advancementPoints);
             }
-            
+
             // Konvertiere die alten Magischen Elemente, falls das neue Array leer ist
             if (data.magieSystem.magicAbilities.length === 0) {
                 for (const [element, level] of Object.entries(data.charakter.Magische_Elemente)) {
@@ -717,9 +713,9 @@ function migrateToNewMagieSystem(data) {
                         });
                     }
                 }
-                
+
                 console.log("SaveLoader: Magie-Fähigkeiten migriert:", data.magieSystem.magicAbilities.length);
-                
+
                 // Alte Struktur entfernen
                 delete data.charakter.Magische_Elemente;
                 console.log("SaveLoader: Alte Magiestruktur entfernt");
