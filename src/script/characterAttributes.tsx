@@ -1,234 +1,281 @@
-// @ts-nocheck
-// characterAttributes.js
-let kampfArr = []
-function generateCharakterAttributes(data) {
-    const walletContainer = document.getElementById('WalletContainer');
-    const charakterContainer = document.getElementById('charakterContainer');
-    charakterContainer.innerHTML = '';
+import React, { useEffect, useRef } from "react";
 
-    const charakter = data.charakter;
+type TalentEntry = {
+    Name: string;
+    Attribute: string;
+    Wert: number;
+};
 
-    const attributeFlexContainer = document.createElement('div');
-    attributeFlexContainer.classList.add('attributeFlexContainer');
+type CharakterData = {
+    charakter?: {
+        fähigkeiten?: {
+            Assassinen_Talente?: TalentEntry[];
+            Talente_1?: TalentEntry[];
+            Talente_2?: TalentEntry[];
+            Handwerkstalente?: TalentEntry[];
+            Kampf_Talente?: Record<string, number[]>;
+            modifier?: Record<string, number>;
+            sonderwerte?: Record<string, number>;
+            attribute?: Record<string, number>;
+        };
+        Magische_Elemente?: Record<string, number>;
+    };
+};
 
-    // Alle vordefinierten Container auf dem Charakter-Tab identifizieren
-    const modifierContainer = document.getElementById('modifierContainer');
-    const sonderwerteContainer = document.getElementById('sonderwerteContainer');
-    const attributeContainer = document.getElementById('attributeContainer');
-    const magieContainer = document.getElementById('magischeElementeContainer');
+type Props = {
+    data: CharakterData;
+    // optional: externe Funktionen aus deinem Projekt
+    saveChanges?: (data: CharakterData) => void;
+    addInputChangeListeners?: () => void;
+};
 
-    // Nur dynamisch erzeugte Container erstellen
-    const Assassinen_TalenteContainer = createSection('Assassinen Talente', charakter.fähigkeiten.Assassinen_Talente, 'Assassinen_Talente');
-    attributeFlexContainer.appendChild(Assassinen_TalenteContainer);
+export default function CharacterAttributes({
+    data,
+    saveChanges,
+    addInputChangeListeners,
+}: Props) {
+    const charakterContainerRef = useRef<HTMLDivElement | null>(null);
 
-    const Talente_1Container = createSection('Talente 1', charakter.fähigkeiten.Talente_1, 'Talente_1');
-    attributeFlexContainer.appendChild(Talente_1Container);
+    // ---------- helpers ----------
+    const createSection = (
+        title: string,
+        attributes: TalentEntry[] | undefined,
+        sectionId: string
+    ): JSX.Element => {
+        return (
+            <div className="FlexItemContainer" data-section={sectionId}>
+                <h6>{title}</h6>
 
-    const Talente_2Container = createSection('Talente 2', charakter.fähigkeiten.Talente_2, 'Talente_2');
-    attributeFlexContainer.appendChild(Talente_2Container);
+                {Array.isArray(attributes) && (
+                    <div className={`${sectionId.toLowerCase()}-flex`}>
+                        {attributes.map((attribute, idx) => {
+                            if (!attribute) return null;
 
-    const HandwerkstalenteContainer = createSection('Handwerkstalente', charakter.fähigkeiten.Handwerkstalente, 'Handwerkstalente');
-    attributeFlexContainer.appendChild(HandwerkstalenteContainer);
+                            const sanitizedName = String(attribute.Name ?? "").replace(/\s+/g, "_");
+                            const attributeString = `${attribute.Name} (${attribute.Attribute}): `;
 
-    // Kampf_Talente direkt im kampfTalenteContainer (bereits im HTML definiert) anzeigen
-    const kampfTalenteGridContainer = document.getElementById('kampfTalenteGridContainer');
-    if (kampfTalenteGridContainer) {
-        kampfTalenteGridContainer.innerHTML = '';  // Container leeren
-        for (let key in charakter.fähigkeiten.Kampf_Talente) {
-            const sanitizedKey = key.replace(/\s+/g, '_');
-            const flexItem = document.createElement('div');
-            flexItem.classList.add('BigFlexItem', 'ArrayContainer');
+                            return (
+                                <div className="FlexItem" key={`${sectionId}_${sanitizedName}_${idx}`}>
+                                    <label>{attributeString}</label>
+                                    <input
+                                        className={`stg attributeInput ${sectionId}`}
+                                        type="number"
+                                        defaultValue={attribute.Wert}
+                                        id={`${sectionId}_${sanitizedName}`}
+                                    />
+                                    <button className="hidebutton" type="button">
+                                        X
+                                    </button>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+        );
+    };
 
-            flexItem.innerHTML = `<label>${key.charAt(0).toUpperCase() + key.slice(1)}:</label>`;
+    const fillExistingContainer = (
+        container: HTMLElement | null,
+        attributes: Record<string, number> | undefined,
+        sectionId: string
+    ) => {
+        if (!container || !attributes) return;
 
-            // Hier werden die Eingabefelder generiert
-            charakter.fähigkeiten.Kampf_Talente[key].forEach((value, index) => {
-                const inputId = `Kampf_Talente_${sanitizedKey}_${index}`;
-                const inputClass = `Kampf_Talente_${index}`;
+        // Titel sichern
+        const title = container.querySelector("h6");
+        container.innerHTML = "";
+        if (title) container.appendChild(title);
 
-                flexItem.innerHTML += `
-                    <input 
-                        class="stg ArrAttributeInput Kampf_Talente ${inputClass}" 
-                        type="number" 
-                        value="${value}" 
-                        id="${inputId}">
-                `;
-                kampfArr.push(`Kampf_Talente_${sanitizedKey}_${index}`)
-            });
-            kampfTalenteGridContainer.appendChild(flexItem);
-        }
-    }
-
-    // Füllen der bereits vordefinierten Container
-    fillExistingContainer(modifierContainer, charakter.fähigkeiten.modifier, 'modifier');
-    fillExistingContainer(sonderwerteContainer, charakter.fähigkeiten.sonderwerte, 'sonderwerte');
-    fillExistingContainer(attributeContainer, charakter.fähigkeiten.attribute, 'attribute');
-    
-    // Magische Elemente im Magie-Tab anzeigen
-    fillExistingContainer(magieContainer, charakter.Magische_Elemente, 'Magische_Elemente');
-
-    // Restliche dynamisch erzeugte Container im charakterContainer anzeigen
-    charakterContainer.appendChild(attributeFlexContainer);
-
-    document.getElementById('saveButton').addEventListener('click', function () {
-        saveChanges(data);
-    });
-
-    addInputChangeListeners();
-    addToolTip();
-}
-
-function fillExistingContainer(container, attributes, sectionId) {
-    if (!container || !attributes) return;
-    
-    // Container-Inhalt leeren, aber den Titel (h6) beibehalten
-    const title = container.querySelector('h6');
-    container.innerHTML = '';
-    if (title) container.appendChild(title);
-    
-    // Für magische Elemente oder andere Objekte
-    if (typeof attributes === 'object' && !Array.isArray(attributes)) {
-        const grid = document.createElement('div');
-        grid.classList.add(`${sectionId}-grid`);
-        
-        for (let key in attributes) {
-            const sanitizedKey = key.replace(/\s+/g, '_');
-            const flexItem = document.createElement('div');
-            flexItem.classList.add('FlexItem');
-            flexItem.id = `${sectionId}_${sanitizedKey}_Tooltip`;
-
-            let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
-            flexItem.innerHTML = `
-                <label>${attributeString}</label>
-                <input 
-                    class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}" 
-                    type="number" 
-                    value="${attributes[key]}" 
-                    id="${sectionId}_${sanitizedKey}">
-                <button class="hidebutton">X</button>
-            `;
-            grid.appendChild(flexItem);
-        }
-        
-        container.appendChild(grid);
-    }
-}
-
-// characterAttributes.js
-// Anpassen der createSection-Funktion für Flexbox-Layout
-
-function createSection(title, attributes, sectionId) {
-    const container = document.createElement('div');
-    container.classList.add("FlexItemContainer");
-    container.innerHTML = `<h6>${title}</h6>`;
-
-    if (Array.isArray(attributes)) {
-        const flexContainer = document.createElement('div');
-        flexContainer.classList.add(`${sectionId.toLowerCase()}-flex`);
-        
-        attributes.forEach((attribute) => {
-            const sanitizedName = attribute.Name.replace(/\s+/g, '_');
-            const flexItem = document.createElement('div');
-            flexItem.classList.add('FlexItem');
-
-            let attributeString = `${attribute.Name} (${attribute.Attribute}): `;
-            flexItem.innerHTML = `
-                <label>${attributeString}</label>
-                <input 
-                    class="stg attributeInput ${sectionId}" 
-                    type="number" 
-                    value="${attribute.Wert}" 
-                    id="${sectionId}_${sanitizedName}">
-                <button class="hidebutton">X</button>
-            `;
-            flexContainer.appendChild(flexItem);
-        });
-        
-        container.appendChild(flexContainer);
-    }
-    
-    return container;
-}
-
-function fillExistingContainer(container, attributes, sectionId) {
-    if (!container || !attributes) return;
-    
-    // Container-Inhalt leeren, aber den Titel (h6) beibehalten
-    const title = container.querySelector('h6');
-    container.innerHTML = '';
-    if (title) container.appendChild(title);
-    
-    // Für magische Elemente oder andere Objekte
-    if (typeof attributes === 'object' && !Array.isArray(attributes)) {
-        const flexContainer = document.createElement('div');
+        const flexContainer = document.createElement("div");
         flexContainer.classList.add(`${sectionId}-flex`);
-        
-        for (let key in attributes) {
-            const sanitizedKey = key.replace(/\s+/g, '_');
-            const flexItem = document.createElement('div');
-            flexItem.classList.add('FlexItem');
+
+        for (const key in attributes) {
+            const sanitizedKey = key.replace(/\s+/g, "_");
+
+            const flexItem = document.createElement("div");
+            flexItem.classList.add("FlexItem");
             flexItem.id = `${sectionId}_${sanitizedKey}_Tooltip`;
 
-            let attributeString = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
-            flexItem.innerHTML = `
-                <label>${attributeString}</label>
-                <input 
-                    class="stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}" 
-                    type="number" 
-                    value="${attributes[key]}" 
-                    id="${sectionId}_${sanitizedKey}">
-                <button class="hidebutton">X</button>
-            `;
+            const label = document.createElement("label");
+            label.textContent = `${key.charAt(0).toUpperCase() + key.slice(1)}: `;
+
+            const input = document.createElement("input");
+            input.className = `stg attributeInput ${sectionId} ${sectionId}_${sanitizedKey}`;
+            input.type = "number";
+            input.value = String(attributes[key]);
+            input.id = `${sectionId}_${sanitizedKey}`;
+
+            const btn = document.createElement("button");
+            btn.className = "hidebutton";
+            btn.type = "button";
+            btn.textContent = "X";
+
+            flexItem.appendChild(label);
+            flexItem.appendChild(input);
+            flexItem.appendChild(btn);
+
             flexContainer.appendChild(flexItem);
         }
-        
+
         container.appendChild(flexContainer);
-    }
-}
+    };
 
+    const addToolTip = () => {
+        const ids = [
+            "Magische_Elemente_Schatten_Tooltip",
+            "Magische_Elemente_Licht_Tooltip",
+            "Magische_Elemente_Holz_Tooltip",
+            "Magische_Elemente_Metall_Tooltip",
+            "Magische_Elemente_Eis_Tooltip",
+            "Magische_Elemente_Leben_Tooltip",
+            "Magische_Elemente_Nekromantie_Tooltip",
+            "Magische_Elemente_Blitz_Tooltip",
+            "Magische_Elemente_Gravitation_Tooltip",
+            "Magische_Elemente_Erschaffung_Tooltip",
+            "Magische_Elemente_Raumzeit_Tooltip",
+            "Magische_Elemente_Gift_Tooltip",
+            "Magische_Elemente_Blut_Tooltip",
+        ];
 
-function addToolTip() {
-    const ids = ['Magische_Elemente_Schatten_Tooltip', 'Magische_Elemente_Licht_Tooltip', 'Magische_Elemente_Holz_Tooltip', 'Magische_Elemente_Metall_Tooltip', 'Magische_Elemente_Eis_Tooltip', 'Magische_Elemente_Leben_Tooltip', 'Magische_Elemente_Nekromantie_Tooltip', 'Magische_Elemente_Blitz_Tooltip', 'Magische_Elemente_Gravitation_Tooltip', 'Magische_Elemente_Erschaffung_Tooltip', 'Magische_Elemente_Raumzeit_Tooltip', "Magische_Elemente_Gift_Tooltip","Magische_Elemente_Blut_Tooltip"];
-    const tooltips = ["Benötigt: Luft Dunkle", "Benötigt: Helle Feuer", "Benötigt: Erde Wasser", "Benötigt: Erde Feuer", "Benötigt: Luft Wasser", "Benötigt: Heilung Natur", "Benötigt: Dunkle Leben", "Benötigt: Licht Luft", "Benötigt: Erde Luft", "Benötigt: Feuer Wasser Erde Luft Natur Dunkle Helle", "Benötigt: Alle Elemente", "Benötigt: Natur Wasser","Benötigt: Leben Wasser"];
-    
-    ids.forEach((id, index) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.title = tooltips[index];
-        }
-    });
-}
+        const tooltips = [
+            "Benötigt: Luft Dunkle",
+            "Benötigt: Helle Feuer",
+            "Benötigt: Erde Wasser",
+            "Benötigt: Erde Feuer",
+            "Benötigt: Luft Wasser",
+            "Benötigt: Heilung Natur",
+            "Benötigt: Dunkle Leben",
+            "Benötigt: Licht Luft",
+            "Benötigt: Erde Luft",
+            "Benötigt: Feuer Wasser Erde Luft Natur Dunkle Helle",
+            "Benötigt: Alle Elemente",
+            "Benötigt: Natur Wasser",
+            "Benötigt: Leben Wasser",
+        ];
 
-function MaxValue(level, MB) {
-    let MaxValue = document.querySelectorAll(".Assassinen_Talente, .Talente_1, .Talente_2, .Handwerkstalente, .Kampf_Talente_2")
-    MaxValue.forEach((attribute) => {
-        attribute.max = level + 10
-        attribute.min = -3
-        if (attribute.max >= 21) {
-            attribute.max = 21
+        ids.forEach((id, index) => {
+            const element = document.getElementById(id);
+            if (element) element.title = tooltips[index];
+        });
+    };
+
+    const MaxValue = (level: number, MB: number) => {
+        const talentInputs = document.querySelectorAll<HTMLInputElement>(
+            ".Assassinen_Talente, .Talente_1, .Talente_2, .Handwerkstalente, .Kampf_Talente"
+        );
+
+        talentInputs.forEach((input) => {
+            input.max = String(Math.min(level + 10, 21));
+            input.min = String(-3);
+        });
+
+        const attrInputs = document.querySelectorAll<HTMLInputElement>(".attribute");
+        attrInputs.forEach((input) => {
+            input.max = String(Math.min(level + 12, 21));
+            input.min = String(7);
+        });
+
+        const magicInputs = document.querySelectorAll<HTMLInputElement>(".Magische_Elemente");
+        magicInputs.forEach((input) => {
+            input.max = String(Math.min(MB / 2, 21));
+            input.min = String(0);
+        });
+
+        const modifierInputs = document.querySelectorAll<HTMLInputElement>(".modifier");
+        modifierInputs.forEach((input) => {
+            input.max = String(level + 2);
+            input.min = String(0);
+        });
+
+        const xp = document.querySelector<HTMLInputElement>("#erfahrung_xp");
+        if (xp) xp.step = "100";
+    };
+
+    // ---------- render via React + patch existing DOM containers ----------
+    useEffect(() => {
+        const charakter = data?.charakter;
+        const faehigkeiten = charakter?.fähigkeiten;
+
+        // bereits vorhandene Container im DOM (aus deinem bestehenden HTML)
+        const modifierContainer = document.getElementById("modifierContainer");
+        const sonderwerteContainer = document.getElementById("sonderwerteContainer");
+        const attributeContainer = document.getElementById("attributeContainer");
+        const magieContainer = document.getElementById("magischeElementeContainer");
+
+        fillExistingContainer(modifierContainer, faehigkeiten?.modifier, "modifier");
+        fillExistingContainer(sonderwerteContainer, faehigkeiten?.sonderwerte, "sonderwerte");
+        fillExistingContainer(attributeContainer, faehigkeiten?.attribute, "attribute");
+        fillExistingContainer(magieContainer, charakter?.Magische_Elemente, "Magische_Elemente");
+
+        // Kampf-Talente im existierenden Grid
+        const kampfTalenteGridContainer = document.getElementById("kampfTalenteGridContainer");
+        const kampfTalente = faehigkeiten?.Kampf_Talente;
+
+        if (kampfTalenteGridContainer && kampfTalente) {
+            kampfTalenteGridContainer.innerHTML = "";
+
+            for (const key in kampfTalente) {
+                const values = kampfTalente[key];
+                if (!Array.isArray(values)) continue;
+
+                const sanitizedKey = key.replace(/\s+/g, "_");
+
+                const wrapper = document.createElement("div");
+                wrapper.classList.add("BigFlexItem", "ArrayContainer");
+
+                const label = document.createElement("label");
+                label.textContent = `${key.charAt(0).toUpperCase() + key.slice(1)}:`;
+                wrapper.appendChild(label);
+
+                values.forEach((value, index) => {
+                    const input = document.createElement("input");
+                    input.className = `stg ArrAttributeInput Kampf_Talente Kampf_Talente_${index}`;
+                    input.type = "number";
+                    input.value = String(value);
+                    input.id = `Kampf_Talente_${sanitizedKey}_${index}`;
+                    wrapper.appendChild(input);
+                });
+
+                kampfTalenteGridContainer.appendChild(wrapper);
+            }
         }
-    })
-    let maxAttribute = document.querySelectorAll(".attribute")
-    maxAttribute.forEach((attribute) => {
-        attribute.max = level + 12
-        attribute.min = 7
-        if (attribute.max >= 21) {
-            attribute.max = 21
-        }
-    })
-    let maxMagic = document.querySelectorAll(".Magische_Elemente")
-    maxMagic.forEach((attribute) => {
-        attribute.max = MB / 2
-        attribute.min = 0
-        if (attribute.max >= 21) {
-            attribute.max = 21
-        }
-    })
-    let modifier = document.querySelectorAll(".modifier")
-    modifier.forEach((attribute) => {
-        attribute.max = level + 2
-        attribute.min = 0
-    })
-    let xp = document.querySelector("#erfahrung_xp")
-    xp.setAttribute('step', '100');
+
+        addInputChangeListeners?.();
+        addToolTip();
+
+        // MaxValue NICHT automatisch aufrufen, weil du level/MB woanders herziehst.
+        // MaxValue(level, MB);
+
+        // Save-Button Hook (falls du weiterhin globalen Button nutzt)
+        const saveBtn = document.getElementById("saveButton");
+        const handler = () => saveChanges?.(data);
+        if (saveBtn && saveChanges) saveBtn.addEventListener("click", handler);
+
+        return () => {
+            if (saveBtn && saveChanges) saveBtn.removeEventListener("click", handler);
+        };
+    }, [data, saveChanges, addInputChangeListeners]);
+
+    const charakter = data?.charakter;
+    const faehigkeiten = charakter?.fähigkeiten;
+
+    return (
+        <div ref={charakterContainerRef} id="charakterContainer">
+            <div className="attributeFlexContainer">
+                {createSection(
+                    "Assassinen Talente",
+                    faehigkeiten?.Assassinen_Talente,
+                    "Assassinen_Talente"
+                )}
+                {createSection("Talente 1", faehigkeiten?.Talente_1, "Talente_1")}
+                {createSection("Talente 2", faehigkeiten?.Talente_2, "Talente_2")}
+                {createSection(
+                    "Handwerkstalente",
+                    faehigkeiten?.Handwerkstalente,
+                    "Handwerkstalente"
+                )}
+            </div>
+        </div>
+    );
 }
