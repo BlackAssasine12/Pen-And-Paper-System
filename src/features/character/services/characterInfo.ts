@@ -1,7 +1,7 @@
 // characterInfo.js
 import { writeInputValue } from "./characterState";
 import { setKlassenVariable } from "./adjustments";
-import type { CharacterData, CharacterInfo } from "../types/character";
+import type { CharacterData, CharacterInfo } from "../../../types/character";
 
 const getInputElement = (id: string) => {
     const element = document.getElementById(id);

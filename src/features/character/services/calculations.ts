@@ -1,7 +1,7 @@
 // calculations.js - Angepasst für das neue Magie-System
 import { readNumericInput, writeDerivedValue, writeInputValue } from "./characterState";
-import { applyMaxValueSettings } from "./characterAttributes";
-import type { MagicAbility } from "../types/character";
+import { applyMaxValueSettings } from "../components/CharacterAttributes";
+import type { MagicAbility } from "../../../types/character";
 
 const getInputElement = (id: string) => {
   const element = document.getElementById(id);

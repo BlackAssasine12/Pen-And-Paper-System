@@ -3,8 +3,8 @@ import { readNumericInput, readTextInput } from "./characterState";
 import { genCharInfo } from "./characterInfo";
 import { bindHideButtons } from "./hideButtons";
 import { updateCharakterCalculation } from "./calculations";
-import { initializeWallet, wallet } from "./wallet";
-import { renderInventory } from "./shop";
+import { initializeWallet, wallet } from "../../shop/services/wallet";
+import { renderInventory } from "../../shop/services/shop";
 import type {
     CharacterData,
     CharacterInfo,
@@ -15,7 +15,7 @@ import type {
     SectionValues,
     SaveOverrides,
     TalentEntry,
-} from "../types/character";
+} from "../../../types/character";
 
 declare const generateCharakterAttributes: ((data: CharacterData) => void) | undefined;
 

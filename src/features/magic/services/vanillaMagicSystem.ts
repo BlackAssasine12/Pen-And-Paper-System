@@ -1,6 +1,6 @@
 // script/vanillaMagicSystem.js - Verbesserte Version mit zuverlässigem Speichern und Laden
-import { updateCharakterCalculation } from "./calculations";
-import type { MagicAbility, MagicSystemApi } from "../types/character";
+import { updateCharakterCalculation } from "../../character/services/calculations";
+import type { MagicAbility, MagicSystemApi } from "../../../types/character";
 
 type MagicElementGroup = Record<string, MagicAbility[]>;
 

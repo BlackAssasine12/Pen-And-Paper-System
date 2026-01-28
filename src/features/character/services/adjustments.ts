@@ -1,5 +1,5 @@
 // adjustments.js
-import type { AdjustmentsMap, KlassenKategorien } from "../types/character";
+import type { AdjustmentsMap, KlassenKategorien } from "../../../types/character";
 import { addInputChangeListeners } from "./inputListeners";
 
 // Objekt für Steigerungswerte
