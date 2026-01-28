@@ -1,7 +1,7 @@
-// @ts-nocheck
 // wallet.js
+import type { CharacterData, WalletState } from "../types/character";
 
-let wallet = {
+export const wallet: WalletState = {
     dukaten: 0,
     silber: 0,
     heller: 0,
@@ -9,7 +9,7 @@ let wallet = {
     wInsg: 0
 };
 
-function initializeWallet(data) {
+export function initializeWallet(data: CharacterData) {
     if (data.charakter && data.charakter.geld && data.charakter.geld) {
         const geld = data.charakter.geld;
         wallet.dukaten = geld.dukaten;
@@ -20,17 +20,28 @@ function initializeWallet(data) {
     }
 }
 
-function updateWalletDisplay() {
-    document.getElementById('showDukaten').innerText = wallet.dukaten;
-    document.getElementById('showSilber').innerText = wallet.silber;
-    document.getElementById('showHeller').innerText = wallet.heller;
-    document.getElementById('showKreuzer').innerText = wallet.kreuzer;
+export function updateWalletDisplay() {
+    const dukaten = document.getElementById('showDukaten');
+    const silber = document.getElementById('showSilber');
+    const heller = document.getElementById('showHeller');
+    const kreuzer = document.getElementById('showKreuzer');
+    if (dukaten) dukaten.innerText = String(wallet.dukaten);
+    if (silber) silber.innerText = String(wallet.silber);
+    if (heller) heller.innerText = String(wallet.heller);
+    if (kreuzer) kreuzer.innerText = String(wallet.kreuzer);
 }
 
 function TheChoosenOne() {
-    let CurrencyField = document.getElementById("CurrencyField");
-    let wCurrencyField = CurrencyField.options[CurrencyField.selectedIndex].value;
-    let wNumberInput = parseFloat(document.getElementById("NumberInput").value);
+    const CurrencyField = document.getElementById("CurrencyField");
+    if (!(CurrencyField instanceof HTMLSelectElement)) {
+        return;
+    }
+    const wCurrencyField = CurrencyField.options[CurrencyField.selectedIndex]?.value ?? "";
+    const numberInput = document.getElementById("NumberInput");
+    if (!(numberInput instanceof HTMLInputElement)) {
+        return;
+    }
+    const wNumberInput = parseFloat(numberInput.value);
 
     if (wCurrencyField === "dukaten") {
         wallet.wInsg += wNumberInput * 1000;

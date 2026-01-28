@@ -1,9 +1,18 @@
-// @ts-nocheck
 // characterInfo.js
 import { writeInputValue } from "./characterState";
+import { setKlassenVariable } from "./adjustments";
+import type { CharacterData, CharacterInfo } from "../types/character";
 
-function genCharInfo(data) {
+const getInputElement = (id: string) => {
+    const element = document.getElementById(id);
+    return element instanceof HTMLInputElement ? element : null;
+};
+
+export function genCharInfo(data: CharacterData) {
     const charakter = data.charakter.charakterInfo;
+    if (!charakter) {
+        return;
+    }
     writeInputValue('name', charakter.name);
     writeInputValue('alter', charakter.alter);
     writeInputValue('geschlecht', charakter.geschlecht);
@@ -19,16 +28,14 @@ function genCharInfo(data) {
     setKlassenVariable(charakter.klasse);
 }
 
-
-function updateCharakterInfo(charakterInfo) {
-    const getIdValue = (id) => {
-        const element = document.getElementById(id);
+export function updateCharakterInfo(charakterInfo: CharacterInfo) {
+    const getIdValue = (id: string) => {
+        const element = getInputElement(id);
         if (element) {
             return element.value;
-        } else {
-            console.error(`Element mit ID ${id} nicht gefunden.`);
-            return '';
         }
+        console.error(`Element mit ID ${id} nicht gefunden.`);
+        return '';
     };
 
     charakterInfo.name = getIdValue('name');

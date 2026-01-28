@@ -1,15 +1,21 @@
-// @ts-nocheck
 // calculations.js - Angepasst für das neue Magie-System
 import { readNumericInput, writeDerivedValue, writeInputValue } from "./characterState";
+import { applyMaxValueSettings } from "./characterAttributes";
+import type { MagicAbility } from "../types/character";
 
-function updateCharakterCalculation() {
+const getInputElement = (id: string) => {
+  const element = document.getElementById(id);
+  return element instanceof HTMLInputElement ? element : null;
+};
+
+export function updateCharakterCalculation() {
   let KO, KK, GE, KL, IN, FF, CH, GESCH, Tarnung, WIL, LP, AUSD, maxASP, MB, MR, level, xp, magicModifier, aspModifier, lpModifier, fernModifier, nahModifier, schuss, wurf, Attacke, Parade, Giftresistenz, giftModifier, Sin, Steigerungspunkte, Gesteigerte, Schnelligkeit;
 
   // Berechne die Summe der Magischen Elemente aus dem neuen System
   let totalSum = 0;
   try {
     if (window.characterMagic && Array.isArray(window.characterMagic)) {
-      window.characterMagic.forEach(magic => {
+      window.characterMagic.forEach((magic: MagicAbility) => {
         if (magic && typeof magic.level === 'number') {
           totalSum += magic.level;
         }
@@ -104,7 +110,7 @@ function updateCharakterCalculation() {
           window.advancementPoints = Steigerungspunkte;
           const advancementPointsSpan = document.getElementById('advancement-points');
           if (advancementPointsSpan) {
-            advancementPointsSpan.textContent = Steigerungspunkte;
+            advancementPointsSpan.textContent = String(Steigerungspunkte);
           }
           console.log("Steigerungspunkte synchronisiert (von calculations):", Steigerungspunkte);
         }
@@ -114,21 +120,29 @@ function updateCharakterCalculation() {
     }
 
     // Aktualisiere die MaxValue-Einstellungen
-    MaxValue(level, MB);
+    applyMaxValueSettings(level, MB);
     
     console.log("Charakterberechnung abgeschlossen");
   } catch (error) {
     console.error("Fehler bei der Charakterberechnung:", error);
   }
 }
-document.getElementById('ASkillVert').onclick = autoSkillVerteilung;
+const autoSkillButton = document.getElementById('ASkillVert');
+if (autoSkillButton) {
+  autoSkillButton.addEventListener('click', autoSkillVerteilung);
+}
 
 function autoSkillVerteilung() {
-  let KampfArr = [...kampfArr]
-  let ATBasiswert = parseInt(document.getElementById("KampfBasiswerte_Attacke_Basiswert").value, 10)
-  let PABasiswert = parseInt(document.getElementById("KampfBasiswerte_Parade_Basiswert").value, 10)
-  let WurfBasiswert = parseInt(document.getElementById("KampfBasiswerte_Wurfwaffen_Basiswert").value, 10)
-  let SchussBasiswert = parseInt(document.getElementById("KampfBasiswerte_Schusswaffen_Basiswert").value, 10)
+  const KampfArr = [...(window.kampfArr ?? [])];
+  const attackInput = getInputElement("KampfBasiswerte_Attacke_Basiswert");
+  const paradeInput = getInputElement("KampfBasiswerte_Parade_Basiswert");
+  const wurfInput = getInputElement("KampfBasiswerte_Wurfwaffen_Basiswert");
+  const schussInput = getInputElement("KampfBasiswerte_Schusswaffen_Basiswert");
+
+  const ATBasiswert = parseInt(attackInput?.value ?? "0", 10);
+  const PABasiswert = parseInt(paradeInput?.value ?? "0", 10);
+  const WurfBasiswert = parseInt(wurfInput?.value ?? "0", 10);
+  const SchussBasiswert = parseInt(schussInput?.value ?? "0", 10);
 
   const Schild = ["Kampf_Talente_Schild_0", "Kampf_Talente_Schild_1", "Kampf_Talente_Schild_2"];
   const Wurfwaffen = ["Kampf_Talente_Wurfwaffen_0", "Kampf_Talente_Wurfwaffen_1", "Kampf_Talente_Wurfwaffen_2"];
@@ -137,18 +151,18 @@ function autoSkillVerteilung() {
   while (KampfArr.length >= 3) {
     const aktuelleIds = KampfArr.slice(0, 3);
 
-    const element1 = document.getElementById(aktuelleIds[0]);
-    const element2 = document.getElementById(aktuelleIds[1]);
-    const element3 = document.getElementById(aktuelleIds[2]);
-
-    element1.value = 0;
-    element2.value = 0;
+    const element1 = getInputElement(aktuelleIds[0]);
+    const element2 = getInputElement(aktuelleIds[1]);
+    const element3 = getInputElement(aktuelleIds[2]);
 
     if (!element1 || !element2 || !element3) {
       console.error("Eines der Elemente wurde im DOM nicht gefunden:", aktuelleIds);
       KampfArr.splice(0, 3);
       continue; // Fahre mit der nächsten Gruppe fort
     }
+
+    element1.value = "0";
+    element2.value = "0";
 
     const wert3 = parseInt(element3.value, 10) || 0;
 
@@ -162,18 +176,18 @@ function autoSkillVerteilung() {
     const aktuellerWert2 = parseInt(element2.value, 10) || 0;
     switch (true) {
       case Schild.includes(element1.id):
-        element2.value = aktuellerWert1 + wert3 + PABasiswert;
+        element2.value = String(aktuellerWert1 + wert3 + PABasiswert);
         break;
       case Wurfwaffen.includes(element1.id):
-        element1.value = aktuellerWert1 + wert3 + WurfBasiswert;
+        element1.value = String(aktuellerWert1 + wert3 + WurfBasiswert);
         break;
       case Schusswaffen.includes(element1.id):
-        element1.value = aktuellerWert1 + wert3 + SchussBasiswert;
+        element1.value = String(aktuellerWert1 + wert3 + SchussBasiswert);
 
         break;
       default: //Nahkampfwaffen
-        element1.value = aktuellerWert1 + neuerWert1 + ATBasiswert;
-        element2.value = aktuellerWert2 + neuerWert2 + PABasiswert;
+        element1.value = String(aktuellerWert1 + neuerWert1 + ATBasiswert);
+        element2.value = String(aktuellerWert2 + neuerWert2 + PABasiswert);
         break;
     }
     KampfArr.splice(0, 3);

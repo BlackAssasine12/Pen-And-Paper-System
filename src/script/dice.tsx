@@ -1,9 +1,18 @@
-// @ts-nocheck
 //dice.js
 "use strict";
 
+const getInputElement = (id: string) => {
+    const element = document.getElementById(id);
+    return element instanceof HTMLInputElement ? element : null;
+};
+
+const getElement = (id: string) => document.getElementById(id);
+
 function toggleDiv() {
-    let div = document.getElementById("divDice");
+    const div = getElement("divDice");
+    if (!div) {
+        return;
+    }
     if (div.style.display === "none") {
         div.style.display = "block";
     } else {
@@ -11,10 +20,15 @@ function toggleDiv() {
     }
 }
 function Roll() {
-    let DiceCount = parseInt(document.getElementById("DiceCount").value);
-    let DiceSide = parseInt(document.getElementById("DiceSides").value);
+    const diceCountInput = getInputElement("DiceCount");
+    const diceSidesInput = getInputElement("DiceSides");
+    const showDice = getElement("showDice");
+    if (!diceCountInput || !diceSidesInput || !showDice) {
+        return;
+    }
+    const DiceCount = parseInt(diceCountInput.value, 10);
+    const DiceSide = parseInt(diceSidesInput.value, 10);
     let resultTotal = "";
-    const showDice = document.getElementById("showDice");
 
     showDice.innerHTML = "";
     for (let i = 0; i < DiceCount; i++) {
@@ -28,14 +42,19 @@ function Roll() {
 }
 
 function zuTaschenrechner() {
-    let DiceCount = parseInt(document.getElementById("DiceCount").value);
-    let DiceSide = parseInt(document.getElementById("DiceSides").value);
+    const diceCountInput = getInputElement("DiceCount");
+    const diceSidesInput = getInputElement("DiceSides");
+    if (!diceCountInput || !diceSidesInput) {
+        return;
+    }
+    const DiceCount = parseInt(diceCountInput.value, 10);
+    const DiceSide = parseInt(diceSidesInput.value, 10);
     let resultTotal = "";
 
-    const container = document.getElementById("container");
-    const showDice = document.getElementById("showDice");
+    const container = getElement("container");
+    const showDice = getElement("showDice");
 
-    if (DiceCount === 666) {
+    if (DiceCount === 666 && container) {
         if (container.style.display === "none") {
             container.style.display = "grid";
         } else {
@@ -44,6 +63,9 @@ function zuTaschenrechner() {
         return;
     }
 
+    if (!showDice) {
+        return;
+    }
     showDice.innerHTML = "";
 
     for (let i = 0; i < DiceCount; i++) {
@@ -67,12 +89,12 @@ function zuTaschenrechner() {
     }
 }
 
-function createOctagon(result, DiceSide) {
+function createOctagon(result: number, DiceSide: number) {
     const size = 40; // Size of the octagon
     const svgNS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(svgNS, "svg");
-    svg.setAttribute("width", size);
-    svg.setAttribute("height", size);
+    svg.setAttribute("width", String(size));
+    svg.setAttribute("height", String(size));
     svg.setAttribute("viewBox", `0 0 100 100`);
 
     const text = document.createElementNS(svgNS, "text");
@@ -96,17 +118,17 @@ function createOctagon(result, DiceSide) {
         case DiceSide:
             text.setAttribute("fill", "black");
             polygon.setAttribute("fill", "#ff4122");
-            text.textContent = result;
+            text.textContent = String(result);
             break;
         case 1:
             text.setAttribute("fill", "black");
             polygon.setAttribute("fill", "#1b7d4f");
-            text.textContent = result;
+            text.textContent = String(result);
             break;
         default:
             text.setAttribute("fill", "black");
             polygon.setAttribute("fill", "white");
-            text.textContent = result;
+            text.textContent = String(result);
             break;
     }
 
@@ -114,26 +136,32 @@ function createOctagon(result, DiceSide) {
 }
 
 function DiceChooser() {
-    let Dicer = document.getElementById("Dicer");
-    let cDicer = Dicer.options[Dicer.selectedIndex].value;
-    let divDS = document.getElementById("DiceSides");
-    let diceSidesInput = document.getElementById("DiceSides");
+    const Dicer = document.getElementById("Dicer");
+    if (!(Dicer instanceof HTMLSelectElement)) {
+        return;
+    }
+    const cDicer = Dicer.options[Dicer.selectedIndex]?.value ?? "";
+    const divDS = getElement("DiceSides");
+    const diceSidesInput = getInputElement("DiceSides");
+    if (!divDS || !diceSidesInput) {
+        return;
+    }
 
     switch (cDicer) {
         case "d100":
-            diceSidesInput.value = 100;
+            diceSidesInput.value = "100";
             divDS.style.display = "none";
             break;
         case "d20":
-            diceSidesInput.value = 20;
+            diceSidesInput.value = "20";
             divDS.style.display = "none";
             break;
         case "d10":
-            diceSidesInput.value = 10;
+            diceSidesInput.value = "10";
             divDS.style.display = "none";
             break;
         case "d6":
-            diceSidesInput.value = 6;
+            diceSidesInput.value = "6";
             divDS.style.display = "none";
             break;
         case "custom":
@@ -144,3 +172,5 @@ function DiceChooser() {
     }
 }
 DiceChooser()
+
+export {};

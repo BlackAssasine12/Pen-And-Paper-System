@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { ChangeEvent } from "react";
 
 type SaveControlsProps = {
   onSave: (filename: string) => void;
@@ -17,7 +18,7 @@ const SaveControls = ({ onSave, onLoadFile, onGenerateFilename, characterName }:
     }
   }, [characterName, filename, onGenerateFilename]);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setFilename(file.name);
@@ -31,7 +32,7 @@ const SaveControls = ({ onSave, onLoadFile, onGenerateFilename, characterName }:
     setFilename(nextFilename);
   };
 
-  const handleFilenameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilenameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFilename(event.target.value);
   };
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 type CharacterState = {
   inputs: Record<string, number | string>;
   derived: Record<string, number>;
@@ -14,15 +13,20 @@ const parseNumber = (value: string | undefined, fallback: number) => {
   return Number.isNaN(parsed) ? fallback : parsed;
 };
 
-export const readNumericInput = (id: string, fallback = 0) => {
+const getInputElement = (id: string) => {
   const element = document.getElementById(id);
+  return element instanceof HTMLInputElement ? element : null;
+};
+
+export const readNumericInput = (id: string, fallback = 0) => {
+  const element = getInputElement(id);
   const value = parseNumber(element?.value, fallback);
   characterState.inputs[id] = value;
   return value;
 };
 
 export const readTextInput = (id: string, fallback = "") => {
-  const element = document.getElementById(id);
+  const element = getInputElement(id);
   const value = element?.value ?? fallback;
   characterState.inputs[id] = value;
   return value;
@@ -30,7 +34,7 @@ export const readTextInput = (id: string, fallback = "") => {
 
 export const writeInputValue = (id: string, value: number | string) => {
   characterState.inputs[id] = value;
-  const element = document.getElementById(id);
+  const element = getInputElement(id);
   if (element) {
     element.value = String(value);
   }
@@ -38,7 +42,7 @@ export const writeInputValue = (id: string, value: number | string) => {
 
 export const writeDerivedValue = (id: string, value: number) => {
   characterState.derived[id] = value;
-  const element = document.getElementById(id);
+  const element = getInputElement(id);
   if (element) {
     element.value = String(value);
   }

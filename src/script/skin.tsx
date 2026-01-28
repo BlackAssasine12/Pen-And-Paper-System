@@ -1,6 +1,9 @@
-// @ts-nocheck
 function changeFont() {
-    const font = document.getElementById("fontInput").value;
+    const fontInput = document.getElementById("fontInput");
+    if (!(fontInput instanceof HTMLInputElement)) {
+        return;
+    }
+    const font = fontInput.value;
     if (font) {
         document.body.style.fontFamily = font;
     } else {
@@ -9,25 +12,29 @@ function changeFont() {
 }
 
 function changeColor() {
-    const colorInput = document.getElementById("colorInput").value;
+    const colorInputElement = document.getElementById("colorInput");
+    if (!(colorInputElement instanceof HTMLInputElement)) {
+        return;
+    }
+    const colorInput = colorInputElement.value;
 
     if (colorInput) {
         document.body.style.color = colorInput;
 
         // Labels ändern
-        const labels = document.querySelectorAll("label");
+        const labels = document.querySelectorAll<HTMLLabelElement>("label");
         labels.forEach(label => {
             label.style.color = colorInput;
         });
 
         // Select-Elemente ändern
-        const selects = document.querySelectorAll("select");
+        const selects = document.querySelectorAll<HTMLSelectElement>("select");
         selects.forEach(select => {
             select.style.color = colorInput;
         });
 
         // Input-Felder ändern
-        const inputs = document.querySelectorAll("input");
+        const inputs = document.querySelectorAll<HTMLInputElement>("input");
         inputs.forEach(input => {
             input.style.color = colorInput;
         });
@@ -36,3 +43,4 @@ function changeColor() {
     }
 }
 
+export {};

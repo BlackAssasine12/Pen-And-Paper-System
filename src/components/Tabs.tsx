@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 import { useCharacter } from "../features/character/CharacterContext";
 import CharacterNameInput from "../features/character/CharacterNameInput";
 import ExperienceSection from "../features/character/ExperienceSection";
@@ -136,7 +137,7 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
 
               <div className="WalletContainer FlexItemContainer" id="WalletContainer">
                 <h6>Geldbeutel</h6>
-                <form id="inputField" onSubmit={(event) => event.preventDefault()}>
+                <form id="inputField" onSubmit={(event: FormEvent<HTMLFormElement>) => event.preventDefault()}>
                   <input type="number" placeholder="Enter a number" id="NumberInput" defaultValue={0} />
                   <select name="Währund" id="CurrencyField">
                     <option id="dukaten" value="dukaten">

@@ -1,21 +1,30 @@
-// @ts-nocheck
 // inputListeners.js
 import { syncInputElement } from "./characterState";
+import { adjustments } from "./adjustments";
+import { updateCharakterCalculation } from "./calculations";
 
-function addInputChangeListeners() {
+const toInputElement = (target: EventTarget | null) =>
+    target instanceof HTMLInputElement ? target : null;
+
+export function addInputChangeListeners() {
     const inputElements = document.querySelectorAll('.stg');
-    inputElements.forEach(input => {
-        input.addEventListener('change', (event) => {
-            syncInputElement(event.target);
+    inputElements.forEach((input) => {
+        input.addEventListener('change', (event: Event) => {
+            const target = toInputElement(event.target);
+            if (!target) {
+                return;
+            }
+            syncInputElement(target);
             updateCharakterCalculation();
         });
     });
 
-    const mainInput = document.getElementById('erfahrung_Gesteigerte');
-
     Object.keys(adjustments).forEach(klass => {
         document.querySelectorAll(`.${klass}`).forEach(input => {
-            input.setAttribute('data-initial', parseFloat(input.value) || 0);
+            if (!(input instanceof HTMLInputElement)) {
+                return;
+            }
+            input.setAttribute('data-initial', String(parseFloat(input.value) || 0));
 
             input.addEventListener('input', handleInputChange);
         });
@@ -25,7 +34,7 @@ function addInputChangeListeners() {
 function removeInputChangeListeners() {
     const inputElements = document.querySelectorAll('.stg');
     inputElements.forEach(input => {
-        input.removeEventListener('change', updateCharakterCalculation);
+        input.removeEventListener('change', updateCharakterCalculation as EventListener);
     });
 
     Object.keys(adjustments).forEach(klass => {
@@ -35,11 +44,14 @@ function removeInputChangeListeners() {
     });
 }
 
-function handleInputChange(event) {
-    const input = event.target;
+function handleInputChange(event: Event) {
+    const input = toInputElement(event.target);
     const mainInput = document.getElementById('erfahrung_Gesteigerte');
+    if (!input || !(mainInput instanceof HTMLInputElement)) {
+        return;
+    }
 
-    const initialValue = parseFloat(input.getAttribute('data-initial')) || 0;
+    const initialValue = parseFloat(input.getAttribute('data-initial') ?? "0") || 0;
     const newValue = parseFloat(input.value) || 0;
     const diff = newValue - initialValue;
 
@@ -49,13 +61,13 @@ function handleInputChange(event) {
 
         classList.forEach(cls => {
             if (adjustments[cls] !== undefined) {
-                adjustmentValue = parseFloat(adjustments[cls]) || 1;
+                adjustmentValue = adjustments[cls] ?? 1;
             }
         });
 
         const updatedValue = parseFloat(mainInput.value) + (diff * adjustmentValue);
-        mainInput.value = updatedValue;
-        input.setAttribute('data-initial', newValue);
+        mainInput.value = String(updatedValue);
+        input.setAttribute('data-initial', String(newValue));
         syncInputElement(input);
         syncInputElement(mainInput);
     }
@@ -63,8 +75,9 @@ function handleInputChange(event) {
 
 const listenersCheckbox = document.getElementById('toggleListenersCheckbox');
 if (listenersCheckbox) {
-    listenersCheckbox.addEventListener('change', function () {
-        if (!this.checked) {
+    listenersCheckbox.addEventListener('change', function (event) {
+        const target = event.target as HTMLInputElement | null;
+        if (!target?.checked) {
             addInputChangeListeners();
         } else {
             removeInputChangeListeners();
@@ -74,12 +87,13 @@ if (listenersCheckbox) {
 
 const hiddenCheckbox = document.getElementById('toggleHiddenCheckbox');
 if (hiddenCheckbox) {
-    hiddenCheckbox.addEventListener('change', function () {
-        let hiddenContainer = document.querySelector(".hidden-items")
+    hiddenCheckbox.addEventListener('change', function (event) {
+        const target = event.target as HTMLInputElement | null;
+        let hiddenContainer = document.querySelector<HTMLElement>(".hidden-items");
         if (!hiddenContainer) {
             return;
         }
-        if (!this.checked) {
+        if (!target?.checked) {
             hiddenContainer.style.display = 'none';
         } else {
             removeInputChangeListeners();
@@ -88,20 +102,23 @@ if (hiddenCheckbox) {
     });
 }
 
-function setInputsToMinOrMax(isMin) {
+function setInputsToMinOrMax(isMin: boolean) {
     // Alle Eingabefelder mit min und max finden
     const inputs = document.querySelectorAll('input[min][max]');
     const mainInput = document.getElementById('erfahrung_Gesteigerte');
     let totalAdjustment = 0; // Variable für die Gesamtsumme der Änderungen
 
-    inputs.forEach(input => {
+    inputs.forEach((input) => {
+        if (!(input instanceof HTMLInputElement)) {
+            return;
+        }
         const min = parseFloat(input.min);
         const max = parseFloat(input.max);
         const initialValue = parseFloat(input.value) || 0;
 
         // Setze den Wert je nach Auswahl
         const newValue = isMin ? min : max;
-        input.value = newValue;
+        input.value = String(newValue);
         syncInputElement(input);
 
         const diff = newValue - initialValue; // Differenz berechnen
@@ -113,7 +130,7 @@ function setInputsToMinOrMax(isMin) {
 
             classList.forEach(cls => {
                 if (adjustments[cls] !== undefined) {
-                    adjustmentValue = parseFloat(adjustments[cls]) || 1;
+                    adjustmentValue = adjustments[cls] ?? 1;
                 }
             });
 
@@ -123,8 +140,8 @@ function setInputsToMinOrMax(isMin) {
     });
 
     // Hauptinput "erfahrung_Gesteigerte" aktualisieren
-    if (mainInput) {
-        mainInput.value = parseFloat(mainInput.value) + totalAdjustment;
+    if (mainInput instanceof HTMLInputElement) {
+        mainInput.value = String(parseFloat(mainInput.value) + totalAdjustment);
         syncInputElement(mainInput);
     }
     updateCharakterCalculation()

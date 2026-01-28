@@ -1,26 +1,44 @@
-// @ts-nocheck
-
 // saveLoader.tsx - Einheitliches Speicher- und Ladesystem
 import { readNumericInput, readTextInput } from "./characterState";
+import { genCharInfo } from "./characterInfo";
+import { bindHideButtons } from "./hideButtons";
+import { updateCharakterCalculation } from "./calculations";
+import { initializeWallet, wallet } from "./wallet";
+import { renderInventory } from "./shop";
+import type {
+    CharacterData,
+    CharacterInfo,
+    ExperienceOverride,
+    InventoryItem,
+    LoadCallbacks,
+    MagicSystemSnapshot,
+    SectionValues,
+    SaveOverrides,
+    TalentEntry,
+} from "../types/character";
+
+declare const generateCharakterAttributes: ((data: CharacterData) => void) | undefined;
 
 // Globale Variablen
-let myData = null;
-let fileName = null;
+let myData: CharacterData | null = null;
+let fileName: string | null = null;
 
 // Kleine Debug-Helper
 const SL_DEBUG = true; // bei Bedarf auf false
-const slLog = (...args) => SL_DEBUG && console.log("[SaveLoader]", ...args);
-const slWarn = (...args) => SL_DEBUG && console.warn("[SaveLoader]", ...args);
-const slErr = (...args) => SL_DEBUG && console.error("[SaveLoader]", ...args);
+const slLog = (...args: unknown[]) => SL_DEBUG && console.log("[SaveLoader]", ...args);
+const slWarn = (...args: unknown[]) => SL_DEBUG && console.warn("[SaveLoader]", ...args);
+const slErr = (...args: unknown[]) => SL_DEBUG && console.error("[SaveLoader]", ...args);
+const getErrorMessage = (error: unknown) =>
+    error instanceof Error ? error.message : String(error);
 
-export const setSaveData = (data) => {
+export const setSaveData = (data: CharacterData) => {
     myData = data;
 };
 
 export const getSaveData = () => myData;
 
 // Hauptfunktion zum Speichern der Charakterdaten
-export function saveCharacterData(data, overrides = {}) {
+export function saveCharacterData(data: CharacterData, overrides: SaveOverrides = {}) {
     try {
         slLog("saveCharacterData: start");
         const charakter = data.charakter;
@@ -79,7 +97,7 @@ export function saveCharacterData(data, overrides = {}) {
         }
 
         // 4. Geldbeutel aktualisieren
-        if (charakter.geld && typeof wallet !== 'undefined') {
+        if (charakter.geld) {
             slLog("saveCharacterData: wallet -> charakter.geld");
             charakter.geld = JSON.parse(JSON.stringify(wallet));
         } else {
@@ -124,17 +142,17 @@ export function saveCharacterData(data, overrides = {}) {
         slLog("saveCharacterData: done ->", filename);
     } catch (error) {
         slErr("saveCharacterData: error", error);
-        alert("Fehler beim Speichern: " + error.message);
+        alert("Fehler beim Speichern: " + getErrorMessage(error));
     }
 }
 
 // Hilfsfunktion: Sanitize Key (Ersetzt Leerzeichen durch Unterstriche)
-function sanitizeKey(key) {
+function sanitizeKey(key: string) {
     return key.replace(/\s+/g, '_');
 }
 
 // Hilfsfunktion: Aktualisiert Charakterinfo
-function updateCharakterInfo(charakterInfo, overrides) {
+function updateCharakterInfo(charakterInfo: CharacterInfo, overrides?: SaveOverrides) {
     if (overrides?.characterName) {
         charakterInfo.name = overrides.characterName;
     } else {
@@ -152,31 +170,40 @@ function updateCharakterInfo(charakterInfo, overrides) {
 }
 
 // Hilfsfunktion: Aktualisiert Sektionswerte
-function updateSectionValues(section, sectionId) {
+const isRecordSection = (
+    value: SectionValues | TalentEntry[] | Record<string, number[]>
+): value is SectionValues | Record<string, number[]> => !Array.isArray(value);
+
+function updateSectionValues(section: SectionValues | TalentEntry[] | Record<string, number[]>, sectionId: string) {
     slLog("updateSectionValues:", sectionId);
     const specialSections = ['Assassinen_Talente', 'Talente_1', 'Talente_2', 'Handwerkstalente'];
 
-    if (specialSections.includes(sectionId)) {
+    if (specialSections.includes(sectionId) && Array.isArray(section)) {
         updateSpecialSection(section, sectionId);
-    } else {
-        for (let key in section) {
+        return;
+    }
+
+    if (isRecordSection(section)) {
+        for (const key in section) {
             if (Array.isArray(section[key])) {
                 section[key] = [];
                 let index = 0;
-                let input;
+                let input: HTMLElement | null;
                 const sanitizedKey = sanitizeKey(key);
 
                 while ((input = document.getElementById(`${sectionId}_${sanitizedKey}_${index}`)) !== null) {
-                    section[key].push(parseFloat(input.value) || 0);
+                    if (input instanceof HTMLInputElement) {
+                        (section[key] as number[]).push(parseFloat(input.value) || 0);
+                    }
                     index++;
                 }
             } else {
                 const sanitizedKey = sanitizeKey(key);
                 const input = document.getElementById(`${sectionId}_${sanitizedKey}`);
 
-                if (input) {
+                if (input instanceof HTMLInputElement) {
                     const parsedValue = parseFloat(input.value);
-                    section[key] = isNaN(parsedValue) ? input.value : parsedValue;
+                    section[key] = Number.isNaN(parsedValue) ? input.value : parsedValue;
                 }
             }
         }
@@ -184,28 +211,31 @@ function updateSectionValues(section, sectionId) {
 }
 
 // Hilfsfunktion: Aktualisiert spezielle Sektionen (Talente)
-function updateSpecialSection(section, sectionId) {
+function updateSpecialSection(section: TalentEntry[], sectionId: string) {
     slLog("updateSpecialSection:", sectionId, "items =", Array.isArray(section) ? section.length : "n/a");
     section.forEach((item) => {
         const key = sanitizeKey(item.Name);
         const input = document.getElementById(`${sectionId}_${key}`);
 
-        if (input) {
+        if (input instanceof HTMLInputElement) {
             const parsedValue = parseFloat(input.value);
-            item.Wert = isNaN(parsedValue) ? input.value : parsedValue;
+            item.Wert = Number.isNaN(parsedValue) ? Number(input.value) || 0 : parsedValue;
         }
     });
 }
 
 // Hilfsfunktion: Speichert das Inventar
-function saveInventory() {
+function saveInventory(): InventoryItem[] {
     try {
-        const inventory = [];
-        const items = document.querySelectorAll('#inventory li');
+        const inventory: InventoryItem[] = [];
+        const items = document.querySelectorAll<HTMLLIElement>('#inventory li');
         slLog("saveInventory: DOM items =", items.length);
 
         items.forEach(item => {
             const text = item.textContent;
+            if (!text) {
+                return;
+            }
             const parts = text.split(' - ');
 
             if (parts.length >= 2) {
@@ -225,7 +255,7 @@ function saveInventory() {
 }
 
 // Hilfsfunktion: Speichert das Magiesystem
-function saveMagieSystem(data, overrideMagieSystem) {
+function saveMagieSystem(data: CharacterData, overrideMagieSystem?: MagicSystemSnapshot) {
     try {
         slLog("saveMagieSystem: start");
 
@@ -247,7 +277,7 @@ function saveMagieSystem(data, overrideMagieSystem) {
             slLog("saveMagieSystem: AP aus global =", window.advancementPoints);
         } else {
             const steigerungspunkteInput = document.getElementById("erfahrung_Steigerungspunkte");
-            if (steigerungspunkteInput) {
+            if (steigerungspunkteInput instanceof HTMLInputElement) {
                 data.magieSystem.advancementPoints = parseInt(steigerungspunkteInput.value) || 0;
                 slLog("saveMagieSystem: AP aus DOM =", data.magieSystem.advancementPoints);
             } else {
@@ -297,7 +327,7 @@ export function generateStandardFilename(characterName = "") {
 }
 
 // Hauptfunktion: Verarbeitet den Upload einer Datei
-export function loadCharacterFile(file, callbacks = {}) {
+export function loadCharacterFile(file: File | null, callbacks: LoadCallbacks = {}) {
     slLog("handleFileUpload: start, file =", file ? `${file.name} (${file.size} bytes)` : null);
 
     if (!file) {
@@ -323,10 +353,13 @@ export function loadCharacterFile(file, callbacks = {}) {
     reader.onload = function (e) {
         try {
             const raw = e?.target?.result;
-            slLog("FileReader: onload, result type =", typeof raw, "len =", raw?.length ?? "n/a");
+            slLog("FileReader: onload, result type =", typeof raw, "len =", typeof raw === "string" ? raw.length : "n/a");
 
             // JSON-Daten parsen
-            const data = JSON.parse(raw);
+            if (typeof raw !== "string") {
+                throw new Error("Unerwartetes Dateiformat");
+            }
+            const data = JSON.parse(raw) as CharacterData;
 
             // Globale Variablen setzen
             myData = data;
@@ -400,7 +433,7 @@ export function loadCharacterFile(file, callbacks = {}) {
             slLog("handleFileUpload: done");
         } catch (error) {
             slErr("handleFileUpload: error", error);
-            alert("Fehler beim Laden der Datei: " + error.message);
+            alert("Fehler beim Laden der Datei: " + getErrorMessage(error));
         }
     };
 
@@ -409,7 +442,10 @@ export function loadCharacterFile(file, callbacks = {}) {
 }
 
 // Hilfsfunktion: Lädt und befüllt explizit XP, Level, usw.
-function loadXPAndLevel(data, onExperienceLoaded) {
+function loadXPAndLevel(
+    data: CharacterData,
+    onExperienceLoaded?: (experience: Required<ExperienceOverride>) => void
+) {
     try {
         slLog("loadXPAndLevel: start");
         if (data.charakter && data.charakter.werte) {
@@ -440,7 +476,7 @@ function loadXPAndLevel(data, onExperienceLoaded) {
 }
 
 // Hilfsfunktion: Lädt das Inventar
-function loadInventory(inventory) {
+function loadInventory(inventory: InventoryItem[]) {
     try {
         slLog("loadInventory: start, items =", Array.isArray(inventory) ? inventory.length : "n/a");
         window.inventory = inventory.map(item => {
@@ -450,19 +486,15 @@ function loadInventory(inventory) {
             };
         });
 
-        if (typeof renderInventory === 'function') {
-            slLog("loadInventory: renderInventory()");
-            renderInventory();
-        } else {
-            slWarn("loadInventory: renderInventory fehlt");
-        }
+        slLog("loadInventory: renderInventory()");
+        renderInventory();
     } catch (error) {
         slErr("loadInventory: error", error);
     }
 }
 
 // Hilfsfunktion: Lädt das Magiesystem
-function loadMagieSystem(data) {
+function loadMagieSystem(data: CharacterData) {
     try {
         slLog("loadMagieSystem: start, data.magieSystem =", !!data.magieSystem);
 
@@ -501,7 +533,7 @@ function updateAdvancementPointsDisplay() {
         const advancementPointsSpan = document.getElementById('advancement-points');
         slLog("updateAdvancementPointsDisplay: span gefunden =", !!advancementPointsSpan);
         if (advancementPointsSpan) {
-            advancementPointsSpan.textContent = window.advancementPoints;
+            advancementPointsSpan.textContent = String(window.advancementPoints ?? "");
         }
     } catch (error) {
         slErr("updateAdvancementPointsDisplay: error", error);
@@ -514,8 +546,8 @@ function synchronizeToCharacterSheet() {
         const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
         slLog("synchronizeToCharacterSheet: input gefunden =", !!steigerungspunkteInput, "AP =", window.advancementPoints);
 
-        if (steigerungspunkteInput && window.advancementPoints !== undefined) {
-            steigerungspunkteInput.value = window.advancementPoints;
+        if (steigerungspunkteInput instanceof HTMLInputElement && window.advancementPoints !== undefined) {
+            steigerungspunkteInput.value = String(window.advancementPoints);
 
             if (typeof updateCharakterCalculation === 'function') {
                 updateCharakterCalculation();
@@ -527,7 +559,7 @@ function synchronizeToCharacterSheet() {
 }
 
 // Hilfsfunktion: Migriert alte Daten auf das neue Magiesystem
-function migrateToNewMagieSystem(data) {
+function migrateToNewMagieSystem(data: CharacterData) {
     try {
         slLog("migrateToNewMagieSystem: start");
 
@@ -551,9 +583,9 @@ function migrateToNewMagieSystem(data) {
                 slLog("migrateToNewMagieSystem: AP migriert =", data.magieSystem.advancementPoints);
             }
 
-            if (data.magieSystem.magicAbilities.length === 0) {
+            if (data.magieSystem.magicAbilities.length === 0 && data.charakter.Magische_Elemente) {
                 for (const [element, level] of Object.entries(data.charakter.Magische_Elemente)) {
-                    if (level > 0) {
+                    if (typeof level === "number" && level > 0) {
                         data.magieSystem.magicAbilities.push({ element, type: 'Angriff', level });
                     }
                 }
