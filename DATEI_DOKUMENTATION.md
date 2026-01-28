@@ -77,11 +77,11 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 ### Werkzeuge (Würfel & Rechner)
 
 - **src/script/dice.tsx**
-  - Würfelsystem mit Anzeige der Würfelergebnisse als SVG-Oktaeder, inklusive Sonderlogik (z. B. d20/d100 Auswahl).
+  - Würfelsystem mit Anzeige der Würfelergebnisse als SVG-Oktaeder, inklusive Sonderlogik (z. B. d20/d100 Auswahl) und typisierten DOM-Helfern.
 - **src/script/spezialDice.tsx**
   - Experimentelles Skript für „gute/schlechte“ Würfel-Logik (derzeit nur Logging).
 - **src/script/rechner.tsx**
-  - Einfacher Taschenrechner im Werkzeuge-Tab (String-Ausdruck + `eval`).
+  - Einfacher Taschenrechner im Werkzeuge-Tab (String-Ausdruck + `eval`) mit typisierten DOM-Zugriffen und Fehlerbehandlung.
 
 ### UI/UX & Komfort
 

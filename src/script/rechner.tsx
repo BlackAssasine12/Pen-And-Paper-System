@@ -1,20 +1,50 @@
-// @ts-nocheck
-"use strict";
+const getElement = <T extends HTMLElement>(id: string): T | null =>
+    document.getElementById(id) as T | null;
 
-function InToHTML(operation) {
-    document.getElementById("eqField").innerHTML += operation;
-    document.getElementById("evField").innerText = " ";
+function InToHTML(operation: string): void {
+    const eqField = getElement<HTMLDivElement>("eqField");
+    const evField = getElement<HTMLDivElement>("evField");
+
+    if (!eqField || !evField) {
+        return;
+    }
+
+    eqField.textContent = `${eqField.textContent ?? ""}${operation}`;
+    evField.textContent = " ";
 }
 
-function clearEqField() {
-    document.getElementById("eqField").innerText = " ";
-    document.getElementById("evField").innerText = " ";
+function clearEqField(): void {
+    const eqField = getElement<HTMLDivElement>("eqField");
+    const evField = getElement<HTMLDivElement>("evField");
+
+    if (!eqField || !evField) {
+        return;
+    }
+
+    eqField.textContent = " ";
+    evField.textContent = " ";
 }
 
-function calculate() {
-    let calculate = (document.getElementById("eqField").innerText);
-    let result = eval(calculate);
+function calculate(): void {
+    const eqField = getElement<HTMLDivElement>("eqField");
+    const evField = getElement<HTMLDivElement>("evField");
 
-    document.getElementById("evField").innerText = result;
-    console.log(calculate +"="+result);
+    if (!eqField || !evField) {
+        return;
+    }
+
+    const expression = eqField.textContent ?? "";
+    if (!expression.trim()) {
+        evField.textContent = " ";
+        return;
+    }
+
+    try {
+        const result = eval(expression);
+        evField.textContent = String(result);
+        console.log(`${expression}=${result}`);
+    } catch (error) {
+        console.warn("Ungültiger Ausdruck im Taschenrechner", error);
+        evField.textContent = "Fehler";
+    }
 }
