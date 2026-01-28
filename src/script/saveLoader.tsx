@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // saveLoader.tsx - Einheitliches Speicher- und Ladesystem
-import { readNumericInput, readTextInput, writeInputValue } from "./characterState";
+import { readNumericInput, readTextInput } from "./characterState";
 
 // Globale Variablen
 let myData = null;
@@ -13,124 +13,14 @@ const slLog = (...args) => SL_DEBUG && console.log("[SaveLoader]", ...args);
 const slWarn = (...args) => SL_DEBUG && console.warn("[SaveLoader]", ...args);
 const slErr = (...args) => SL_DEBUG && console.error("[SaveLoader]", ...args);
 
-const initializeSaveLoader = () => {
-    slLog("Init: Speicher- und Ladesystem startet");
-    slLog("Init: document.readyState =", document.readyState);
-
-    // Initialisiere Event-Listener
-    setupEventListeners();
+export const setSaveData = (data) => {
+    myData = data;
 };
 
-if (document.readyState === "loading") {
-    document.addEventListener('DOMContentLoaded', () => {
-        slLog("DOMContentLoaded: fired");
-        initializeSaveLoader();
-    });
-} else {
-    initializeSaveLoader();
-}
-
-// Einrichtung der Event-Listener
-function setupEventListeners() {
-    slLog("setupEventListeners: start");
-    // Entferne alle möglicherweise bestehenden Event-Listener
-    removeExistingListeners();
-
-    // Speichern-Button
-    const saveButton = document.getElementById('saveButton');
-    slLog("setupEventListeners: saveButton gefunden =", !!saveButton);
-    if (saveButton) {
-        saveButton.addEventListener('click', function (event) {
-            slLog("UI: saveButton click");
-            event.preventDefault();
-
-            if (myData) {
-                slLog("UI: saveButton -> myData vorhanden, speichere...");
-                saveCharacterData(myData);
-            } else {
-                slWarn("UI: saveButton -> myData fehlt");
-                alert("Es wurden noch keine Charakterdaten geladen!");
-            }
-        });
-    }
-
-    // Datei-Input
-    const fileInput = document.getElementById('fileInput');
-    slLog("setupEventListeners: fileInput gefunden =", !!fileInput);
-    if (fileInput) {
-        fileInput.addEventListener('change', function (event) {
-            slLog("UI: fileInput change");
-            handleFileUpload(event);
-        });
-    }
-
-    // Dateiname-Generator-Button
-    const generateFilenameButton = document.getElementById('generateFilenameButton');
-    slLog("setupEventListeners: generateFilenameButton gefunden =", !!generateFilenameButton);
-    if (generateFilenameButton) {
-        generateFilenameButton.addEventListener('click', function () {
-            slLog("UI: generateFilenameButton click");
-            const nameInput = document.getElementById('name');
-            const characterName = nameInput ? nameInput.value.trim() : '';
-            slLog("UI: generateFilenameButton -> characterName =", characterName || "(leer)");
-
-            const filenameInput = document.getElementById('filenameInput');
-            slLog("UI: generateFilenameButton -> filenameInput gefunden =", !!filenameInput);
-            if (filenameInput) {
-                filenameInput.value = generateStandardFilename(characterName);
-                slLog("UI: generateFilenameButton -> gesetzt auf", filenameInput.value);
-            }
-        });
-    }
-
-    slLog("setupEventListeners: done");
-}
-
-// Entfernt alle existierenden Event-Listener durch Klonen der Elemente
-function removeExistingListeners() {
-    slLog("removeExistingListeners: start");
-
-    // Speichern-Button
-    const saveButton = document.getElementById('saveButton');
-    if (saveButton) {
-        const newSaveButton = saveButton.cloneNode(true);
-        if (saveButton.parentNode) {
-            saveButton.parentNode.replaceChild(newSaveButton, saveButton);
-        }
-        slLog("removeExistingListeners: saveButton ersetzt");
-    } else {
-        slLog("removeExistingListeners: saveButton nicht vorhanden");
-    }
-
-    // Datei-Input
-    const fileInput = document.getElementById('fileInput');
-    if (fileInput) {
-        const newFileInput = fileInput.cloneNode(true);
-        if (fileInput.parentNode) {
-            fileInput.parentNode.replaceChild(newFileInput, fileInput);
-        }
-        slLog("removeExistingListeners: fileInput ersetzt");
-    } else {
-        slLog("removeExistingListeners: fileInput nicht vorhanden");
-    }
-
-    // Dateiname-Generator-Button
-    const generateFilenameButton = document.getElementById('generateFilenameButton');
-    if (generateFilenameButton) {
-        const newGenerateButton = generateFilenameButton.cloneNode(true);
-        if (generateFilenameButton.parentNode) {
-            generateFilenameButton.parentNode.replaceChild(newGenerateButton, generateFilenameButton);
-        }
-        slLog("removeExistingListeners: generateFilenameButton ersetzt");
-    } else {
-        slLog("removeExistingListeners: generateFilenameButton nicht vorhanden");
-    }
-
-    slLog("removeExistingListeners: done");
-}
+export const getSaveData = () => myData;
 
 // Hauptfunktion zum Speichern der Charakterdaten
-function saveCharacterData(data) {
+export function saveCharacterData(data, overrides = {}) {
     try {
         slLog("saveCharacterData: start");
         const charakter = data.charakter;
@@ -138,7 +28,7 @@ function saveCharacterData(data) {
         // 1. Charakterinfo aktualisieren
         if (charakter.charakterInfo) {
             slLog("saveCharacterData: updateCharakterInfo");
-            updateCharakterInfo(charakter.charakterInfo);
+            updateCharakterInfo(charakter.charakterInfo, overrides);
         } else {
             slWarn("saveCharacterData: charakter.charakterInfo fehlt");
         }
@@ -146,15 +36,18 @@ function saveCharacterData(data) {
         // 2. XP und Level separat aktualisieren, damit sie nicht verloren gehen
         if (charakter.werte) {
             slLog("saveCharacterData: werte vorhanden, lese XP/Level Inputs");
-            const xpInput = document.getElementById('erfahrung_xp');
-            const levelInput = document.getElementById('erfahrung_level');
-            const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
-            const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
-
-            if (xpInput) charakter.werte.xp = readNumericInput('erfahrung_xp', 0);
-            if (levelInput) charakter.werte.level = readNumericInput('erfahrung_level', 0);
-            if (steigerungspunkteInput) charakter.werte.Steigerungspunkte = readNumericInput('erfahrung_Steigerungspunkte', 0);
-            if (gesteigerteInput) charakter.werte.Gesteigerte = readNumericInput('erfahrung_Gesteigerte', 0);
+            const experience = overrides?.experience;
+            if (experience) {
+                charakter.werte.xp = experience.xp ?? charakter.werte.xp;
+                charakter.werte.level = experience.level ?? charakter.werte.level;
+                charakter.werte.Steigerungspunkte = experience.steigerungspunkte ?? charakter.werte.Steigerungspunkte;
+                charakter.werte.Gesteigerte = experience.gesteigerte ?? charakter.werte.Gesteigerte;
+            } else {
+                charakter.werte.xp = readNumericInput('erfahrung_xp', 0);
+                charakter.werte.level = readNumericInput('erfahrung_level', 0);
+                charakter.werte.Steigerungspunkte = readNumericInput('erfahrung_Steigerungspunkte', 0);
+                charakter.werte.Gesteigerte = readNumericInput('erfahrung_Gesteigerte', 0);
+            }
 
             slLog("saveCharacterData: XP/Level gespeichert", {
                 xp: charakter.werte.xp,
@@ -200,18 +93,18 @@ function saveCharacterData(data) {
 
         // 6. Magiesystem speichern
         slLog("saveCharacterData: saveMagieSystem");
-        saveMagieSystem(data);
+        saveMagieSystem(data, overrides?.magicSystem);
 
         // 7. JSON erstellen und herunterladen
         const jsonString = JSON.stringify(data, null, 2);
         const blob = new Blob([jsonString], { type: 'application/json' });
 
         // Dateinamen bestimmen
-        const filenameInput = document.getElementById('filenameInput');
-        let filename = filenameInput ? filenameInput.value.trim() : '';
+        let filename = overrides?.filename ? overrides.filename.trim() : '';
 
         if (!filename) {
-            filename = generateStandardFilename(charakter.charakterInfo ? charakter.charakterInfo.name : '');
+            const fallbackName = overrides?.characterName ?? charakter.charakterInfo?.name ?? '';
+            filename = generateStandardFilename(fallbackName);
             slLog("saveCharacterData: filename auto =", filename);
         }
 
@@ -241,8 +134,12 @@ function sanitizeKey(key) {
 }
 
 // Hilfsfunktion: Aktualisiert Charakterinfo
-function updateCharakterInfo(charakterInfo) {
-    charakterInfo.name = readTextInput('name');
+function updateCharakterInfo(charakterInfo, overrides) {
+    if (overrides?.characterName) {
+        charakterInfo.name = overrides.characterName;
+    } else {
+        charakterInfo.name = readTextInput('name');
+    }
     charakterInfo.alter = readTextInput('alter');
     charakterInfo.geschlecht = readTextInput('geschlecht');
     charakterInfo.rasse = readTextInput('rassen-select');
@@ -328,7 +225,7 @@ function saveInventory() {
 }
 
 // Hilfsfunktion: Speichert das Magiesystem
-function saveMagieSystem(data) {
+function saveMagieSystem(data, overrideMagieSystem) {
     try {
         slLog("saveMagieSystem: start");
 
@@ -340,7 +237,12 @@ function saveMagieSystem(data) {
             slLog("saveMagieSystem: magieSystem init");
         }
 
-        if (typeof window.advancementPoints === 'number') {
+        if (overrideMagieSystem) {
+            data.magieSystem.advancementPoints = overrideMagieSystem.advancementPoints ?? 0;
+            data.magieSystem.magicAbilities = Array.isArray(overrideMagieSystem.magicAbilities)
+                ? JSON.parse(JSON.stringify(overrideMagieSystem.magicAbilities))
+                : [];
+        } else if (typeof window.advancementPoints === 'number') {
             data.magieSystem.advancementPoints = window.advancementPoints;
             slLog("saveMagieSystem: AP aus global =", window.advancementPoints);
         } else {
@@ -353,19 +255,21 @@ function saveMagieSystem(data) {
             }
         }
 
-        if (typeof window.MagicSystem !== 'undefined') {
-            slLog("saveMagieSystem: MagicSystem vorhanden");
-            window.MagicSystem.init();
-            window.MagicSystem.syncToGlobals();
-            data.magieSystem.magicAbilities = window.MagicSystem.getMagicList();
-            slLog("saveMagieSystem: magicAbilities =", data.magieSystem.magicAbilities.length);
-        } else if (typeof window.characterMagic !== 'undefined' && Array.isArray(window.characterMagic)) {
-            slLog("saveMagieSystem: fallback -> characterMagic vorhanden");
-            data.magieSystem.magicAbilities = JSON.parse(JSON.stringify(window.characterMagic));
-            slLog("saveMagieSystem: magicAbilities =", data.magieSystem.magicAbilities.length);
-        } else {
-            slWarn("saveMagieSystem: keine Magie-Quelle gefunden");
-            if (!Array.isArray(data.magieSystem.magicAbilities)) data.magieSystem.magicAbilities = [];
+        if (!overrideMagieSystem) {
+            if (typeof window.MagicSystem !== 'undefined') {
+                slLog("saveMagieSystem: MagicSystem vorhanden");
+                window.MagicSystem.init();
+                window.MagicSystem.syncToGlobals();
+                data.magieSystem.magicAbilities = window.MagicSystem.getMagicList();
+                slLog("saveMagieSystem: magicAbilities =", data.magieSystem.magicAbilities.length);
+            } else if (typeof window.characterMagic !== 'undefined' && Array.isArray(window.characterMagic)) {
+                slLog("saveMagieSystem: fallback -> characterMagic vorhanden");
+                data.magieSystem.magicAbilities = JSON.parse(JSON.stringify(window.characterMagic));
+                slLog("saveMagieSystem: magicAbilities =", data.magieSystem.magicAbilities.length);
+            } else {
+                slWarn("saveMagieSystem: keine Magie-Quelle gefunden");
+                if (!Array.isArray(data.magieSystem.magicAbilities)) data.magieSystem.magicAbilities = [];
+            }
         }
 
         slLog("saveMagieSystem: done");
@@ -381,7 +285,7 @@ function saveMagieSystem(data) {
 }
 
 // Hilfsfunktion: Generiert einen Standard-Dateinamen
-function generateStandardFilename(characterName = "") {
+export function generateStandardFilename(characterName = "") {
     const now = new Date();
     const datePart = now.toLocaleDateString().replace(/\//g, '-');
     const timePart = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }).replace(':', '-');
@@ -393,8 +297,7 @@ function generateStandardFilename(characterName = "") {
 }
 
 // Hauptfunktion: Verarbeitet den Upload einer Datei
-function handleFileUpload(event) {
-    const file = event.target.files?.[0];
+export function loadCharacterFile(file, callbacks = {}) {
     slLog("handleFileUpload: start, file =", file ? `${file.name} (${file.size} bytes)` : null);
 
     if (!file) {
@@ -471,13 +374,18 @@ function handleFileUpload(event) {
                 slLog("handleFileUpload: kein inventory im JSON");
             }
 
-            // 4. Magiesystem laden
-            slLog("handleFileUpload: loadMagieSystem()");
-            loadMagieSystem(data);
-
-            // 5. Fülle XP, Level, Steigerungspunkte und Gesteigerte explizit
+            // 4. Fülle XP, Level, Steigerungspunkte und Gesteigerte explizit
             slLog("handleFileUpload: loadXPAndLevel()");
-            loadXPAndLevel(data);
+            loadXPAndLevel(data, callbacks?.onExperienceLoaded);
+
+            if (callbacks?.onMagicLoaded && data.magieSystem) {
+                callbacks.onMagicLoaded({
+                    advancementPoints: data.magieSystem.advancementPoints ?? 0,
+                    magicAbilities: Array.isArray(data.magieSystem.magicAbilities)
+                        ? JSON.parse(JSON.stringify(data.magieSystem.magicAbilities))
+                        : [],
+                });
+            }
 
             // 6. Berechnung aktualisieren
             if (typeof updateCharakterCalculation === 'function') {
@@ -485,12 +393,8 @@ function handleFileUpload(event) {
                 updateCharakterCalculation();
             } else slWarn("handleFileUpload: updateCharakterCalculation fehlt");
 
-            // 7. Dateinamen aktualisieren
-            const filenameInput = document.getElementById('filenameInput');
-            slLog("handleFileUpload: filenameInput gefunden =", !!filenameInput);
-            if (filenameInput) {
-                filenameInput.value = file.name;
-                slLog("handleFileUpload: filenameInput gesetzt =", filenameInput.value);
+            if (callbacks?.onFilenameLoaded) {
+                callbacks.onFilenameLoaded(file.name);
             }
 
             slLog("handleFileUpload: done");
@@ -505,7 +409,7 @@ function handleFileUpload(event) {
 }
 
 // Hilfsfunktion: Lädt und befüllt explizit XP, Level, usw.
-function loadXPAndLevel(data) {
+function loadXPAndLevel(data, onExperienceLoaded) {
     try {
         slLog("loadXPAndLevel: start");
         if (data.charakter && data.charakter.werte) {
@@ -517,15 +421,14 @@ function loadXPAndLevel(data) {
                 Gesteigerte: werte.Gesteigerte
             });
 
-            const xpInput = document.getElementById('erfahrung_xp');
-            const levelInput = document.getElementById('erfahrung_level');
-            const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
-            const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
-
-            if (xpInput && werte.xp !== undefined) writeInputValue('erfahrung_xp', werte.xp);
-            if (levelInput && werte.level !== undefined) writeInputValue('erfahrung_level', werte.level);
-            if (steigerungspunkteInput && werte.Steigerungspunkte !== undefined) writeInputValue('erfahrung_Steigerungspunkte', werte.Steigerungspunkte);
-            if (gesteigerteInput && werte.Gesteigerte !== undefined) writeInputValue('erfahrung_Gesteigerte', werte.Gesteigerte);
+            if (onExperienceLoaded) {
+                onExperienceLoaded({
+                    xp: werte.xp ?? 0,
+                    level: werte.level ?? 0,
+                    steigerungspunkte: werte.Steigerungspunkte ?? 0,
+                    gesteigerte: werte.Gesteigerte ?? 0,
+                });
+            }
 
             slLog("loadXPAndLevel: done");
         } else {

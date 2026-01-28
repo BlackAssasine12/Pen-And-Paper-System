@@ -15,7 +15,6 @@ const loadLegacyScripts = async () => {
     import("./script/dice.tsx"),
     import("./script/adjustments.tsx"),
     import("./script/calculations.tsx"),
-    import("./script/inputListeners.tsx"),
     import("./script/characterInfo.tsx"),
     import("./script/wallet.tsx"),
     import("./script/characterAttributes.tsx"),
@@ -25,8 +24,6 @@ const loadLegacyScripts = async () => {
     import("./script/shop.tsx"),
     import("./script/skin.tsx"),
     import("./script/tabs.tsx"),
-    import("./script/vanillaMagicSystem.tsx"),
-    import("./script/saveLoader.tsx"),
   ]);
 };
 
