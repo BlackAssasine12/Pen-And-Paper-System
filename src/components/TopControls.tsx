@@ -1,3 +1,5 @@
+import type { ChangeEvent } from "react";
+
 type TopControlsProps = {
   listenersEnabled: boolean;
   onToggleListeners: (enabled: boolean) => void;
@@ -20,7 +22,7 @@ const TopControls = ({
           type="checkbox"
           id="toggleListenersCheckbox"
           checked={!listenersEnabled}
-          onChange={(event) => onToggleListeners(!event.target.checked)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => onToggleListeners(!event.target.checked)}
         />
         Kostenloses Steigern
       </label>
@@ -29,7 +31,7 @@ const TopControls = ({
           type="checkbox"
           id="toggleHiddenCheckbox"
           checked={hiddenItemsVisible}
-          onChange={(event) => onToggleHiddenItems(event.target.checked)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => onToggleHiddenItems(event.target.checked)}
         />
         Ausgeblendeten Item Container Anzeigen
       </label>

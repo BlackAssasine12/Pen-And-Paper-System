@@ -1,50 +1,66 @@
-// @ts-nocheck
 // tabs.js
 
 const initializeTabs = () => {
     // Tab functionality
-    const tabItems = document.querySelectorAll('.tab-item');
-    const tabContents = document.querySelectorAll('.tab-content');
+    const tabItems = document.querySelectorAll<HTMLElement>('.tab-item');
+    const tabContents = document.querySelectorAll<HTMLElement>('.tab-content');
     
-    tabItems.forEach(tab => {
-        tab.addEventListener('click', function() {
+    tabItems.forEach((tab) => {
+        tab.addEventListener('click', function (event) {
+            const target = event.currentTarget;
+            if (!(target instanceof HTMLElement)) {
+                return;
+            }
             // Remove active class from all tabs
             tabItems.forEach(item => item.classList.remove('active'));
             
             // Add active class to clicked tab
-            this.classList.add('active');
+            target.classList.add('active');
             
             // Hide all tab contents
             tabContents.forEach(content => content.classList.remove('active'));
             
             // Show the corresponding tab content
-            const tabId = this.getAttribute('data-tab');
-            document.getElementById(tabId).classList.add('active');
+            const tabId = target.getAttribute('data-tab');
+            if (!tabId) {
+                return;
+            }
+            const tabContent = document.getElementById(tabId);
+            if (tabContent) {
+                tabContent.classList.add('active');
+            }
         });
     });
     
     // Ausgeblendete Items-Handling
-    document.getElementById('toggleHiddenCheckbox').addEventListener('change', function() {
-        // Die hidden-items Container Sichtbarkeit wird jetzt in hideButtons.js gehandhabt
-        const hiddenItems = document.querySelector('.hidden-items');
-        
-        if (this.checked) {
-            if (hiddenItems) {
-                hiddenItems.style.display = 'block';
+    const hiddenCheckbox = document.getElementById('toggleHiddenCheckbox');
+    if (hiddenCheckbox) {
+        hiddenCheckbox.addEventListener('change', function (event) {
+            const target = event.target as HTMLInputElement | null;
+            if (!target) {
+                return;
             }
+        // Die hidden-items Container Sichtbarkeit wird jetzt in hideButtons.js gehandhabt
+            const hiddenItems = document.querySelector<HTMLElement>('.hidden-items');
+        
+            if (target.checked) {
+                if (hiddenItems) {
+                    hiddenItems.style.display = 'block';
+                }
             
             // Wenn der Checkbox ausgewählt ist, zeige den ausgeblendete-Tab
-            tabItems.forEach(item => {
+            tabItems.forEach((item) => {
                 if(item.getAttribute('data-tab') === 'ausgeblendete-tab') {
                     item.click();
                 }
             });
-        } else {
-            if (hiddenItems) {
-                hiddenItems.style.display = 'none';
+            } else {
+                if (hiddenItems) {
+                    hiddenItems.style.display = 'none';
+                }
             }
-        }
-    });
+        });
+    }
     
     // Set a default active tab
     if (tabItems.length > 0) {
@@ -57,3 +73,5 @@ if (document.readyState === "loading") {
 } else {
     initializeTabs();
 }
+
+export {};

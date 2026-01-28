@@ -1,4 +1,5 @@
 import { createContext, useContext, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 
 type CharacterExperience = {
   level: number;
@@ -18,7 +19,7 @@ type CharacterContextValue = {
 
 const CharacterContext = createContext<CharacterContextValue | undefined>(undefined);
 
-export const CharacterProvider = ({ children }: { children: React.ReactNode }) => {
+export const CharacterProvider = ({ children }: { children: ReactNode }) => {
   const [name, setName] = useState("");
   const [level, setLevel] = useState(0);
   const [xp, setXp] = useState(0);

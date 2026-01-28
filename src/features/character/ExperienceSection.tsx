@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import type { ChangeEvent } from "react";
 import { useCharacter } from "./CharacterContext";
 
 type ExperienceSectionProps = {
@@ -24,7 +25,7 @@ const ExperienceSection = ({ onRecalculate, listenersEnabled = true }: Experienc
           className="stg attributeInput erfahrung"
           type="number"
           value={experience.level}
-          onChange={(event) => setLevel(Number.parseInt(event.target.value, 10) || 0)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => setLevel(Number.parseInt(event.target.value, 10) || 0)}
           id="erfahrung_level"
         />
         <span className="readonly-value">×</span>
@@ -35,7 +36,7 @@ const ExperienceSection = ({ onRecalculate, listenersEnabled = true }: Experienc
           className="stg attributeInput erfahrung"
           type="number"
           value={experience.xp}
-          onChange={(event) => setXp(Number.parseInt(event.target.value, 10) || 0)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => setXp(Number.parseInt(event.target.value, 10) || 0)}
           id="erfahrung_xp"
         />
         <span className="readonly-value">×</span>
@@ -46,7 +47,9 @@ const ExperienceSection = ({ onRecalculate, listenersEnabled = true }: Experienc
           className="stg attributeInput erfahrung"
           type="number"
           value={experience.steigerungspunkte}
-          onChange={(event) => setSteigerungspunkte(Number.parseInt(event.target.value, 10) || 0)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setSteigerungspunkte(Number.parseInt(event.target.value, 10) || 0)
+          }
           id="erfahrung_Steigerungspunkte"
         />
         <span className="readonly-value">×</span>

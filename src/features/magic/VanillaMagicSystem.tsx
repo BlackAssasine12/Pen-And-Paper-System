@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import type { ChangeEvent } from "react";
 import { useCharacter } from "../character/CharacterContext";
 import type { MagicAbility, MagicSystemState } from "./types";
 
@@ -96,6 +97,7 @@ const VanillaMagicSystem = ({ state, onChange }: VanillaMagicSystemProps) => {
 
   const resolvedElement = elementValue === "custom" ? customElement.trim() : elementValue;
   const canAddMagic = resolvedElement && magicTypeValue && magicLevel >= 1 && magicLevel <= 21;
+  const previewEntries: Array<[string, MagicAbility[]]> = Array.from(previewGroups.entries());
 
   const handleAddMagic = () => {
     if (!canAddMagic) {
@@ -192,7 +194,11 @@ const VanillaMagicSystem = ({ state, onChange }: VanillaMagicSystemProps) => {
 
         <div className="form-group">
           <label htmlFor="elementSelect">Magie-Element</label>
-          <select id="elementSelect" value={elementValue} onChange={(event) => setElementValue(event.target.value)}>
+          <select
+            id="elementSelect"
+            value={elementValue}
+            onChange={(event: ChangeEvent<HTMLSelectElement>) => setElementValue(event.target.value)}
+          >
             <option value="">-- Element wählen --</option>
             {magicElements.map((element) => (
               <option key={element} value={element}>
@@ -209,7 +215,7 @@ const VanillaMagicSystem = ({ state, onChange }: VanillaMagicSystemProps) => {
                 id="customElement"
                 placeholder="Eigenes Element eingeben"
                 value={customElement}
-                onChange={(event) => setCustomElement(event.target.value)}
+                onChange={(event: ChangeEvent<HTMLInputElement>) => setCustomElement(event.target.value)}
               />
             </div>
           ) : null}
@@ -220,7 +226,7 @@ const VanillaMagicSystem = ({ state, onChange }: VanillaMagicSystemProps) => {
           <select
             id="magicTypeSelect"
             value={magicTypeValue}
-            onChange={(event) => setMagicTypeValue(event.target.value)}
+            onChange={(event: ChangeEvent<HTMLSelectElement>) => setMagicTypeValue(event.target.value)}
           >
             <option value="">-- Magie-Art wählen --</option>
             {magicTypes.map((type) => (
@@ -239,7 +245,7 @@ const VanillaMagicSystem = ({ state, onChange }: VanillaMagicSystemProps) => {
             min={1}
             max={21}
             value={magicLevel}
-            onChange={(event) => setMagicLevel(Number.parseInt(event.target.value, 10) || 1)}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => setMagicLevel(Number.parseInt(event.target.value, 10) || 1)}
           />
           {levelError ? <div className="error">{levelError}</div> : null}
         </div>
@@ -317,7 +323,7 @@ const VanillaMagicSystem = ({ state, onChange }: VanillaMagicSystemProps) => {
                   <span className="stat-value">{experience.xp}</span>
                 </div>
               </div>
-              {Array.from(previewGroups.entries()).map(([element, magics]) => (
+              {previewEntries.map(([element, magics]) => (
                 <div key={element} className="element-group">
                   <h4>
                     {elementIcons[element] ?? "✨"} {element}

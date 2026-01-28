@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import { useCharacter } from "./CharacterContext";
 
 const CharacterNameInput = () => {
@@ -9,7 +10,7 @@ const CharacterNameInput = () => {
       <input
         className="eingabefeld"
         value={name}
-        onChange={(event) => setName(event.target.value)}
+        onChange={(event: ChangeEvent<HTMLInputElement>) => setName(event.target.value)}
         id="name"
         type="text"
       />

@@ -1,5 +1,22 @@
-// @ts-nocheck
 // script/vanillaMagicSystem.js - Verbesserte Version mit zuverlässigem Speichern und Laden
+import { updateCharakterCalculation } from "./calculations";
+import type { MagicAbility, MagicSystemApi } from "../types/character";
+
+type MagicElementGroup = Record<string, MagicAbility[]>;
+
+const getInputElement = (id: string) => {
+    const element = document.getElementById(id);
+    return element instanceof HTMLInputElement ? element : null;
+};
+
+const getSelectElement = (id: string) => {
+    const element = document.getElementById(id);
+    return element instanceof HTMLSelectElement ? element : null;
+};
+
+const getElement = (id: string) => document.getElementById(id);
+const getErrorMessage = (error: unknown) =>
+    error instanceof Error ? error.message : String(error);
 
 // Magiedaten
 const magicData = {
@@ -16,7 +33,7 @@ const magicData = {
 };
 
 // Element-Anforderungen
-const elementRequirements = {
+const elementRequirements: Record<string, string> = {
     "Schatten": "Benötigt: Luft Dunkle",
     "Licht": "Benötigt: Helle Feuer",
     "Holz": "Benötigt: Erde Wasser",
@@ -32,7 +49,7 @@ const elementRequirements = {
 };
 
 // Icons für Elemente und Magiearten
-const elementIcons = {
+const elementIcons: Record<string, string> = {
     "Feuer": "🔥",
     "Wasser": "💧",
     "Erde": "🌍",
@@ -55,7 +72,7 @@ const elementIcons = {
     "Raumzeit": "🌀"
 };
 
-const magicTypeIcons = {
+const magicTypeIcons: Record<string, string> = {
     "Angriff": "⚔️",
     "Verteidigung": "🛡️",
     "Unterstützung": "🔮",
@@ -69,9 +86,9 @@ const magicTypeIcons = {
 const levelUpCosts = [0, 2, 4, 6, 9, 12, 15, 18, 22, 26, 30, 34, 38, 43, 48, 53, 58, 64, 70, 76, 82];
 
 // *** VERBESSERT: Zentrales Magie-System-Modul ***
-const MagicSystem = (function() {
+const MagicSystem: MagicSystemApi = (function () {
     // Private Variablen
-    let _characterMagic = [];
+    let _characterMagic: MagicAbility[] = [];
     let _advancementPoints = 0;
     let _characterName = "";
     let _initialized = false;
@@ -115,9 +132,10 @@ const MagicSystem = (function() {
             window.advancementPoints = _advancementPoints;
             // Wir könnten auch Level/XP exportieren, aber das ist normalerweise nicht nötig,
             // da diese primär im Charakter-Tab verwaltet werden
+            const magicList = window.characterMagic ?? [];
             
             console.log("MagicSystem: Zu globalen Variablen synchronisiert", {
-                magicCount: window.characterMagic.length,
+                magicCount: magicList.length,
                 points: window.advancementPoints,
                 level: _characterLevel,
                 xp: _characterXP
@@ -135,13 +153,13 @@ const MagicSystem = (function() {
             }
             
             // Wir könnten auch Level/XP aus dem DOM laden, wenn nötig
-            const levelInput = document.getElementById('erfahrung_level');
-            const xpInput = document.getElementById('erfahrung_xp');
-            const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
+            const levelInput = getInputElement('erfahrung_level');
+            const xpInput = getInputElement('erfahrung_xp');
+            const gesteigerteInput = getInputElement('erfahrung_Gesteigerte');
             
-            if (levelInput) _characterLevel = parseInt(levelInput.value) || 0;
-            if (xpInput) _characterXP = parseInt(xpInput.value) || 0;
-            if (gesteigerteInput) _gesteigertePoints = parseInt(gesteigerteInput.value) || 0;
+            if (levelInput) _characterLevel = parseInt(levelInput.value, 10) || 0;
+            if (xpInput) _characterXP = parseInt(xpInput.value, 10) || 0;
+            if (gesteigerteInput) _gesteigertePoints = parseInt(gesteigerteInput.value, 10) || 0;
             
             console.log("MagicSystem: Von globalen Variablen synchronisiert", {
                 magicCount: _characterMagic.length,
@@ -160,19 +178,19 @@ const MagicSystem = (function() {
             return _advancementPoints;
         },
         
-        setAdvancementPoints: function(points) {
+        setAdvancementPoints: function(points: number) {
             _advancementPoints = points;
             this.syncToGlobals();
             return this;
         },
         
-        addMagic: function(magic) {
+        addMagic: function(magic: MagicAbility) {
             _characterMagic.push(magic);
             this.syncToGlobals();
             return this;
         },
         
-        removeMagic: function(index) {
+        removeMagic: function(index: number) {
             if (index >= 0 && index < _characterMagic.length) {
                 _characterMagic.splice(index, 1);
                 this.syncToGlobals();
@@ -180,7 +198,7 @@ const MagicSystem = (function() {
             return this;
         },
         
-        levelUpMagic: function(index, cost) {
+        levelUpMagic: function(index: number, cost = 0) {
             if (index >= 0 && index < _characterMagic.length) {
                 _characterMagic[index].level++;
                 _advancementPoints -= cost;
@@ -189,7 +207,7 @@ const MagicSystem = (function() {
             return this;
         },
         
-        setCharacterLevel: function(level) {
+        setCharacterLevel: function(level: number) {
             _characterLevel = level;
             return this;
         },
@@ -198,7 +216,7 @@ const MagicSystem = (function() {
             return _characterLevel;
         },
 
-        setCharacterXP: function(xp) {
+        setCharacterXP: function(xp: number) {
             _characterXP = xp;
             return this;
         },
@@ -207,7 +225,7 @@ const MagicSystem = (function() {
             return _characterXP;
         },
 
-        setGesteigertePoints: function(points) {
+        setGesteigertePoints: function(points: number) {
             _gesteigertePoints = points;
             return this;
         },
@@ -216,7 +234,7 @@ const MagicSystem = (function() {
             return _gesteigertePoints;
         },
         
-        setCharacterName: function(name) {
+        setCharacterName: function(name: string) {
             _characterName = name;
             return this;
         },
@@ -248,9 +266,9 @@ function synchronizeWithCharacterSheet() {
         MagicSystem.init();
         
         // 1. Von Charakter-Tab zum Magie-Tab (Steigerungspunkte)
-        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        const steigerungspunkteInput = getInputElement('erfahrung_Steigerungspunkte');
         if (steigerungspunkteInput) {
-            const punkteValue = parseInt(steigerungspunkteInput.value) || 0;
+            const punkteValue = parseInt(steigerungspunkteInput.value, 10) || 0;
             
             // Nur aktualisieren, wenn die Werte unterschiedlich sind
             if (MagicSystem.getAdvancementPoints() !== punkteValue) {
@@ -258,21 +276,21 @@ function synchronizeWithCharacterSheet() {
                 
                 const advancementPointsSpan = document.getElementById('advancement-points');
                 if (advancementPointsSpan) {
-                    advancementPointsSpan.textContent = MagicSystem.getAdvancementPoints();
+                    advancementPointsSpan.textContent = String(MagicSystem.getAdvancementPoints());
                 }
                 console.log("Steigerungspunkte vom Charakter-Tab übernommen:", MagicSystem.getAdvancementPoints());
             }
         }
         
         // 2. Von Charakter-Tab zum Magie-Tab (Level/XP)
-        const levelInput = document.getElementById('erfahrung_level');
-        const xpInput = document.getElementById('erfahrung_xp');
-        const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
+        const levelInput = getInputElement('erfahrung_level');
+        const xpInput = getInputElement('erfahrung_xp');
+        const gesteigerteInput = getInputElement('erfahrung_Gesteigerte');
         
         if (levelInput && xpInput && gesteigerteInput) {
-            const level = parseInt(levelInput.value) || 0;
-            const xp = parseInt(xpInput.value) || 0;
-            const gesteigerte = parseInt(gesteigerteInput.value) || 0;
+            const level = parseInt(levelInput.value, 10) || 0;
+            const xp = parseInt(xpInput.value, 10) || 0;
+            const gesteigerte = parseInt(gesteigerteInput.value, 10) || 0;
             
             // Diese Werte im MagicSystem speichern
             if (typeof MagicSystem.setCharacterLevel === 'function') {
@@ -291,12 +309,12 @@ function synchronizeWithCharacterSheet() {
         }
         
         // 3. Lade den Charakternamen, falls verfügbar
-        const nameInput = document.getElementById('name');
+        const nameInput = getInputElement('name');
         if (nameInput) {
             const characterName = nameInput.value.trim();
             MagicSystem.setCharacterName(characterName);
             
-            const characterNameInput = document.getElementById('characterName');
+            const characterNameInput = getInputElement('characterName');
             if (characterNameInput) {
                 characterNameInput.value = characterName;
             }
@@ -313,14 +331,14 @@ function syncMagieToCharacter() {
         MagicSystem.init();
         
         // 1. Von Magie-Tab zum Charakter-Tab (Steigerungspunkte)
-        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        const steigerungspunkteInput = getInputElement('erfahrung_Steigerungspunkte');
         if (steigerungspunkteInput) {
             // Aktualisiere den Wert im Charakter-Tab mit dem Wert aus dem Magie-Tab
-            const currentPoints = parseInt(steigerungspunkteInput.value) || 0;
+            const currentPoints = parseInt(steigerungspunkteInput.value, 10) || 0;
             const magicPoints = MagicSystem.getAdvancementPoints();
             
             if (currentPoints !== magicPoints) {
-                steigerungspunkteInput.value = magicPoints;
+                steigerungspunkteInput.value = String(magicPoints);
                 console.log("Steigerungspunkte an Charakter-Tab gesendet:", magicPoints);
             }
         }
@@ -350,20 +368,20 @@ function syncMagieToCharacter() {
 // Hilfsfunktion zur Aktualisierung der Gesteigerte-Punkte
 function updateGesteigertePoints() {
     try {
-        const levelInput = document.getElementById('erfahrung_level');
-        const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
-        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        const levelInput = getInputElement('erfahrung_level');
+        const gesteigerteInput = getInputElement('erfahrung_Gesteigerte');
+        const steigerungspunkteInput = getInputElement('erfahrung_Steigerungspunkte');
         
         if (levelInput && gesteigerteInput && steigerungspunkteInput) {
-            const level = parseInt(levelInput.value) || 0;
-            const steigerungspunkte = parseInt(steigerungspunkteInput.value) || 0;
+            const level = parseInt(levelInput.value, 10) || 0;
+            const steigerungspunkte = parseInt(steigerungspunkteInput.value, 10) || 0;
             
             // Formel: Gesteigerte = (level * 30 + 100) - Steigerungspunkte
             const gesteigerte = (level * 30 + 100) - steigerungspunkte;
             
             // Nur aktualisieren, wenn der Wert sich geändert hat
-            if (parseInt(gesteigerteInput.value) !== gesteigerte) {
-                gesteigerteInput.value = gesteigerte;
+            if (parseInt(gesteigerteInput.value, 10) !== gesteigerte) {
+                gesteigerteInput.value = String(gesteigerte);
                 console.log("Gesteigerte Punkte aktualisiert:", gesteigerte);
                 
                 // Da sich Gesteigerte geändert hat, löse eine Neuberechnung aus
@@ -384,21 +402,42 @@ function initVanillaMagicSystem() {
         // Lade MagicSystem, falls noch nicht initialisiert
         MagicSystem.init();
         
-        const elementSelect = document.getElementById('elementSelect');
-        const customElementContainer = document.getElementById('customElementContainer');
-        const customElementInput = document.getElementById('customElement');
-        const magicTypeSelect = document.getElementById('magicTypeSelect');
-        const magicLevelInput = document.getElementById('magicLevel');
-        const levelErrorDiv = document.getElementById('levelError');
-        const addMagicBtn = document.getElementById('addMagicBtn');
-        const magicListDiv = document.getElementById('magic-list');
-        const advancementPointsSpan = document.getElementById('advancement-points');
-        const addPointsBtn = document.getElementById('add-points-btn');
-        const characterNameInput = document.getElementById('characterName');
-        const saveButton = document.getElementById('saveButton');
-        const loadButton = document.getElementById('loadButton');
-        const fileInput = document.getElementById('fileInput');
-        const previewContent = document.getElementById('previewContent');
+        const elementSelect = getSelectElement('elementSelect');
+        const customElementContainer = getElement('customElementContainer');
+        const customElementInput = getInputElement('customElement');
+        const magicTypeSelect = getSelectElement('magicTypeSelect');
+        const magicLevelInput = getInputElement('magicLevel');
+        const levelErrorDiv = getElement('levelError');
+        const addMagicBtn = getElement('addMagicBtn');
+        const magicListDiv = getElement('magic-list');
+        const advancementPointsSpan = getElement('advancement-points');
+        const addPointsBtn = getElement('add-points-btn');
+        const characterNameInput = getInputElement('characterName');
+        const saveButton = getElement('saveButton');
+        const loadButton = getElement('loadButton');
+        const fileInput = getInputElement('fileInput');
+        const previewContent = getElement('previewContent');
+
+        if (
+            !elementSelect ||
+            !customElementContainer ||
+            !customElementInput ||
+            !magicTypeSelect ||
+            !magicLevelInput ||
+            !levelErrorDiv ||
+            !addMagicBtn ||
+            !magicListDiv ||
+            !advancementPointsSpan ||
+            !addPointsBtn ||
+            !characterNameInput ||
+            !saveButton ||
+            !loadButton ||
+            !fileInput ||
+            !previewContent
+        ) {
+            console.error("Erforderliche Elemente für das Magiesystem fehlen");
+            return;
+        }
         
         // Populiere die Select-Elemente
         populateSelectElements();
@@ -429,7 +468,11 @@ function initVanillaMagicSystem() {
         loadButton.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', handleFileUpload);
         characterNameInput.addEventListener('input', (e) => {
-            MagicSystem.setCharacterName(e.target.value);
+            const target = e.target as HTMLInputElement | null;
+            if (!target) {
+                return;
+            }
+            MagicSystem.setCharacterName(target.value);
             updatePreview();
         });
         
@@ -437,20 +480,20 @@ function initVanillaMagicSystem() {
         synchronizeWithCharacterSheet();
         
         // Event-Listener für Änderungen am Steigerungspunkte-Input im Charakter-Tab
-        const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+        const steigerungspunkteInput = getInputElement('erfahrung_Steigerungspunkte');
         if (steigerungspunkteInput) {
             steigerungspunkteInput.addEventListener('change', synchronizeWithCharacterSheet);
             steigerungspunkteInput.addEventListener('input', synchronizeWithCharacterSheet);
         }
         
         // Event-Listener für Änderungen am Level/XP-Input im Charakter-Tab
-        const levelInput = document.getElementById('erfahrung_level');
+        const levelInput = getInputElement('erfahrung_level');
         if (levelInput) {
             levelInput.addEventListener('change', synchronizeWithCharacterSheet);
             levelInput.addEventListener('input', synchronizeWithCharacterSheet);
         }
         
-        const xpInput = document.getElementById('erfahrung_xp');
+        const xpInput = getInputElement('erfahrung_xp');
         if (xpInput) {
             xpInput.addEventListener('change', synchronizeWithCharacterSheet);
             xpInput.addEventListener('input', synchronizeWithCharacterSheet);
@@ -458,7 +501,7 @@ function initVanillaMagicSystem() {
         
         // UI-Werte initialisieren
         if (advancementPointsSpan) {
-            advancementPointsSpan.textContent = MagicSystem.getAdvancementPoints();
+            advancementPointsSpan.textContent = String(MagicSystem.getAdvancementPoints());
         }
         
         if (characterNameInput) {
@@ -477,8 +520,8 @@ function initVanillaMagicSystem() {
 
 function populateSelectElements() {
     try {
-        const elementSelect = document.getElementById('elementSelect');
-        const magicTypeSelect = document.getElementById('magicTypeSelect');
+        const elementSelect = getSelectElement('elementSelect');
+        const magicTypeSelect = getSelectElement('magicTypeSelect');
         
         if (!elementSelect || !magicTypeSelect) {
             console.error("Select-Elemente nicht gefunden");
@@ -510,8 +553,8 @@ function populateSelectElements() {
 
 function toggleCustomElement() {
     try {
-        const elementSelect = document.getElementById('elementSelect');
-        const customElementContainer = document.getElementById('customElementContainer');
+        const elementSelect = getSelectElement('elementSelect');
+        const customElementContainer = getElement('customElementContainer');
         
         if (!elementSelect || !customElementContainer) {
             console.error("Elemente für Custom-Element nicht gefunden");
@@ -536,11 +579,11 @@ function addMagic() {
         // Synchronisiere erst mit dem Charakter-Tab
         synchronizeWithCharacterSheet();
         
-        const elementSelect = document.getElementById('elementSelect');
-        const customElementInput = document.getElementById('customElement');
-        const magicTypeSelect = document.getElementById('magicTypeSelect');
-        const magicLevelInput = document.getElementById('magicLevel');
-        const levelErrorDiv = document.getElementById('levelError');
+        const elementSelect = getSelectElement('elementSelect');
+        const customElementInput = getInputElement('customElement');
+        const magicTypeSelect = getSelectElement('magicTypeSelect');
+        const magicLevelInput = getInputElement('magicLevel');
+        const levelErrorDiv = getElement('levelError');
         
         if (!elementSelect || !customElementInput || !magicTypeSelect || !magicLevelInput || !levelErrorDiv) {
             console.error("Erforderliche Elemente für addMagic nicht gefunden");
@@ -549,7 +592,7 @@ function addMagic() {
         
         let elementToAdd = elementSelect.value;
         const selectedMagicType = magicTypeSelect.value;
-        const magicLevel = parseInt(magicLevelInput.value);
+        const magicLevel = parseInt(magicLevelInput.value, 10);
         
         // Validierungen
         if (elementToAdd === 'custom') {
@@ -576,7 +619,7 @@ function addMagic() {
         }
     
         // Füge neue Magie hinzu
-        const newMagic = {
+        const newMagic: MagicAbility = {
             element: elementToAdd,
             type: selectedMagicType,
             level: magicLevel
@@ -586,7 +629,7 @@ function addMagic() {
         MagicSystem.addMagic(newMagic);
         
         // Formular zurücksetzen
-        magicLevelInput.value = 1;
+        magicLevelInput.value = "1";
         
         // UI aktualisieren
         renderMagicList();
@@ -605,7 +648,7 @@ function addMagic() {
     }
 }
 
-function showError(element, message) {
+function showError(element: HTMLElement | null, message: string) {
     if (!element) {
         console.error("Fehler-Element nicht gefunden");
         alert(message);
@@ -619,7 +662,7 @@ function showError(element, message) {
     }, 3000);
 }
 
-function removeMagic(index) {
+function removeMagic(index: number) {
     try {
         // Lade MagicSystem, falls noch nicht initialisiert
         MagicSystem.init();
@@ -640,7 +683,7 @@ function removeMagic(index) {
     }
 }
 
-function levelUpMagic(index) {
+function levelUpMagic(index: number) {
     try {
         // Lade MagicSystem, falls noch nicht initialisiert
         MagicSystem.init();
@@ -673,9 +716,9 @@ function levelUpMagic(index) {
         MagicSystem.levelUpMagic(index, cost);
         
         // UI aktualisieren
-        const advancementPointsSpan = document.getElementById('advancement-points');
+        const advancementPointsSpan = getElement('advancement-points');
         if (advancementPointsSpan) {
-            advancementPointsSpan.textContent = MagicSystem.getAdvancementPoints();
+            advancementPointsSpan.textContent = String(MagicSystem.getAdvancementPoints());
         }
         
         // WICHTIG: Bidirektionale Synchronisation - zum Charakter-Tab senden
@@ -691,14 +734,14 @@ function levelUpMagic(index) {
     }
 }
 
-function getLevelUpCost(currentLevel) {
+function getLevelUpCost(currentLevel: number) {
     if (currentLevel < 1 || currentLevel >= levelUpCosts.length) {
         return Infinity;
     }
     return levelUpCosts[currentLevel];
 }
 
-function getIcon(type, key) {
+function getIcon(type: 'element' | 'magicType', key: string) {
     const iconMap = type === 'element' ? elementIcons : magicTypeIcons;
     return iconMap[key] || '✨';
 }
@@ -711,7 +754,8 @@ function addPoints() {
         // Zuerst den aktuellen Wert vom Charakter-Tab übernehmen
         synchronizeWithCharacterSheet();
         
-        const pointsToAdd = parseInt(prompt('Wie viele Steigerungspunkte möchtest du hinzufügen?', '5'));
+        const rawPoints = prompt('Wie viele Steigerungspunkte möchtest du hinzufügen?', '5');
+        const pointsToAdd = rawPoints ? parseInt(rawPoints, 10) : Number.NaN;
         
         if (!isNaN(pointsToAdd) && pointsToAdd > 0) {
             // Punkte im MagicSystem hinzufügen
@@ -719,9 +763,9 @@ function addPoints() {
             MagicSystem.setAdvancementPoints(currentPoints + pointsToAdd);
             
             // UI aktualisieren
-            const advancementPointsSpan = document.getElementById('advancement-points');
+            const advancementPointsSpan = getElement('advancement-points');
             if (advancementPointsSpan) {
-                advancementPointsSpan.textContent = MagicSystem.getAdvancementPoints();
+                advancementPointsSpan.textContent = String(MagicSystem.getAdvancementPoints());
             }
             
             // WICHTIG: Bidirektionale Synchronisation - zum Charakter-Tab senden
@@ -740,7 +784,7 @@ function renderMagicList() {
         // Lade MagicSystem, falls noch nicht initialisiert
         MagicSystem.init();
         
-        const magicListDiv = document.getElementById('magic-list');
+        const magicListDiv = getElement('magic-list');
         if (!magicListDiv) {
             console.error("magic-list Element nicht gefunden");
             return;
@@ -761,7 +805,8 @@ function renderMagicList() {
             
             // Kosten für nächstes Level berechnen
             const nextLevelCost = magic.level < 21 ? getLevelUpCost(magic.level) : null;
-            const levelUpDisabled = nextLevelCost > MagicSystem.getAdvancementPoints() || magic.level >= 21;
+            const levelUpDisabled =
+                (nextLevelCost ?? Infinity) > MagicSystem.getAdvancementPoints() || magic.level >= 21;
             
             const magicDiv = document.createElement('div');
             magicDiv.className = 'added-magic';
@@ -814,7 +859,7 @@ function updatePreview() {
         // Lade MagicSystem, falls noch nicht initialisiert
         MagicSystem.init();
         
-        const previewContent = document.getElementById('previewContent');
+        const previewContent = getElement('previewContent');
         if (!previewContent) {
             console.error("previewContent Element nicht gefunden");
             return;
@@ -828,8 +873,8 @@ function updatePreview() {
         }
         
         // Gruppiere Magie nach Element
-        const elementGroups = {};
-        characterMagic.forEach(magic => {
+        const elementGroups: MagicElementGroup = {};
+        characterMagic.forEach((magic) => {
             if (!elementGroups[magic.element]) {
                 elementGroups[magic.element] = [];
             }
@@ -866,7 +911,7 @@ function updatePreview() {
                     <div class="magic-items">
             `;
             
-            magicList.forEach(magic => {
+            magicList.forEach((magic) => {
                 const typeIcon = getIcon('magicType', magic.type);
                 
                 previewHTML += `
@@ -905,7 +950,14 @@ function saveCharacter() {
             return;
         }
         
-        const characterData = {
+        const characterData: {
+            name: string;
+            advancementPoints: number;
+            level: number;
+            xp: number;
+            gesteigerte: number;
+            magic: MagicAbility[];
+        } = {
             name: MagicSystem.getCharacterName() || 'Unbenannter Charakter',
             advancementPoints: MagicSystem.getAdvancementPoints(),
             level: MagicSystem.getCharacterLevel(),
@@ -929,19 +981,31 @@ function saveCharacter() {
         alert('Magie-Daten erfolgreich gespeichert!');
     } catch (error) {
         console.error("Fehler beim Speichern des Charakters:", error);
-        alert("Fehler beim Speichern: " + error.message);
+        alert("Fehler beim Speichern: " + getErrorMessage(error));
     }
 }
 
-function handleFileUpload(event) {
+function handleFileUpload(event: Event) {
     try {
-        const file = event.target.files[0];
+        const target = event.target as HTMLInputElement | null;
+        const file = target?.files?.[0];
         if (!file) return;
         
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             try {
-                const loadedData = JSON.parse(e.target.result);
+                const raw = e?.target?.result;
+                if (typeof raw !== "string") {
+                    throw new Error("Unerwartetes Dateiformat");
+                }
+                const loadedData = JSON.parse(raw) as {
+                    name?: string;
+                    advancementPoints?: number;
+                    level?: number;
+                    xp?: number;
+                    gesteigerte?: number;
+                    magic?: MagicAbility[];
+                };
                 
                 // Validiere geladene Daten
                 if (!loadedData.name || !Array.isArray(loadedData.magic)) {
@@ -977,14 +1041,14 @@ function handleFileUpload(event) {
                 }
                 
                 // Formular aktualisieren
-                const characterNameInput = document.getElementById('characterName');
+                const characterNameInput = getInputElement('characterName');
                 if (characterNameInput) {
                     characterNameInput.value = MagicSystem.getCharacterName();
                 }
                 
-                const advancementPointsSpan = document.getElementById('advancement-points');
+                const advancementPointsSpan = getElement('advancement-points');
                 if (advancementPointsSpan) {
-                    advancementPointsSpan.textContent = MagicSystem.getAdvancementPoints();
+                    advancementPointsSpan.textContent = String(MagicSystem.getAdvancementPoints());
                 }
                 
                 // UI aktualisieren
@@ -996,14 +1060,14 @@ function handleFileUpload(event) {
                 
                 alert('Magie-Daten erfolgreich geladen!');
             } catch (error) {
-                alert('Fehler beim Laden der Datei: ' + error.message);
+                alert('Fehler beim Laden der Datei: ' + getErrorMessage(error));
             }
         };
         
         reader.readAsText(file);
     } catch (error) {
         console.error("Fehler beim Datei-Upload:", error);
-        alert("Fehler beim Laden der Datei: " + error.message);
+        alert("Fehler beim Laden der Datei: " + getErrorMessage(error));
     }
 }
 
@@ -1033,16 +1097,16 @@ function debugMagicSystem() {
         console.log("Magie-Tab Inhalt:", magieTab.innerHTML.substring(0, 100) + "...");
     }
     
-    const steigerungspunkteInput = document.getElementById('erfahrung_Steigerungspunkte');
+    const steigerungspunkteInput = getInputElement('erfahrung_Steigerungspunkte');
     console.log("Steigerungspunkte-Input gefunden:", !!steigerungspunkteInput);
     
     if (steigerungspunkteInput) {
         console.log("Steigerungspunkte-Wert:", steigerungspunkteInput.value);
     }
     
-    const levelInput = document.getElementById('erfahrung_level');
-    const xpInput = document.getElementById('erfahrung_xp');
-    const gesteigerteInput = document.getElementById('erfahrung_Gesteigerte');
+    const levelInput = getInputElement('erfahrung_level');
+    const xpInput = getInputElement('erfahrung_xp');
+    const gesteigerteInput = getInputElement('erfahrung_Gesteigerte');
     
     if (levelInput && xpInput && gesteigerteInput) {
         console.log("Level/XP/Gesteigerte im DOM:", {
@@ -1067,16 +1131,18 @@ const initializeMagicSystemTab = () => {
     // Tab-Wechsel erkennen und Synchronisation auslösen
     const tabItems = document.querySelectorAll('.tab-item');
     
-    tabItems.forEach(tab => {
-        tab.addEventListener('click', function() {
-            if (this.getAttribute('data-tab') === 'magie-tab') {
+    tabItems.forEach((tab) => {
+        tab.addEventListener('click', (event) => {
+            const target = event.currentTarget as HTMLElement | null;
+            if (target?.getAttribute('data-tab') === 'magie-tab') {
                 // Wenn der Magie-Tab aktiviert wird, Magie-System initialisieren
                 console.log("Magie-Tab aktiviert, initialisiere System");
                 
                 // Sicherstellen, dass das Magiesystem initialisiert ist
                 setTimeout(() => {
-                    if (document.getElementById('magie-tab') && 
-                        !document.getElementById('magie-tab').querySelector('.vanilla-magic-system')) {
+                    const magieTabElement = document.getElementById('magie-tab');
+                    if (magieTabElement &&
+                        !magieTabElement.querySelector('.vanilla-magic-system')) {
                         console.log("Initialisiere Magie-System");
                         initializeVanillaMagicSystem();
                     }
@@ -1097,7 +1163,7 @@ const initializeMagicSystemTab = () => {
         const originalClick = saveButton.onclick;
         
         // Neue Funktion, die vorher die Magie synchronisiert
-        saveButton.onclick = function(event) {
+        saveButton.addEventListener('click', (event) => {
             // Stelle sicher, dass das MagicSystem initialisiert ist
             MagicSystem.init();
             
@@ -1108,13 +1174,14 @@ const initializeMagicSystemTab = () => {
             
             // Falls es eine originale Click-Funktion gibt, führe sie aus
             if (typeof originalClick === 'function') {
-                originalClick.call(this, event);
+                originalClick.call(saveButton, event);
             }
-        };
+        });
     }
     
     // Initialisiere das VanillaMagicSystem, wenn die Seite geladen ist
-    if (document.getElementById('magie-tab')) {
+    const magieTab = document.getElementById('magie-tab');
+    if (magieTab) {
         console.log("Magie-Tab gefunden, initialisiere System");
         setTimeout(() => {
             initializeVanillaMagicSystem();
@@ -1141,32 +1208,32 @@ function initializeVanillaMagicSystem() {
         return;
     }
     
-   // Prüfen, ob das System bereits initialisiert wurde
-   if (magieTab.querySelector('.vanilla-magic-system')) {
-    console.log("Magie-System bereits initialisiert");
-    return;
-}
+    // Prüfen, ob das System bereits initialisiert wurde
+    if (magieTab.querySelector('.vanilla-magic-system')) {
+        console.log("Magie-System bereits initialisiert");
+        return;
+    }
 
-console.log("Erstelle Magie-System HTML");
+    console.log("Erstelle Magie-System HTML");
 
-// HTML für das Vanilla Magic System einfügen
-const vanillaMagicHTML = createVanillaMagicHTML();
-magieTab.innerHTML = ''; // *** VERBESSERT: Vorherigen Inhalt löschen ***
-magieTab.appendChild(vanillaMagicHTML);
+    // HTML für das Vanilla Magic System einfügen
+    const vanillaMagicHTML = createVanillaMagicHTML();
+    magieTab.innerHTML = ''; // *** VERBESSERT: Vorherigen Inhalt löschen ***
+    magieTab.appendChild(vanillaMagicHTML);
 
-// System initialisieren
-console.log("Initialisiere Magie-System");
-initVanillaMagicSystem();
+    // System initialisieren
+    console.log("Initialisiere Magie-System");
+    initVanillaMagicSystem();
 
-// Nach der Initialisierung einmal die Steigerungspunkte synchronisieren
-console.log("Synchronisiere mit dem Charakterbogen nach Initialisierung");
-setTimeout(synchronizeWithCharacterSheet, 100);
+    // Nach der Initialisierung einmal die Steigerungspunkte synchronisieren
+    console.log("Synchronisiere mit dem Charakterbogen nach Initialisierung");
+    setTimeout(synchronizeWithCharacterSheet, 100);
 }
 
 // Erstellt das HTML für das Vanilla Magic System
-function createVanillaMagicHTML() {
-const container = document.createElement('div');
-container.className = 'vanilla-magic-system';
+function createVanillaMagicHTML(): HTMLDivElement {
+    const container = document.createElement('div');
+    container.className = 'vanilla-magic-system';
 
 container.innerHTML = `
     <div class="card">
@@ -1253,5 +1320,5 @@ container.innerHTML = `
     </div>
 `;
 
-return container;
+    return container;
 }

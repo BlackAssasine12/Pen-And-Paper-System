@@ -1,15 +1,20 @@
-// @ts-nocheck
 // hideButtons.js
 
-function bindHideButtons() {
+export function bindHideButtons() {
     const hideButtons = document.querySelectorAll('.hidebutton');
     const hiddenItemsContainer = document.getElementById('hiddenItemsContainer');
+    if (!hiddenItemsContainer) {
+        return;
+    }
 
-    hideButtons.forEach(button => {
+    hideButtons.forEach((button) => {
+        if (!(button instanceof HTMLElement)) {
+            return;
+        }
         button.addEventListener('click', function () {
             const flexItem = button.closest('.FlexItem, .BigFlexItem');
-            if (flexItem) {
-                const inputs = flexItem.querySelectorAll('input');
+            if (flexItem instanceof HTMLElement) {
+                const inputs = flexItem.querySelectorAll<HTMLInputElement>('input');
                 const inputValues = Array.from(inputs).map(input => input.value);
 
                 flexItem.style.display = 'none';
@@ -18,7 +23,7 @@ function bindHideButtons() {
                 hiddenItem.classList.add('hidden-item');
                 hiddenItem.classList.add(flexItem.classList.contains('BigFlexItem') ? 'BigFlexItem' : 'FlexItem');
 
-                const flexItemContent = flexItem.cloneNode(true);
+                const flexItemContent = flexItem.cloneNode(true) as HTMLElement;
                 const xButton = flexItemContent.querySelector('.hidebutton');
                 if (xButton) {
                     xButton.remove();
@@ -26,9 +31,9 @@ function bindHideButtons() {
 
                 hiddenItem.innerHTML = flexItemContent.innerHTML;
 
-                const hiddenInputs = hiddenItem.querySelectorAll('input');
+                const hiddenInputs = hiddenItem.querySelectorAll<HTMLInputElement>('input');
                 hiddenInputs.forEach((input, index) => {
-                    input.value = inputValues[index];
+                    input.value = inputValues[index] ?? "";
                 });
 
                 const restoreButton = document.createElement('button');
@@ -36,9 +41,12 @@ function bindHideButtons() {
                 restoreButton.textContent = '<';
 
                 restoreButton.addEventListener('click', function () {
-                    const originalInputs = flexItem.querySelectorAll('input');
+                    const originalInputs = flexItem.querySelectorAll<HTMLInputElement>('input');
                     hiddenInputs.forEach((input, index) => {
-                        originalInputs[index].value = input.value;
+                        const originalInput = originalInputs[index];
+                        if (originalInput) {
+                            originalInput.value = input.value;
+                        }
                     });
 
                     flexItem.style.display = 'flex';

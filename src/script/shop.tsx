@@ -1,7 +1,13 @@
-// @ts-nocheck
 // Komplette shop.js Datei
-let inventory = [];
-let shopData = {};
+import { updateWalletDisplay, wallet } from "./wallet";
+import type { InventoryItem, ShopData } from "../types/character";
+
+let inventory: InventoryItem[] = [];
+let shopData: ShopData = {};
+
+const syncInventoryToWindow = () => {
+    window.inventory = inventory;
+};
 
 // Funktion, um Shop-Daten zu laden
 async function loadShopData() {
@@ -21,6 +27,9 @@ async function loadShopData() {
 // Shop anzeigen
 function renderShop() {
     const shopDiv = document.getElementById("shop");
+    if (!shopDiv) {
+        return;
+    }
     shopDiv.innerHTML = "";
 
     for (const category in shopData) {
@@ -38,14 +47,15 @@ function renderShop() {
     }
 }
 
-function removeFromInventory(itemName, count = 1) {
+function removeFromInventory(itemName: string, count = 1) {
     const existingItem = inventory.find(entry => entry.name === itemName);
     if (existingItem) {
-        if (existingItem.quantity > count) {
-            existingItem.quantity -= count;
+        if ((existingItem.quantity ?? 0) > count) {
+            existingItem.quantity = (existingItem.quantity ?? 0) - count;
         } else {
             inventory = inventory.filter(entry => entry.name !== itemName);
         }
+        syncInventoryToWindow();
         renderInventory();
     } else {
         alert("Artikel nicht im Inventar gefunden.");
@@ -54,7 +64,11 @@ function removeFromInventory(itemName, count = 1) {
 
 // Funktionen für Benutzeraktionen im HTML
 function addToInventoryFromInput() {
-    const itemName = document.getElementById("itemNameInput").value.trim();
+    const itemInput = document.getElementById("itemNameInput");
+    if (!(itemInput instanceof HTMLInputElement)) {
+        return;
+    }
+    const itemName = itemInput.value.trim();
     if (itemName) {
         addToInventory(itemName, 0, ""); // Preis und Währung hier nicht relevant
     } else {
@@ -63,7 +77,11 @@ function addToInventoryFromInput() {
 }
 
 function removeFromInventoryFromInput() {
-    const itemName = document.getElementById("itemNameInput").value.trim();
+    const itemInput = document.getElementById("itemNameInput");
+    if (!(itemInput instanceof HTMLInputElement)) {
+        return;
+    }
+    const itemName = itemInput.value.trim();
     if (itemName) {
         removeFromInventory(itemName);
     } else {
@@ -72,7 +90,7 @@ function removeFromInventoryFromInput() {
 }
 
 // Währungswerte in Kreuzer
-const currencyValues = {
+const currencyValues: Record<string, number> = {
     "Dukaten": 1000,
     "Silber": 100,
     "Heller": 10,
@@ -80,11 +98,12 @@ const currencyValues = {
 };
 
 // Neue Funktion für den Kauf mit automatischer Umrechnung
-function addToInventory(itemName, itemPreis, itemWährung) {
+function addToInventory(itemName: string, itemPreis: number | string, itemWährung: string) {
     // Preis in Kreuzer umrechnen (kleinste Einheit)
     let preisInKreuzer = 0;
     if (itemWährung && itemPreis) {
-        preisInKreuzer = Math.round(itemPreis * currencyValues[itemWährung]);
+        const parsedPreis = typeof itemPreis === "string" ? parseFloat(itemPreis) : itemPreis;
+        preisInKreuzer = Math.round(parsedPreis * currencyValues[itemWährung]);
     }
     
     // Gesamtes Geld im Wallet in Kreuzer berechnen
@@ -121,14 +140,21 @@ function addToInventory(itemName, itemPreis, itemWährung) {
     } else {
         inventory.push({ name: itemName, quantity: 1 });
     }
-    
+
+    syncInventoryToWindow();
     renderInventory();
     // alert(`${itemName} wurde gekauft!`);
 }
 
 // Funktion zum Anzeigen des Inventars
-function renderInventory() {
+export function renderInventory() {
+    if (window.inventory) {
+        inventory = window.inventory;
+    }
     const inventoryList = document.getElementById("inventory");
+    if (!inventoryList) {
+        return;
+    }
     inventoryList.innerHTML = "";
     inventory.forEach(entry => {
         const quantity = entry.quantity || entry.count || 0;
@@ -141,10 +167,12 @@ function renderInventory() {
 
 loadShopData();
 
-let shopButton = document.getElementById("ShopButton")
-let shopContainer = document.getElementById("shop")
+const shopButton = document.getElementById("ShopButton");
+const shopContainer = document.getElementById("shop");
 
-shopButton.addEventListener('click', () => {
-    shopContainer.classList.toggle("disNone");
-    shopButton.textContent = shopButton.innerHTML === '-' ? '+' : '-';
-});
+if (shopButton && shopContainer) {
+    shopButton.addEventListener('click', () => {
+        shopContainer.classList.toggle("disNone");
+        shopButton.textContent = shopButton.innerHTML === '-' ? '+' : '-';
+    });
+}
