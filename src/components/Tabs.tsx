@@ -1,4 +1,11 @@
 import { useState } from "react";
+import { useCharacter } from "../features/character/CharacterContext";
+import CharacterNameInput from "../features/character/CharacterNameInput";
+import ExperienceSection from "../features/character/ExperienceSection";
+import SaveControls from "../features/character/SaveControls";
+import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
+import type { MagicSystemState } from "../features/magic/types";
+import { generateStandardFilename, getSaveData, loadCharacterFile, saveCharacterData } from "../script/saveLoader";
 
 type TabKey = "charakter" | "magie" | "ausgeblendete" | "inventar" | "werkzeuge" | "einstellungen";
 
@@ -24,9 +31,16 @@ const invokeLegacy = (name: string, ...args: unknown[]) => {
   }
 };
 
-const Tabs = () => {
+type TabsProps = {
+  listenersEnabled: boolean;
+  hiddenItemsVisible: boolean;
+  magicState: MagicSystemState;
+  onMagicChange: (state: MagicSystemState) => void;
+};
+
+const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange }: TabsProps) => {
   const [activeTab, setActiveTab] = useState<TabKey>("charakter");
-  const baseUrl = import.meta.env.BASE_URL ?? "/";
+  const { name, experience, setLevel, setXp, setSteigerungspunkte } = useCharacter();
 
   return (
     <div className="tabs-container">
@@ -46,30 +60,43 @@ const Tabs = () => {
 
       <div className="content">
         <div className={`tab-content${activeTab === "charakter" ? " active" : ""}`} id="charakter-tab">
-          <div id="FileReaderInOutput">
-            <div className="file-upload-container">
-              <input type="file" id="fileInput" />
-              <button type="button" id="saveButton">
-                Speichern
-              </button>
-              <a href={`${baseUrl}charbogen/charakter.json`} download="charakter.json">
-                Neue JSON-Datei herunterladen
-              </a>
-              <label htmlFor="filenameInput">Dateiname:</label>
-              <input type="text" id="filenameInput" placeholder="Dateiname (automatisch mit Datum)" />
-              <button type="button" id="generateFilenameButton">
-                Standard-Name
-              </button>
-            </div>
-          </div>
+          <SaveControls
+            characterName={name}
+            onGenerateFilename={generateStandardFilename}
+            onLoadFile={(file) =>
+              loadCharacterFile(file, {
+                onMagicLoaded: onMagicChange,
+                onExperienceLoaded: (loadedExperience) => {
+                  setLevel(loadedExperience.level ?? 0);
+                  setXp(loadedExperience.xp ?? 0);
+                  setSteigerungspunkte(loadedExperience.steigerungspunkte ?? 0);
+                },
+              })
+            }
+            onSave={(filename) => {
+              const data = getSaveData();
+              if (!data) {
+                alert("Es wurden noch keine Charakterdaten geladen!");
+                return;
+              }
+
+              saveCharacterData(data, {
+                filename,
+                characterName: name,
+                experience,
+                magicSystem: {
+                  ...magicState,
+                  advancementPoints: experience.steigerungspunkte,
+                },
+              });
+            }}
+          />
 
           <div className="main-character-content">
             <div className="three-column-container">
               <div className="infoFlexContainer">
                 <h6>Charakterinformation</h6>
-                <div className="mediumFlexItem">
-                  Name: <input className="eingabefeld" defaultValue=" " id="name" type="text" />
-                </div>
+                <CharacterNameInput />
                 <div className="mediumFlexItem">
                   Geschlecht: <input className="eingabefeld" defaultValue=" " id="geschlecht" type="text" />
                 </div>
@@ -152,39 +179,10 @@ const Tabs = () => {
                 </form>
               </div>
 
-              <div className="FlexItemContainer" id="erfahrungContainer">
-                <h6>Erfahrung</h6>
-                <div className="FlexItem">
-                  <label>Level:</label>
-                  <input className="stg attributeInput erfahrung" type="number" defaultValue={0} id="erfahrung_level" />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>XP:</label>
-                  <input className="stg attributeInput erfahrung" type="number" defaultValue={0} id="erfahrung_xp" />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Steigerungspunkte:</label>
-                  <input
-                    className="stg attributeInput erfahrung"
-                    type="number"
-                    defaultValue={0}
-                    id="erfahrung_Steigerungspunkte"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Gesteigerte:</label>
-                  <input
-                    className="stg attributeInput erfahrung"
-                    type="number"
-                    defaultValue={0}
-                    id="erfahrung_Gesteigerte"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-              </div>
+              <ExperienceSection
+                onRecalculate={() => invokeLegacy("updateCharakterCalculation")}
+                listenersEnabled={listenersEnabled}
+              />
             </div>
 
             <div className="three-column-container">
@@ -464,10 +462,16 @@ const Tabs = () => {
           </div>
         </div>
 
-        <div className={`tab-content${activeTab === "magie" ? " active" : ""}`} id="magie-tab"></div>
+        <div className={`tab-content${activeTab === "magie" ? " active" : ""}`} id="magie-tab">
+          <VanillaMagicSystem state={magicState} onChange={onMagicChange} />
+        </div>
 
         <div className={`tab-content${activeTab === "ausgeblendete" ? " active" : ""}`} id="ausgeblendete-tab">
-          <div id="hiddenItemsContainer" className="hidden-items"></div>
+          <div
+            id="hiddenItemsContainer"
+            className="hidden-items"
+            style={{ display: hiddenItemsVisible ? "flex" : "none" }}
+          ></div>
         </div>
 
         <div className={`tab-content${activeTab === "inventar" ? " active" : ""}`} id="inventar-tab">
