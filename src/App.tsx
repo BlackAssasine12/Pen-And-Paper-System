@@ -1,7 +1,7 @@
 import { useState } from "react";
 import TopControls from "./components/TopControls";
 import Tabs from "./components/Tabs";
-import { CharacterProvider } from "./features/character/CharacterContext";
+import { CharacterProvider } from "./features/character";
 import type { MagicSystemState } from "./features/magic/types";
 
 const App = () => {

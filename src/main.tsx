@@ -11,19 +11,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
 const loadLegacyScripts = async () => {
   await Promise.all([
-    import("./script/rechner.tsx"),
-    import("./script/dice.tsx"),
-    import("./script/adjustments.tsx"),
-    import("./script/calculations.tsx"),
-    import("./script/characterInfo.tsx"),
-    import("./script/wallet.tsx"),
-    import("./script/characterAttributes.tsx"),
-    import("./script/hideButtons.tsx"),
-    import("./script/liste.tsx"),
-    import("./script/spezialDice.tsx"),
-    import("./script/shop.tsx"),
-    import("./script/skin.tsx"),
-    import("./script/tabs.tsx"),
+    import("./features/character/legacy"),
+    import("./features/shop/legacy"),
+    import("./features/dice/legacy"),
   ]);
 };
 

@@ -1,5 +1,5 @@
 import { setKlassenVariable } from "./adjustments";
-import type { KlassenKategorien } from "../types/character";
+import type { KlassenKategorien } from "../../../types/character";
 
 type InfoListeData = {
     Klassen: KlassenKategorien;

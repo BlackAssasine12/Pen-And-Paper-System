@@ -1,12 +1,17 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { useCharacter } from "../features/character/CharacterContext";
-import CharacterNameInput from "../features/character/CharacterNameInput";
-import ExperienceSection from "../features/character/ExperienceSection";
-import SaveControls from "../features/character/SaveControls";
+import {
+  CharacterNameInput,
+  ExperienceSection,
+  SaveControls,
+  generateStandardFilename,
+  getSaveData,
+  loadCharacterFile,
+  saveCharacterData,
+  useCharacter,
+} from "../features/character";
 import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
 import type { MagicSystemState } from "../features/magic/types";
-import { generateStandardFilename, getSaveData, loadCharacterFile, saveCharacterData } from "../script/saveLoader";
 
 type TabKey = "charakter" | "magie" | "ausgeblendete" | "inventar" | "werkzeuge" | "einstellungen";
 

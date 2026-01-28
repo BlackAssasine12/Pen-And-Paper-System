@@ -1,6 +1,6 @@
 // Komplette shop.js Datei
 import { updateWalletDisplay, wallet } from "./wallet";
-import type { InventoryItem, ShopData } from "../types/character";
+import type { InventoryItem, ShopData } from "../../../types/character";
 
 let inventory: InventoryItem[] = [];
 let shopData: ShopData = {};

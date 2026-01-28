@@ -1,5 +1,5 @@
 // wallet.js
-import type { CharacterData, WalletState } from "../types/character";
+import type { CharacterData, WalletState } from "../../../types/character";
 
 export const wallet: WalletState = {
     dukaten: 0,
