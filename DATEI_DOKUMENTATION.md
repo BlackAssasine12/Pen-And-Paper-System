@@ -198,3 +198,47 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 ### Hinweis zum aktuellen Stand
 
 Da `src/main.tsx` weiterhin die Legacy-Skripte lädt und die Tabs `window`-Funktionen aufrufen, funktioniert die App nur, wenn die DOM-Struktur exakt der bisherigen Struktur entspricht. Die Migration muss daher die DOM-Abhängigkeiten schrittweise entfernen und die Logik in React-State + Komponenten überführen.
+
+## Codex-Aufgabenplan (Schritt-für-Schritt)
+
+> **Wichtig:** Nach jeder erledigten Aufgabe muss die Sektion **„Migrationsstand & offene Punkte“** aktualisiert werden (erledigte Punkte markieren, offene Punkte präzisieren, neue Hinweise ergänzen).
+
+1) **Codex-Aufgabe: Legacy-Abhängigkeiten inventarisieren**
+   - Sammle in `src/features/*/legacy.ts` und `src/main.tsx` alle `window`-Funktionen, DOM-IDs und direkte DOM-Manipulationen.
+   - Liefere eine Feature-Liste (Character/Magic/Shop/Dice) der Abhängigkeiten als Basis für die Migration.
+
+2) **Codex-Aufgabe: Charakterberechnungen nach React-State migrieren**
+   - Überführe die Kernberechnungen aus `src/features/character/services/` (z. B. `calculations.ts`, `inputListeners.ts`, `characterState.ts`) in State-basierte Logik/Hooks.
+   - Starte mit Attribut- und Talentberechnungen, da sie viele weitere Komponenten beeinflussen.
+
+3) **Codex-Aufgabe: Legacy-UI-IDs durch React-Komponenten ersetzen**
+   - Migriere UI-Abschnitte mit Legacy-IDs (z. B. Attribute, Talente, Shop, Inventar) in eigenständige React-Komponenten.
+   - Entferne direkte `document.getElementById`/`querySelector`-Abhängigkeiten in diesen Bereichen.
+
+4) **Codex-Aufgabe: Listener/Hide-Buttons in React-Logik überführen**
+   - Ersetze `hideButtons.ts`, `inputListeners.ts` und `maxValueSettings.ts` durch React-State + Effekte.
+   - Stelle sicher, dass das Verhalten im „Ausgeblendete“-Tab erhalten bleibt.
+
+5) **Codex-Aufgabe: Tabs-Logik ohne globale `window`-Funktionen**
+   - Baue die `window`-Funktionsaufrufe in `src/components/Tabs.tsx` auf lokale Handler/Hooks um.
+   - Definiere klar, welche Funktionen/Services von Tabs benötigt werden.
+
+6) **Codex-Aufgabe: Shop & Wallet vollständig entkoppeln**
+   - Migriere die DOM-gebundene Shop-/Wallet-Logik (`src/features/shop/services/*`) in React-State.
+   - Baue das Shop-/Inventar-UI als komponentenbasierte Ansicht mit sauberem Datenfluss.
+
+7) **Codex-Aufgabe: Würfel & Rechner als React-Komponenten**
+   - Überführe `src/features/dice/services/*` in Komponenten mit lokalem State.
+   - Entferne `legacy.ts`-Abhängigkeiten und ersetze direkte DOM-Updates.
+
+8) **Codex-Aufgabe: Save/Load UI sauber modularisieren**
+   - Nutze `SaveControls` und trenne Save/Load-UI von großen Tab-Markups.
+   - Binde die Komponenten in die Tabs ein und entferne Rest-Abhängigkeiten von Legacy-HTML.
+
+9) **Codex-Aufgabe: Legacy-Bootstrap entfernen**
+   - Entferne das Laden der Legacy-Skripte aus `src/main.tsx`.
+   - Stelle sicher, dass alle Funktionen durch React-Logik abgedeckt sind.
+
+10) **Codex-Aufgabe: Aufräumen & Stabilisierung**
+   - Lösche obsolet gewordene Dateien in `legacy/` und nicht mehr benötigte Services.
+   - Konsolidiere die Dokumentation, damit Onboarding schneller und klarer wird.
