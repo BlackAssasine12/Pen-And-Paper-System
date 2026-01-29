@@ -1,135 +1,200 @@
 # Dateiübersicht und Zweck der Bestandteile
 
-Dieses Projekt ist ein Digitaler Charakterbogen für ein selbst erfundenes pen and paper system basierend auf DSA
-Das Projektziel ist das hier in einer TypeScript/Light React/Vite version um zu bauen, ohne jegliche css frameworks/bibiliotheken außer scss zu bauen.
+Dieses Projekt ist ein digitaler Charakterbogen für ein selbst erfundenes Pen-and-Paper-System (basierend auf DSA). Ziel ist der Umbau in eine TypeScript/Light-React/Vite-Version, ohne CSS-Frameworks außer SCSS.
 
 Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-Paper-System**. Sie ist nach Ordnern gegliedert und erklärt, welche Teile der Anwendung (Charakterbogen, Magiesystem, Shop, Layout usw.) die jeweiligen Dateien abdecken.
 
 ## Wurzelebene des Repos
 
 - **README.md**
-  - Enthält Regeln, Klassenkosten, Beispielaufträge sowie Berechnungsformeln für Charakterwerte. Dient als Regel- und Referenzdokumentation für Spielleiter und Spieler.
+  - Enthält Regeln, Klassenkosten, Beispielaufträge sowie Berechnungsformeln für Charakterwerte. Dient als Regel- und Referenzdokumentation.
 - **index.html**
-  - Einstiegspunkt für die neue Vite/React-Dokumentation (Root-Div + TSX-Bundle).
+  - Einstiegspunkt für die Vite/React-App (Root-Div + TSX-Bundle).
 - **package.json**
-  - Vite/React-Setup inkl. Scripts und Abhängigkeiten für die Dokumentations-App.
+  - Vite/React-Setup inkl. Scripts und Abhängigkeiten.
+- **package-lock.json**
+  - Lockfile für reproduzierbare npm-Installationen.
 - **tsconfig.json**
-  - TypeScript-Konfiguration für den React-Code im Ordner `src/`.
+  - TypeScript-Konfiguration für die React-Anwendung.
 - **tsconfig.node.json**
   - TypeScript-Konfiguration für die Vite-Konfiguration.
+- **tsconfig.test.json**
+  - TypeScript-Konfiguration für Tests.
 - **vite.config.ts**
   - Vite-Konfiguration (React-Plugin).
 - **preislisteKomplett.json**
-  - Umfangreiche Preisliste (DSA 4.0/4.1) mit Abschnitten zu Maßen, Gewichten und Ausrüstung. Dient als Datenquelle für Wirtschaft/Shop oder als Referenz.
+  - Umfangreiche Preisliste (DSA 4.0/4.1) mit Maßen, Gewichten und Ausrüstung.
 - **shopData.json**
-  - Shop-Katalog (Kategorien + Items mit Preis/Währung), der im Shop-Tab geladen und angezeigt wird.
+  - Shop-Katalog (Kategorien + Items mit Preis/Währung), der im Shop-Tab geladen wird.
 - **test.js**
-  - Leere Datei (Platzhalter für Tests oder spätere Skripte).
+  - Platzhalter für Tests oder spätere Skripte.
 
 ## Ordner `assets/`
 
 - **assets/pappenheimer.jpg**
-  - Bild-Asset (z. B. für Layout/Illustration).
+  - Bild-Asset (Layout/Illustration).
 - **assets/wood.jpg**
-  - Hintergrundtextur für das UI (wird im CSS als Body-Background verwendet).
+  - Hintergrundtextur für das UI (Body-Background).
 
 ## Ordner `charbogen/`
 
 - **charbogen/charakter.json**
   - Beispiel-/Vorlagendatei für den Charakterbogen (Struktur für Charakterinfo, Werte, Geld, Fähigkeiten, Magie, Inventar).
 - **charbogen/InfoListe.json**
-  - Datenquelle für Rassen- und Klassenlisten, strukturiert nach Kategorien. Wird beim Laden der Seite in Dropdowns übernommen.
-
-## Ordner `src/script/`
-
-### Kernlogik für Charakterbogen
-
-- **src/script/adjustments.tsx**
-  - Enthält Standard-Steigerungswerte (z. B. Attribute, Magie, Talente) und passt diese dynamisch an die gewählte Klassenkategorie an.
-- **src/script/calculations.tsx**
-  - Berechnet abgeleitete Werte (LP, AUSD, MB, ASP, MR, Giftresistenz, Basiswerte etc.) aus Eingaben und synchronisiert Steigerungspunkte mit dem Magiesystem. Enthält zudem die automatische Skill-Verteilung.
-- **src/script/characterState.tsx**
-  - Zentrale Datenbrücke für Eingabe- und berechnete Werte: liest Eingaben, hält Zustand im Hintergrund und schreibt berechnete Werte kontrolliert ins UI zurück.
-- **src/script/characterAttributes.tsx**
-  - Generiert die dynamischen UI-Abschnitte für Attribute/Talente (inkl. Kampf-Talente) und befüllt bestehende Container. Verantwortlich für das Rendern von Eingabefeldern und Tooltips.
-- **src/script/characterInfo.tsx**
-  - Lädt und speichert die Charakter-Stammdaten (Name, Alter, Klasse usw.) zwischen JSON und UI.
-- **src/script/inputListeners.tsx**
-  - Verwaltet Event-Listener für automatische Berechnungen und Steigerungspunkte. Enthält Funktionen zum Setzen von Min/Max-Werten für Eingabefelder.
-- **src/script/hideButtons.tsx**
-  - Ermöglicht das Ausblenden einzelner Eingabefelder und verschiebt sie in den Tab „Ausgeblendete“, inkl. Wiederherstellungsfunktion.
-
-### Magie- und Zaubersystem
-
-- **src/script/vanillaMagicSystem.tsx**
-  - Implementiert das Magiesystem: Datenmodelle, UI-Rendering, Steigerungskosten, Element-Anforderungen, Synchronisierung mit dem Charakterbogen sowie Speichern/Laden.
-
-### Speichern/Laden und Datenfluss
-
-- **src/script/saveLoader.tsx**
-  - Zentrales Speicher-/Ladesystem für Charakterdaten. Migriert ältere Magiestrukturen, synchronisiert Inventar, Geldbeutel, Magiesystem und Charakterwerte, und erzeugt JSON-Downloads.
-
-### Inventar/Shop
-
-- **src/script/shop.tsx**
-  - Lädt Shop-Daten aus `shopData.json`, rendert Kategorien/Items, verwaltet Käufe, Inventar und Wallet-Umrechnung.
-
-### Werkzeuge (Würfel & Rechner)
-
-- **src/script/dice.tsx**
-  - Würfelsystem mit Anzeige der Würfelergebnisse als SVG-Oktaeder, inklusive Sonderlogik (z. B. d20/d100 Auswahl).
-- **src/script/spezialDice.tsx**
-  - Experimentelles Skript für „gute/schlechte“ Würfel-Logik (derzeit nur Logging).
-- **src/script/rechner.tsx**
-  - Einfacher Taschenrechner im Werkzeuge-Tab (String-Ausdruck + `eval`).
-
-### UI/UX & Komfort
-
-- **src/script/tabs.tsx**
-  - Tab-Steuerung der Oberfläche und Logik für den „Ausgeblendete“-Tab.
-- **src/script/skin.tsx**
-  - Anpassungen für Schriftart und Textfarbe im UI.
-- **src/script/wallet.tsx**
-  - Wallet-/Währungsverwaltung (Dukaten, Silber, Heller, Kreuzer) inkl. Anzeige und Umrechnung.
-- **src/script/liste.tsx**
-  - Lädt `InfoListe.json` und füllt die Dropdowns für Rassen und Klassen, inklusive Klassenkategorien für Steigerungsanpassungen.
-
-## Ordner `style/`
-
-### SCSS-Quellen
-
-- **style/main.scss**
-  - Einstiegspunkt für das Stylesheet. Bindet die SCSS-Module ein.
-- **style/_variables.scss**
-  - Zentrale Variablen (Farben, Typografie, Abstände) und Hilfsklassen.
-- **style/_base.scss**
-  - Grundlegendes Reset/Global-Styles und Body-Styling.
-- **style/_layout.scss**
-  - Layout-Regeln (Spalten, Container, Flexbox, responsive Anpassungen), einschließlich Würfel- und Rechner-Layout.
-- **style/_components.scss**
-  - Styling für Buttons, Inputs, Wallet-Abschnitt und Inventar-/Shop-Komponenten.
-- **style/_tabs.scss**
-  - Tabs-Layout und visuelle Steuerung der Tab-Navigation.
-- **style/_vanillaMagicSystem.scss**
-  - Spezifische Styles für das Magiesystem (Karten, Listen, Buttons, Statusboxen).
-
-### Generierte Assets
-
-- **style/main.css**
-  - Kompilierte CSS-Datei aus den SCSS-Quellen.
-- **style/main.css.map**
-  - Source Map zur Debug-Unterstützung im Browser.
+  - Datenquelle für Rassen- und Klassenlisten, strukturiert nach Kategorien. Wird in Dropdowns übernommen.
 
 ## Ordner `legacy/`
 
 - **legacy/index.html**
-  - Ehemalige Hauptoberfläche des Charakterbogens (aus der Wurzelebene verschoben, bleibt als Referenz erhalten).
+  - Frühere Hauptoberfläche der Dokumentation/Übersicht.
+- **legacy/charakterbogen.html**
+  - Alte Komplettansicht des Charakterbogens als Referenz für die Migration.
+
+## Ordner `scripts/`
+
+- **scripts/patch-test-imports.mjs**
+  - Hilfsskript für Test-Importe (wird für die Testumgebung genutzt).
+
+## Ordner `tests/`
+
+- **tests/adjustments.test.ts**
+  - Tests für Klassenanpassungen/Steigerungswerte.
+- **tests/saveLoader.test.ts**
+  - Tests für das Speichern/Laden und Migration von Charakterdaten.
+- **tests/node-ambient.d.ts** / **tests/vite-env.d.ts**
+  - Typdefinitionen für die Test-Umgebung.
 
 ## Ordner `src/`
 
+### Einstieg & App-Struktur
+
 - **src/main.tsx**
-  - Einstiegspunkt der React-App, rendert das Dokumentations-UI.
+  - Einstiegspunkt der React-App, lädt die Styles und initialisiert die Legacy-Skripte (Charakter/Shop/Würfel) als Übergang.
 - **src/App.tsx**
-  - Grundgerüst der Dokumentations-Seite (Placeholder-Inhalte).
+  - App-Container mit globalen Zuständen (Listener, versteckte Felder, Magiestate) und den Top-Level-Komponenten.
+
+### Komponenten (Layout/Steuerung)
+
+- **src/components/TopControls.tsx**
+  - Kopfbereich mit Schaltern für Listener, Ausgeblendete-Tab und Auto-Skill-Verteilung.
+- **src/components/Tabs.tsx**
+  - Tab-Navigation und Tab-Inhalte (Charakter, Magie, Ausgeblendete, Inventar, Werkzeuge, Einstellungen). Bindet Legacy-Funktionen als Übergang an.
+
+### Feature: Charakter
+
+- **src/features/character/CharacterContext.tsx**
+  - React-Context für Charaktername und Erfahrungswerte (Level, XP, Steigerungspunkte).
+- **src/features/character/CharacterNameInput.tsx**
+  - Eingabe für den Charakternamen, gebunden an den Context.
+- **src/features/character/ExperienceSection.tsx**
+  - Anzeige und Bearbeitung von Level/XP/Steigerungspunkten inkl. Trigger für Berechnungen.
+- **src/features/character/SaveControls.tsx**
+  - UI für Laden/Speichern (Datei-Upload und Download).
+- **src/features/character/components/CharacterAttributes.tsx**
+  - React-Komponente zum Rendern der Attribut- und Talent-Abschnitte aus JSON-Daten.
+- **src/features/character/index.ts**
+  - Sammel-Exports für Context, UI-Teile und Save/Load-Helfer.
+- **src/features/character/legacy.ts**
+  - Lädt die bisherigen DOM-basierten Services (Übergangscode).
+
+#### Charakter-Services (`src/features/character/services/`)
+
+- **adjustments.ts**
+  - Standard-Steigerungswerte und Klassenanpassungen.
+- **calculations.ts**
+  - Berechnung abgeleiteter Werte (LP, AUSD, MB, ASP, MR, Giftresistenz) sowie Auto-Skill-Verteilung.
+- **characterInfo.ts**
+  - Laden/Speichern der Stammdaten (Name, Alter, Klasse usw.).
+- **characterState.ts**
+  - Zentrale Brücke zwischen Eingaben und berechneten Ausgaben (DOM-Input/Output).
+- **hideButtons.ts**
+  - Ausblenden einzelner Eingabefelder und Wiederherstellen im „Ausgeblendete“-Tab.
+- **inputListeners.ts**
+  - Event-Listener für automatische Berechnungen und Steigerungspunkte.
+- **liste.ts**
+  - Lädt `InfoListe.json` und füllt Dropdowns für Rassen/Klassen.
+- **maxValueSettings.ts**
+  - Setzt dynamische Min-/Max-Werte für Eingaben und greift in die UI ein.
+- **saveLoader.ts**
+  - Speichern/Laden von Charakterdaten inkl. Migrationslogik für alte Magie-/Inventarstrukturen.
+- **skin.ts**
+  - Schriftart-/Farb-Optionen für das Layout.
+- **tabs.ts**
+  - Tab-spezifische DOM-Logik (Legacy-Verhalten).
+
+### Feature: Magie
+
+- **src/features/magic/VanillaMagicSystem.tsx**
+  - React-Komponente für das Magiesystem (Elemente, Typen, Level, Steigerungskosten, UI-Rendering).
+- **src/features/magic/services/vanillaMagicSystem.ts**
+  - Service-Logik zur Legacy-Synchronisation des Magiesystems.
+- **src/features/magic/types.ts**
+  - TypeScript-Typen für Magie-Objekte und State.
+
+### Feature: Shop/Inventar
+
+- **src/features/shop/index.ts**
+  - Index/Exports für Shop-Logik (Legacy-Anbindung).
+- **src/features/shop/legacy.ts**
+  - Lädt die DOM-basierten Shop-/Wallet-Services.
+- **src/features/shop/services/shop.ts**
+  - Shop-Rendering, Käufe und Inventar-Handling.
+- **src/features/shop/services/wallet.ts**
+  - Wallet-/Währungsverwaltung (Dukaten, Silber, Heller, Kreuzer).
+
+### Feature: Würfel & Rechner
+
+- **src/features/dice/index.ts**
+  - Index/Exports für Würfel-Logik.
+- **src/features/dice/legacy.ts**
+  - Lädt die DOM-basierten Würfel-/Rechner-Skripte.
+- **src/features/dice/services/dice.ts**
+  - Würfelsystem inkl. d20/d100 Logik und Ergebnisanzeige.
+- **src/features/dice/services/spezialDice.ts**
+  - Experimentelle „gute/schlechte“ Würfel-Logik (Logging).
+- **src/features/dice/services/rechner.ts**
+  - Taschenrechner (String-Ausdruck + `eval`).
+
+### Gemeinsame Typen
+
+- **src/types/character.ts**
+  - Datenstrukturen für Charakterdaten, Magie, Inventar und Speicherdaten.
+- **src/types/react-shim.d.ts** / **src/types/vite-env.d.ts**
+  - TS-Definitionen für React/TSX und Vite.
+
+### Styles (SCSS)
+
 - **src/styles/main.scss**
-  - SCSS-Basisstyles für die neue Dokumentations-App (ohne Frameworks).
+  - Einstiegspunkt für die Styles, bindet SCSS-Module ein.
+- **src/styles/_variables.scss**
+  - Zentrale Variablen (Farben, Typografie, Abstände).
+- **src/styles/_base.scss**
+  - Reset/Global-Styles und Body-Styling.
+- **src/styles/_layout.scss**
+  - Layout-Regeln (Spalten, Container, Flexbox, Würfel-/Rechner-Layout).
+- **src/styles/_components.scss**
+  - Styling für Buttons, Inputs, Wallet, Inventar-/Shop-Komponenten.
+- **src/styles/_tabs.scss**
+  - Tabs-Layout und Navigation.
+- **src/styles/_vanillaMagicSystem.scss**
+  - Spezifische Styles für das Magiesystem.
+
+## Migrationsstand & offene Punkte
+
+### Was bereits übernommen wurde
+
+- React/Vite-Struktur inkl. Tabs, Header-Steuerung und globalem CharacterContext.
+- Magiesystem als React-Komponente (inkl. Typed State).
+- Charakterdaten-Speichern/-Laden (inkl. Migrationspfade) ist in TypeScript-Services vorhanden.
+- Shop/Würfel/Rechner-Logik wurde in Services ausgelagert und aus React heraus angesteuert.
+
+### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
+
+- **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener, Hide-Buttons, Tabs, Wallet und Shop hängen noch direkt am DOM.
+- **UI-Abschnitte mit Legacy-IDs:** Viele Inputs/Container werden noch per ID gesucht (z. B. `attribute_*`, `shop`, `inventory`). Diese müssten in React-Components überführt werden.
+- **Global-Funktionen auf `window`:** Tabs rufen Legacy-Funktionen wie `Roll`, `TheChoosenOne`, `updateCharakterCalculation` usw. auf. Das sollte in lokale Hooks/Services umgebaut werden.
+- **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert, aber die UI ist noch Teil des großen Tab-Markups; eine saubere Trennung in eigenständige Komponenten fehlt.
+
+### Hinweis zum aktuellen Stand
+
+Da `src/main.tsx` weiterhin die Legacy-Skripte lädt und die Tabs `window`-Funktionen aufrufen, funktioniert die App nur, wenn die DOM-Struktur exakt der bisherigen Struktur entspricht. Die Migration muss daher die DOM-Abhängigkeiten schrittweise entfernen und die Logik in React-State + Komponenten überführen.
