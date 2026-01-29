@@ -12,7 +12,7 @@ const syncInventoryToWindow = () => {
 // Funktion, um Shop-Daten zu laden
 async function loadShopData() {
     try {
-        const baseUrl = import.meta.env.BASE_URL ?? "/";
+        const baseUrl = import.meta.env?.BASE_URL ?? "/";
         const response = await fetch(`${baseUrl}shopData.json`);
         if (!response.ok) {
             throw new Error(`Fehler beim Laden der Shop-Daten: ${response.statusText}`);
@@ -165,7 +165,10 @@ export function renderInventory() {
     updateWalletDisplay();
 }
 
-loadShopData();
+const canLoadShopData = typeof window !== "undefined" && typeof document !== "undefined" && typeof fetch === "function";
+if (canLoadShopData) {
+    void loadShopData();
+}
 
 const shopButton = document.getElementById("ShopButton");
 const shopContainer = document.getElementById("shop");
