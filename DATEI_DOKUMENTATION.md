@@ -72,14 +72,14 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - **src/main.tsx**
   - Einstiegspunkt der React-App, lädt die Styles und rendert den Root-Container.
 - **src/App.tsx**
-  - App-Container mit globalen Zuständen (Listener, versteckte Felder, Magiestate) und den Top-Level-Komponenten.
+  - App-Container mit den Providern und dem Tabs-Layout.
 
 ### Komponenten (Layout/Steuerung)
 
 - **src/components/TopControls.tsx**
   - Kopfbereich mit Schaltern für Listener, Ausgeblendete-Tab und Auto-Skill-Verteilung.
 - **src/components/Tabs.tsx**
-  - Tab-Navigation und Tab-Inhalte (Charakter, Magie, Ausgeblendete, Inventar, Werkzeuge, Einstellungen). Bindet Legacy-Funktionen als Übergang an.
+  - Tab-Navigation und Tab-Inhalte (Charakter, Magie, Ausgeblendete, Inventar, Werkzeuge, Einstellungen) inkl. React-State für Talente und Auto-Skill.
 
 ### Feature: Charakter
 
@@ -88,13 +88,13 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - **src/features/character/CharacterNameInput.tsx**
   - Eingabe für den Charakternamen, gebunden an den Context.
 - **src/features/character/ExperienceSection.tsx**
-  - Anzeige und Bearbeitung von Level/XP/Steigerungspunkten inkl. Trigger für Berechnungen.
+  - Anzeige und Bearbeitung von Level/XP/Steigerungspunkten.
 - **src/features/character/SaveControls.tsx**
   - UI für Laden/Speichern (Datei-Upload und Download).
-- **src/features/character/components/CharacterAttributes.tsx**
-  - React-Komponente zum Rendern der Attribut- und Talent-Abschnitte aus JSON-Daten.
 - **src/features/character/components/AttributesSection.tsx**
   - React-Komponente für die Attribut-Eingaben (React-State).
+- **src/features/character/components/CombatTalentsSection.tsx**
+  - React-Komponente für die Kampf-Talent-Listen (AT/PA/Skillwerte) inkl. React-State-Bindung.
 - **src/features/character/components/ModifiersSection.tsx**
   - React-Komponente für Modifier-Eingaben (React-State).
 - **src/features/character/components/CombatBaseSection.tsx**
@@ -103,6 +103,8 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - React-Komponente für Sonderwerte (abgeleitete Werte).
 - **src/features/character/components/HiddenAttributesSection.tsx**
   - React-Komponente für ausgeblendete Attribute (Ausgeblendete-Tab).
+- **src/features/character/components/TalentSections.tsx**
+  - React-Komponente für Assassinen-/Talent-/Handwerkstalente (React-State-Bindung).
 - **src/features/character/components/SaveControlsSection.tsx**
   - Wrapper-Komponente für Save/Load, bindet SaveControls an Character- und Magic-State.
 - **src/features/character/index.ts**
@@ -114,8 +116,10 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 
 - **adjustments.ts**
   - Standard-Steigerungswerte und Klassenanpassungen.
+- **autoSkillDistribution.ts**
+  - Pure Hilfsfunktion für die Auto-Skill-Verteilung der Kampf-Talente.
 - **calculations.ts**
-  - Berechnung abgeleiteter Werte (LP, AUSD, MB, ASP, MR, Giftresistenz) sowie Auto-Skill-Verteilung.
+  - Legacy-Hook für Berechnungen (React-State übernimmt die Ableitungen).
 - **characterInfo.ts**
   - Laden/Speichern der Stammdaten (Name, Alter, Klasse usw.).
 - **derivedCalculations.ts**
@@ -221,12 +225,12 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - Würfel & Rechner als React-Komponenten umgesetzt, Legacy-Init in `main.tsx` entfernt (Codex-Aufgabe 7 erledigt).
 - Save/Load-UI modularisiert, SaveControls separat in Tabs integriert (Codex-Aufgabe 8 erledigt).
 - Legacy-Bootstrap aus `src/main.tsx` entfernt (Codex-Aufgabe 9 erledigt).
+- Talent- und Kampf-Talent-Listen werden jetzt als React-Komponenten gerendert, inkl. Auto-Skill-Verteilung ohne DOM-Zugriffe.
+- Legacy-Container für Kampf-Talente/Charakterlisten durch React-UI ersetzt, Auto-Skill-Trigger ist React-State-basiert.
 
 ### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
 
-- **Restliche DOM-Logik in `services/` → React-State/Komponenten:** Teile der Charakterlogik (z. B. Talente/Auto-Skill-Verteilung) greifen weiterhin auf DOM-IDs/Legacy-Services zu.
-- **Auto-Skill-Trigger entkoppeln:** Der Auto-Skill-Trigger in der UI ruft noch eine `window`-Funktion auf und sollte durch React-State ersetzt werden.
-- **Legacy-UI-Container entfernen:** Bereiche wie Kampf-Talente oder dynamische Listen werden noch über Legacy-Container (`*_Container`, `*_GridContainer`) gefüllt.
+- **Aktuell keine offenen Punkte in diesem Abschnitt.** Die zuvor genannten Punkte (Talente/Auto-Skill/Legacy-Container) sind auf React-State und Komponenten umgestellt.
 
 ### Inventarisierte Legacy-Abhängigkeiten (Codex-Aufgabe 1)
 

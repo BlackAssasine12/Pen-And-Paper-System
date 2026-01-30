@@ -1,14 +1,16 @@
 import { SaveControls, generateStandardFilename, getSaveData, loadCharacterFile, saveCharacterData } from "..";
 import type { MagicSystemState } from "../../magic/types";
 import { useCharacter } from "../CharacterContext";
+import type { CharacterData } from "../../../types/character";
 
 type SaveControlsSectionProps = {
   magicState: MagicSystemState;
   onMagicChange: (state: MagicSystemState) => void;
+  onCharacterLoaded?: (data: CharacterData) => void;
 };
 
-const SaveControlsSection = ({ magicState, onMagicChange }: SaveControlsSectionProps) => {
-  const { name, experience, setLevel, setXp, setSteigerungspunkte } = useCharacter();
+const SaveControlsSection = ({ magicState, onMagicChange, onCharacterLoaded }: SaveControlsSectionProps) => {
+  const { name, experience, setLevel, setName, setXp, setSteigerungspunkte } = useCharacter();
 
   return (
     <SaveControls
@@ -17,6 +19,12 @@ const SaveControlsSection = ({ magicState, onMagicChange }: SaveControlsSectionP
       onLoadFile={(file) =>
         loadCharacterFile(file, {
           onMagicLoaded: onMagicChange,
+          onCharacterLoaded: (data) => {
+            if (data.charakter?.charakterInfo?.name) {
+              setName(data.charakter.charakterInfo.name);
+            }
+            onCharacterLoaded?.(data);
+          },
           onExperienceLoaded: (loadedExperience) => {
             setLevel(loadedExperience.level ?? 0);
             setXp(loadedExperience.xp ?? 0);
