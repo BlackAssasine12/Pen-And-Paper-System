@@ -92,10 +92,22 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - UI für Laden/Speichern (Datei-Upload und Download).
 - **src/features/character/components/CharacterAttributes.tsx**
   - React-Komponente zum Rendern der Attribut- und Talent-Abschnitte aus JSON-Daten.
+- **src/features/character/components/AttributesSection.tsx**
+  - React-Komponente für die Attribut-Eingaben (React-State).
+- **src/features/character/components/ModifiersSection.tsx**
+  - React-Komponente für Modifier-Eingaben (React-State).
+- **src/features/character/components/CombatBaseSection.tsx**
+  - React-Komponente für Kampf-Basiswerte (abgeleitete Werte).
+- **src/features/character/components/SonderwerteSection.tsx**
+  - React-Komponente für Sonderwerte (abgeleitete Werte).
+- **src/features/character/components/HiddenAttributesSection.tsx**
+  - React-Komponente für ausgeblendete Attribute (Ausgeblendete-Tab).
 - **src/features/character/index.ts**
   - Sammel-Exports für Context, UI-Teile und Save/Load-Helfer.
 - **src/features/character/legacy.ts**
   - Lädt die bisherigen DOM-basierten Services (Übergangscode).
+- **src/features/character/hooks/useCharacterCalculations.ts**
+  - Hook für React-State-Berechnungen der Kernwerte (Attribute/Modifier → abgeleitete Werte).
 
 #### Charakter-Services (`src/features/character/services/`)
 
@@ -105,6 +117,8 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - Berechnung abgeleiteter Werte (LP, AUSD, MB, ASP, MR, Giftresistenz) sowie Auto-Skill-Verteilung.
 - **characterInfo.ts**
   - Laden/Speichern der Stammdaten (Name, Alter, Klasse usw.).
+- **derivedCalculations.ts**
+  - Pure Berechnungsfunktionen für Level- und Derived-Values (React/Legacy gemeinsam nutzbar).
 - **characterState.ts**
   - Zentrale Brücke zwischen Eingaben und berechneten Ausgaben (DOM-Input/Output).
 - **hideButtons.ts**
@@ -187,13 +201,59 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - Magiesystem als React-Komponente (inkl. Typed State).
 - Charakterdaten-Speichern/-Laden (inkl. Migrationspfade) ist in TypeScript-Services vorhanden.
 - Shop/Würfel/Rechner-Logik wurde in Services ausgelagert und aus React heraus angesteuert.
+- Legacy-Abhängigkeiten inventarisiert (Codex-Aufgabe 1) inkl. Skript zur Wiederholung der Analyse.
+- Erste React-State-Berechnungen für Kernattribute/Modifier inkl. abgeleiteter Basis-/Sonderwerte umgesetzt (Codex-Aufgabe 2 gestartet).
+- UI-Abschnitte für Attribute/Modifier/Sonderwerte/Kampf-Basiswerte in React-Komponenten ausgelagert (Codex-Aufgabe 3 gestartet).
+- Hide-Buttons/Min-Max-Aktionen für Attribute/Modifier nach React-State überführt (Codex-Aufgabe 4 gestartet).
 
 ### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
 
-- **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener, Hide-Buttons, Tabs, Wallet und Shop hängen noch direkt am DOM.
-- **UI-Abschnitte mit Legacy-IDs:** Viele Inputs/Container werden noch per ID gesucht (z. B. `attribute_*`, `shop`, `inventory`). Diese müssten in React-Components überführt werden.
+- **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener, Tabs, Wallet und Shop hängen noch direkt am DOM.
+- **UI-Abschnitte mit Legacy-IDs:** Attribute/Modifier/Sonderwerte/Kampf-Basiswerte sind als React-Komponenten gerendert; weitere Bereiche (Talente, Shop, Inventar) hängen noch an Legacy-IDs und müssen migriert werden.
 - **Global-Funktionen auf `window`:** Tabs rufen Legacy-Funktionen wie `Roll`, `TheChoosenOne`, `updateCharakterCalculation` usw. auf. Das sollte in lokale Hooks/Services umgebaut werden.
 - **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert, aber die UI ist noch Teil des großen Tab-Markups; eine saubere Trennung in eigenständige Komponenten fehlt.
+- **Restliche Charakterberechnungen migrieren:** Talente/Gesteigerte-Logik, Auto-Skill-Verteilung und Listener/MaxValue-Logik außerhalb der Attribute/Modifier sind noch Legacy-basiert.
+
+### Inventarisierte Legacy-Abhängigkeiten (Codex-Aufgabe 1)
+
+Für eine reproduzierbare Analyse kann das Skript `scripts/legacy-deps-inventory.mjs` genutzt werden. Es erzeugt `legacy-deps-report.json` im Repo-Root mit einer Feature-Übersicht (window-Globals, DOM-IDs, Selektoren, DOM-Operationen).
+
+**Core (src/main.tsx)**
+- DOM-IDs: `root`
+- DOM-Operationen: `createRoot`, `getElementById`
+
+**Character (src/features/character/… )**
+- window-Globals: `MagicSystem`, `advancementPoints`, `characterMagic`, `inventory`, `kampfArr`
+- DOM-IDs (statisch):
+  - Charakterinfo: `name`, `alter`, `geschlecht`, `rassen-select`, `klassen-select`, `größe`, `gewicht`, `haarfarbe`, `augenfarbe`, `titel`
+  - Erfahrung/Werte: `erfahrung_xp`, `erfahrung_level`, `erfahrung_Steigerungspunkte`, `erfahrung_Gesteigerte`
+  - Attribute/Modifier: `modifier_lp`, `modifier_asp`, `modifier_magie`, `modifier_fernkampf`, `modifier_nahkampf`, `modifier_gift`
+  - Attribute-Eingaben: `attribute_Körperkraft`, `attribute_Gewandheit`, `attribute_Klugheit`, `attribute_Intuition`, `attribute_Fingerfertigkeit`, `attribute_Charisma`, `attribute_Geschicklichkeit`, `attribute_Tarnung`, `attribute_Sinnesschärfe`, `attribute_Willenskraft`, `attribute_Konstitution`
+  - Sonderwerte/Basiswerte: `sonderwerte_Maximale_LP`, `sonderwerte_Maximale_Ausdauer`, `sonderwerte_Magiebegabung`, `sonderwerte_Maximale_Astralenergie`, `sonderwerte_Magieresistenz`, `sonderwerte_Giftresistenz`, `sonderwerte_Schnelligkeit`, `KampfBasiswerte_Wurfwaffen_Basiswert`, `KampfBasiswerte_Schusswaffen_Basiswert`, `KampfBasiswerte_Attacke_Basiswert`, `KampfBasiswerte_Parade_Basiswert`
+  - Auto-Skill/Buttons: `ASkillVert`, `setMin`, `setMax`, `toggleListenersCheckbox`, `toggleHiddenCheckbox`
+  - Containers/Legacy-UI: `modifierContainer`, `sonderwerteContainer`, `attributeContainer`, `magischeElementeContainer`, `kampfTalenteGridContainer`, `hiddenItemsContainer`, `saveButton`
+  - Magie-Tooltip-IDs: `Magische_Elemente_Schatten_Tooltip`, `Magische_Elemente_Licht_Tooltip`, `Magische_Elemente_Holz_Tooltip`, `Magische_Elemente_Metall_Tooltip`, `Magische_Elemente_Eis_Tooltip`, `Magische_Elemente_Leben_Tooltip`, `Magische_Elemente_Nekromantie_Tooltip`, `Magische_Elemente_Blitz_Tooltip`, `Magische_Elemente_Gravitation_Tooltip`, `Magische_Elemente_Erschaffung_Tooltip`, `Magische_Elemente_Raumzeit_Tooltip`, `Magische_Elemente_Gift_Tooltip`, `Magische_Elemente_Blut_Tooltip`
+  - Kampf-Talent-IDs (fixiert genutzt): `Kampf_Talente_Schild_0`, `Kampf_Talente_Schild_1`, `Kampf_Talente_Schild_2`, `Kampf_Talente_Wurfwaffen_0`, `Kampf_Talente_Wurfwaffen_1`, `Kampf_Talente_Wurfwaffen_2`, `Kampf_Talente_Bolzenwaffen_0`, `Kampf_Talente_Bolzenwaffen_1`, `Kampf_Talente_Bolzenwaffen_2`, `Kampf_Talente_Pfeilwaffen_0`, `Kampf_Talente_Pfeilwaffen_1`, `Kampf_Talente_Pfeilwaffen_2`
+  - Dynamische IDs/Template-IDs: `${sectionId}_${sanitizedKey}_${index}`, `${sectionId}_${sanitizedKey}`
+  - Magic/Shop-Synchronisierung: `advancement-points`, `inventory`
+- DOM-Selektoren: `.stg`, `.hidden-items`, `.tab-item`, `.tab-content`, `.hidebutton`, `.FlexItem`, `.BigFlexItem`, `.hidden-item`, `.Assassinen_Talente`, `.Talente_1`, `.Talente_2`, `.Handwerkstalente`, `.Kampf_Talente`, `.attribute`, `.Magische_Elemente`, `.modifier`, `#inventory li`, `label`, `select`, `input`
+- Direkte DOM-Operationen: `getElementById`, `querySelector(All)`, `createElement`, `appendChild`, `removeChild`, `classList`, `style`, `innerHTML`, `textContent`, `setAttribute`, `addEventListener`, `removeEventListener`, `closest`
+
+**Magic (src/features/magic/… )**
+- window-Globals: `MagicSystem`, `advancementPoints`, `characterMagic`, `renderMagicList`, `updatePreview`
+- DOM-IDs: `erfahrung_level`, `erfahrung_xp`, `erfahrung_Gesteigerte`, `erfahrung_Steigerungspunkte`, `advancement-points`, `name`, `characterName`, `elementSelect`, `customElementContainer`, `customElement`, `magicTypeSelect`, `magicLevel`, `levelError`, `addMagicBtn`, `magic-list`, `add-points-btn`, `saveButton`, `loadButton`, `fileInput`, `previewContent`, `magie-tab`, `magieSpeichernButton`
+- DOM-Selektoren: `.tab-item`, `.btn-level-up`, `.btn-remove`, `.vanilla-magic-system`
+- Direkte DOM-Operationen: `getElementById`, `querySelector(All)`, `createElement`, `appendChild`, `removeChild`, `classList`, `style`, `innerHTML`, `textContent`, `setAttribute`, `addEventListener`, `dispatchEvent`
+
+**Shop (src/features/shop/… )**
+- window-Globals: `inventory`
+- DOM-IDs: `shop`, `itemNameInput`, `inventory`, `ShopButton`, `showDukaten`, `showSilber`, `showHeller`, `showKreuzer`, `CurrencyField`, `NumberInput`
+- DOM-Selektoren: `#inventory li`
+- Direkte DOM-Operationen: `getElementById`, `createElement`, `appendChild`, `classList`, `innerHTML`, `textContent`, `addEventListener`
+
+**Dice (src/features/dice/… )**
+- DOM-IDs: `divDice`, `DiceCount`, `DiceSides`, `showDice`, `container`, `Dicer`, `eqField`, `evField`
+- Direkte DOM-Operationen: `getElementById`, `createElementNS`, `appendChild`, `classList`, `style`, `innerHTML`, `innerText`, `setAttribute`
 
 ### Hinweis zum aktuellen Stand
 
