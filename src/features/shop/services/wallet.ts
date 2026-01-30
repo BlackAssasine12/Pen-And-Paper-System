@@ -31,7 +31,7 @@ export function updateWalletDisplay() {
     if (kreuzer) kreuzer.innerText = String(wallet.kreuzer);
 }
 
-function TheChoosenOne() {
+export function TheChoosenOne() {
     const CurrencyField = document.getElementById("CurrencyField");
     if (!(CurrencyField instanceof HTMLSelectElement)) {
         return;
@@ -61,7 +61,7 @@ function TheChoosenOne() {
     updateWalletDisplay();
 }
 
-function wConvert() {
+export function wConvert() {
     wallet.wInsg = wallet.kreuzer + wallet.heller * 10 + wallet.silber * 100 + wallet.dukaten * 1000;
 
     wallet.dukaten = Math.floor(wallet.wInsg / 1000);
@@ -79,7 +79,7 @@ function wConvert() {
     updateWalletDisplay();
 }
 
-function wReset() {
+export function wReset() {
     let wrReset = prompt("Bitte 'reset' eingeben, um dein Geld zurückzusetzen");
     if (wrReset === "reset") {
         wallet.wInsg = 0;

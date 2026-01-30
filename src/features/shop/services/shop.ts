@@ -63,7 +63,7 @@ function removeFromInventory(itemName: string, count = 1) {
 }
 
 // Funktionen für Benutzeraktionen im HTML
-function addToInventoryFromInput() {
+export function addToInventoryFromInput() {
     const itemInput = document.getElementById("itemNameInput");
     if (!(itemInput instanceof HTMLInputElement)) {
         return;
@@ -76,7 +76,7 @@ function addToInventoryFromInput() {
     }
 }
 
-function removeFromInventoryFromInput() {
+export function removeFromInventoryFromInput() {
     const itemInput = document.getElementById("itemNameInput");
     if (!(itemInput instanceof HTMLInputElement)) {
         return;

@@ -1,4 +1,4 @@
-function changeFont() {
+export function changeFont() {
     const fontInput = document.getElementById("fontInput");
     if (!(fontInput instanceof HTMLInputElement)) {
         return;
@@ -11,7 +11,7 @@ function changeFont() {
     }
 }
 
-function changeColor() {
+export function changeColor() {
     const colorInputElement = document.getElementById("colorInput");
     if (!(colorInputElement instanceof HTMLInputElement)) {
         return;
@@ -42,5 +42,3 @@ function changeColor() {
         alert("Bitte eine gültige Farbe eingeben.");
     }
 }
-
-export {};
