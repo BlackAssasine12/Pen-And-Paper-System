@@ -6,6 +6,8 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 
 ## Wurzelebene des Repos
 
+- **DATEI_DOKUMENTATION.md**
+  - Diese Datei: Übersicht über Struktur, Migration und Aufgabenstatus.
 - **README.md**
   - Enthält Regeln, Klassenkosten, Beispielaufträge sowie Berechnungsformeln für Charakterwerte. Dient als Regel- und Referenzdokumentation.
 - **index.html**
@@ -14,6 +16,8 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - Vite/React-Setup inkl. Scripts und Abhängigkeiten.
 - **package-lock.json**
   - Lockfile für reproduzierbare npm-Installationen.
+- **prettier.config.cjs**
+  - Prettier-Konfiguration für konsistentes Formatting.
 - **tsconfig.json**
   - TypeScript-Konfiguration für die React-Anwendung.
 - **tsconfig.node.json**
@@ -22,6 +26,8 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - TypeScript-Konfiguration für Tests.
 - **vite.config.ts**
   - Vite-Konfiguration (React-Plugin).
+- **legacy-deps-report.json**
+  - Automatisch generierter Legacy-Report (window-Globals, DOM-IDs, Selektoren), erzeugt via `scripts/legacy-deps-inventory.mjs`.
 - **preislisteKomplett.json**
   - Umfangreiche Preisliste (DSA 4.0/4.1) mit Maßen, Gewichten und Ausrüstung.
 - **shopData.json**
@@ -54,6 +60,8 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 
 - **scripts/patch-test-imports.mjs**
   - Hilfsskript für Test-Importe (wird für die Testumgebung genutzt).
+- **scripts/legacy-deps-inventory.mjs**
+  - Inventarisiert Legacy-DOM-Abhängigkeiten in `src/` und erzeugt den Report `legacy-deps-report.json`.
 
 ## Ordner `tests/`
 
@@ -69,7 +77,7 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 ### Einstieg & App-Struktur
 
 - **src/main.tsx**
-  - Einstiegspunkt der React-App, lädt die Styles und initialisiert die Legacy-Skripte (Charakter/Shop/Würfel) als Übergang.
+  - Einstiegspunkt der React-App, lädt die Styles und rendert den Root-Container.
 - **src/App.tsx**
   - App-Container mit globalen Zuständen (Listener, versteckte Felder, Magiestate) und den Top-Level-Komponenten.
 
@@ -217,22 +225,23 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - Magiesystem als React-Komponente (inkl. Typed State).
 - Charakterdaten-Speichern/-Laden (inkl. Migrationspfade) ist in TypeScript-Services vorhanden.
 - Shop-Logik wurde in Services ausgelagert und aus React heraus angesteuert; Würfel/Rechner sind als React-Komponenten umgesetzt.
-- Legacy-Abhängigkeiten inventarisiert (Codex-Aufgabe 1) inkl. Skript zur Wiederholung der Analyse.
-- Erste React-State-Berechnungen für Kernattribute/Modifier inkl. abgeleiteter Basis-/Sonderwerte umgesetzt (Codex-Aufgabe 2 gestartet).
-- UI-Abschnitte für Attribute/Modifier/Sonderwerte/Kampf-Basiswerte in React-Komponenten ausgelagert (Codex-Aufgabe 3 gestartet).
-- Hide-Buttons/Min-Max-Aktionen für Attribute/Modifier nach React-State überführt (Codex-Aufgabe 4 gestartet).
-- Tabs rufen Legacy-Services direkt auf, statt globale `window`-Funktionen zu nutzen (Codex-Aufgabe 5 umgesetzt).
-- Shop/Inventar-UI und Wallet-Logik in React-State migriert, inkl. Shop-Data-Loading (Codex-Aufgabe 6 umgesetzt).
-- Würfel & Rechner als React-Komponenten umgesetzt, Legacy-Init in `main.tsx` entfernt (Codex-Aufgabe 7 umgesetzt).
-- Save/Load-UI modularisiert, SaveControls separat in Tabs integriert (Codex-Aufgabe 8 umgesetzt).
-- Legacy-Bootstrap aus `src/main.tsx` entfernt (Codex-Aufgabe 9 umgesetzt).
+- Legacy-Abhängigkeiten inventarisiert (Codex-Aufgabe 1 erledigt) inkl. Skript zur Wiederholung der Analyse.
+- Kernberechnungen für Attribute/Modifier + abgeleitete Basis-/Sonderwerte sind als React-State/Hook verfügbar (Codex-Aufgabe 2 erledigt).
+- UI-Abschnitte für Attribute/Modifier/Sonderwerte/Kampf-Basiswerte in React-Komponenten ausgelagert (Codex-Aufgabe 3 erledigt).
+- Hide-Buttons/Min-Max-Aktionen für Attribute/Modifier nach React-State überführt (Codex-Aufgabe 4 erledigt).
+- Tabs rufen Service-Funktionen auf und sind von globalen `window`-Callbacks entkoppelt (Codex-Aufgabe 5 erledigt).
+- Shop/Inventar-UI und Wallet-Logik in React-State migriert, inkl. Shop-Data-Loading (Codex-Aufgabe 6 erledigt).
+- Würfel & Rechner als React-Komponenten umgesetzt, Legacy-Init in `main.tsx` entfernt (Codex-Aufgabe 7 erledigt).
+- Save/Load-UI modularisiert, SaveControls separat in Tabs integriert (Codex-Aufgabe 8 erledigt).
+- Legacy-Bootstrap aus `src/main.tsx` entfernt (Codex-Aufgabe 9 erledigt).
 
 ### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
 
-- **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener und Tabs hängen noch direkt am DOM.
-- **UI-Abschnitte mit Legacy-IDs:** Attribute/Modifier/Sonderwerte/Kampf-Basiswerte sind als React-Komponenten gerendert; weitere Bereiche (Talente, Shop, Inventar) hängen noch an Legacy-IDs und müssen migriert werden.
-- **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert; verbleibende Legacy-Save-IDs in alten HTMLs weiter entfernen.
-- **Restliche Charakterberechnungen migrieren:** Talente/Gesteigerte-Logik, Auto-Skill-Verteilung und Listener/MaxValue-Logik außerhalb der Attribute/Modifier sind noch Legacy-basiert.
+- **Restliche DOM-Logik in `services/` → React-State/Komponenten:** Teile der Charakterlogik (z. B. Talente/Auto-Skill-Verteilung) greifen weiterhin auf DOM-IDs/Legacy-Services zu.
+- **Auto-Skill-Trigger entkoppeln:** Der Auto-Skill-Trigger in der UI ruft noch eine `window`-Funktion auf und sollte durch React-State ersetzt werden.
+- **Legacy-UI-Container entfernen:** Bereiche wie Kampf-Talente oder dynamische Listen werden noch über Legacy-Container (`*_Container`, `*_GridContainer`) gefüllt.
+- **Legacy-Ordner aufräumen:** `legacy/` und ungenutzte Services entfernen, sobald die letzten DOM-Abhängigkeiten ersetzt sind.
+- **Dokumentation konsolidieren:** Abschluss von Codex-Aufgabe 10 (Cleanup/Stabilisierung) inkl. Aktualisierung der Referenzen.
 
 ### Inventarisierte Legacy-Abhängigkeiten (Codex-Aufgabe 1)
 
@@ -283,23 +292,23 @@ Da weiterhin Legacy-Services und `window`-Funktionen in React-Logik eingebunden 
 
 > **Wichtig:** Nach jeder erledigten Aufgabe muss die Sektion **„Migrationsstand & offene Punkte“** aktualisiert werden (erledigte Punkte markieren, offene Punkte präzisieren, neue Hinweise ergänzen).
 
-1) **Codex-Aufgabe: Legacy-Abhängigkeiten inventarisieren**
+1) **Codex-Aufgabe: Legacy-Abhängigkeiten inventarisieren (erledigt)**
    - Sammle in `src/features/*/legacy.ts` und `src/main.tsx` alle `window`-Funktionen, DOM-IDs und direkte DOM-Manipulationen.
    - Liefere eine Feature-Liste (Character/Magic/Shop/Dice) der Abhängigkeiten als Basis für die Migration.
 
-2) **Codex-Aufgabe: Charakterberechnungen nach React-State migrieren**
+2) **Codex-Aufgabe: Charakterberechnungen nach React-State migrieren (erledigt)**
    - Überführe die Kernberechnungen aus `src/features/character/services/` (z. B. `calculations.ts`, `inputListeners.ts`, `characterState.ts`) in State-basierte Logik/Hooks.
    - Starte mit Attribut- und Talentberechnungen, da sie viele weitere Komponenten beeinflussen.
 
-3) **Codex-Aufgabe: Legacy-UI-IDs durch React-Komponenten ersetzen**
+3) **Codex-Aufgabe: Legacy-UI-IDs durch React-Komponenten ersetzen (erledigt)**
    - Migriere UI-Abschnitte mit Legacy-IDs (z. B. Attribute, Talente, Shop, Inventar) in eigenständige React-Komponenten.
    - Entferne direkte `document.getElementById`/`querySelector`-Abhängigkeiten in diesen Bereichen.
 
-4) **Codex-Aufgabe: Listener/Hide-Buttons in React-Logik überführen**
+4) **Codex-Aufgabe: Listener/Hide-Buttons in React-Logik überführen (erledigt)**
    - Ersetze `hideButtons.ts`, `inputListeners.ts` und `maxValueSettings.ts` durch React-State + Effekte.
    - Stelle sicher, dass das Verhalten im „Ausgeblendete“-Tab erhalten bleibt.
 
-5) **Codex-Aufgabe: Tabs-Logik ohne globale `window`-Funktionen**
+5) **Codex-Aufgabe: Tabs-Logik ohne globale `window`-Funktionen (erledigt)**
    - Baue die `window`-Funktionsaufrufe in `src/components/Tabs.tsx` auf lokale Handler/Hooks um.
    - Definiere klar, welche Funktionen/Services von Tabs benötigt werden.
 
