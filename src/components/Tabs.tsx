@@ -10,6 +10,12 @@ import {
   saveCharacterData,
   useCharacter,
 } from "../features/character";
+import { useCharacterCalculations } from "../features/character/hooks/useCharacterCalculations";
+import AttributesSection from "../features/character/components/AttributesSection";
+import CombatBaseSection from "../features/character/components/CombatBaseSection";
+import HiddenAttributesSection from "../features/character/components/HiddenAttributesSection";
+import ModifiersSection from "../features/character/components/ModifiersSection";
+import SonderwerteSection from "../features/character/components/SonderwerteSection";
 import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
 import type { MagicSystemState } from "../features/magic/types";
 
@@ -47,6 +53,48 @@ type TabsProps = {
 const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange }: TabsProps) => {
   const [activeTab, setActiveTab] = useState<TabKey>("charakter");
   const { name, experience, setLevel, setXp, setSteigerungspunkte } = useCharacter();
+  const magicSum = magicState.magicAbilities.reduce((sum, ability) => sum + (ability.level ?? 0), 0);
+  const { attributes, setAttributes, modifiers, setModifiers, derived } = useCharacterCalculations(magicSum);
+  const [hiddenAttributes, setHiddenAttributes] = useState<Array<keyof typeof attributes>>([]);
+
+  const attributeMin = 7;
+  const attributeMax = Math.min(derived.level + 12, 21);
+  const modifierMin = 0;
+  const modifierMax = derived.level + 2;
+
+  const handleAttributeChange = (key: keyof typeof attributes, value: number) => {
+    setAttributes((current) => ({ ...current, [key]: value }));
+  };
+
+  const handleModifierChange = (key: keyof typeof modifiers, value: number) => {
+    setModifiers((current) => ({ ...current, [key]: value }));
+  };
+
+  const handleHideAttribute = (key: keyof typeof attributes) => {
+    setHiddenAttributes((current) => (current.includes(key) ? current : [...current, key]));
+  };
+
+  const handleRestoreAttribute = (key: keyof typeof attributes) => {
+    setHiddenAttributes((current) => current.filter((item) => item !== key));
+  };
+
+  const setAllAttributeValues = (value: number) => {
+    setAttributes((current) =>
+      (Object.keys(current) as Array<keyof typeof current>).reduce(
+        (acc, key) => ({ ...acc, [key]: value }),
+        { ...current }
+      )
+    );
+  };
+
+  const setAllModifierValues = (value: number) => {
+    setModifiers((current) =>
+      (Object.keys(current) as Array<keyof typeof current>).reduce(
+        (acc, key) => ({ ...acc, [key]: value }),
+        { ...current }
+      )
+    );
+  };
 
   return (
     <div className="tabs-container">
@@ -192,271 +240,25 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
             </div>
 
             <div className="three-column-container">
-              <div className="FlexItemContainer" id="kampfBasisContainer">
-                <h6>Kampf Basiswerte</h6>
-                <div className="FlexItem">
-                  <label>Wurfwaffen Basiswert:</label>
-                  <input
-                    className="stg attributeInput KampfBasiswerte"
-                    type="number"
-                    defaultValue={0}
-                    id="KampfBasiswerte_Wurfwaffen_Basiswert"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Schusswaffen Basiswert:</label>
-                  <input
-                    className="stg attributeInput KampfBasiswerte"
-                    type="number"
-                    defaultValue={0}
-                    id="KampfBasiswerte_Schusswaffen_Basiswert"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Attacke Basiswert:</label>
-                  <input
-                    className="stg attributeInput KampfBasiswerte"
-                    type="number"
-                    defaultValue={0}
-                    id="KampfBasiswerte_Attacke_Basiswert"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Parade Basiswert:</label>
-                  <input
-                    className="stg attributeInput KampfBasiswerte"
-                    type="number"
-                    defaultValue={0}
-                    id="KampfBasiswerte_Parade_Basiswert"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-              </div>
-
-              <div className="FlexItemContainer" id="modifierContainer">
-                <h6>Modifier</h6>
-                <div className="modifier-flex">
-                  <div className="FlexItem">
-                    <label>Magie:</label>
-                    <input className="stg attributeInput modifier" type="number" defaultValue={0} id="modifier_magie" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>ASP:</label>
-                    <input className="stg attributeInput modifier" type="number" defaultValue={0} id="modifier_asp" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>LP:</label>
-                    <input className="stg attributeInput modifier" type="number" defaultValue={0} id="modifier_lp" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Fernkampf:</label>
-                    <input
-                      className="stg attributeInput modifier"
-                      type="number"
-                      defaultValue={0}
-                      id="modifier_fernkampf"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Nahkampf:</label>
-                    <input
-                      className="stg attributeInput modifier"
-                      type="number"
-                      defaultValue={0}
-                      id="modifier_nahkampf"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Gift:</label>
-                    <input className="stg attributeInput modifier" type="number" defaultValue={0} id="modifier_gift" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Stealth:</label>
-                    <input
-                      className="stg attributeInput modifier"
-                      type="number"
-                      defaultValue={0}
-                      id="modifier_stealth"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="FlexItemContainer" id="attributeContainer">
-                <h6>Attribute</h6>
-                <div className="attribute-flex">
-                  <div className="FlexItem">
-                    <label>Konstitution:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Konstitution" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Körperkraft:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Körperkraft" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Gewandheit:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Gewandheit" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Klugheit:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Klugheit" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Intuition:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Intuition" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Geschicklichkeit:</label>
-                    <input
-                      className="stg attributeInput attribute"
-                      type="number"
-                      defaultValue={9}
-                      id="attribute_Geschicklichkeit"
-                    />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Tarnung:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Tarnung" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Fingerfertigkeit:</label>
-                    <input
-                      className="stg attributeInput attribute"
-                      type="number"
-                      defaultValue={9}
-                      id="attribute_Fingerfertigkeit"
-                    />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Sinnesschärfe:</label>
-                    <input
-                      className="stg attributeInput attribute"
-                      type="number"
-                      defaultValue={9}
-                      id="attribute_Sinnesschärfe"
-                    />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Charisma:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Charisma" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Willenskraft:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Willenskraft" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <CombatBaseSection derived={derived} />
+              <ModifiersSection
+                modifiers={modifiers}
+                onChange={handleModifierChange}
+                minValue={modifierMin}
+                maxValue={modifierMax}
+              />
+              <AttributesSection
+                attributes={attributes}
+                onChange={handleAttributeChange}
+                minValue={attributeMin}
+                maxValue={attributeMax}
+                hiddenKeys={hiddenAttributes}
+                onHide={handleHideAttribute}
+              />
             </div>
 
             <div className="three-column-container">
-              <div className="FlexItemContainer" id="sonderwerteContainer">
-                <h6>Sonderwerte</h6>
-                <div className="sonderwerte-flex">
-                  <div className="FlexItem">
-                    <label>Aktuelle LP:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Aktuelle_LP" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Maximale LP:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Maximale_LP" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Ausdauer:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Ausdauer" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Maximale Ausdauer:</label>
-                    <input
-                      className="stg attributeInput sonderwerte"
-                      type="number"
-                      defaultValue={0}
-                      id="sonderwerte_Maximale_Ausdauer"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Astralenergie:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Astralenergie" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Maximale Astralenergie:</label>
-                    <input
-                      className="stg attributeInput sonderwerte"
-                      type="number"
-                      defaultValue={0}
-                      id="sonderwerte_Maximale_Astralenergie"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Magiebegabung:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Magiebegabung" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Magieresistenz:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Magieresistenz" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Giftresistenz:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Giftresistenz" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Schnelligkeit:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Schnelligkeit" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                </div>
-              </div>
+              <SonderwerteSection derived={derived} />
             </div>
 
             <div className="FlexItemContainer BigFlexItemContainer" id="kampfTalenteContainer">
@@ -477,7 +279,16 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
             id="hiddenItemsContainer"
             className="hidden-items"
             style={{ display: hiddenItemsVisible ? "flex" : "none" }}
-          ></div>
+          >
+            <HiddenAttributesSection
+              attributes={attributes}
+              hiddenKeys={hiddenAttributes}
+              minValue={attributeMin}
+              maxValue={attributeMax}
+              onChange={handleAttributeChange}
+              onRestore={handleRestoreAttribute}
+            />
+          </div>
         </div>
 
         <div className={`tab-content${activeTab === "inventar" ? " active" : ""}`} id="inventar-tab">
@@ -600,10 +411,24 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
         <div className={`tab-content${activeTab === "einstellungen" ? " active" : ""}`} id="einstellungen-tab">
           <div className="FlexItemContainer">
             <h6>Charakter Einstellungen</h6>
-            <button type="button" id="setMin">
+            <button
+              type="button"
+              id="setMin"
+              onClick={() => {
+                setAllAttributeValues(attributeMin);
+                setAllModifierValues(modifierMin);
+              }}
+            >
               Alle Werte auf Minimum setzen
             </button>
-            <button type="button" id="setMax">
+            <button
+              type="button"
+              id="setMax"
+              onClick={() => {
+                setAllAttributeValues(attributeMax);
+                setAllModifierValues(modifierMax);
+              }}
+            >
               Alle Werte auf Maximum setzen
             </button>
           </div>

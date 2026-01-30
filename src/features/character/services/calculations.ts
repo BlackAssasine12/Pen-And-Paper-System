@@ -1,6 +1,12 @@
 // calculations.js - Angepasst für das neue Magie-System
 import { readNumericInput, writeDerivedValue, writeInputValue } from "./characterState";
 import { applyMaxValueSettings } from "./maxValueSettings";
+import {
+  calculateDerivedValues,
+  calculateLevelFromXp,
+  type CoreAttributes,
+  type CoreModifiers,
+} from "./derivedCalculations";
 import type { MagicAbility } from "../../../types/character";
 
 const getInputElement = (id: string) => {
@@ -59,34 +65,59 @@ export function updateCharakterCalculation() {
   }
 
   try {
-    // Level-Berechnung
-    if (xp < 750) {
-      // Erste 6 Level, jeweils 150 XP
-      level = Math.floor(xp / 150) + 1;
-    } else if (xp < 4950) {
-      // Level 7 bis 13, jeweils 600 XP
-      level = Math.floor((xp - 750) / 600) + 7;
-    } else {
-      // Level 14 und höher, jeweils 1200 XP
-      level = Math.floor((xp - 4950) / 1200) + 14;
-    }
+    level = calculateLevelFromXp(xp);
 
     // Setze den Level
     writeInputValue("erfahrung_level", level);
 
-    // Berechnungen der Werte
-    LP = lpModifier * 3 + level * 6 + 20 + KO;
-    AUSD = LP + WIL;
-    MB = totalSum + magicModifier;  // Hier wird die Magiesumme verwendet
-    maxASP = level * 6 + aspModifier * 2 + MB;
-    MR = Math.round((MB + level + KL) / 3);
-    Giftresistenz = Math.round((AUSD) / 10 + giftModifier);
-    wurf = Math.round((IN + FF + KK) / 4);
-    schuss = Math.round((IN + FF + KK) / 4);
-    Attacke = Math.round((KO + GE + KK) / 5);
-    Parade = Math.round((IN + GE + KK) / 5);
+    const attributes: CoreAttributes = {
+      konstitution: KO,
+      körperkraft: KK,
+      gewandheit: GE,
+      klugheit: KL,
+      intuition: IN,
+      fingerfertigkeit: FF,
+      charisma: CH,
+      geschicklichkeit: GESCH,
+      tarnung: Tarnung,
+      sinnesschärfe: Sin,
+      willenskraft: WIL,
+    };
+
+    const modifiers: CoreModifiers = {
+      lp: lpModifier,
+      asp: aspModifier,
+      magie: magicModifier,
+      fernkampf: fernModifier,
+      nahkampf: nahModifier,
+      gift: giftModifier,
+      stealth: 0,
+    };
+
+    const derived = calculateDerivedValues({
+      attributes,
+      modifiers,
+      experience: {
+        xp,
+        level,
+        steigerungspunkte: 0,
+        gesteigerte: Gesteigerte,
+      },
+      magicSum: totalSum,
+    });
+
+    LP = derived.lpMax;
+    AUSD = derived.ausdauerMax;
+    MB = derived.magiebegabung;
+    maxASP = derived.maxAstralenergie;
+    MR = derived.magieresistenz;
+    Giftresistenz = derived.giftresistenz;
+    wurf = derived.wurf;
+    schuss = derived.schuss;
+    Attacke = derived.attacke;
+    Parade = derived.parade;
     Steigerungspunkte = level * 30 + 100 - Gesteigerte;
-    Schnelligkeit = Math.round((KK + GE + Sin) / 4)
+    Schnelligkeit = derived.schnelligkeit;
 
     // Setze die berechneten Werte
     writeDerivedValue("sonderwerte_Maximale_LP", LP);
