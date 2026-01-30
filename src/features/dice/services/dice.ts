@@ -19,7 +19,7 @@ function toggleDiv() {
         div.style.display = "none";
     }
 }
-function Roll() {
+export function Roll() {
     const diceCountInput = getInputElement("DiceCount");
     const diceSidesInput = getInputElement("DiceSides");
     const showDice = getElement("showDice");
@@ -135,7 +135,7 @@ function createOctagon(result: number, DiceSide: number) {
     return svg;
 }
 
-function DiceChooser() {
+export function DiceChooser() {
     const Dicer = document.getElementById("Dicer");
     if (!(Dicer instanceof HTMLSelectElement)) {
         return;

@@ -205,12 +205,12 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - Erste React-State-Berechnungen für Kernattribute/Modifier inkl. abgeleiteter Basis-/Sonderwerte umgesetzt (Codex-Aufgabe 2 gestartet).
 - UI-Abschnitte für Attribute/Modifier/Sonderwerte/Kampf-Basiswerte in React-Komponenten ausgelagert (Codex-Aufgabe 3 gestartet).
 - Hide-Buttons/Min-Max-Aktionen für Attribute/Modifier nach React-State überführt (Codex-Aufgabe 4 gestartet).
+- Tabs rufen Legacy-Services direkt auf, statt globale `window`-Funktionen zu nutzen (Codex-Aufgabe 5 umgesetzt).
 
 ### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
 
 - **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener, Tabs, Wallet und Shop hängen noch direkt am DOM.
 - **UI-Abschnitte mit Legacy-IDs:** Attribute/Modifier/Sonderwerte/Kampf-Basiswerte sind als React-Komponenten gerendert; weitere Bereiche (Talente, Shop, Inventar) hängen noch an Legacy-IDs und müssen migriert werden.
-- **Global-Funktionen auf `window`:** Tabs rufen Legacy-Funktionen wie `Roll`, `TheChoosenOne`, `updateCharakterCalculation` usw. auf. Das sollte in lokale Hooks/Services umgebaut werden.
 - **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert, aber die UI ist noch Teil des großen Tab-Markups; eine saubere Trennung in eigenständige Komponenten fehlt.
 - **Restliche Charakterberechnungen migrieren:** Talente/Gesteigerte-Logik, Auto-Skill-Verteilung und Listener/MaxValue-Logik außerhalb der Attribute/Modifier sind noch Legacy-basiert.
 

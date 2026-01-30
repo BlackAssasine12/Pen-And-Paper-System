@@ -16,8 +16,14 @@ import CombatBaseSection from "../features/character/components/CombatBaseSectio
 import HiddenAttributesSection from "../features/character/components/HiddenAttributesSection";
 import ModifiersSection from "../features/character/components/ModifiersSection";
 import SonderwerteSection from "../features/character/components/SonderwerteSection";
+import { updateCharakterCalculation } from "../features/character/services/calculations";
+import { changeColor, changeFont } from "../features/character/services/skin";
+import { Roll, DiceChooser } from "../features/dice/services/dice";
+import { calculate, clearEqField, InToHTML } from "../features/dice/services/rechner";
 import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
 import type { MagicSystemState } from "../features/magic/types";
+import { addToInventoryFromInput, removeFromInventoryFromInput } from "../features/shop/services/shop";
+import { TheChoosenOne, wConvert, wReset } from "../features/shop/services/wallet";
 
 type TabKey = "charakter" | "magie" | "ausgeblendete" | "inventar" | "werkzeuge" | "einstellungen";
 
@@ -36,13 +42,6 @@ const tabs: TabDefinition[] = [
   { key: "einstellungen", label: "Einstellungen", contentId: "einstellungen-tab" },
 ];
 
-const invokeLegacy = (name: string, ...args: unknown[]) => {
-  const legacyFn = (window as typeof window & Record<string, (...params: unknown[]) => void>)[name];
-  if (typeof legacyFn === "function") {
-    legacyFn(...args);
-  }
-};
-
 type TabsProps = {
   listenersEnabled: boolean;
   hiddenItemsVisible: boolean;
@@ -56,6 +55,8 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
   const magicSum = magicState.magicAbilities.reduce((sum, ability) => sum + (ability.level ?? 0), 0);
   const { attributes, setAttributes, modifiers, setModifiers, derived } = useCharacterCalculations(magicSum);
   const [hiddenAttributes, setHiddenAttributes] = useState<Array<keyof typeof attributes>>([]);
+
+  // Tabs nutzt weiterhin diese DOM-basierten Services, bis die Features vollständig in React migriert sind.
 
   const attributeMin = 7;
   const attributeMax = Math.min(derived.level + 12, 21);
@@ -206,10 +207,10 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
                       Kreuzer
                     </option>
                   </select>
-                  <button type="submit" id="wadd" onClick={() => invokeLegacy("TheChoosenOne")}>
+                  <button type="submit" id="wadd" onClick={TheChoosenOne}>
                     Add Wallet
                   </button>
-                  <button type="submit" id="wconvert" onClick={() => invokeLegacy("wConvert")}>
+                  <button type="submit" id="wconvert" onClick={wConvert}>
                     Convert Wallet
                   </button>
 
@@ -227,16 +228,13 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
                       Kreuzer: <p id="showKreuzer"></p>
                     </div>
                   </div>
-                  <button type="submit" id="wReset" onClick={() => invokeLegacy("wReset")} style={{ marginTop: "20px" }}>
+                  <button type="submit" id="wReset" onClick={wReset} style={{ marginTop: "20px" }}>
                     Reset Wallet
                   </button>
                 </form>
               </div>
 
-              <ExperienceSection
-                onRecalculate={() => invokeLegacy("updateCharakterCalculation")}
-                listenersEnabled={listenersEnabled}
-              />
+              <ExperienceSection onRecalculate={updateCharakterCalculation} listenersEnabled={listenersEnabled} />
             </div>
 
             <div className="three-column-container">
@@ -303,10 +301,10 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
             <h6>Inventar</h6>
             <div>
               <input type="text" id="itemNameInput" placeholder="Artikelname" />
-              <button type="button" onClick={() => invokeLegacy("addToInventoryFromInput")}>
+              <button type="button" onClick={addToInventoryFromInput}>
                 Hinzufügen
               </button>
-              <button type="button" onClick={() => invokeLegacy("removeFromInventoryFromInput")}>
+              <button type="button" onClick={removeFromInventoryFromInput}>
                 Entfernen
               </button>
             </div>
@@ -318,7 +316,7 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
           <div className="FlexItemContainer">
             <h6>Würfelsystem</h6>
             <div className="dice-controls">
-              <select id="Dicer" defaultValue="d20" onChange={() => invokeLegacy("DiceChooser")}>
+              <select id="Dicer" defaultValue="d20" onChange={DiceChooser}>
                 <option value="d100">W100</option>
                 <option value="d20">W20</option>
                 <option value="d10">W10</option>
@@ -327,7 +325,7 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
               </select>
               <input type="number" id="DiceCount" defaultValue={1} min={1} max={20} />
               <input type="number" id="DiceSides" defaultValue={20} min={2} max={1000} className="disNone" />
-              <button type="button" onClick={() => invokeLegacy("Roll")}>
+              <button type="button" onClick={Roll}>
                 Würfeln
               </button>
             </div>
@@ -342,65 +340,65 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
                 <div id="evField" className="result-field"></div>
               </div>
               <div className="calculator-buttons">
-                <button type="button" onClick={() => invokeLegacy("clearEqField")} className="calc-button function-button">
+                <button type="button" onClick={clearEqField} className="calc-button function-button">
                   C
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "(")} className="calc-button function-button">
+                <button type="button" onClick={() => InToHTML("(")} className="calc-button function-button">
                   (
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", ")")} className="calc-button function-button">
+                <button type="button" onClick={() => InToHTML(")")} className="calc-button function-button">
                   )
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "/")} className="calc-button operator-button">
+                <button type="button" onClick={() => InToHTML("/")} className="calc-button operator-button">
                   /
                 </button>
 
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "7")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("7")} className="calc-button">
                   7
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "8")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("8")} className="calc-button">
                   8
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "9")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("9")} className="calc-button">
                   9
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "*")} className="calc-button operator-button">
+                <button type="button" onClick={() => InToHTML("*")} className="calc-button operator-button">
                   ×
                 </button>
 
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "4")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("4")} className="calc-button">
                   4
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "5")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("5")} className="calc-button">
                   5
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "6")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("6")} className="calc-button">
                   6
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "-")} className="calc-button operator-button">
+                <button type="button" onClick={() => InToHTML("-")} className="calc-button operator-button">
                   -
                 </button>
 
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "1")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("1")} className="calc-button">
                   1
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "2")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("2")} className="calc-button">
                   2
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "3")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("3")} className="calc-button">
                   3
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "+")} className="calc-button operator-button">
+                <button type="button" onClick={() => InToHTML("+")} className="calc-button operator-button">
                   +
                 </button>
 
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "0")} className="calc-button">
+                <button type="button" onClick={() => InToHTML("0")} className="calc-button">
                   0
                 </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", ".")} className="calc-button">
+                <button type="button" onClick={() => InToHTML(".")} className="calc-button">
                   .
                 </button>
-                <button type="button" onClick={() => invokeLegacy("calculate")} className="calc-button equal-button">
+                <button type="button" onClick={calculate} className="calc-button equal-button">
                   =
                 </button>
               </div>
@@ -437,14 +435,14 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
             <div>
               <label htmlFor="fontInput">Schriftart:</label>
               <input type="text" id="fontInput" placeholder="z.B. Arial, sans-serif" />
-              <button type="button" onClick={() => invokeLegacy("changeFont")}>
+              <button type="button" onClick={changeFont}>
                 Ändern
               </button>
             </div>
             <div>
               <label htmlFor="colorInput">Textfarbe:</label>
               <input type="color" id="colorInput" defaultValue="#36251b" />
-              <button type="button" onClick={() => invokeLegacy("changeColor")}>
+              <button type="button" onClick={changeColor}>
                 Ändern
               </button>
             </div>

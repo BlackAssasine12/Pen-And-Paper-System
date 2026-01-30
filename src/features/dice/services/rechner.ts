@@ -1,6 +1,6 @@
 "use strict";
 
-function InToHTML(operation: string) {
+export function InToHTML(operation: string) {
     const eqField = document.getElementById("eqField");
     const evField = document.getElementById("evField");
     if (!eqField || !evField) {
@@ -10,7 +10,7 @@ function InToHTML(operation: string) {
     evField.innerText = " ";
 }
 
-function clearEqField() {
+export function clearEqField() {
     const eqField = document.getElementById("eqField");
     const evField = document.getElementById("evField");
     if (!eqField || !evField) {
@@ -20,7 +20,7 @@ function clearEqField() {
     evField.innerText = " ";
 }
 
-function calculate() {
+export function calculate() {
     const eqField = document.getElementById("eqField");
     const evField = document.getElementById("evField");
     if (!eqField || !evField) {
@@ -32,5 +32,3 @@ function calculate() {
     evField.innerText = String(result);
     console.log(calculation + "=" + result);
 }
-
-export {};
