@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { FormEvent } from "react";
 import {
   CharacterNameInput,
   ExperienceSection,
@@ -22,8 +21,9 @@ import { Roll, DiceChooser } from "../features/dice/services/dice";
 import { calculate, clearEqField, InToHTML } from "../features/dice/services/rechner";
 import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
 import type { MagicSystemState } from "../features/magic/types";
-import { addToInventoryFromInput, removeFromInventoryFromInput } from "../features/shop/services/shop";
-import { TheChoosenOne, wConvert, wReset } from "../features/shop/services/wallet";
+import InventoryPanel from "../features/shop/components/InventoryPanel";
+import ShopPanel from "../features/shop/components/ShopPanel";
+import WalletPanel from "../features/shop/components/WalletPanel";
 
 type TabKey = "charakter" | "magie" | "ausgeblendete" | "inventar" | "werkzeuge" | "einstellungen";
 
@@ -189,50 +189,7 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
                 </div>
               </div>
 
-              <div className="WalletContainer FlexItemContainer" id="WalletContainer">
-                <h6>Geldbeutel</h6>
-                <form id="inputField" onSubmit={(event: FormEvent<HTMLFormElement>) => event.preventDefault()}>
-                  <input type="number" placeholder="Enter a number" id="NumberInput" defaultValue={0} />
-                  <select name="Währund" id="CurrencyField">
-                    <option id="dukaten" value="dukaten">
-                      Dukaten
-                    </option>
-                    <option id="silber" value="silber">
-                      Silberlinge
-                    </option>
-                    <option id="heller" value="heller">
-                      Heller
-                    </option>
-                    <option id="kreuzer" value="kreuzer">
-                      Kreuzer
-                    </option>
-                  </select>
-                  <button type="submit" id="wadd" onClick={TheChoosenOne}>
-                    Add Wallet
-                  </button>
-                  <button type="submit" id="wconvert" onClick={wConvert}>
-                    Convert Wallet
-                  </button>
-
-                  <div style={{ marginTop: "20px" }}>
-                    <div>
-                      Dukaten: <p id="showDukaten"></p>
-                    </div>
-                    <div>
-                      Silberlinge: <p id="showSilber"></p>
-                    </div>
-                    <div>
-                      Heller: <p id="showHeller"></p>
-                    </div>
-                    <div>
-                      Kreuzer: <p id="showKreuzer"></p>
-                    </div>
-                  </div>
-                  <button type="submit" id="wReset" onClick={wReset} style={{ marginTop: "20px" }}>
-                    Reset Wallet
-                  </button>
-                </form>
-              </div>
+              <WalletPanel />
 
               <ExperienceSection onRecalculate={updateCharakterCalculation} listenersEnabled={listenersEnabled} />
             </div>
@@ -290,26 +247,8 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
         </div>
 
         <div className={`tab-content${activeTab === "inventar" ? " active" : ""}`} id="inventar-tab">
-          <div className="FlexItemContainer" id="ShopContainer">
-            <h6>Shop</h6>
-            <button type="button" id="ShopButton">
-              -
-            </button>
-            <div id="shop" className="shop-container"></div>
-          </div>
-          <div className="FlexItemContainer" id="InvContainer">
-            <h6>Inventar</h6>
-            <div>
-              <input type="text" id="itemNameInput" placeholder="Artikelname" />
-              <button type="button" onClick={addToInventoryFromInput}>
-                Hinzufügen
-              </button>
-              <button type="button" onClick={removeFromInventoryFromInput}>
-                Entfernen
-              </button>
-            </div>
-            <ul id="inventory" className="inventory-list"></ul>
-          </div>
+          <ShopPanel />
+          <InventoryPanel />
         </div>
 
         <div className={`tab-content${activeTab === "werkzeuge" ? " active" : ""}`} id="werkzeuge-tab">

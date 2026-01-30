@@ -3,8 +3,7 @@ import { readNumericInput, readTextInput } from "./characterState";
 import { genCharInfo } from "./characterInfo";
 import { bindHideButtons } from "./hideButtons";
 import { updateCharakterCalculation } from "./calculations";
-import { initializeWallet, wallet } from "../../shop/services/wallet";
-import { renderInventory } from "../../shop/services/shop";
+import { createEmptyWallet, getShopSnapshot, normalizeInventoryItems, setShopSnapshot } from "../../shop/store";
 import type {
     CharacterData,
     CharacterInfo,
@@ -12,6 +11,7 @@ import type {
     InventoryItem,
     LoadCallbacks,
     MagicSystemSnapshot,
+    WalletState,
     SectionValues,
     SaveOverrides,
     TalentEntry,
@@ -99,6 +99,7 @@ export function saveCharacterData(data: CharacterData, overrides: SaveOverrides 
         // 4. Geldbeutel aktualisieren
         if (charakter.geld) {
             slLog("saveCharacterData: wallet -> charakter.geld");
+            const { wallet } = getShopSnapshot();
             charakter.geld = JSON.parse(JSON.stringify(wallet));
         } else {
             slLog("saveCharacterData: wallet sync übersprungen (charakter.geld oder wallet fehlt)");
@@ -227,27 +228,9 @@ function updateSpecialSection(section: TalentEntry[], sectionId: string) {
 // Hilfsfunktion: Speichert das Inventar
 function saveInventory(): InventoryItem[] {
     try {
-        const inventory: InventoryItem[] = [];
-        const items = document.querySelectorAll<HTMLLIElement>('#inventory li');
-        slLog("saveInventory: DOM items =", items.length);
-
-        items.forEach(item => {
-            const text = item.textContent;
-            if (!text) {
-                return;
-            }
-            const parts = text.split(' - ');
-
-            if (parts.length >= 2) {
-                const name = parts[0];
-                const quantityText = parts[1];
-                const quantity = parseInt(quantityText.replace('x', '')) || 1;
-
-                inventory.push({ name, quantity });
-            }
-        });
-
-        return inventory;
+        const { inventory } = getShopSnapshot();
+        slLog("saveInventory: snapshot items =", inventory.length);
+        return normalizeInventoryItems(inventory);
     } catch (error) {
         slErr("saveInventory: error", error);
         return [];
@@ -379,10 +362,16 @@ export function loadCharacterFile(file: File | null, callbacks: LoadCallbacks = 
             migrateToNewMagieSystem(data);
 
             // 2. Standard-Komponenten laden
-            if (typeof initializeWallet === 'function') {
-                slLog("handleFileUpload: initializeWallet()");
-                initializeWallet(data);
-            } else slWarn("handleFileUpload: initializeWallet fehlt");
+            slLog("handleFileUpload: setShopSnapshot()");
+            const currentSnapshot = getShopSnapshot();
+            const nextWallet = buildWalletSnapshot(data.charakter?.geld) ?? currentSnapshot.wallet;
+            const nextInventory = Array.isArray(data.inventory)
+                ? normalizeInventoryItems(data.inventory)
+                : currentSnapshot.inventory;
+            setShopSnapshot({
+                wallet: nextWallet,
+                inventory: nextInventory,
+            });
 
             if (typeof generateCharakterAttributes === 'function') {
                 slLog("handleFileUpload: generateCharakterAttributes()");
@@ -401,8 +390,7 @@ export function loadCharacterFile(file: File | null, callbacks: LoadCallbacks = 
 
             // 3. Inventar laden
             if (data.inventory) {
-                slLog("handleFileUpload: loadInventory(), items =", data.inventory.length);
-                loadInventory(data.inventory);
+                slLog("handleFileUpload: inventory geladen, items =", data.inventory.length);
             } else {
                 slLog("handleFileUpload: kein inventory im JSON");
             }
@@ -475,23 +463,20 @@ function loadXPAndLevel(
     }
 }
 
-// Hilfsfunktion: Lädt das Inventar
-function loadInventory(inventory: InventoryItem[]) {
-    try {
-        slLog("loadInventory: start, items =", Array.isArray(inventory) ? inventory.length : "n/a");
-        window.inventory = inventory.map(item => {
-            return {
-                name: item.name,
-                quantity: item.quantity || item.count || 0
-            };
-        });
-
-        slLog("loadInventory: renderInventory()");
-        renderInventory();
-    } catch (error) {
-        slErr("loadInventory: error", error);
+const buildWalletSnapshot = (geld?: WalletState) => {
+    if (!geld) {
+        return null;
     }
-}
+    const snapshot = createEmptyWallet();
+    snapshot.dukaten = geld.dukaten ?? 0;
+    snapshot.silber = geld.silber ?? 0;
+    snapshot.heller = geld.heller ?? 0;
+    snapshot.kreuzer = geld.kreuzer ?? 0;
+    snapshot.wInsg =
+        geld.wInsg ??
+        snapshot.dukaten * 1000 + snapshot.silber * 100 + snapshot.heller * 10 + snapshot.kreuzer;
+    return snapshot;
+};
 
 // Hilfsfunktion: Lädt das Magiesystem
 function loadMagieSystem(data: CharacterData) {

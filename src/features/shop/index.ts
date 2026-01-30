@@ -1,2 +1,2 @@
-export * from "./services/shop";
-export * from "./services/wallet";
+export * from "./ShopContext";
+export * from "./store";

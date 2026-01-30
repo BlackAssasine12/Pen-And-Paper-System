@@ -12,7 +12,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 const loadLegacyScripts = async () => {
   await Promise.all([
     import("./features/character/legacy"),
-    import("./features/shop/legacy"),
     import("./features/dice/legacy"),
   ]);
 };

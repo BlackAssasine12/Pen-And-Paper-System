@@ -147,8 +147,18 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 
 ### Feature: Shop/Inventar
 
+- **src/features/shop/ShopContext.tsx**
+  - React-Context für Shop- und Wallet-State (Shopdaten, Käufe, Inventar).
+- **src/features/shop/store.ts**
+  - Kleiner Store für Shop-Snapshots (Wallet/Inventar), damit Save/Load ohne DOM funktioniert.
+- **src/features/shop/components/ShopPanel.tsx**
+  - React-Komponente für die Shop-Ansicht inkl. Kaufaktionen.
+- **src/features/shop/components/InventoryPanel.tsx**
+  - React-Komponente für Inventarverwaltung (Hinzufügen/Entfernen).
+- **src/features/shop/components/WalletPanel.tsx**
+  - React-Komponente für den Geldbeutel (Add/Convert/Reset).
 - **src/features/shop/index.ts**
-  - Index/Exports für Shop-Logik (Legacy-Anbindung).
+  - Index/Exports für Shop-Context und Shop-Store.
 - **src/features/shop/legacy.ts**
   - Lädt die DOM-basierten Shop-/Wallet-Services.
 - **src/features/shop/services/shop.ts**
@@ -206,10 +216,11 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - UI-Abschnitte für Attribute/Modifier/Sonderwerte/Kampf-Basiswerte in React-Komponenten ausgelagert (Codex-Aufgabe 3 gestartet).
 - Hide-Buttons/Min-Max-Aktionen für Attribute/Modifier nach React-State überführt (Codex-Aufgabe 4 gestartet).
 - Tabs rufen Legacy-Services direkt auf, statt globale `window`-Funktionen zu nutzen (Codex-Aufgabe 5 umgesetzt).
+- Shop/Inventar-UI und Wallet-Logik in React-State migriert, inkl. Shop-Data-Loading (Codex-Aufgabe 6 umgesetzt).
 
 ### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
 
-- **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener, Tabs, Wallet und Shop hängen noch direkt am DOM.
+- **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener und Tabs hängen noch direkt am DOM.
 - **UI-Abschnitte mit Legacy-IDs:** Attribute/Modifier/Sonderwerte/Kampf-Basiswerte sind als React-Komponenten gerendert; weitere Bereiche (Talente, Shop, Inventar) hängen noch an Legacy-IDs und müssen migriert werden.
 - **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert, aber die UI ist noch Teil des großen Tab-Markups; eine saubere Trennung in eigenständige Komponenten fehlt.
 - **Restliche Charakterberechnungen migrieren:** Talente/Gesteigerte-Logik, Auto-Skill-Verteilung und Listener/MaxValue-Logik außerhalb der Attribute/Modifier sind noch Legacy-basiert.
@@ -283,7 +294,7 @@ Da `src/main.tsx` weiterhin die Legacy-Skripte lädt und die Tabs `window`-Funkt
    - Baue die `window`-Funktionsaufrufe in `src/components/Tabs.tsx` auf lokale Handler/Hooks um.
    - Definiere klar, welche Funktionen/Services von Tabs benötigt werden.
 
-6) **Codex-Aufgabe: Shop & Wallet vollständig entkoppeln**
+6) **Codex-Aufgabe: Shop & Wallet vollständig entkoppeln (erledigt)**
    - Migriere die DOM-gebundene Shop-/Wallet-Logik (`src/features/shop/services/*`) in React-State.
    - Baue das Shop-/Inventar-UI als komponentenbasierte Ansicht mit sauberem Datenfluss.
 

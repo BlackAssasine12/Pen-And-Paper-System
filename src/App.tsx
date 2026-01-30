@@ -2,6 +2,7 @@ import { useState } from "react";
 import TopControls from "./components/TopControls";
 import Tabs from "./components/Tabs";
 import { CharacterProvider } from "./features/character";
+import { ShopProvider } from "./features/shop";
 import type { MagicSystemState } from "./features/magic/types";
 
 const App = () => {
@@ -21,21 +22,23 @@ const App = () => {
 
   return (
     <CharacterProvider>
-      <div className="app">
-        <TopControls
-          listenersEnabled={listenersEnabled}
-          onToggleListeners={setListenersEnabled}
-          hiddenItemsVisible={hiddenItemsVisible}
-          onToggleHiddenItems={setHiddenItemsVisible}
-          onAutoSkill={handleAutoSkill}
-        />
-        <Tabs
-          listenersEnabled={listenersEnabled}
-          hiddenItemsVisible={hiddenItemsVisible}
-          magicState={magicState}
-          onMagicChange={setMagicState}
-        />
-      </div>
+      <ShopProvider>
+        <div className="app">
+          <TopControls
+            listenersEnabled={listenersEnabled}
+            onToggleListeners={setListenersEnabled}
+            hiddenItemsVisible={hiddenItemsVisible}
+            onToggleHiddenItems={setHiddenItemsVisible}
+            onAutoSkill={handleAutoSkill}
+          />
+          <Tabs
+            listenersEnabled={listenersEnabled}
+            hiddenItemsVisible={hiddenItemsVisible}
+            magicState={magicState}
+            onMagicChange={setMagicState}
+          />
+        </div>
+      </ShopProvider>
     </CharacterProvider>
   );
 };
