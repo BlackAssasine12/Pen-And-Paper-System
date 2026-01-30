@@ -10,10 +10,10 @@
       "src/features/character/components/CombatBaseSection.tsx",
       "src/features/character/components/HiddenAttributesSection.tsx",
       "src/features/character/components/ModifiersSection.tsx",
+      "src/features/character/components/SaveControlsSection.tsx",
       "src/features/character/components/SonderwerteSection.tsx",
       "src/features/character/hooks/useCharacterCalculations.ts",
       "src/features/character/index.ts",
-      "src/features/character/legacy.ts",
       "src/features/character/services/adjustments.ts",
       "src/features/character/services/calculations.ts",
       "src/features/character/services/characterInfo.ts",
@@ -31,7 +31,6 @@
       "MagicSystem",
       "advancementPoints",
       "characterMagic",
-      "inventory",
       "kampfArr"
     ],
     "domIds": [
@@ -65,7 +64,6 @@
     ],
     "selectors": [
       "#erfahrung_xp",
-      "#inventory li",
       ".${klass}",
       ".Assassinen_Talente, .Talente_1, .Talente_2, .Handwerkstalente, .Kampf_Talente",
       ".Magische_Elemente",
@@ -101,8 +99,9 @@
   },
   "dice": {
     "files": [
+      "src/features/dice/components/Calculator.tsx",
+      "src/features/dice/components/DiceRoller.tsx",
       "src/features/dice/index.ts",
-      "src/features/dice/legacy.ts",
       "src/features/dice/services/dice.ts",
       "src/features/dice/services/rechner.ts",
       "src/features/dice/services/spezialDice.ts"
@@ -169,10 +168,14 @@
   },
   "shop": {
     "files": [
+      "src/features/shop/ShopContext.tsx",
+      "src/features/shop/components/InventoryPanel.tsx",
+      "src/features/shop/components/ShopPanel.tsx",
+      "src/features/shop/components/WalletPanel.tsx",
       "src/features/shop/index.ts",
-      "src/features/shop/legacy.ts",
       "src/features/shop/services/shop.ts",
-      "src/features/shop/services/wallet.ts"
+      "src/features/shop/services/wallet.ts",
+      "src/features/shop/store.ts"
     ],
     "windowGlobals": [
       "inventory"
