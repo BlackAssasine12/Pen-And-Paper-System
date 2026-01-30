@@ -49,13 +49,6 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - **charbogen/InfoListe.json**
   - Datenquelle für Rassen- und Klassenlisten, strukturiert nach Kategorien. Wird in Dropdowns übernommen.
 
-## Ordner `legacy/`
-
-- **legacy/index.html**
-  - Frühere Hauptoberfläche der Dokumentation/Übersicht.
-- **legacy/charakterbogen.html**
-  - Alte Komplettansicht des Charakterbogens als Referenz für die Migration.
-
 ## Ordner `scripts/`
 
 - **scripts/patch-test-imports.mjs**
@@ -114,8 +107,6 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - Wrapper-Komponente für Save/Load, bindet SaveControls an Character- und Magic-State.
 - **src/features/character/index.ts**
   - Sammel-Exports für Context, UI-Teile und Save/Load-Helfer.
-- **src/features/character/legacy.ts**
-  - Lädt die bisherigen DOM-basierten Services (Übergangscode).
 - **src/features/character/hooks/useCharacterCalculations.ts**
   - Hook für React-State-Berechnungen der Kernwerte (Attribute/Modifier → abgeleitete Werte).
 
@@ -169,8 +160,6 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - React-Komponente für den Geldbeutel (Add/Convert/Reset).
 - **src/features/shop/index.ts**
   - Index/Exports für Shop-Context und Shop-Store.
-- **src/features/shop/legacy.ts**
-  - Lädt die DOM-basierten Shop-/Wallet-Services.
 - **src/features/shop/services/shop.ts**
   - Shop-Rendering, Käufe und Inventar-Handling.
 - **src/features/shop/services/wallet.ts**
@@ -184,8 +173,6 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - React-Komponente für den Taschenrechner (String-Ausdruck + `eval`).
 - **src/features/dice/index.ts**
   - Index/Exports für Würfel-Logik.
-- **src/features/dice/legacy.ts**
-  - Lädt die DOM-basierten Würfel-/Rechner-Skripte (Legacy-Referenz).
 - **src/features/dice/services/dice.ts**
   - Würfelsystem inkl. d20/d100 Logik und Ergebnisanzeige (Legacy-Referenz).
 - **src/features/dice/services/spezialDice.ts**
@@ -240,8 +227,6 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - **Restliche DOM-Logik in `services/` → React-State/Komponenten:** Teile der Charakterlogik (z. B. Talente/Auto-Skill-Verteilung) greifen weiterhin auf DOM-IDs/Legacy-Services zu.
 - **Auto-Skill-Trigger entkoppeln:** Der Auto-Skill-Trigger in der UI ruft noch eine `window`-Funktion auf und sollte durch React-State ersetzt werden.
 - **Legacy-UI-Container entfernen:** Bereiche wie Kampf-Talente oder dynamische Listen werden noch über Legacy-Container (`*_Container`, `*_GridContainer`) gefüllt.
-- **Legacy-Ordner aufräumen:** `legacy/` und ungenutzte Services entfernen, sobald die letzten DOM-Abhängigkeiten ersetzt sind.
-- **Dokumentation konsolidieren:** Abschluss von Codex-Aufgabe 10 (Cleanup/Stabilisierung) inkl. Aktualisierung der Referenzen.
 
 ### Inventarisierte Legacy-Abhängigkeiten (Codex-Aufgabe 1)
 
@@ -293,7 +278,7 @@ Da weiterhin Legacy-Services und `window`-Funktionen in React-Logik eingebunden 
 > **Wichtig:** Nach jeder erledigten Aufgabe muss die Sektion **„Migrationsstand & offene Punkte“** aktualisiert werden (erledigte Punkte markieren, offene Punkte präzisieren, neue Hinweise ergänzen).
 
 1) **Codex-Aufgabe: Legacy-Abhängigkeiten inventarisieren (erledigt)**
-   - Sammle in `src/features/*/legacy.ts` und `src/main.tsx` alle `window`-Funktionen, DOM-IDs und direkte DOM-Manipulationen.
+   - Sammle in `src/features/*/` und `src/main.tsx` alle `window`-Funktionen, DOM-IDs und direkte DOM-Manipulationen.
    - Liefere eine Feature-Liste (Character/Magic/Shop/Dice) der Abhängigkeiten als Basis für die Migration.
 
 2) **Codex-Aufgabe: Charakterberechnungen nach React-State migrieren (erledigt)**
@@ -318,7 +303,7 @@ Da weiterhin Legacy-Services und `window`-Funktionen in React-Logik eingebunden 
 
 7) **Codex-Aufgabe: Würfel & Rechner als React-Komponenten (erledigt)**
    - `src/features/dice/services/*` in Komponenten mit lokalem State überführt.
-   - `legacy.ts`-Abhängigkeiten entfernt und direkte DOM-Updates ersetzt.
+   - Direkte DOM-Updates entfernt und durch React-State ersetzt.
 
 8) **Codex-Aufgabe: Save/Load UI sauber modularisieren (erledigt)**
    - `SaveControlsSection` bindet die Save/Load-UI mit Character- und Magic-State ein.
@@ -328,6 +313,7 @@ Da weiterhin Legacy-Services und `window`-Funktionen in React-Logik eingebunden 
    - Entferne das Laden der Legacy-Skripte aus `src/main.tsx`.
    - Stelle sicher, dass alle Funktionen durch React-Logik abgedeckt sind.
 
-10) **Codex-Aufgabe: Aufräumen & Stabilisierung**
-   - Lösche obsolet gewordene Dateien in `legacy/` und nicht mehr benötigte Services.
-   - Konsolidiere die Dokumentation, damit Onboarding schneller und klarer wird.
+10) **Codex-Aufgabe: Aufräumen & Stabilisierung (erledigt)**
+   - Obsolete Legacy-HTML-Dateien entfernt.
+   - Nicht mehr benötigte Legacy-Services entfernt.
+   - Dokumentation bereinigt und aktualisiert.
