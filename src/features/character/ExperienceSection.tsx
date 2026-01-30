@@ -1,5 +1,6 @@
 import type { ChangeEvent } from "react";
 import { useCharacter } from "./CharacterContext";
+import { calculateLevelFromXp } from "./services/derivedCalculations";
 
 const ExperienceSection = () => {
   const { experience, setLevel, setXp, setSteigerungspunkte } = useCharacter();
@@ -24,7 +25,11 @@ const ExperienceSection = () => {
           className="stg attributeInput erfahrung"
           type="number"
           value={experience.xp}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => setXp(Number.parseInt(event.target.value, 10) || 0)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => {
+            const nextXp = Number.parseInt(event.target.value, 10) || 0;
+            setXp(nextXp);
+            setLevel(calculateLevelFromXp(nextXp));
+          }}
           id="erfahrung_xp"
         />
         <span className="readonly-value">×</span>
