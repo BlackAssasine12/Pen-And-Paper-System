@@ -8,9 +8,3 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <App />
   </React.StrictMode>
 );
-
-const loadLegacyScripts = async () => {
-  await Promise.all([import("./features/character/legacy")]);
-};
-
-void loadLegacyScripts();

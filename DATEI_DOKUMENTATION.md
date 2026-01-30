@@ -225,12 +225,13 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - Shop/Inventar-UI und Wallet-Logik in React-State migriert, inkl. Shop-Data-Loading (Codex-Aufgabe 6 umgesetzt).
 - Würfel & Rechner als React-Komponenten umgesetzt, Legacy-Init in `main.tsx` entfernt (Codex-Aufgabe 7 umgesetzt).
 - Save/Load-UI modularisiert, SaveControls separat in Tabs integriert (Codex-Aufgabe 8 umgesetzt).
+- Legacy-Bootstrap aus `src/main.tsx` entfernt (Codex-Aufgabe 9 umgesetzt).
 
 ### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
 
 - **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener und Tabs hängen noch direkt am DOM.
 - **UI-Abschnitte mit Legacy-IDs:** Attribute/Modifier/Sonderwerte/Kampf-Basiswerte sind als React-Komponenten gerendert; weitere Bereiche (Talente, Shop, Inventar) hängen noch an Legacy-IDs und müssen migriert werden.
-- **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert; verbleibende Legacy-Save-IDs in alten HTMLs weiter entfernen, sobald Legacy-Bootstrap wegfällt.
+- **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert; verbleibende Legacy-Save-IDs in alten HTMLs weiter entfernen.
 - **Restliche Charakterberechnungen migrieren:** Talente/Gesteigerte-Logik, Auto-Skill-Verteilung und Listener/MaxValue-Logik außerhalb der Attribute/Modifier sind noch Legacy-basiert.
 
 ### Inventarisierte Legacy-Abhängigkeiten (Codex-Aufgabe 1)
@@ -276,7 +277,7 @@ Für eine reproduzierbare Analyse kann das Skript `scripts/legacy-deps-inventory
 
 ### Hinweis zum aktuellen Stand
 
-Da `src/main.tsx` weiterhin die Legacy-Skripte lädt und die Tabs `window`-Funktionen aufrufen, funktioniert die App nur, wenn die DOM-Struktur exakt der bisherigen Struktur entspricht. Die Migration muss daher die DOM-Abhängigkeiten schrittweise entfernen und die Logik in React-State + Komponenten überführen.
+Da weiterhin Legacy-Services und `window`-Funktionen in React-Logik eingebunden sind, muss die DOM-Struktur noch teilweise der bisherigen Struktur entsprechen. Die Migration muss daher die verbleibenden DOM-Abhängigkeiten schrittweise entfernen und die Logik in React-State + Komponenten überführen.
 
 ## Codex-Aufgabenplan (Schritt-für-Schritt)
 
@@ -314,7 +315,7 @@ Da `src/main.tsx` weiterhin die Legacy-Skripte lädt und die Tabs `window`-Funkt
    - `SaveControlsSection` bindet die Save/Load-UI mit Character- und Magic-State ein.
    - Tabs nutzen den Wrapper statt das Save/Load-Markup inline zu definieren.
 
-9) **Codex-Aufgabe: Legacy-Bootstrap entfernen**
+9) **Codex-Aufgabe: Legacy-Bootstrap entfernen (erledigt)**
    - Entferne das Laden der Legacy-Skripte aus `src/main.tsx`.
    - Stelle sicher, dass alle Funktionen durch React-Logik abgedeckt sind.
 
