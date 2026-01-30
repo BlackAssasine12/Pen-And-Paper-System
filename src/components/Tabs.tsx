@@ -17,8 +17,8 @@ import ModifiersSection from "../features/character/components/ModifiersSection"
 import SonderwerteSection from "../features/character/components/SonderwerteSection";
 import { updateCharakterCalculation } from "../features/character/services/calculations";
 import { changeColor, changeFont } from "../features/character/services/skin";
-import { Roll, DiceChooser } from "../features/dice/services/dice";
-import { calculate, clearEqField, InToHTML } from "../features/dice/services/rechner";
+import Calculator from "../features/dice/components/Calculator";
+import DiceRoller from "../features/dice/components/DiceRoller";
 import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
 import type { MagicSystemState } from "../features/magic/types";
 import InventoryPanel from "../features/shop/components/InventoryPanel";
@@ -252,97 +252,8 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
         </div>
 
         <div className={`tab-content${activeTab === "werkzeuge" ? " active" : ""}`} id="werkzeuge-tab">
-          <div className="FlexItemContainer">
-            <h6>Würfelsystem</h6>
-            <div className="dice-controls">
-              <select id="Dicer" defaultValue="d20" onChange={DiceChooser}>
-                <option value="d100">W100</option>
-                <option value="d20">W20</option>
-                <option value="d10">W10</option>
-                <option value="d6">W6</option>
-                <option value="custom">Eigener Würfel</option>
-              </select>
-              <input type="number" id="DiceCount" defaultValue={1} min={1} max={20} />
-              <input type="number" id="DiceSides" defaultValue={20} min={2} max={1000} className="disNone" />
-              <button type="button" onClick={Roll}>
-                Würfeln
-              </button>
-            </div>
-            <div id="showDice" className="dice-results"></div>
-          </div>
-
-          <div className="FlexItemContainer calculator-container">
-            <h6>Rechner</h6>
-            <div id="calculator">
-              <div id="calc-display">
-                <div id="eqField" className="equation-field"></div>
-                <div id="evField" className="result-field"></div>
-              </div>
-              <div className="calculator-buttons">
-                <button type="button" onClick={clearEqField} className="calc-button function-button">
-                  C
-                </button>
-                <button type="button" onClick={() => InToHTML("(")} className="calc-button function-button">
-                  (
-                </button>
-                <button type="button" onClick={() => InToHTML(")")} className="calc-button function-button">
-                  )
-                </button>
-                <button type="button" onClick={() => InToHTML("/")} className="calc-button operator-button">
-                  /
-                </button>
-
-                <button type="button" onClick={() => InToHTML("7")} className="calc-button">
-                  7
-                </button>
-                <button type="button" onClick={() => InToHTML("8")} className="calc-button">
-                  8
-                </button>
-                <button type="button" onClick={() => InToHTML("9")} className="calc-button">
-                  9
-                </button>
-                <button type="button" onClick={() => InToHTML("*")} className="calc-button operator-button">
-                  ×
-                </button>
-
-                <button type="button" onClick={() => InToHTML("4")} className="calc-button">
-                  4
-                </button>
-                <button type="button" onClick={() => InToHTML("5")} className="calc-button">
-                  5
-                </button>
-                <button type="button" onClick={() => InToHTML("6")} className="calc-button">
-                  6
-                </button>
-                <button type="button" onClick={() => InToHTML("-")} className="calc-button operator-button">
-                  -
-                </button>
-
-                <button type="button" onClick={() => InToHTML("1")} className="calc-button">
-                  1
-                </button>
-                <button type="button" onClick={() => InToHTML("2")} className="calc-button">
-                  2
-                </button>
-                <button type="button" onClick={() => InToHTML("3")} className="calc-button">
-                  3
-                </button>
-                <button type="button" onClick={() => InToHTML("+")} className="calc-button operator-button">
-                  +
-                </button>
-
-                <button type="button" onClick={() => InToHTML("0")} className="calc-button">
-                  0
-                </button>
-                <button type="button" onClick={() => InToHTML(".")} className="calc-button">
-                  .
-                </button>
-                <button type="button" onClick={calculate} className="calc-button equal-button">
-                  =
-                </button>
-              </div>
-            </div>
-          </div>
+          <DiceRoller />
+          <Calculator />
         </div>
 
         <div className={`tab-content${activeTab === "einstellungen" ? " active" : ""}`} id="einstellungen-tab">

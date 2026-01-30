@@ -168,16 +168,20 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 
 ### Feature: Würfel & Rechner
 
+- **src/features/dice/components/DiceRoller.tsx**
+  - React-Komponente für das Würfelsystem inkl. Ergebnisanzeige.
+- **src/features/dice/components/Calculator.tsx**
+  - React-Komponente für den Taschenrechner (String-Ausdruck + `eval`).
 - **src/features/dice/index.ts**
   - Index/Exports für Würfel-Logik.
 - **src/features/dice/legacy.ts**
-  - Lädt die DOM-basierten Würfel-/Rechner-Skripte.
+  - Lädt die DOM-basierten Würfel-/Rechner-Skripte (Legacy-Referenz).
 - **src/features/dice/services/dice.ts**
-  - Würfelsystem inkl. d20/d100 Logik und Ergebnisanzeige.
+  - Würfelsystem inkl. d20/d100 Logik und Ergebnisanzeige (Legacy-Referenz).
 - **src/features/dice/services/spezialDice.ts**
-  - Experimentelle „gute/schlechte“ Würfel-Logik (Logging).
+  - Experimentelle „gute/schlechte“ Würfel-Logik (Logging, Legacy-Referenz).
 - **src/features/dice/services/rechner.ts**
-  - Taschenrechner (String-Ausdruck + `eval`).
+  - Taschenrechner (String-Ausdruck + `eval`, Legacy-Referenz).
 
 ### Gemeinsame Typen
 
@@ -210,13 +214,14 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - React/Vite-Struktur inkl. Tabs, Header-Steuerung und globalem CharacterContext.
 - Magiesystem als React-Komponente (inkl. Typed State).
 - Charakterdaten-Speichern/-Laden (inkl. Migrationspfade) ist in TypeScript-Services vorhanden.
-- Shop/Würfel/Rechner-Logik wurde in Services ausgelagert und aus React heraus angesteuert.
+- Shop-Logik wurde in Services ausgelagert und aus React heraus angesteuert; Würfel/Rechner sind als React-Komponenten umgesetzt.
 - Legacy-Abhängigkeiten inventarisiert (Codex-Aufgabe 1) inkl. Skript zur Wiederholung der Analyse.
 - Erste React-State-Berechnungen für Kernattribute/Modifier inkl. abgeleiteter Basis-/Sonderwerte umgesetzt (Codex-Aufgabe 2 gestartet).
 - UI-Abschnitte für Attribute/Modifier/Sonderwerte/Kampf-Basiswerte in React-Komponenten ausgelagert (Codex-Aufgabe 3 gestartet).
 - Hide-Buttons/Min-Max-Aktionen für Attribute/Modifier nach React-State überführt (Codex-Aufgabe 4 gestartet).
 - Tabs rufen Legacy-Services direkt auf, statt globale `window`-Funktionen zu nutzen (Codex-Aufgabe 5 umgesetzt).
 - Shop/Inventar-UI und Wallet-Logik in React-State migriert, inkl. Shop-Data-Loading (Codex-Aufgabe 6 umgesetzt).
+- Würfel & Rechner als React-Komponenten umgesetzt, Legacy-Init in `main.tsx` entfernt (Codex-Aufgabe 7 umgesetzt).
 
 ### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
 
@@ -298,9 +303,9 @@ Da `src/main.tsx` weiterhin die Legacy-Skripte lädt und die Tabs `window`-Funkt
    - Migriere die DOM-gebundene Shop-/Wallet-Logik (`src/features/shop/services/*`) in React-State.
    - Baue das Shop-/Inventar-UI als komponentenbasierte Ansicht mit sauberem Datenfluss.
 
-7) **Codex-Aufgabe: Würfel & Rechner als React-Komponenten**
-   - Überführe `src/features/dice/services/*` in Komponenten mit lokalem State.
-   - Entferne `legacy.ts`-Abhängigkeiten und ersetze direkte DOM-Updates.
+7) **Codex-Aufgabe: Würfel & Rechner als React-Komponenten (erledigt)**
+   - `src/features/dice/services/*` in Komponenten mit lokalem State überführt.
+   - `legacy.ts`-Abhängigkeiten entfernt und direkte DOM-Updates ersetzt.
 
 8) **Codex-Aufgabe: Save/Load UI sauber modularisieren**
    - Nutze `SaveControls` und trenne Save/Load-UI von großen Tab-Markups.
