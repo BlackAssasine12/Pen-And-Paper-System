@@ -2,13 +2,8 @@ import { useState } from "react";
 import {
   CharacterNameInput,
   ExperienceSection,
-  SaveControls,
-  generateStandardFilename,
-  getSaveData,
-  loadCharacterFile,
-  saveCharacterData,
-  useCharacter,
 } from "../features/character";
+import SaveControlsSection from "../features/character/components/SaveControlsSection";
 import { useCharacterCalculations } from "../features/character/hooks/useCharacterCalculations";
 import AttributesSection from "../features/character/components/AttributesSection";
 import CombatBaseSection from "../features/character/components/CombatBaseSection";
@@ -51,7 +46,6 @@ type TabsProps = {
 
 const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange }: TabsProps) => {
   const [activeTab, setActiveTab] = useState<TabKey>("charakter");
-  const { name, experience, setLevel, setXp, setSteigerungspunkte } = useCharacter();
   const magicSum = magicState.magicAbilities.reduce((sum, ability) => sum + (ability.level ?? 0), 0);
   const { attributes, setAttributes, modifiers, setModifiers, derived } = useCharacterCalculations(magicSum);
   const [hiddenAttributes, setHiddenAttributes] = useState<Array<keyof typeof attributes>>([]);
@@ -115,37 +109,7 @@ const Tabs = ({ listenersEnabled, hiddenItemsVisible, magicState, onMagicChange 
 
       <div className="content">
         <div className={`tab-content${activeTab === "charakter" ? " active" : ""}`} id="charakter-tab">
-          <SaveControls
-            characterName={name}
-            onGenerateFilename={generateStandardFilename}
-            onLoadFile={(file) =>
-              loadCharacterFile(file, {
-                onMagicLoaded: onMagicChange,
-                onExperienceLoaded: (loadedExperience) => {
-                  setLevel(loadedExperience.level ?? 0);
-                  setXp(loadedExperience.xp ?? 0);
-                  setSteigerungspunkte(loadedExperience.steigerungspunkte ?? 0);
-                },
-              })
-            }
-            onSave={(filename) => {
-              const data = getSaveData();
-              if (!data) {
-                alert("Es wurden noch keine Charakterdaten geladen!");
-                return;
-              }
-
-              saveCharacterData(data, {
-                filename,
-                characterName: name,
-                experience,
-                magicSystem: {
-                  ...magicState,
-                  advancementPoints: experience.steigerungspunkte,
-                },
-              });
-            }}
-          />
+          <SaveControlsSection magicState={magicState} onMagicChange={onMagicChange} />
 
           <div className="main-character-content">
             <div className="three-column-container">

@@ -102,6 +102,8 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
   - React-Komponente für Sonderwerte (abgeleitete Werte).
 - **src/features/character/components/HiddenAttributesSection.tsx**
   - React-Komponente für ausgeblendete Attribute (Ausgeblendete-Tab).
+- **src/features/character/components/SaveControlsSection.tsx**
+  - Wrapper-Komponente für Save/Load, bindet SaveControls an Character- und Magic-State.
 - **src/features/character/index.ts**
   - Sammel-Exports für Context, UI-Teile und Save/Load-Helfer.
 - **src/features/character/legacy.ts**
@@ -222,12 +224,13 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - Tabs rufen Legacy-Services direkt auf, statt globale `window`-Funktionen zu nutzen (Codex-Aufgabe 5 umgesetzt).
 - Shop/Inventar-UI und Wallet-Logik in React-State migriert, inkl. Shop-Data-Loading (Codex-Aufgabe 6 umgesetzt).
 - Würfel & Rechner als React-Komponenten umgesetzt, Legacy-Init in `main.tsx` entfernt (Codex-Aufgabe 7 umgesetzt).
+- Save/Load-UI modularisiert, SaveControls separat in Tabs integriert (Codex-Aufgabe 8 umgesetzt).
 
 ### Was noch zu migrieren ist (weil aktuell noch Legacy-Skripte benötigt werden)
 
 - **DOM-Logik in `services/` → React-State/Komponenten:** Charakterberechnungen, Listener und Tabs hängen noch direkt am DOM.
 - **UI-Abschnitte mit Legacy-IDs:** Attribute/Modifier/Sonderwerte/Kampf-Basiswerte sind als React-Komponenten gerendert; weitere Bereiche (Talente, Shop, Inventar) hängen noch an Legacy-IDs und müssen migriert werden.
-- **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert, aber die UI ist noch Teil des großen Tab-Markups; eine saubere Trennung in eigenständige Komponenten fehlt.
+- **Datei-Import/Export an React binden:** Save/Load ist bereits ausgelagert; verbleibende Legacy-Save-IDs in alten HTMLs weiter entfernen, sobald Legacy-Bootstrap wegfällt.
 - **Restliche Charakterberechnungen migrieren:** Talente/Gesteigerte-Logik, Auto-Skill-Verteilung und Listener/MaxValue-Logik außerhalb der Attribute/Modifier sind noch Legacy-basiert.
 
 ### Inventarisierte Legacy-Abhängigkeiten (Codex-Aufgabe 1)
@@ -307,9 +310,9 @@ Da `src/main.tsx` weiterhin die Legacy-Skripte lädt und die Tabs `window`-Funkt
    - `src/features/dice/services/*` in Komponenten mit lokalem State überführt.
    - `legacy.ts`-Abhängigkeiten entfernt und direkte DOM-Updates ersetzt.
 
-8) **Codex-Aufgabe: Save/Load UI sauber modularisieren**
-   - Nutze `SaveControls` und trenne Save/Load-UI von großen Tab-Markups.
-   - Binde die Komponenten in die Tabs ein und entferne Rest-Abhängigkeiten von Legacy-HTML.
+8) **Codex-Aufgabe: Save/Load UI sauber modularisieren (erledigt)**
+   - `SaveControlsSection` bindet die Save/Load-UI mit Character- und Magic-State ein.
+   - Tabs nutzen den Wrapper statt das Save/Load-Markup inline zu definieren.
 
 9) **Codex-Aufgabe: Legacy-Bootstrap entfernen**
    - Entferne das Laden der Legacy-Skripte aus `src/main.tsx`.
