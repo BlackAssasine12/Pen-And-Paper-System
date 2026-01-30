@@ -15,13 +15,17 @@ type SectionKey = (typeof sectionDefinitions)[number]["key"];
 type TalentSectionsProps = {
   faehigkeiten?: CharacterFaehigkeiten;
   onChange: (section: SectionKey, index: number, value: number) => void;
+  minValue: number;
+  maxValue: number;
 };
 
 const renderTalentSection = (
   title: string,
   sectionId: SectionKey,
   entries: TalentEntry[] | undefined,
-  onChange: (section: SectionKey, index: number, value: number) => void
+  onChange: (section: SectionKey, index: number, value: number) => void,
+  minValue: number,
+  maxValue: number
 ) => {
   if (!Array.isArray(entries) || entries.length === 0) {
     return null;
@@ -42,6 +46,8 @@ const renderTalentSection = (
                 className={`stg attributeInput ${sectionId}`}
                 type="number"
                 value={entry.Wert ?? 0}
+                min={minValue}
+                max={maxValue}
                 id={`${sectionId}_${sanitizedName}`}
                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
                   onChange(sectionId, index, Number.parseInt(event.target.value, 10) || 0)
@@ -55,10 +61,10 @@ const renderTalentSection = (
   );
 };
 
-const TalentSections = ({ faehigkeiten, onChange }: TalentSectionsProps) => (
+const TalentSections = ({ faehigkeiten, onChange, minValue, maxValue }: TalentSectionsProps) => (
   <div className="attributeFlexContainer">
     {sectionDefinitions.map((section) =>
-      renderTalentSection(section.title, section.key, faehigkeiten?.[section.key], onChange)
+      renderTalentSection(section.title, section.key, faehigkeiten?.[section.key], onChange, minValue, maxValue)
     )}
   </div>
 );

@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useCharacter } from "../CharacterContext";
 import {
   calculateDerivedValues,
-  calculateLevelFromXp,
   type CoreAttributes,
   type CoreModifiers,
 } from "../services/derivedCalculations";
@@ -32,16 +31,9 @@ const defaultModifiers: CoreModifiers = {
 };
 
 export const useCharacterCalculations = (magicSum: number) => {
-  const { experience, setLevel } = useCharacter();
+  const { experience } = useCharacter();
   const [attributes, setAttributes] = useState<CoreAttributes>(defaultAttributes);
   const [modifiers, setModifiers] = useState<CoreModifiers>(defaultModifiers);
-
-  useEffect(() => {
-    const nextLevel = calculateLevelFromXp(experience.xp);
-    if (experience.level !== nextLevel) {
-      setLevel(nextLevel);
-    }
-  }, [experience.level, experience.xp, setLevel]);
 
   const derived = useMemo(
     () =>

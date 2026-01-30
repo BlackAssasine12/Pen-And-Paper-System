@@ -6,9 +6,11 @@ const sanitizeKey = (key: string) => key.replace(/\s+/g, "_");
 type CombatTalentsSectionProps = {
   talents?: CombatTalents;
   onChange: (talentName: string, index: number, value: number) => void;
+  minValue: number;
+  maxValue: number;
 };
 
-const CombatTalentsSection = ({ talents, onChange }: CombatTalentsSectionProps) => {
+const CombatTalentsSection = ({ talents, onChange, minValue, maxValue }: CombatTalentsSectionProps) => {
   const entries = Object.entries(talents ?? {});
 
   if (entries.length === 0) {
@@ -32,6 +34,8 @@ const CombatTalentsSection = ({ talents, onChange }: CombatTalentsSectionProps) 
                   className={`stg ArrAttributeInput Kampf_Talente Kampf_Talente_${index}`}
                   type="number"
                   value={safeValues[index] ?? 0}
+                  min={minValue}
+                  max={maxValue}
                   id={`Kampf_Talente_${sanitizedKey}_${index}`}
                   onChange={(event: ChangeEvent<HTMLInputElement>) =>
                     onChange(key, index, Number.parseInt(event.target.value, 10) || 0)

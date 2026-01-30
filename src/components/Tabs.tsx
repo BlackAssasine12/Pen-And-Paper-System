@@ -72,6 +72,8 @@ const Tabs = () => {
   const attributeMax = Math.min(derived.level + 12, 21);
   const modifierMin = 0;
   const modifierMax = derived.level + 2;
+  const talentMin = -3;
+  const talentMax = Math.min(derived.level + 10, 21);
 
   const handleAttributeChange = (key: keyof typeof attributes, value: number) => {
     setAttributes((current) => ({ ...current, [key]: value }));
@@ -321,9 +323,16 @@ const Tabs = () => {
             <CombatTalentsSection
               talents={characterData?.charakter?.fähigkeiten?.Kampf_Talente}
               onChange={handleCombatTalentChange}
+              minValue={talentMin}
+              maxValue={talentMax}
             />
 
-            <TalentSections faehigkeiten={characterData?.charakter?.fähigkeiten} onChange={handleTalentChange} />
+            <TalentSections
+              faehigkeiten={characterData?.charakter?.fähigkeiten}
+              onChange={handleTalentChange}
+              minValue={talentMin}
+              maxValue={talentMax}
+            />
           </div>
         </div>
 
