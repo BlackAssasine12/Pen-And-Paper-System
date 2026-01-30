@@ -1,8 +1,6 @@
 // saveLoader.tsx - Einheitliches Speicher- und Ladesystem
 import { readNumericInput, readTextInput } from "./characterState";
 import { genCharInfo } from "./characterInfo";
-import { bindHideButtons } from "./hideButtons";
-import { updateCharakterCalculation } from "./calculations";
 import { createEmptyWallet, getShopSnapshot, normalizeInventoryItems, setShopSnapshot } from "../../shop/store";
 import type {
     CharacterData,
@@ -16,8 +14,6 @@ import type {
     SaveOverrides,
     TalentEntry,
 } from "../../../types/character";
-
-declare const generateCharakterAttributes: ((data: CharacterData) => void) | undefined;
 
 // Globale Variablen
 let myData: CharacterData | null = null;
@@ -373,20 +369,10 @@ export function loadCharacterFile(file: File | null, callbacks: LoadCallbacks = 
                 inventory: nextInventory,
             });
 
-            if (typeof generateCharakterAttributes === 'function') {
-                slLog("handleFileUpload: generateCharakterAttributes()");
-                generateCharakterAttributes(data);
-            } else slWarn("handleFileUpload: generateCharakterAttributes fehlt");
-
             if (typeof genCharInfo === 'function') {
                 slLog("handleFileUpload: genCharInfo()");
                 genCharInfo(data);
             } else slWarn("handleFileUpload: genCharInfo fehlt");
-
-            if (typeof bindHideButtons === 'function') {
-                slLog("handleFileUpload: bindHideButtons()");
-                bindHideButtons();
-            } else slWarn("handleFileUpload: bindHideButtons fehlt");
 
             // 3. Inventar laden
             if (data.inventory) {
@@ -408,11 +394,9 @@ export function loadCharacterFile(file: File | null, callbacks: LoadCallbacks = 
                 });
             }
 
-            // 6. Berechnung aktualisieren
-            if (typeof updateCharakterCalculation === 'function') {
-                slLog("handleFileUpload: updateCharakterCalculation()");
-                updateCharakterCalculation();
-            } else slWarn("handleFileUpload: updateCharakterCalculation fehlt");
+            if (callbacks?.onCharacterLoaded) {
+                callbacks.onCharacterLoaded(data);
+            }
 
             if (callbacks?.onFilenameLoaded) {
                 callbacks.onFilenameLoaded(file.name);
@@ -533,10 +517,6 @@ function synchronizeToCharacterSheet() {
 
         if (steigerungspunkteInput instanceof HTMLInputElement && window.advancementPoints !== undefined) {
             steigerungspunkteInput.value = String(window.advancementPoints);
-
-            if (typeof updateCharakterCalculation === 'function') {
-                updateCharakterCalculation();
-            }
         }
     } catch (error) {
         slErr("synchronizeToCharacterSheet: error", error);

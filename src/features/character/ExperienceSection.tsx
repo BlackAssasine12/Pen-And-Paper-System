@@ -1,20 +1,8 @@
-import { useEffect } from "react";
 import type { ChangeEvent } from "react";
 import { useCharacter } from "./CharacterContext";
 
-type ExperienceSectionProps = {
-  onRecalculate?: () => void;
-  listenersEnabled?: boolean;
-};
-
-const ExperienceSection = ({ onRecalculate, listenersEnabled = true }: ExperienceSectionProps) => {
+const ExperienceSection = () => {
   const { experience, setLevel, setXp, setSteigerungspunkte } = useCharacter();
-
-  useEffect(() => {
-    if (onRecalculate && listenersEnabled) {
-      onRecalculate();
-    }
-  }, [experience.level, experience.xp, experience.steigerungspunkte, experience.gesteigerte, onRecalculate, listenersEnabled]);
 
   return (
     <div className="FlexItemContainer" id="erfahrungContainer">

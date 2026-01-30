@@ -110,6 +110,7 @@ export interface SaveOverrides {
 export interface LoadCallbacks {
   onExperienceLoaded?: (experience: Required<ExperienceOverride>) => void;
   onMagicLoaded?: (magicSystem: MagicSystemSnapshot) => void;
+  onCharacterLoaded?: (data: CharacterData) => void;
   onFilenameLoaded?: (filename: string) => void;
 }
 
