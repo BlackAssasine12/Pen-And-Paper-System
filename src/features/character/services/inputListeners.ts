@@ -7,6 +7,7 @@ const toInputElement = (target: EventTarget | null) =>
     target instanceof HTMLInputElement ? target : null;
 
 export function addInputChangeListeners() {
+    removeInputChangeListeners();
     const inputElements = document.querySelectorAll('.stg');
     inputElements.forEach((input) => {
         input.addEventListener('change', (event: Event) => {
