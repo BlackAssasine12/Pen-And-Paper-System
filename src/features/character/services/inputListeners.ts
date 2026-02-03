@@ -6,6 +6,16 @@ import { updateCharakterCalculation } from "./calculations";
 const toInputElement = (target: EventTarget | null) =>
     target instanceof HTMLInputElement ? target : null;
 
+const setInputValueAndDispatch = (input: HTMLInputElement, nextValue: number) => {
+    const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+    if (valueSetter) {
+        valueSetter.call(input, String(nextValue));
+    } else {
+        input.value = String(nextValue);
+    }
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+};
+
 export function addInputChangeListeners() {
     removeInputChangeListeners();
     const inputElements = document.querySelectorAll('.stg');
@@ -67,7 +77,7 @@ function handleInputChange(event: Event) {
         });
 
         const updatedValue = parseFloat(mainInput.value) - (diff * adjustmentValue);
-        mainInput.value = String(updatedValue);
+        setInputValueAndDispatch(mainInput, updatedValue);
         input.setAttribute('data-initial', String(newValue));
         syncInputElement(input);
         syncInputElement(mainInput);
@@ -142,7 +152,7 @@ function setInputsToMinOrMax(isMin: boolean) {
 
     // Hauptinput "erfahrung_Steigerungspunkte" aktualisieren
     if (mainInput instanceof HTMLInputElement) {
-        mainInput.value = String(parseFloat(mainInput.value) - totalAdjustment);
+        setInputValueAndDispatch(mainInput, parseFloat(mainInput.value) - totalAdjustment);
         syncInputElement(mainInput);
     }
     updateCharakterCalculation()

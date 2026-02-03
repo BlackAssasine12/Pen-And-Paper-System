@@ -1,4 +1,5 @@
 import { setKlassenVariable } from "./adjustments";
+import { addInputChangeListeners } from "./inputListeners";
 import type { KlassenKategorien } from "../../../types/character";
 
 type InfoListeData = {
@@ -67,6 +68,8 @@ export const initializeListe = () => {
             if (initialClass) {
                 setKlassenVariable(initialClass, klassen);
             }
+
+            addInputChangeListeners();
         })
         .catch(error => console.error('Error fetching JSON:', error));
 };
