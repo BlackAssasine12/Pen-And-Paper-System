@@ -6,7 +6,18 @@ import { updateCharakterCalculation } from "./calculations";
 const toInputElement = (target: EventTarget | null) =>
     target instanceof HTMLInputElement ? target : null;
 
+const setInputValueAndDispatch = (input: HTMLInputElement, nextValue: number) => {
+    const valueSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")?.set;
+    if (valueSetter) {
+        valueSetter.call(input, String(nextValue));
+    } else {
+        input.value = String(nextValue);
+    }
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+};
+
 export function addInputChangeListeners() {
+    removeInputChangeListeners();
     const inputElements = document.querySelectorAll('.stg');
     inputElements.forEach((input) => {
         input.addEventListener('change', (event: Event) => {
@@ -46,7 +57,7 @@ function removeInputChangeListeners() {
 
 function handleInputChange(event: Event) {
     const input = toInputElement(event.target);
-    const mainInput = document.getElementById('erfahrung_Gesteigerte');
+    const mainInput = document.getElementById('erfahrung_Steigerungspunkte');
     if (!input || !(mainInput instanceof HTMLInputElement)) {
         return;
     }
@@ -65,8 +76,8 @@ function handleInputChange(event: Event) {
             }
         });
 
-        const updatedValue = parseFloat(mainInput.value) + (diff * adjustmentValue);
-        mainInput.value = String(updatedValue);
+        const updatedValue = parseFloat(mainInput.value) - (diff * adjustmentValue);
+        setInputValueAndDispatch(mainInput, updatedValue);
         input.setAttribute('data-initial', String(newValue));
         syncInputElement(input);
         syncInputElement(mainInput);
@@ -105,7 +116,7 @@ if (hiddenCheckbox) {
 function setInputsToMinOrMax(isMin: boolean) {
     // Alle Eingabefelder mit min und max finden
     const inputs = document.querySelectorAll('input[min][max]');
-    const mainInput = document.getElementById('erfahrung_Gesteigerte');
+    const mainInput = document.getElementById('erfahrung_Steigerungspunkte');
     let totalAdjustment = 0; // Variable für die Gesamtsumme der Änderungen
 
     inputs.forEach((input) => {
@@ -139,13 +150,13 @@ function setInputsToMinOrMax(isMin: boolean) {
         }
     });
 
-    // Hauptinput "erfahrung_Gesteigerte" aktualisieren
+    // Hauptinput "erfahrung_Steigerungspunkte" aktualisieren
     if (mainInput instanceof HTMLInputElement) {
-        mainInput.value = String(parseFloat(mainInput.value) + totalAdjustment);
+        setInputValueAndDispatch(mainInput, parseFloat(mainInput.value) - totalAdjustment);
         syncInputElement(mainInput);
     }
     updateCharakterCalculation()
-    alert(`Alle Eingaben wurden auf ${isMin ? 'Min' : 'Max'} gesetzt. Erfahrung gesteigerte wurde entsprechend angepasst.`);
+    alert(`Alle Eingaben wurden auf ${isMin ? 'Min' : 'Max'} gesetzt. Steigerungspunkte wurden entsprechend angepasst.`);
 }
 
 // Event-Listener für Buttons
