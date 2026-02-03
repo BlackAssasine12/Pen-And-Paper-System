@@ -42,11 +42,11 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 - **assets/wood.jpg**
   - Hintergrundtextur für das UI (Body-Background).
 
-## Ordner `charbogen/`
+## Ordner `public/charbogen/`
 
-- **charbogen/charakter.json**
+- **public/charbogen/charakter.json**
   - Beispiel-/Vorlagendatei für den Charakterbogen (Struktur für Charakterinfo, Werte, Geld, Fähigkeiten, Magie, Inventar).
-- **charbogen/InfoListe.json**
+- **public/charbogen/InfoListe.json**
   - Datenquelle für Rassen- und Klassenlisten, strukturiert nach Kategorien. Wird in Dropdowns übernommen.
 
 ## Ordner `scripts/`
@@ -195,17 +195,17 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 
 - **src/styles/main.scss**
   - Einstiegspunkt für die Styles, bindet SCSS-Module ein.
-- **src/styles/_variables.scss**
+- **src/styles/\_variables.scss**
   - Zentrale Variablen (Farben, Typografie, Abstände).
-- **src/styles/_base.scss**
+- **src/styles/\_base.scss**
   - Reset/Global-Styles und Body-Styling.
-- **src/styles/_layout.scss**
+- **src/styles/\_layout.scss**
   - Layout-Regeln (Spalten, Container, Flexbox, Würfel-/Rechner-Layout).
-- **src/styles/_components.scss**
+- **src/styles/\_components.scss**
   - Styling für Buttons, Inputs, Wallet, Inventar-/Shop-Komponenten.
-- **src/styles/_tabs.scss**
+- **src/styles/\_tabs.scss**
   - Tabs-Layout und Navigation.
-- **src/styles/_vanillaMagicSystem.scss**
+- **src/styles/\_vanillaMagicSystem.scss**
   - Spezifische Styles für das Magiesystem.
 
 ## Migrationsstand & offene Punkte
@@ -237,10 +237,12 @@ Diese Dokumentation beschreibt die Aufgaben der Dateien im Repository **Pen-And-
 Für eine reproduzierbare Analyse kann das Skript `scripts/legacy-deps-inventory.mjs` genutzt werden. Es erzeugt `legacy-deps-report.json` im Repo-Root mit einer Feature-Übersicht (window-Globals, DOM-IDs, Selektoren, DOM-Operationen).
 
 **Core (src/main.tsx)**
+
 - DOM-IDs: `root`
 - DOM-Operationen: `createRoot`, `getElementById`
 
 **Character (src/features/character/… )**
+
 - window-Globals: `MagicSystem`, `advancementPoints`, `characterMagic`, `inventory`, `kampfArr`
 - DOM-IDs (statisch):
   - Charakterinfo: `name`, `alter`, `geschlecht`, `rassen-select`, `klassen-select`, `größe`, `gewicht`, `haarfarbe`, `augenfarbe`, `titel`
@@ -258,18 +260,21 @@ Für eine reproduzierbare Analyse kann das Skript `scripts/legacy-deps-inventory
 - Direkte DOM-Operationen: `getElementById`, `querySelector(All)`, `createElement`, `appendChild`, `removeChild`, `classList`, `style`, `innerHTML`, `textContent`, `setAttribute`, `addEventListener`, `removeEventListener`, `closest`
 
 **Magic (src/features/magic/… )**
+
 - window-Globals: `MagicSystem`, `advancementPoints`, `characterMagic`, `renderMagicList`, `updatePreview`
 - DOM-IDs: `erfahrung_level`, `erfahrung_xp`, `erfahrung_Gesteigerte`, `erfahrung_Steigerungspunkte`, `advancement-points`, `name`, `characterName`, `elementSelect`, `customElementContainer`, `customElement`, `magicTypeSelect`, `magicLevel`, `levelError`, `addMagicBtn`, `magic-list`, `add-points-btn`, `saveButton`, `loadButton`, `fileInput`, `previewContent`, `magie-tab`, `magieSpeichernButton`
 - DOM-Selektoren: `.tab-item`, `.btn-level-up`, `.btn-remove`, `.vanilla-magic-system`
 - Direkte DOM-Operationen: `getElementById`, `querySelector(All)`, `createElement`, `appendChild`, `removeChild`, `classList`, `style`, `innerHTML`, `textContent`, `setAttribute`, `addEventListener`, `dispatchEvent`
 
 **Shop (src/features/shop/… )**
+
 - window-Globals: `inventory`
 - DOM-IDs: `shop`, `itemNameInput`, `inventory`, `ShopButton`, `showDukaten`, `showSilber`, `showHeller`, `showKreuzer`, `CurrencyField`, `NumberInput`
 - DOM-Selektoren: `#inventory li`
 - Direkte DOM-Operationen: `getElementById`, `createElement`, `appendChild`, `classList`, `innerHTML`, `textContent`, `addEventListener`
 
 **Dice (src/features/dice/… )**
+
 - DOM-IDs: `divDice`, `DiceCount`, `DiceSides`, `showDice`, `container`, `Dicer`, `eqField`, `evField`
 - Direkte DOM-Operationen: `getElementById`, `createElementNS`, `appendChild`, `classList`, `style`, `innerHTML`, `innerText`, `setAttribute`
 
@@ -281,43 +286,44 @@ Da weiterhin Legacy-Services und `window`-Funktionen in React-Logik eingebunden 
 
 > **Wichtig:** Nach jeder erledigten Aufgabe muss die Sektion **„Migrationsstand & offene Punkte“** aktualisiert werden (erledigte Punkte markieren, offene Punkte präzisieren, neue Hinweise ergänzen).
 
-1) **Codex-Aufgabe: Legacy-Abhängigkeiten inventarisieren (erledigt)**
+1. **Codex-Aufgabe: Legacy-Abhängigkeiten inventarisieren (erledigt)**
    - Sammle in `src/features/*/` und `src/main.tsx` alle `window`-Funktionen, DOM-IDs und direkte DOM-Manipulationen.
    - Liefere eine Feature-Liste (Character/Magic/Shop/Dice) der Abhängigkeiten als Basis für die Migration.
 
-2) **Codex-Aufgabe: Charakterberechnungen nach React-State migrieren (erledigt)**
+2. **Codex-Aufgabe: Charakterberechnungen nach React-State migrieren (erledigt)**
    - Überführe die Kernberechnungen aus `src/features/character/services/` (z. B. `calculations.ts`, `inputListeners.ts`, `characterState.ts`) in State-basierte Logik/Hooks.
    - Starte mit Attribut- und Talentberechnungen, da sie viele weitere Komponenten beeinflussen.
 
-3) **Codex-Aufgabe: Legacy-UI-IDs durch React-Komponenten ersetzen (erledigt)**
+3. **Codex-Aufgabe: Legacy-UI-IDs durch React-Komponenten ersetzen (erledigt)**
    - Migriere UI-Abschnitte mit Legacy-IDs (z. B. Attribute, Talente, Shop, Inventar) in eigenständige React-Komponenten.
    - Entferne direkte `document.getElementById`/`querySelector`-Abhängigkeiten in diesen Bereichen.
 
-4) **Codex-Aufgabe: Listener/Hide-Buttons in React-Logik überführen (erledigt)**
+4. **Codex-Aufgabe: Listener/Hide-Buttons in React-Logik überführen (erledigt)**
    - Ersetze `hideButtons.ts`, `inputListeners.ts` und `maxValueSettings.ts` durch React-State + Effekte.
    - Stelle sicher, dass das Verhalten im „Ausgeblendete“-Tab erhalten bleibt.
 
-5) **Codex-Aufgabe: Tabs-Logik ohne globale `window`-Funktionen (erledigt)**
+5. **Codex-Aufgabe: Tabs-Logik ohne globale `window`-Funktionen (erledigt)**
    - Baue die `window`-Funktionsaufrufe in `src/components/Tabs.tsx` auf lokale Handler/Hooks um.
    - Definiere klar, welche Funktionen/Services von Tabs benötigt werden.
 
-6) **Codex-Aufgabe: Shop & Wallet vollständig entkoppeln (erledigt)**
+6. **Codex-Aufgabe: Shop & Wallet vollständig entkoppeln (erledigt)**
    - Migriere die DOM-gebundene Shop-/Wallet-Logik (`src/features/shop/services/*`) in React-State.
    - Baue das Shop-/Inventar-UI als komponentenbasierte Ansicht mit sauberem Datenfluss.
 
-7) **Codex-Aufgabe: Würfel & Rechner als React-Komponenten (erledigt)**
+7. **Codex-Aufgabe: Würfel & Rechner als React-Komponenten (erledigt)**
    - `src/features/dice/services/*` in Komponenten mit lokalem State überführt.
    - Direkte DOM-Updates entfernt und durch React-State ersetzt.
 
-8) **Codex-Aufgabe: Save/Load UI sauber modularisieren (erledigt)**
+8. **Codex-Aufgabe: Save/Load UI sauber modularisieren (erledigt)**
    - `SaveControlsSection` bindet die Save/Load-UI mit Character- und Magic-State ein.
    - Tabs nutzen den Wrapper statt das Save/Load-Markup inline zu definieren.
 
-9) **Codex-Aufgabe: Legacy-Bootstrap entfernen (erledigt)**
+9. **Codex-Aufgabe: Legacy-Bootstrap entfernen (erledigt)**
    - Entferne das Laden der Legacy-Skripte aus `src/main.tsx`.
    - Stelle sicher, dass alle Funktionen durch React-Logik abgedeckt sind.
 
-10) **Codex-Aufgabe: Aufräumen & Stabilisierung (erledigt)**
-   - Obsolete Legacy-HTML-Dateien entfernt.
-   - Nicht mehr benötigte Legacy-Services entfernt.
-   - Dokumentation bereinigt und aktualisiert.
+10. **Codex-Aufgabe: Aufräumen & Stabilisierung (erledigt)**
+
+- Obsolete Legacy-HTML-Dateien entfernt.
+- Nicht mehr benötigte Legacy-Services entfernt.
+- Dokumentation bereinigt und aktualisiert.
