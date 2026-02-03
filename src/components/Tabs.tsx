@@ -11,6 +11,7 @@ import SonderwerteSection from "../features/character/components/SonderwerteSect
 import TalentSections from "../features/character/components/TalentSections";
 import { applyAutoSkillDistribution } from "../features/character/services/autoSkillDistribution";
 import { changeColor, changeFont } from "../features/character/services/skin";
+import { initializeListe } from "../features/character/services/liste";
 import Calculator from "../features/dice/components/Calculator";
 import DiceRoller from "../features/dice/components/DiceRoller";
 import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
@@ -219,6 +220,10 @@ const Tabs = () => {
       setSaveData(characterData);
     }
   }, [characterData]);
+
+  useEffect(() => {
+    initializeListe();
+  }, []);
 
   return (
     <div className="tabs-container">

@@ -7,7 +7,7 @@ type InfoListeData = {
 };
 
 // Laden der JSON-Daten und Initialisierung
-const initializeListe = () => {
+export const initializeListe = () => {
     const baseUrl = import.meta.env.BASE_URL ?? "/";
     fetch(`${baseUrl}charbogen/InfoListe.json`)
         .then(response => {
@@ -70,9 +70,3 @@ const initializeListe = () => {
         })
         .catch(error => console.error('Error fetching JSON:', error));
 };
-
-if (document.readyState === "loading") {
-    document.addEventListener('DOMContentLoaded', initializeListe);
-} else {
-    initializeListe();
-}
