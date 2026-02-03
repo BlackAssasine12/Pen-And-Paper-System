@@ -9,7 +9,9 @@ declare module "react" {
   export const StrictMode: (props: StrictModeProps) => JSX.Element;
   export const Fragment: (props: { children?: ReactNode }) => JSX.Element;
 
-  export function useState<S>(initial: S | (() => S)): [S, (value: S) => void];
+  export type SetStateAction<S> = S | ((prevState: S) => S);
+  export type Dispatch<A> = (value: A) => void;
+  export function useState<S>(initial: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
   export function useEffect(effect: () => void | (() => void), deps?: unknown[]): void;
   export function useMemo<T>(factory: () => T, deps?: unknown[]): T;
   export function useRef<T>(initial: T | null): { current: T | null };
