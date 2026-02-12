@@ -1,0 +1,223 @@
+{
+  "character": {
+    "files": [
+      "src/features/character/CharacterContext.tsx",
+      "src/features/character/CharacterNameInput.tsx",
+      "src/features/character/ExperienceSection.tsx",
+      "src/features/character/SaveControls.tsx",
+      "src/features/character/components/AttributesSection.tsx",
+      "src/features/character/components/CharacterAttributes.tsx",
+      "src/features/character/components/CombatBaseSection.tsx",
+      "src/features/character/components/HiddenAttributesSection.tsx",
+      "src/features/character/components/ModifiersSection.tsx",
+      "src/features/character/components/SaveControlsSection.tsx",
+      "src/features/character/components/SonderwerteSection.tsx",
+      "src/features/character/hooks/useCharacterCalculations.ts",
+      "src/features/character/index.ts",
+      "src/features/character/services/adjustments.ts",
+      "src/features/character/services/calculations.ts",
+      "src/features/character/services/characterInfo.ts",
+      "src/features/character/services/characterState.ts",
+      "src/features/character/services/derivedCalculations.ts",
+      "src/features/character/services/hideButtons.ts",
+      "src/features/character/services/inputListeners.ts",
+      "src/features/character/services/liste.ts",
+      "src/features/character/services/maxValueSettings.ts",
+      "src/features/character/services/saveLoader.ts",
+      "src/features/character/services/skin.ts",
+      "src/features/character/services/tabs.ts"
+    ],
+    "windowGlobals": [
+      "MagicSystem",
+      "advancementPoints",
+      "characterMagic",
+      "kampfArr"
+    ],
+    "domIds": [
+      "${sectionId}_${key}",
+      "${sectionId}_${sanitizedKey}",
+      "${sectionId}_${sanitizedKey}_${index}",
+      "ASkillVert",
+      "advancement-points",
+      "attributeContainer",
+      "colorInput",
+      "erfahrung_Gesteigerte",
+      "erfahrung_Steigerungspunkte",
+      "fontInput",
+      "hiddenItemsContainer",
+      "kampfTalenteGridContainer",
+      "klassen-select",
+      "magischeElementeContainer",
+      "modifierContainer",
+      "rassen-select",
+      "saveButton",
+      "setMax",
+      "setMin",
+      "sonderwerteContainer",
+      "toggleHiddenCheckbox",
+      "toggleListenersCheckbox"
+    ],
+    "domIdTemplates": [
+      "template:${sectionId}_${key}",
+      "template:${sectionId}_${sanitizedKey}",
+      "template:${sectionId}_${sanitizedKey}_${index}"
+    ],
+    "selectors": [
+      "#erfahrung_xp",
+      ".${klass}",
+      ".Assassinen_Talente, .Talente_1, .Talente_2, .Handwerkstalente, .Kampf_Talente",
+      ".Magische_Elemente",
+      ".attribute",
+      ".hidden-items",
+      ".hidebutton",
+      ".modifier",
+      ".stg",
+      ".tab-content",
+      ".tab-item",
+      "h6",
+      "input",
+      "input[min][max]",
+      "label",
+      "select"
+    ],
+    "domOperations": [
+      "addEventListener",
+      "appendChild",
+      "classList",
+      "closest",
+      "createElement",
+      "getElementById",
+      "innerHTML",
+      "querySelector",
+      "querySelectorAll",
+      "removeChild",
+      "removeEventListener",
+      "setAttribute",
+      "style",
+      "textContent"
+    ]
+  },
+  "dice": {
+    "files": [
+      "src/features/dice/components/Calculator.tsx",
+      "src/features/dice/components/DiceRoller.tsx",
+      "src/features/dice/index.ts",
+      "src/features/dice/services/dice.ts",
+      "src/features/dice/services/rechner.ts",
+      "src/features/dice/services/spezialDice.ts"
+    ],
+    "windowGlobals": [],
+    "domIds": [
+      "Dicer",
+      "eqField",
+      "evField"
+    ],
+    "domIdTemplates": [],
+    "selectors": [],
+    "domOperations": [
+      "appendChild",
+      "classList",
+      "createElementNS",
+      "getElementById",
+      "innerHTML",
+      "innerText",
+      "setAttribute",
+      "style",
+      "textContent"
+    ]
+  },
+  "magic": {
+    "files": [
+      "src/features/magic/VanillaMagicSystem.tsx",
+      "src/features/magic/services/vanillaMagicSystem.ts",
+      "src/features/magic/types.ts"
+    ],
+    "windowGlobals": [
+      "MagicSystem",
+      "advancementPoints",
+      "characterMagic",
+      "prompt",
+      "renderMagicList",
+      "updatePreview"
+    ],
+    "domIds": [
+      "advancement-points",
+      "magie-tab",
+      "saveButton"
+    ],
+    "domIdTemplates": [],
+    "selectors": [
+      ".btn-level-up",
+      ".btn-remove",
+      ".tab-item",
+      ".vanilla-magic-system"
+    ],
+    "domOperations": [
+      "addEventListener",
+      "appendChild",
+      "classList",
+      "createElement",
+      "dispatchEvent",
+      "getElementById",
+      "innerHTML",
+      "querySelector",
+      "querySelectorAll",
+      "removeChild",
+      "textContent"
+    ]
+  },
+  "shop": {
+    "files": [
+      "src/features/shop/ShopContext.tsx",
+      "src/features/shop/components/InventoryPanel.tsx",
+      "src/features/shop/components/ShopPanel.tsx",
+      "src/features/shop/components/WalletPanel.tsx",
+      "src/features/shop/index.ts",
+      "src/features/shop/services/shop.ts",
+      "src/features/shop/services/wallet.ts",
+      "src/features/shop/store.ts"
+    ],
+    "windowGlobals": [
+      "inventory"
+    ],
+    "domIds": [
+      "CurrencyField",
+      "NumberInput",
+      "ShopButton",
+      "inventory",
+      "itemNameInput",
+      "shop",
+      "showDukaten",
+      "showHeller",
+      "showKreuzer",
+      "showSilber"
+    ],
+    "domIdTemplates": [],
+    "selectors": [],
+    "domOperations": [
+      "addEventListener",
+      "appendChild",
+      "classList",
+      "createElement",
+      "getElementById",
+      "innerHTML",
+      "innerText",
+      "textContent"
+    ]
+  },
+  "core": {
+    "files": [
+      "src/main.tsx"
+    ],
+    "windowGlobals": [],
+    "domIds": [
+      "root"
+    ],
+    "domIdTemplates": [],
+    "selectors": [],
+    "domOperations": [
+      "createRoot",
+      "getElementById"
+    ]
+  }
+}

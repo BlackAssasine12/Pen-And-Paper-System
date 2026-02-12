@@ -2,3 +2,5 @@ node_modules/
 dist/
 .env
 .DS_Store
+src/styles/main.css
+src/styles/main.css.map

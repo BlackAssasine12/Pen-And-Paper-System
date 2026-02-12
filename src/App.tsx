@@ -1,12 +1,16 @@
-import TopControls from "./components/TopControls";
 import Tabs from "./components/Tabs";
+import { CharacterProvider } from "./features/character";
+import { ShopProvider } from "./features/shop";
 
 const App = () => {
   return (
-    <div className="app">
-      <TopControls />
-      <Tabs />
-    </div>
+    <CharacterProvider>
+      <ShopProvider>
+        <div className="app">
+          <Tabs />
+        </div>
+      </ShopProvider>
+    </CharacterProvider>
   );
 };
 

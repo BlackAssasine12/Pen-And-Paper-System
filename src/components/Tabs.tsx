@@ -1,4 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { CharacterNameInput, ExperienceSection } from "../features/character";
+import SaveControlsSection from "../features/character/components/SaveControlsSection";
+import CombatTalentsSection from "../features/character/components/CombatTalentsSection";
+import { useCharacterCalculations } from "../features/character/hooks/useCharacterCalculations";
+import AttributesSection from "../features/character/components/AttributesSection";
+import CombatBaseSection from "../features/character/components/CombatBaseSection";
+import HiddenAttributesSection from "../features/character/components/HiddenAttributesSection";
+import ModifiersSection from "../features/character/components/ModifiersSection";
+import SonderwerteSection from "../features/character/components/SonderwerteSection";
+import TalentSections from "../features/character/components/TalentSections";
+import { applyAutoSkillDistribution } from "../features/character/services/autoSkillDistribution";
+import { changeColor, changeFont } from "../features/character/services/skin";
+import { initializeListe } from "../features/character/services/liste";
+import Calculator from "../features/dice/components/Calculator";
+import DiceRoller from "../features/dice/components/DiceRoller";
+import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
+import type { MagicSystemState } from "../features/magic/types";
+import InventoryPanel from "../features/shop/components/InventoryPanel";
+import ShopPanel from "../features/shop/components/ShopPanel";
+import WalletPanel from "../features/shop/components/WalletPanel";
+import type { CharacterData } from "../types/character";
+import type { CoreAttributes, CoreModifiers } from "../features/character/services/derivedCalculations";
+import { setSaveData } from "../features/character/services/saveLoader";
+import TopControls from "./TopControls";
 
 type TabKey = "charakter" | "magie" | "ausgeblendete" | "inventar" | "werkzeuge" | "einstellungen";
 
@@ -17,19 +41,199 @@ const tabs: TabDefinition[] = [
   { key: "einstellungen", label: "Einstellungen", contentId: "einstellungen-tab" },
 ];
 
-const invokeLegacy = (name: string, ...args: unknown[]) => {
-  const legacyFn = (window as typeof window & Record<string, (...params: unknown[]) => void>)[name];
-  if (typeof legacyFn === "function") {
-    legacyFn(...args);
-  }
+const attributeKeyMap: Record<string, keyof CoreAttributes> = {
+  Konstitution: "konstitution",
+  Körperkraft: "körperkraft",
+  Gewandheit: "gewandheit",
+  Klugheit: "klugheit",
+  Intuition: "intuition",
+  Fingerfertigkeit: "fingerfertigkeit",
+  Charisma: "charisma",
+  Geschicklichkeit: "geschicklichkeit",
+  Tarnung: "tarnung",
+  Sinnesschärfe: "sinnesschärfe",
+  Willenskraft: "willenskraft",
 };
 
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("charakter");
-  const baseUrl = import.meta.env.BASE_URL ?? "/";
+  const [listenersEnabled, setListenersEnabled] = useState(true);
+  const [hiddenItemsVisible, setHiddenItemsVisible] = useState(false);
+  const [magicState, setMagicState] = useState<MagicSystemState>({
+    advancementPoints: 0,
+    magicAbilities: [],
+  });
+  const [characterData, setCharacterData] = useState<CharacterData | null>(null);
+  const magicSum = magicState.magicAbilities.reduce((sum, ability) => sum + (ability.level ?? 0), 0);
+  const { attributes, setAttributes, modifiers, setModifiers, derived } = useCharacterCalculations(magicSum);
+  const [hiddenAttributes, setHiddenAttributes] = useState<Array<keyof typeof attributes>>([]);
+
+
+  const attributeMin = 7;
+  const attributeMax = Math.min(derived.level + 12, 21);
+  const modifierMin = 0;
+  const modifierMax = derived.level + 2;
+  const talentMin = -3;
+  const talentMax = Math.min(derived.level + 10, 21);
+
+  const handleAttributeChange = (key: keyof typeof attributes, value: number) => {
+    setAttributes((current) => ({ ...current, [key]: value }));
+  };
+
+  const handleModifierChange = (key: keyof typeof modifiers, value: number) => {
+    setModifiers((current) => ({ ...current, [key]: value }));
+  };
+
+  const handleHideAttribute = (key: keyof typeof attributes) => {
+    setHiddenAttributes((current) => (current.includes(key) ? current : [...current, key]));
+  };
+
+  const handleRestoreAttribute = (key: keyof typeof attributes) => {
+    setHiddenAttributes((current) => current.filter((item) => item !== key));
+  };
+
+  const setAllAttributeValues = (value: number) => {
+    setAttributes((current) =>
+      (Object.keys(current) as Array<keyof typeof current>).reduce(
+        (acc, key) => ({ ...acc, [key]: value }),
+        { ...current }
+      )
+    );
+  };
+
+  const setAllModifierValues = (value: number) => {
+    setModifiers((current) =>
+      (Object.keys(current) as Array<keyof typeof current>).reduce(
+        (acc, key) => ({ ...acc, [key]: value }),
+        { ...current }
+      )
+    );
+  };
+
+  const updateFaehigkeiten = (
+    updater: (current: NonNullable<CharacterData["charakter"]["fähigkeiten"]>) => CharacterData["charakter"]["fähigkeiten"]
+  ) => {
+    setCharacterData((prev) => {
+      if (!prev) {
+        return prev;
+      }
+      const current = (prev.charakter.fähigkeiten ?? {}) as NonNullable<CharacterData["charakter"]["fähigkeiten"]>;
+      return {
+        ...prev,
+        charakter: {
+          ...prev.charakter,
+          fähigkeiten: updater(current),
+        },
+      };
+    });
+  };
+
+  const handleCombatTalentChange = (talentName: string, index: number, value: number) => {
+    updateFaehigkeiten((current) => {
+      const nextTalents = { ...(current.Kampf_Talente ?? {}) };
+      const existing = Array.isArray(nextTalents[talentName]) ? [...(nextTalents[talentName] ?? [])] : [];
+      while (existing.length < 3) {
+        existing.push(0);
+      }
+      existing[index] = value;
+      nextTalents[talentName] = existing;
+      return { ...current, Kampf_Talente: nextTalents };
+    });
+  };
+
+  const handleTalentChange = (section: "Assassinen_Talente" | "Talente_1" | "Talente_2" | "Handwerkstalente", index: number, value: number) => {
+    updateFaehigkeiten((current) => {
+      const sectionEntries = current[section];
+      if (!Array.isArray(sectionEntries)) {
+        return current;
+      }
+      const nextEntries = sectionEntries.map((entry, idx) =>
+        idx === index ? { ...entry, Wert: value } : entry
+      );
+      return { ...current, [section]: nextEntries };
+    });
+  };
+
+  const handleAutoSkill = () => {
+    updateFaehigkeiten((current) => {
+      if (!current.Kampf_Talente) {
+        return current;
+      }
+      const nextTalents = applyAutoSkillDistribution(current.Kampf_Talente, {
+        attacke: derived.attacke,
+        parade: derived.parade,
+        wurf: derived.wurf,
+        schuss: derived.schuss,
+      });
+      return { ...current, Kampf_Talente: nextTalents };
+    });
+  };
+
+  const applyCharacterData = (data: CharacterData) => {
+    setCharacterData(data);
+    setSaveData(data);
+
+    const faehigkeiten = data.charakter?.fähigkeiten;
+    if (faehigkeiten?.attribute) {
+      setAttributes((current) => {
+        const next = { ...current };
+        Object.entries(faehigkeiten.attribute ?? {}).forEach(([key, value]) => {
+          const mapped = attributeKeyMap[key];
+          if (mapped) {
+            next[mapped] = Number.isFinite(Number(value)) ? Number(value) : 0;
+          }
+        });
+        return next;
+      });
+    }
+
+    if (faehigkeiten?.modifier) {
+      setModifiers((current) => {
+        const next: CoreModifiers = { ...current };
+        Object.entries(faehigkeiten.modifier ?? {}).forEach(([key, value]) => {
+          if (key in next) {
+            next[key as keyof CoreModifiers] = Number.isFinite(Number(value)) ? Number(value) : 0;
+          }
+        });
+        return next;
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (characterData) {
+      return;
+    }
+    const baseUrl = import.meta.env.BASE_URL ?? "/";
+    fetch(`${baseUrl}charbogen/charakter.json`)
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error("Template konnte nicht geladen werden."))))
+      .then((data: CharacterData) => {
+        applyCharacterData(data);
+      })
+      .catch((error) => {
+        console.error("Fehler beim Laden der Charaktervorlage:", error);
+      });
+  }, [characterData]);
+
+  useEffect(() => {
+    if (characterData) {
+      setSaveData(characterData);
+    }
+  }, [characterData]);
+
+  useEffect(() => {
+    initializeListe();
+  }, []);
 
   return (
     <div className="tabs-container">
+      <TopControls
+        listenersEnabled={listenersEnabled}
+        onToggleListeners={setListenersEnabled}
+        hiddenItemsVisible={hiddenItemsVisible}
+        onToggleHiddenItems={setHiddenItemsVisible}
+        onAutoSkill={handleAutoSkill}
+      />
       <ul className="tab-nav">
         {tabs.map((tab) => (
           <li
@@ -46,30 +250,17 @@ const Tabs = () => {
 
       <div className="content">
         <div className={`tab-content${activeTab === "charakter" ? " active" : ""}`} id="charakter-tab">
-          <div id="FileReaderInOutput">
-            <div className="file-upload-container">
-              <input type="file" id="fileInput" />
-              <button type="button" id="saveButton">
-                Speichern
-              </button>
-              <a href={`${baseUrl}charbogen/charakter.json`} download="charakter.json">
-                Neue JSON-Datei herunterladen
-              </a>
-              <label htmlFor="filenameInput">Dateiname:</label>
-              <input type="text" id="filenameInput" placeholder="Dateiname (automatisch mit Datum)" />
-              <button type="button" id="generateFilenameButton">
-                Standard-Name
-              </button>
-            </div>
-          </div>
+          <SaveControlsSection
+            magicState={magicState}
+            onMagicChange={setMagicState}
+            onCharacterLoaded={applyCharacterData}
+          />
 
           <div className="main-character-content">
             <div className="three-column-container">
               <div className="infoFlexContainer">
                 <h6>Charakterinformation</h6>
-                <div className="mediumFlexItem">
-                  Name: <input className="eingabefeld" defaultValue=" " id="name" type="text" />
-                </div>
+                <CharacterNameInput />
                 <div className="mediumFlexItem">
                   Geschlecht: <input className="eingabefeld" defaultValue=" " id="geschlecht" type="text" />
                 </div>
@@ -107,493 +298,101 @@ const Tabs = () => {
                 </div>
               </div>
 
-              <div className="WalletContainer FlexItemContainer" id="WalletContainer">
-                <h6>Geldbeutel</h6>
-                <form id="inputField" onSubmit={(event) => event.preventDefault()}>
-                  <input type="number" placeholder="Enter a number" id="NumberInput" defaultValue={0} />
-                  <select name="Währund" id="CurrencyField">
-                    <option id="dukaten" value="dukaten">
-                      Dukaten
-                    </option>
-                    <option id="silber" value="silber">
-                      Silberlinge
-                    </option>
-                    <option id="heller" value="heller">
-                      Heller
-                    </option>
-                    <option id="kreuzer" value="kreuzer">
-                      Kreuzer
-                    </option>
-                  </select>
-                  <button type="submit" id="wadd" onClick={() => invokeLegacy("TheChoosenOne")}>
-                    Add Wallet
-                  </button>
-                  <button type="submit" id="wconvert" onClick={() => invokeLegacy("wConvert")}>
-                    Convert Wallet
-                  </button>
+              <WalletPanel />
 
-                  <div style={{ marginTop: "20px" }}>
-                    <div>
-                      Dukaten: <p id="showDukaten"></p>
-                    </div>
-                    <div>
-                      Silberlinge: <p id="showSilber"></p>
-                    </div>
-                    <div>
-                      Heller: <p id="showHeller"></p>
-                    </div>
-                    <div>
-                      Kreuzer: <p id="showKreuzer"></p>
-                    </div>
-                  </div>
-                  <button type="submit" id="wReset" onClick={() => invokeLegacy("wReset")} style={{ marginTop: "20px" }}>
-                    Reset Wallet
-                  </button>
-                </form>
-              </div>
-
-              <div className="FlexItemContainer" id="erfahrungContainer">
-                <h6>Erfahrung</h6>
-                <div className="FlexItem">
-                  <label>Level:</label>
-                  <input className="stg attributeInput erfahrung" type="number" defaultValue={0} id="erfahrung_level" />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>XP:</label>
-                  <input className="stg attributeInput erfahrung" type="number" defaultValue={0} id="erfahrung_xp" />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Steigerungspunkte:</label>
-                  <input
-                    className="stg attributeInput erfahrung"
-                    type="number"
-                    defaultValue={0}
-                    id="erfahrung_Steigerungspunkte"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Gesteigerte:</label>
-                  <input
-                    className="stg attributeInput erfahrung"
-                    type="number"
-                    defaultValue={0}
-                    id="erfahrung_Gesteigerte"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-              </div>
+              <ExperienceSection />
             </div>
 
             <div className="three-column-container">
-              <div className="FlexItemContainer" id="kampfBasisContainer">
-                <h6>Kampf Basiswerte</h6>
-                <div className="FlexItem">
-                  <label>Wurfwaffen Basiswert:</label>
-                  <input
-                    className="stg attributeInput KampfBasiswerte"
-                    type="number"
-                    defaultValue={0}
-                    id="KampfBasiswerte_Wurfwaffen_Basiswert"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Schusswaffen Basiswert:</label>
-                  <input
-                    className="stg attributeInput KampfBasiswerte"
-                    type="number"
-                    defaultValue={0}
-                    id="KampfBasiswerte_Schusswaffen_Basiswert"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Attacke Basiswert:</label>
-                  <input
-                    className="stg attributeInput KampfBasiswerte"
-                    type="number"
-                    defaultValue={0}
-                    id="KampfBasiswerte_Attacke_Basiswert"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-                <div className="FlexItem">
-                  <label>Parade Basiswert:</label>
-                  <input
-                    className="stg attributeInput KampfBasiswerte"
-                    type="number"
-                    defaultValue={0}
-                    id="KampfBasiswerte_Parade_Basiswert"
-                  />
-                  <span className="readonly-value">×</span>
-                </div>
-              </div>
-
-              <div className="FlexItemContainer" id="modifierContainer">
-                <h6>Modifier</h6>
-                <div className="modifier-flex">
-                  <div className="FlexItem">
-                    <label>Magie:</label>
-                    <input className="stg attributeInput modifier" type="number" defaultValue={0} id="modifier_magie" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>ASP:</label>
-                    <input className="stg attributeInput modifier" type="number" defaultValue={0} id="modifier_asp" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>LP:</label>
-                    <input className="stg attributeInput modifier" type="number" defaultValue={0} id="modifier_lp" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Fernkampf:</label>
-                    <input
-                      className="stg attributeInput modifier"
-                      type="number"
-                      defaultValue={0}
-                      id="modifier_fernkampf"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Nahkampf:</label>
-                    <input
-                      className="stg attributeInput modifier"
-                      type="number"
-                      defaultValue={0}
-                      id="modifier_nahkampf"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Gift:</label>
-                    <input className="stg attributeInput modifier" type="number" defaultValue={0} id="modifier_gift" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Stealth:</label>
-                    <input
-                      className="stg attributeInput modifier"
-                      type="number"
-                      defaultValue={0}
-                      id="modifier_stealth"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="FlexItemContainer" id="attributeContainer">
-                <h6>Attribute</h6>
-                <div className="attribute-flex">
-                  <div className="FlexItem">
-                    <label>Konstitution:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Konstitution" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Körperkraft:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Körperkraft" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Gewandheit:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Gewandheit" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Klugheit:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Klugheit" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Intuition:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Intuition" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Geschicklichkeit:</label>
-                    <input
-                      className="stg attributeInput attribute"
-                      type="number"
-                      defaultValue={9}
-                      id="attribute_Geschicklichkeit"
-                    />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Tarnung:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Tarnung" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Fingerfertigkeit:</label>
-                    <input
-                      className="stg attributeInput attribute"
-                      type="number"
-                      defaultValue={9}
-                      id="attribute_Fingerfertigkeit"
-                    />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Sinnesschärfe:</label>
-                    <input
-                      className="stg attributeInput attribute"
-                      type="number"
-                      defaultValue={9}
-                      id="attribute_Sinnesschärfe"
-                    />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Charisma:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Charisma" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Willenskraft:</label>
-                    <input className="stg attributeInput attribute" type="number" defaultValue={9} id="attribute_Willenskraft" />
-                    <button type="button" className="hidebutton">
-                      X
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <CombatBaseSection derived={derived} />
+              <ModifiersSection
+                modifiers={modifiers}
+                onChange={handleModifierChange}
+                minValue={modifierMin}
+                maxValue={modifierMax}
+              />
+              <AttributesSection
+                attributes={attributes}
+                onChange={handleAttributeChange}
+                minValue={attributeMin}
+                maxValue={attributeMax}
+                hiddenKeys={hiddenAttributes}
+                onHide={handleHideAttribute}
+              />
             </div>
 
             <div className="three-column-container">
-              <div className="FlexItemContainer" id="sonderwerteContainer">
-                <h6>Sonderwerte</h6>
-                <div className="sonderwerte-flex">
-                  <div className="FlexItem">
-                    <label>Aktuelle LP:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Aktuelle_LP" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Maximale LP:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Maximale_LP" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Ausdauer:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Ausdauer" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Maximale Ausdauer:</label>
-                    <input
-                      className="stg attributeInput sonderwerte"
-                      type="number"
-                      defaultValue={0}
-                      id="sonderwerte_Maximale_Ausdauer"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Astralenergie:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Astralenergie" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Maximale Astralenergie:</label>
-                    <input
-                      className="stg attributeInput sonderwerte"
-                      type="number"
-                      defaultValue={0}
-                      id="sonderwerte_Maximale_Astralenergie"
-                    />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Magiebegabung:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Magiebegabung" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Magieresistenz:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Magieresistenz" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Giftresistenz:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Giftresistenz" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                  <div className="FlexItem">
-                    <label>Schnelligkeit:</label>
-                    <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Schnelligkeit" />
-                    <span className="readonly-value">×</span>
-                  </div>
-                </div>
-              </div>
+              <SonderwerteSection derived={derived} />
             </div>
 
-            <div className="FlexItemContainer BigFlexItemContainer" id="kampfTalenteContainer">
-              <h6>Kampf Talente (AT/PA/Skillwert)</h6>
-              <div className="kampf-talente-flex" id="kampfTalenteGridContainer"></div>
-            </div>
+            <CombatTalentsSection
+              talents={characterData?.charakter?.fähigkeiten?.Kampf_Talente}
+              onChange={handleCombatTalentChange}
+              minValue={talentMin}
+              maxValue={talentMax}
+            />
 
-            <div id="charakterContainer"></div>
+            <TalentSections
+              faehigkeiten={characterData?.charakter?.fähigkeiten}
+              onChange={handleTalentChange}
+              minValue={talentMin}
+              maxValue={talentMax}
+            />
           </div>
         </div>
 
-        <div className={`tab-content${activeTab === "magie" ? " active" : ""}`} id="magie-tab"></div>
+        <div className={`tab-content${activeTab === "magie" ? " active" : ""}`} id="magie-tab">
+          <VanillaMagicSystem state={magicState} onChange={setMagicState} />
+        </div>
 
         <div className={`tab-content${activeTab === "ausgeblendete" ? " active" : ""}`} id="ausgeblendete-tab">
-          <div id="hiddenItemsContainer" className="hidden-items"></div>
+          <div
+            id="hiddenItemsContainer"
+            className="hidden-items"
+            style={{ display: hiddenItemsVisible ? "flex" : "none" }}
+          >
+            <HiddenAttributesSection
+              attributes={attributes}
+              hiddenKeys={hiddenAttributes}
+              minValue={attributeMin}
+              maxValue={attributeMax}
+              onChange={handleAttributeChange}
+              onRestore={handleRestoreAttribute}
+            />
+          </div>
         </div>
 
         <div className={`tab-content${activeTab === "inventar" ? " active" : ""}`} id="inventar-tab">
-          <div className="FlexItemContainer" id="ShopContainer">
-            <h6>Shop</h6>
-            <button type="button" id="ShopButton">
-              -
-            </button>
-            <div id="shop" className="shop-container"></div>
-          </div>
-          <div className="FlexItemContainer" id="InvContainer">
-            <h6>Inventar</h6>
-            <div>
-              <input type="text" id="itemNameInput" placeholder="Artikelname" />
-              <button type="button" onClick={() => invokeLegacy("addToInventoryFromInput")}>
-                Hinzufügen
-              </button>
-              <button type="button" onClick={() => invokeLegacy("removeFromInventoryFromInput")}>
-                Entfernen
-              </button>
-            </div>
-            <ul id="inventory" className="inventory-list"></ul>
-          </div>
+          <ShopPanel />
+          <InventoryPanel />
         </div>
 
         <div className={`tab-content${activeTab === "werkzeuge" ? " active" : ""}`} id="werkzeuge-tab">
-          <div className="FlexItemContainer">
-            <h6>Würfelsystem</h6>
-            <div className="dice-controls">
-              <select id="Dicer" defaultValue="d20" onChange={() => invokeLegacy("DiceChooser")}>
-                <option value="d100">W100</option>
-                <option value="d20">W20</option>
-                <option value="d10">W10</option>
-                <option value="d6">W6</option>
-                <option value="custom">Eigener Würfel</option>
-              </select>
-              <input type="number" id="DiceCount" defaultValue={1} min={1} max={20} />
-              <input type="number" id="DiceSides" defaultValue={20} min={2} max={1000} className="disNone" />
-              <button type="button" onClick={() => invokeLegacy("Roll")}>
-                Würfeln
-              </button>
-            </div>
-            <div id="showDice" className="dice-results"></div>
-          </div>
-
-          <div className="FlexItemContainer calculator-container">
-            <h6>Rechner</h6>
-            <div id="calculator">
-              <div id="calc-display">
-                <div id="eqField" className="equation-field"></div>
-                <div id="evField" className="result-field"></div>
-              </div>
-              <div className="calculator-buttons">
-                <button type="button" onClick={() => invokeLegacy("clearEqField")} className="calc-button function-button">
-                  C
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "(")} className="calc-button function-button">
-                  (
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", ")")} className="calc-button function-button">
-                  )
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "/")} className="calc-button operator-button">
-                  /
-                </button>
-
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "7")} className="calc-button">
-                  7
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "8")} className="calc-button">
-                  8
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "9")} className="calc-button">
-                  9
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "*")} className="calc-button operator-button">
-                  ×
-                </button>
-
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "4")} className="calc-button">
-                  4
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "5")} className="calc-button">
-                  5
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "6")} className="calc-button">
-                  6
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "-")} className="calc-button operator-button">
-                  -
-                </button>
-
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "1")} className="calc-button">
-                  1
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "2")} className="calc-button">
-                  2
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "3")} className="calc-button">
-                  3
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "+")} className="calc-button operator-button">
-                  +
-                </button>
-
-                <button type="button" onClick={() => invokeLegacy("InToHTML", "0")} className="calc-button">
-                  0
-                </button>
-                <button type="button" onClick={() => invokeLegacy("InToHTML", ".")} className="calc-button">
-                  .
-                </button>
-                <button type="button" onClick={() => invokeLegacy("calculate")} className="calc-button equal-button">
-                  =
-                </button>
-              </div>
-            </div>
-          </div>
+          <DiceRoller />
+          <Calculator />
         </div>
 
         <div className={`tab-content${activeTab === "einstellungen" ? " active" : ""}`} id="einstellungen-tab">
           <div className="FlexItemContainer">
             <h6>Charakter Einstellungen</h6>
-            <button type="button" id="setMin">
+            <button
+              type="button"
+              id="setMin"
+              onClick={() => {
+                setAllAttributeValues(attributeMin);
+                setAllModifierValues(modifierMin);
+              }}
+            >
               Alle Werte auf Minimum setzen
             </button>
-            <button type="button" id="setMax">
+            <button
+              type="button"
+              id="setMax"
+              onClick={() => {
+                setAllAttributeValues(attributeMax);
+                setAllModifierValues(modifierMax);
+              }}
+            >
               Alle Werte auf Maximum setzen
             </button>
           </div>
@@ -602,14 +401,14 @@ const Tabs = () => {
             <div>
               <label htmlFor="fontInput">Schriftart:</label>
               <input type="text" id="fontInput" placeholder="z.B. Arial, sans-serif" />
-              <button type="button" onClick={() => invokeLegacy("changeFont")}>
+              <button type="button" onClick={changeFont}>
                 Ändern
               </button>
             </div>
             <div>
               <label htmlFor="colorInput">Textfarbe:</label>
               <input type="color" id="colorInput" defaultValue="#36251b" />
-              <button type="button" onClick={() => invokeLegacy("changeColor")}>
+              <button type="button" onClick={changeColor}>
                 Ändern
               </button>
             </div>
