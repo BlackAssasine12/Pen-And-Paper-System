@@ -13,7 +13,7 @@ const syncInventoryToWindow = () => {
 async function loadShopData() {
     try {
         const baseUrl = import.meta.env?.BASE_URL ?? "/";
-        const response = await fetch(`${baseUrl}shopData.json`);
+        const response = await fetch(`${baseUrl}public/shopData.json`);
         if (!response.ok) {
             throw new Error(`Fehler beim Laden der Shop-Daten: ${response.statusText}`);
         }
