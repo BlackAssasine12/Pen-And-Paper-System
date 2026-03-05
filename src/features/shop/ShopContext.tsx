@@ -83,7 +83,7 @@ export const ShopProvider = ({ children }: { children: ReactNode }) => {
       setShopError(null);
       try {
         const baseUrl = import.meta.env?.BASE_URL ?? "/";
-        const response = await fetch(`${baseUrl}public/shopData.json`);
+        const response = await fetch(`${baseUrl}shopData.json`);
         if (!response.ok) {
           throw new Error(`Fehler beim Laden der Shop-Daten: ${response.statusText}`);
         }
@@ -109,7 +109,7 @@ export const ShopProvider = ({ children }: { children: ReactNode }) => {
     setWallet((current) => ({
       ...current,
       [currency]: current[currency] + amount,
-      wInsg: current.wInsg + amount * (currencyValues[capitalize(currency)] ?? 0),
+      wInsg: current.wInsg + amount * (currencyValues[capitalize(currency) as keyof typeof currencyValues] ?? 0),
     }));
   };
 
