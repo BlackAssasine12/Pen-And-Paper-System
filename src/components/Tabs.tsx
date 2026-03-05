@@ -23,6 +23,9 @@ import type { CharacterData } from "../types/character";
 import type { CoreAttributes, CoreModifiers } from "../features/character/services/derivedCalculations";
 import { setSaveData } from "../features/character/services/saveLoader";
 import TopControls from "./TopControls";
+import { adjustments } from '../features/character/services/adjustments'; // Passe den Import-Pfad an!
+import { useCharacter } from '../features/character/CharacterContext'; // Passe den Import-Pfad an!
+
 
 type TabKey = "charakter" | "magie" | "ausgeblendete" | "inventar" | "werkzeuge" | "einstellungen";
 
@@ -109,6 +112,54 @@ const Tabs = () => {
     );
   };
 
+  const { experience, setSteigerungspunkte } = useCharacter();
+
+
+  const handleSetAllValues = (mode: 'max' | 'min') => {
+    const selectors = [
+      ".Assassinen_Talente", ".Talente_1", ".Talente_2",
+      ".Handwerkstalente", ".Kampf_Talente", ".attribute",
+      ".Magische_Elemente", ".modifier"
+    ].join(", ");
+
+    const inputs = document.querySelectorAll<HTMLInputElement>(selectors);
+
+    let totalCost = 0;
+
+    inputs.forEach((input) => {
+      const currentValue = parseInt(input.value || "0", 10);
+
+      const targetAttribute = mode === 'max' ? input.max : input.min;
+
+      const targetValue = parseInt(targetAttribute || String(currentValue), 10);
+
+      if (currentValue !== targetValue) {
+
+        const difference = targetValue - currentValue;
+
+        let costMultiplier = 0;
+        const classList = Array.from(input.classList);
+
+        const sortedClasses = classList.sort((a, b) => b.length - a.length);
+
+        for (const className of sortedClasses) {
+          if (adjustments[className] !== undefined) {
+            costMultiplier = adjustments[className];
+            break;
+          }
+        }
+
+        totalCost += difference * costMultiplier;
+
+        input.value = String(targetValue);
+
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+
+    setSteigerungspunkte(experience.steigerungspunkte - totalCost);
+  };
   const updateFaehigkeiten = (
     updater: (current: NonNullable<CharacterData["charakter"]["fähigkeiten"]>) => CharacterData["charakter"]["fähigkeiten"]
   ) => {
@@ -407,6 +458,7 @@ const Tabs = () => {
               type="button"
               id="setMin"
               onClick={() => {
+                handleSetAllValues('min')
                 setAllAttributeValues(attributeMin);
                 setAllModifierValues(modifierMin);
                 setAllAbilityValues(talentMin);
@@ -418,6 +470,7 @@ const Tabs = () => {
               type="button"
               id="setMax"
               onClick={() => {
+                handleSetAllValues('max')
                 setAllAttributeValues(attributeMax);
                 setAllModifierValues(modifierMax);
                 setAllAbilityValues(talentMax);
