@@ -68,7 +68,6 @@ const Tabs = () => {
   const { attributes, setAttributes, modifiers, setModifiers, derived } = useCharacterCalculations(magicSum);
   const [hiddenAttributes, setHiddenAttributes] = useState<Array<keyof typeof attributes>>([]);
 
-
   const attributeMin = 7;
   const attributeMax = Math.min(derived.level + 12, 21);
   const modifierMin = 0;
@@ -125,6 +124,35 @@ const Tabs = () => {
           fähigkeiten: updater(current),
         },
       };
+    });
+  };
+
+  const setAllAbilityValues = (value: number) => {
+    updateFaehigkeiten((current) => {
+      const updated = { ...current };
+
+      const updateTalentArray = (talents?: any[]) => {
+        if (!talents || !Array.isArray(talents)) return talents;
+        return talents.map((talent) => ({ ...talent, Wert: value }));
+      };
+
+      const updateKampfTalente = (talents?: Record<string, number[]>) => {
+        if (!talents || typeof talents !== "object") return talents;
+        return Object.keys(talents).reduce((acc, key) => {
+          acc[key] = talents[key].map(() => value);
+          return acc;
+        }, {} as Record<string, number[]>);
+      };
+
+      updated.Assassinen_Talente = updateTalentArray(updated.Assassinen_Talente);
+      updated.Talente_1 = updateTalentArray(updated.Talente_1);
+      updated.Talente_2 = updateTalentArray(updated.Talente_2);
+      updated.Handwerkstalente = updateTalentArray(updated.Handwerkstalente);
+
+      updated.Kampf_Talente = updateKampfTalente(updated.Kampf_Talente);
+      updated.Gespeicherte_Kampftalente = updateKampfTalente(updated.Gespeicherte_Kampftalente);
+
+      return updated;
     });
   };
 
@@ -381,6 +409,7 @@ const Tabs = () => {
               onClick={() => {
                 setAllAttributeValues(attributeMin);
                 setAllModifierValues(modifierMin);
+                setAllAbilityValues(talentMin);
               }}
             >
               Alle Werte auf Minimum setzen
@@ -391,6 +420,7 @@ const Tabs = () => {
               onClick={() => {
                 setAllAttributeValues(attributeMax);
                 setAllModifierValues(modifierMax);
+                setAllAbilityValues(talentMax);
               }}
             >
               Alle Werte auf Maximum setzen
