@@ -24,6 +24,7 @@ const ExperienceSection = () => {
         <input
           className="stg attributeInput erfahrung"
           type="number"
+          step="100"
           value={experience.xp}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
             const nextXp = Number.parseInt(event.target.value, 10) || 0;
