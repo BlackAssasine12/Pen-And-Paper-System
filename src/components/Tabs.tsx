@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { CharacterNameInput, ExperienceSection } from "../features/character";
 import SaveControlsSection from "../features/character/components/SaveControlsSection";
 import CombatTalentsSection from "../features/character/components/CombatTalentsSection";
+// === INFO: useCharacterCalculations ===
+// Hier passiert die P&P-Mathematik! Dieser Hook nimmt die Basisattribute und berechnet daraus 
+// die abgeleiteten Werte (z.B. Lebenspunkte, Ausdauer, Attacke-Basis).
+// Zu finden in: src/features/character/hooks/useCharacterCalculations.ts
+// Die echten Formeln dazu liegen in: src/features/character/services/derivedCalculations.ts
 import { useCharacterCalculations } from "../features/character/hooks/useCharacterCalculations";
 import AttributesSection from "../features/character/components/AttributesSection";
 import CombatBaseSection from "../features/character/components/CombatBaseSection";
@@ -13,18 +18,34 @@ import { applyAutoSkillDistribution } from "../features/character/services/autoS
 import { changeColor, changeFont } from "../features/character/services/skin";
 import { initializeListe } from "../features/character/services/liste";
 import Calculator from "../features/dice/components/Calculator";
+// === INFO: DiceRoller ===
+// Das ist die UI zum Würfeln. Die Funktionen zum Generieren der Zufallszahlen 
+// (z.B. W20, W6) findest du unter: src/features/dice/services/dice.ts
 import DiceRoller from "../features/dice/components/DiceRoller";
 import VanillaMagicSystem from "../features/magic/VanillaMagicSystem";
 import type { MagicSystemState } from "../features/magic/types";
 import InventoryPanel from "../features/shop/components/InventoryPanel";
+// === INFO: ShopPanel & WalletPanel ===
+// Hier wird das Inventar und das Geld gesteuert. 
+// Die Logik für Käufe und Währungsumrechnung liegt in: src/features/shop/services/wallet.ts
 import ShopPanel from "../features/shop/components/ShopPanel";
 import WalletPanel from "../features/shop/components/WalletPanel";
 import type { CharacterData } from "../types/character";
 import type { CoreAttributes, CoreModifiers } from "../features/character/services/derivedCalculations";
+// === INFO: setSaveData ===
+// Speichert den aktuellen Stand in den LocalStorage oder bereitet ihn zum Export vor.
+// Zu finden in: src/features/character/services/saveLoader.ts
 import { setSaveData } from "../features/character/services/saveLoader";
 import TopControls from "./TopControls";
-import { adjustments } from '../features/character/services/adjustments'; // Passe den Import-Pfad an!
-import { useCharacter } from '../features/character/CharacterContext'; // Passe den Import-Pfad an!
+// === INFO: adjustments ===
+// Ganz wichtig für Level-Ups! Hier sind die Multiplikatoren/Kosten hinterlegt, 
+// wie viele Erfahrungspunkte es kostet, ein bestimmtes Talent zu steigern.
+// Zu finden in: src/features/character/services/adjustments.ts
+import { adjustments } from '../features/character/services/adjustments';
+// === INFO: useCharacter ===
+// Ein React-Context, der global wichtige Daten wie deine Steigerungspunkte (Erfahrung) bereithält.
+// Zu finden in: src/features/character/CharacterContext.tsx
+import { useCharacter } from '../features/character/CharacterContext';
 
 
 type TabKey = "charakter" | "magie" | "ausgeblendete" | "inventar" | "werkzeuge" | "einstellungen";
@@ -35,6 +56,8 @@ type TabDefinition = {
   contentId: string;
 };
 
+// === INFO: tabs Array ===
+// Definiert die Navigation (Reiter) ganz oben in deiner App.
 const tabs: TabDefinition[] = [
   { key: "charakter", label: "Charakter", contentId: "charakter-tab" },
   { key: "magie", label: "Magie", contentId: "magie-tab" },
@@ -58,6 +81,9 @@ const attributeKeyMap: Record<string, keyof CoreAttributes> = {
   Willenskraft: "willenskraft",
 };
 
+// === HAUPTKOMPONENTE: Tabs ===
+// Das ist das Zentrum deiner App. Hier wird der gesamte Zustand des Charakters 
+// zusammengehalten und an die Unter-Komponenten verteilt.
 const Tabs = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("charakter");
   const [listenersEnabled, setListenersEnabled] = useState(true);
@@ -68,6 +94,8 @@ const Tabs = () => {
   });
   const [characterData, setCharacterData] = useState<CharacterData | null>(null);
   const magicSum = magicState.magicAbilities.reduce((sum, ability) => sum + (ability.level ?? 0), 0);
+
+  // Holt sich die berechneten Werte (derived) und die Setter-Funktionen
   const { attributes, setAttributes, modifiers, setModifiers, derived } = useCharacterCalculations(magicSum);
   const [hiddenAttributes, setHiddenAttributes] = useState<Array<keyof typeof attributes>>([]);
 
@@ -78,6 +106,8 @@ const Tabs = () => {
   const talentMin = -3;
   const talentMax = Math.min(derived.level + 10, 21);
 
+  // === HANDLER FUNKTIONEN ===
+  // Diese Funktionen aktualisieren den React-State, wenn der Nutzer im Bogen etwas ändert.
   const handleAttributeChange = (key: keyof typeof attributes, value: number) => {
     setAttributes((current) => ({ ...current, [key]: value }));
   };
@@ -114,7 +144,10 @@ const Tabs = () => {
 
   const { experience, setSteigerungspunkte } = useCharacter();
 
-
+  // === INFO: handleSetAllValues ===
+  // Wird im "Einstellungen"-Tab genutzt (Werte auf Minimum/Maximum setzen).
+  // Es geht alle Eingabefelder durch, berechnet die Differenz und zieht die 
+  // benötigten Steigerungspunkte (Erfahrung) basierend auf der adjustments.ts Datei ab.
   const handleSetAllValues = (mode: 'max' | 'min') => {
     const selectors = [
       ".Assassinen_Talente", ".Talente_1", ".Talente_2",
@@ -160,6 +193,10 @@ const Tabs = () => {
 
     setSteigerungspunkte(experience.steigerungspunkte - totalCost);
   };
+
+  // === INFO: updateFaehigkeiten ===
+  // Eine Helper-Funktion, um gezielt nur das verschachtelte Objekt "fähigkeiten"
+  // im globalen characterData State zu aktualisieren.
   const updateFaehigkeiten = (
     updater: (current: NonNullable<CharacterData["charakter"]["fähigkeiten"]>) => CharacterData["charakter"]["fähigkeiten"]
   ) => {
@@ -248,6 +285,9 @@ const Tabs = () => {
     });
   };
 
+  // === INFO: applyCharacterData ===
+  // Wird aufgerufen, wenn du einen Charakterstand hochlädst oder das leere Standard-Template geladen wird.
+  // Es übersetzt die JSON in den React State (Attribute, Modifier etc.).
   const applyCharacterData = (data: CharacterData) => {
     setCharacterData(data);
     setSaveData(data);
@@ -279,6 +319,8 @@ const Tabs = () => {
     }
   };
 
+  // === INFO: Erster useEffect (Init) ===
+  // Lädt beim Start der Seite automatisch das Standard-Template aus /public/charbogen/charakter.json
   useEffect(() => {
     if (characterData) {
       return;
@@ -294,6 +336,9 @@ const Tabs = () => {
       });
   }, [characterData]);
 
+  // === INFO: Zweiter useEffect (Auto-Save) ===
+  // Jedes mal wenn sich dein Charakter verändert (characterData updatet),
+  // wird er im System zwischengespeichert (z.B. im LocalStorage deines Browsers).
   useEffect(() => {
     if (characterData) {
       setSaveData(characterData);
