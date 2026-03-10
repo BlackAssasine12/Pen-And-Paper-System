@@ -23,7 +23,7 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
         <div className="FlexItem">
           <label>Magie:</label>
           <input
-            className="stg attributeInput modifier"
+            className="stg attributeInput modifier modifier_magie"
             type="number"
             value={modifiers.magie}
             min={minValue}
@@ -36,7 +36,7 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
         <div className="FlexItem">
           <label>ASP:</label>
           <input
-            className="stg attributeInput modifier"
+            className="stg attributeInput modifier modifier_asp"
             type="number"
             value={modifiers.asp}
             min={minValue}
@@ -49,7 +49,7 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
         <div className="FlexItem">
           <label>LP:</label>
           <input
-            className="stg attributeInput modifier"
+            className="stg attributeInput modifier modifier_lp"
             type="number"
             value={modifiers.lp}
             min={minValue}
@@ -62,7 +62,7 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
         <div className="FlexItem">
           <label>Fernkampf:</label>
           <input
-            className="stg attributeInput modifier"
+            className="stg attributeInput modifier modifier_fernkampf"
             type="number"
             value={modifiers.fernkampf}
             min={minValue}
@@ -75,7 +75,7 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
         <div className="FlexItem">
           <label>Nahkampf:</label>
           <input
-            className="stg attributeInput modifier"
+            className="stg attributeInput modifier modifier_nahkampf"
             type="number"
             value={modifiers.nahkampf}
             min={minValue}
@@ -88,7 +88,7 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
         <div className="FlexItem">
           <label>Gift:</label>
           <input
-            className="stg attributeInput modifier"
+            className="stg attributeInput modifier modifier_gift"
             type="number"
             value={modifiers.gift}
             min={minValue}
@@ -101,7 +101,7 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
         <div className="FlexItem">
           <label>Stealth:</label>
           <input
-            className="stg attributeInput modifier"
+            className="stg attributeInput modifier modifier_stealth"
             type="number"
             value={modifiers.stealth}
             min={minValue}

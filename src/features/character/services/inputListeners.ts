@@ -1,4 +1,4 @@
-// inputListeners.js
+// inputListeners.ts
 import { syncInputElement } from "./characterState";
 import { adjustments } from "./adjustments";
 import { updateCharakterCalculation } from "./calculations";
@@ -58,6 +58,8 @@ function removeInputChangeListeners() {
 function handleInputChange(event: Event) {
     const input = toInputElement(event.target);
     const mainInput = document.getElementById('erfahrung_Steigerungspunkte');
+    
+    // Typprüfung für TypeScript
     if (!input || !(mainInput instanceof HTMLInputElement)) {
         return;
     }
@@ -67,16 +69,19 @@ function handleInputChange(event: Event) {
     const diff = newValue - initialValue;
 
     if (!isNaN(diff)) {
-        const classList = input.classList;
-        let adjustmentValue = 1;
-
-        classList.forEach(cls => {
-            if (adjustments[cls] !== undefined) {
-                adjustmentValue = adjustments[cls] ?? 1;
+        let adjustmentValue = 1; 
+        
+        const classes = Array.from(input.classList);
+        for (const cls of classes) {
+            if (adjustments[cls as keyof typeof adjustments] !== undefined) {
+                adjustmentValue = adjustments[cls as keyof typeof adjustments]!;
+                break; // Sobald eine spezifische Kosten-Klasse gefunden wurde, nutzen wir diese
             }
-        });
+        }
 
-        const updatedValue = parseFloat(mainInput.value) - (diff * adjustmentValue);
+        const currentPoints = parseFloat(mainInput.value) || 0;
+        const updatedValue = currentPoints - (diff * adjustmentValue);
+
         setInputValueAndDispatch(mainInput, updatedValue);
         input.setAttribute('data-initial', String(newValue));
         syncInputElement(input);
