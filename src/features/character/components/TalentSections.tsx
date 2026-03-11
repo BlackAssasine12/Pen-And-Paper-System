@@ -1,3 +1,4 @@
+//TalentSections.tsx
 import type { ChangeEvent } from "react";
 import type { CharacterFaehigkeiten, TalentEntry } from "../../../types/character";
 
@@ -17,6 +18,8 @@ type TalentSectionsProps = {
   onChange: (section: SectionKey, index: number, value: number) => void;
   minValue: number;
   maxValue: number;
+  hiddenKeys?: string[];
+  onHide?: (key: string) => void;
 };
 
 const renderTalentSection = (
@@ -25,9 +28,20 @@ const renderTalentSection = (
   entries: TalentEntry[] | undefined,
   onChange: (section: SectionKey, index: number, value: number) => void,
   minValue: number,
-  maxValue: number
+  maxValue: number,
+  hiddenKeys: string[] = [], // Hinzugefügt
+  onHide?: (key: string) => void // Hinzugefügt
 ) => {
   if (!Array.isArray(entries) || entries.length === 0) {
+    return null;
+  }
+  
+  const visibleEntries = entries
+    .map((entry, originalIndex) => ({ entry, originalIndex }))
+    .filter(({ entry }) => entry.Name && !hiddenKeys.includes(entry.Name));
+
+  // Wenn alle Talente einer Sektion versteckt sind, Sektion gar nicht rendern
+  if (visibleEntries.length === 0) {
     return null;
   }
 
@@ -35,12 +49,12 @@ const renderTalentSection = (
     <div className="FlexItemContainer" data-section={sectionId} key={sectionId}>
       <h6>{title}</h6>
       <div className={`${sectionId.toLowerCase()}-flex`}>
-        {entries.map((entry, index) => {
+        {visibleEntries.map(({ entry, originalIndex }) => {
           const sanitizedName = sanitizeKey(entry.Name ?? "");
           const label = `${entry.Name} (${entry.Attribute}): `;
 
           return (
-            <div className="FlexItem" key={`${sectionId}_${sanitizedName}_${index}`}>
+            <div className="FlexItem" key={`${sectionId}_${sanitizedName}_${originalIndex}`}>
               <label>{label}</label>
               <input
                 className={`stg attributeInput ${sectionId}`}
@@ -50,9 +64,17 @@ const renderTalentSection = (
                 max={maxValue}
                 id={`${sectionId}_${sanitizedName}`}
                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                  onChange(sectionId, index, Number.parseInt(event.target.value, 10) || 0)
+                  // Hier verwenden wir den originalIndex, damit der richtige State geupdatet wird
+                  onChange(sectionId, originalIndex, Number.parseInt(event.target.value, 10) || 0)
                 }
               />
+              <button
+                type="button"
+                className="hidebutton"
+                onClick={() => entry.Name && onHide?.(entry.Name)}
+              >
+                X
+              </button>
             </div>
           );
         })}
@@ -61,10 +83,26 @@ const renderTalentSection = (
   );
 };
 
-const TalentSections = ({ faehigkeiten, onChange, minValue, maxValue }: TalentSectionsProps) => (
+const TalentSections = ({
+  faehigkeiten,
+  onChange,
+  minValue,
+  maxValue,
+  hiddenKeys = [], // Standardwert leeres Array
+  onHide
+}: TalentSectionsProps) => (
   <div className="attributeFlexContainer">
     {sectionDefinitions.map((section) =>
-      renderTalentSection(section.title, section.key, faehigkeiten?.[section.key], onChange, minValue, maxValue)
+      renderTalentSection(
+        section.title,
+        section.key,
+        faehigkeiten?.[section.key],
+        onChange,
+        minValue,
+        maxValue,
+        hiddenKeys, // Prop weitergeben
+        onHide      // Prop weitergeben
+      )
     )}
   </div>
 );

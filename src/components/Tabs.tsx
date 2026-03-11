@@ -1,3 +1,4 @@
+//Tabs.tsx
 import { useEffect, useState } from "react";
 import { CharacterNameInput, ExperienceSection } from "../features/character";
 import SaveControlsSection from "../features/character/components/SaveControlsSection";
@@ -11,6 +12,7 @@ import { useCharacterCalculations } from "../features/character/hooks/useCharact
 import AttributesSection from "../features/character/components/AttributesSection";
 import CombatBaseSection from "../features/character/components/CombatBaseSection";
 import HiddenAttributesSection from "../features/character/components/HiddenAttributesSection";
+import HiddenTalentsSection from "../features/character/components/HiddenTalentsSection";
 import ModifiersSection from "../features/character/components/ModifiersSection";
 import SonderwerteSection from "../features/character/components/SonderwerteSection";
 import TalentSections from "../features/character/components/TalentSections";
@@ -46,7 +48,6 @@ import { adjustments } from '../features/character/services/adjustments';
 // Ein React-Context, der global wichtige Daten wie deine Steigerungspunkte (Erfahrung) bereithält.
 // Zu finden in: src/features/character/CharacterContext.tsx
 import { useCharacter } from '../features/character/CharacterContext';
-
 
 type TabKey = "charakter" | "magie" | "ausgeblendete" | "inventar" | "werkzeuge" | "einstellungen";
 
@@ -98,6 +99,7 @@ const Tabs = () => {
   // Holt sich die berechneten Werte (derived) und die Setter-Funktionen
   const { attributes, setAttributes, modifiers, setModifiers, derived } = useCharacterCalculations(magicSum);
   const [hiddenAttributes, setHiddenAttributes] = useState<Array<keyof typeof attributes>>([]);
+  const [hiddenTalents, setHiddenTalents] = useState<string[]>([]);
 
   const attributeMin = 7;
   const attributeMax = Math.min(derived.level + 12, 21);
@@ -118,6 +120,18 @@ const Tabs = () => {
 
   const handleHideAttribute = (key: keyof typeof attributes) => {
     setHiddenAttributes((current) => (current.includes(key) ? current : [...current, key]));
+  };
+
+  // 2. Diese Funktion nimmt den bisherigen State (current) und fügt den neuen Namen hinten an, 
+  // falls er nicht schon drinsteht. Das ...current kopiert die bisherigen Einträge.
+  const handleHideTalent = (name: string) => {
+    setHiddenTalents((current) => (current.includes(name) ? current : [...current, name]));
+  };
+
+  // 3. Diese Funktion wirft ein Talent aus der Liste. Die filter-Methode behält alle Elemente, 
+  // deren Name NICHT dem übergebenen Namen entspricht.
+  const handleRestoreTalent = (name: string) => {
+    setHiddenTalents((current) => current.filter((item) => item !== name));
   };
 
   const handleRestoreAttribute = (key: keyof typeof attributes) => {
@@ -461,6 +475,8 @@ const Tabs = () => {
               onChange={handleTalentChange}
               minValue={talentMin}
               maxValue={talentMax}
+              hiddenKeys={hiddenTalents}
+              onHide={handleHideTalent}
             />
           </div>
         </div>

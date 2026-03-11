@@ -1,3 +1,4 @@
+//TopControls.tsx
 import type { ChangeEvent } from "react";
 
 type TopControlsProps = {
@@ -11,8 +12,8 @@ type TopControlsProps = {
 const TopControls = ({
   listenersEnabled,
   onToggleListeners,
-  hiddenItemsVisible,
-  onToggleHiddenItems,
+  // hiddenItemsVisible,
+  // onToggleHiddenItems,
   onAutoSkill,
 }: TopControlsProps) => {
   return (
@@ -26,7 +27,7 @@ const TopControls = ({
         />
         Kostenloses Steigern
       </label>
-      <label className="toggleLabel">
+      {/* <label className="toggleLabel">
         <input
           type="checkbox"
           id="toggleHiddenCheckbox"
@@ -34,7 +35,7 @@ const TopControls = ({
           onChange={(event: ChangeEvent<HTMLInputElement>) => onToggleHiddenItems(event.target.checked)}
         />
         Ausgeblendeten Item Container Anzeigen
-      </label>
+      </label> */}
       <button type="button" id="ASkillVert" onClick={onAutoSkill}>
         Automatische Umrechnung
       </button>
