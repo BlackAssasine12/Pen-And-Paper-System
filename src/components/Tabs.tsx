@@ -489,7 +489,6 @@ const Tabs = () => {
           <div
             id="hiddenItemsContainer"
             className="hidden-items"
-            style={{ display: hiddenItemsVisible ? "flex" : "none" }}
           >
             <HiddenAttributesSection
               attributes={attributes}
@@ -499,9 +498,13 @@ const Tabs = () => {
               onChange={handleAttributeChange}
               onRestore={handleRestoreAttribute}
             />
+            <h3>Ausgeblendete Talente</h3>
+            <HiddenTalentsSection
+              hiddenTalents={hiddenTalents}
+              onRestore={handleRestoreTalent}
+            />
           </div>
         </div>
-
         <div className={`tab-content${activeTab === "inventar" ? " active" : ""}`} id="inventar-tab">
           <ShopPanel />
           <InventoryPanel />
