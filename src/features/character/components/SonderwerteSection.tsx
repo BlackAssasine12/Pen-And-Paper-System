@@ -11,7 +11,6 @@ const SonderwerteSection = ({ derived }: SonderwerteSectionProps) => (
       <div className="FlexItem">
         <label>Aktuelle LP:</label>
         <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Aktuelle_LP" />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Maximale LP:</label>
@@ -22,12 +21,10 @@ const SonderwerteSection = ({ derived }: SonderwerteSectionProps) => (
           readOnly
           id="sonderwerte_Maximale_LP"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Ausdauer:</label>
         <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Ausdauer" />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Maximale Ausdauer:</label>
@@ -38,12 +35,10 @@ const SonderwerteSection = ({ derived }: SonderwerteSectionProps) => (
           readOnly
           id="sonderwerte_Maximale_Ausdauer"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Astralenergie:</label>
         <input className="stg attributeInput sonderwerte" type="number" defaultValue={0} id="sonderwerte_Astralenergie" />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Maximale Astralenergie:</label>
@@ -54,7 +49,6 @@ const SonderwerteSection = ({ derived }: SonderwerteSectionProps) => (
           readOnly
           id="sonderwerte_Maximale_Astralenergie"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Magiebegabung:</label>
@@ -65,7 +59,6 @@ const SonderwerteSection = ({ derived }: SonderwerteSectionProps) => (
           readOnly
           id="sonderwerte_Magiebegabung"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Magieresistenz:</label>
@@ -76,7 +69,6 @@ const SonderwerteSection = ({ derived }: SonderwerteSectionProps) => (
           readOnly
           id="sonderwerte_Magieresistenz"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Giftresistenz:</label>
@@ -87,7 +79,6 @@ const SonderwerteSection = ({ derived }: SonderwerteSectionProps) => (
           readOnly
           id="sonderwerte_Giftresistenz"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Schnelligkeit:</label>
@@ -98,7 +89,6 @@ const SonderwerteSection = ({ derived }: SonderwerteSectionProps) => (
           readOnly
           id="sonderwerte_Schnelligkeit"
         />
-        <span className="readonly-value">×</span>
       </div>
     </div>
   </div>

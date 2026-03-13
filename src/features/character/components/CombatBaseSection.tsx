@@ -16,7 +16,6 @@ const CombatBaseSection = ({ derived }: CombatBaseSectionProps) => (
         readOnly
         id="KampfBasiswerte_Wurfwaffen_Basiswert"
       />
-      <span className="readonly-value">×</span>
     </div>
     <div className="FlexItem">
       <label>Schusswaffen Basiswert:</label>
@@ -27,7 +26,6 @@ const CombatBaseSection = ({ derived }: CombatBaseSectionProps) => (
         readOnly
         id="KampfBasiswerte_Schusswaffen_Basiswert"
       />
-      <span className="readonly-value">×</span>
     </div>
     <div className="FlexItem">
       <label>Attacke Basiswert:</label>
@@ -38,7 +36,6 @@ const CombatBaseSection = ({ derived }: CombatBaseSectionProps) => (
         readOnly
         id="KampfBasiswerte_Attacke_Basiswert"
       />
-      <span className="readonly-value">×</span>
     </div>
     <div className="FlexItem">
       <label>Parade Basiswert:</label>
@@ -49,7 +46,6 @@ const CombatBaseSection = ({ derived }: CombatBaseSectionProps) => (
         readOnly
         id="KampfBasiswerte_Parade_Basiswert"
       />
-      <span className="readonly-value">×</span>
     </div>
   </div>
 );

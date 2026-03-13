@@ -17,7 +17,6 @@ const ExperienceSection = () => {
           onChange={(event: ChangeEvent<HTMLInputElement>) => setLevel(Number.parseInt(event.target.value, 10) || 0)}
           id="erfahrung_level"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>XP:</label>
@@ -33,7 +32,6 @@ const ExperienceSection = () => {
           }}
           id="erfahrung_xp"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Steigerungspunkte:</label>
@@ -46,7 +44,6 @@ const ExperienceSection = () => {
           }
           id="erfahrung_Steigerungspunkte"
         />
-        <span className="readonly-value">×</span>
       </div>
       <div className="FlexItem">
         <label>Gesteigerte:</label>
@@ -57,7 +54,6 @@ const ExperienceSection = () => {
           readOnly
           id="erfahrung_Gesteigerte"
         />
-        <span className="readonly-value">×</span>
       </div>
     </div>
   );

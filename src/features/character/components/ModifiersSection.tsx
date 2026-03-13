@@ -31,7 +31,6 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
             onChange={handleChange("magie")}
             id="modifier_magie"
           />
-          <span className="readonly-value">×</span>
         </div>
         <div className="FlexItem">
           <label>ASP:</label>
@@ -44,7 +43,6 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
             onChange={handleChange("asp")}
             id="modifier_asp"
           />
-          <span className="readonly-value">×</span>
         </div>
         <div className="FlexItem">
           <label>LP:</label>
@@ -57,7 +55,6 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
             onChange={handleChange("lp")}
             id="modifier_lp"
           />
-          <span className="readonly-value">×</span>
         </div>
         <div className="FlexItem">
           <label>Fernkampf:</label>
@@ -70,7 +67,6 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
             onChange={handleChange("fernkampf")}
             id="modifier_fernkampf"
           />
-          <span className="readonly-value">×</span>
         </div>
         <div className="FlexItem">
           <label>Nahkampf:</label>
@@ -83,7 +79,6 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
             onChange={handleChange("nahkampf")}
             id="modifier_nahkampf"
           />
-          <span className="readonly-value">×</span>
         </div>
         <div className="FlexItem">
           <label>Gift:</label>
@@ -96,7 +91,6 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
             onChange={handleChange("gift")}
             id="modifier_gift"
           />
-          <span className="readonly-value">×</span>
         </div>
         <div className="FlexItem">
           <label>Stealth:</label>
@@ -109,7 +103,6 @@ const ModifiersSection = ({ modifiers, onChange, minValue, maxValue }: Modifiers
             onChange={handleChange("stealth")}
             id="modifier_stealth"
           />
-          <span className="readonly-value">×</span>
         </div>
       </div>
     </div>
