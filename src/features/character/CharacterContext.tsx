@@ -23,7 +23,7 @@ export const CharacterProvider = ({ children }: { children: ReactNode }) => {
   const [name, setName] = useState("");
   const [level, setLevel] = useState(0);
   const [xp, setXp] = useState(0);
-  const [steigerungspunkte, setSteigerungspunkte] = useState(0);
+  const [steigerungspunkte, setSteigerungspunkte] = useState(100);
   const experience = useMemo(() => {
     const computedGesteigerte = (level * 30 + 100) - steigerungspunkte;
     return {
