@@ -176,9 +176,10 @@ const VanillaMagicSystem = ({ state, onChange }: VanillaMagicSystemProps) => {
               {advancementPoints}
             </span>
           </div>
-          <button type="button" className="btn btn-small" onClick={handleAddPoints} disabled={addPointsDisabled}>
+          {/* Debug/Cheat mode einbauen und das variabel in die einstellungen bauen */}
+          {/* <button type="button" className="btn btn-small" onClick={handleAddPoints} disabled={addPointsDisabled}>
             <i className="fas fa-plus-circle"></i> Punkte hinzufügen
-          </button>
+          </button> */}
         </div>
 
         <div className="form-group">
