@@ -102,7 +102,7 @@ export const ShopProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const addFunds = (amount: number, currency: WalletCurrency) => {
-    if (!Number.isFinite(amount) || amount <= 0) {
+    if (!Number.isFinite(amount) || amount == 0) {
       alert("Bitte eine gültige Zahl eingeben.");
       return;
     }
