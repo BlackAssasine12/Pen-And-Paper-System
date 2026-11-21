@@ -1,0 +1,354 @@
+{
+  "classGroups": {
+    "Magische Klassen": [
+      "Kampfmagier",
+      "Elementarmagier",
+      "Supportmagier",
+      "Druide",
+      "Priester",
+      "Heiler (Magisch)"
+    ],
+    "Nahkampf Basierte Klassen": [
+      "Samurai",
+      "Ritter",
+      "Söldner",
+      "Abenteurer (Optional Halbmagisch)",
+      "Kampfkünstler"
+    ],
+    "Fernkampf Basierte Klassen": [
+      "Fernkämpfer"
+    ],
+    "Wissenschaftliche Klassen": [
+      "Gelehrter",
+      "Alchemist",
+      "Heiler (Nicht Magisch)"
+    ],
+    "Arbeiterklassen": [
+      "Handwerker",
+      "Händler",
+      "Schmied",
+      "Jäger"
+    ],
+    "Halbmagische Klassen": [
+      "Hexe/r",
+      "Paladin",
+      "Schamane",
+      "Abenteurer (Optional Nahkampf)",
+      "Heiler (Halbmagisch)",
+      "Kriegerpriester"
+    ],
+    "Stealth Klassen": [
+      "Ninja",
+      "Assassine",
+      "Dieb"
+    ],
+    "Spezialklassen": [
+      "Ki",
+      "Chakra",
+      "Nen"
+    ]
+  },
+  "raceGroups": {
+    "Menschen": [
+      "Mittelreicher",
+      "Nivesen",
+      "Norbade",
+      "Thorwaler",
+      "Tulamide",
+      "Maraskaner",
+      "Gjalskerländer",
+      "Mohas",
+      "Ferkina",
+      "Horasier",
+      "Aranier",
+      "Mhanadistani",
+      "Maga"
+    ],
+    "Elfen": [
+      "Waldelfen",
+      "Firnelfen",
+      "Auelfen",
+      "Steppenelfen",
+      "Halbelfen"
+    ],
+    "Zwerge": [
+      "Ambosszwerge",
+      "Brillantzwerge",
+      "Hügelzwerge",
+      "Erzzwerge"
+    ],
+    "Orks": [
+      "Standard Orks"
+    ],
+    "Achaz": [
+      "Höhlenechsen",
+      "Sumpfechsen"
+    ],
+    "Goblins": [
+      "Standard Goblins",
+      "Hobgoblin"
+    ],
+    "Oger": [
+      "Standard Oger"
+    ],
+    "Grolme": [
+      "Standard Grolme"
+    ],
+    "Trolle": [
+      "Standard Trolle"
+    ],
+    "Feenwesen": [
+      "Dryaden",
+      "Nymphen"
+    ]
+  },
+  "talentGroups": {
+    "Assassinen_Talente": [
+      {
+        "name": "Verkleiden",
+        "attributes": "CH/IN/GES"
+      },
+      {
+        "name": "Verstecken",
+        "attributes": "IN/TAR/SIN"
+      },
+      {
+        "name": "Meucheln",
+        "attributes": "KL/GES/TAR"
+      },
+      {
+        "name": "Giftherstellung",
+        "attributes": "KL/GES/SIN"
+      },
+      {
+        "name": "Giftanwendung",
+        "attributes": "KL/GES/IN"
+      },
+      {
+        "name": "Parkour",
+        "attributes": "KO/GEW/GES"
+      },
+      {
+        "name": "Schlösser knacken",
+        "attributes": "GES/FF/KL"
+      },
+      {
+        "name": "Gassenwissen",
+        "attributes": "IN/KL/CH"
+      },
+      {
+        "name": "Schleichen",
+        "attributes": "TAR/GES/SIN"
+      },
+      {
+        "name": "Klettern",
+        "attributes": "KO/GEW/KK"
+      },
+      {
+        "name": "Taschendiebstahl",
+        "attributes": "IN/FF/TAR"
+      }
+    ],
+    "Talente_1": [
+      {
+        "name": "Lesen/Schreiben",
+        "attributes": "KL/IN/GES"
+      },
+      {
+        "name": "Rechnen",
+        "attributes": "KL/IN/GES"
+      },
+      {
+        "name": "Überreden",
+        "attributes": "CH/KL/IN"
+      },
+      {
+        "name": "Fallenkunde",
+        "attributes": "KL/GES/IN"
+      },
+      {
+        "name": "Reiten",
+        "attributes": "GEW/KK/GES"
+      },
+      {
+        "name": "Körperbeherrschung",
+        "attributes": "KO/GEW/KK"
+      },
+      {
+        "name": "Selbstbeherrschung",
+        "attributes": "KO/WK/KL"
+      },
+      {
+        "name": "Schwimmen",
+        "attributes": "KO/KK/GEW"
+      },
+      {
+        "name": "Etikette",
+        "attributes": "CH/IN/KL"
+      },
+      {
+        "name": "Feilschen",
+        "attributes": "CH/KL/GES"
+      },
+      {
+        "name": "Betrügen",
+        "attributes": "CH/KL/GES"
+      },
+      {
+        "name": "Menschenkenntnis",
+        "attributes": "IN/KL/SIN"
+      },
+      {
+        "name": "Fährtensuche",
+        "attributes": "IN/SIN/GEW"
+      },
+      {
+        "name": "Fesseln/Entfesseln",
+        "attributes": "GES/FF/KK"
+      }
+    ],
+    "Talente_2": [
+      {
+        "name": "Tanzen",
+        "attributes": "CH/GEW/GES"
+      },
+      {
+        "name": "Orientierung",
+        "attributes": "KL/IN/SIN"
+      },
+      {
+        "name": "Tierkunde",
+        "attributes": "KL/IN/SIN"
+      },
+      {
+        "name": "Wettervorhersage",
+        "attributes": "KL/IN/SIN"
+      },
+      {
+        "name": "Alchemie",
+        "attributes": "KL/GES/SIN"
+      },
+      {
+        "name": "Geographie",
+        "attributes": "KL/IN/SIN"
+      },
+      {
+        "name": "Götter und Kulte",
+        "attributes": "KL/IN/CH"
+      },
+      {
+        "name": "Kriegskunst",
+        "attributes": "KL/IN/KK"
+      },
+      {
+        "name": "Mechanik",
+        "attributes": "GES/KL/FF"
+      },
+      {
+        "name": "Magiekunde",
+        "attributes": "KL/IN/WK"
+      },
+      {
+        "name": "Rechtskunde",
+        "attributes": "KL/IN/CH"
+      },
+      {
+        "name": "Sternkunde",
+        "attributes": "KL/IN/SIN"
+      },
+      {
+        "name": "Zechen",
+        "attributes": "KO/WK/KK"
+      },
+      {
+        "name": "Schätzen",
+        "attributes": "KL/IN/SIN"
+      },
+      {
+        "name": "Pflanzenkunde",
+        "attributes": "KL/IN/FF"
+      }
+    ],
+    "Handwerkstalente": [
+      {
+        "name": "Abrichten",
+        "attributes": "IN/WK/CH"
+      },
+      {
+        "name": "Boote Fahren",
+        "attributes": "GES/KK/KL"
+      },
+      {
+        "name": "Fahrzeug Lenken",
+        "attributes": "GES/KL/KO"
+      },
+      {
+        "name": "Falschspiel",
+        "attributes": "GES/CH/KL"
+      },
+      {
+        "name": "Heilkunde, Gift",
+        "attributes": "KL/GES/SIN"
+      },
+      {
+        "name": "Heilkunde, Krankheit",
+        "attributes": "KL/IN/SIN"
+      },
+      {
+        "name": "Heilkunde, Seele",
+        "attributes": "IN/CH/KL"
+      },
+      {
+        "name": "Heilkunde, Wunden",
+        "attributes": "KL/GES/KO"
+      },
+      {
+        "name": "Holzbearbeitung",
+        "attributes": "GES/FF/KL"
+      },
+      {
+        "name": "Kochen",
+        "attributes": "GES/SIN/IN"
+      },
+      {
+        "name": "Lederarbeiten",
+        "attributes": "GES/FF/KL"
+      },
+      {
+        "name": "Malen/Zeichnen",
+        "attributes": "GES/SIN/IN"
+      },
+      {
+        "name": "Musizieren",
+        "attributes": "CH/GES/IN"
+      },
+      {
+        "name": "Schneidern",
+        "attributes": "GES/FF/SIN"
+      },
+      {
+        "name": "Singen",
+        "attributes": "CH/IN/GES"
+      },
+      {
+        "name": "Töpfern",
+        "attributes": "GES/FF/SIN"
+      }
+    ]
+  },
+  "combatNames": [
+    "Zweihand Schwerter",
+    "Einhand Schwerter",
+    "Schild",
+    "Stichwaffen",
+    "Stumpfe Waffen",
+    "Schwere Waffen",
+    "Versteckte Klingen",
+    "Messer/Dolche",
+    "Flexible Nahkampfwaffen",
+    "Waffenlos",
+    "Pfeilwaffen",
+    "Bolzenwaffen",
+    "Wurfwaffen"
+  ]
+}

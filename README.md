@@ -1,8 +1,14 @@
+# Blacks Pen & Paper
+
+Ein mobiler Charakterbogen für unsere DSA-3-Hausregeln. Die Charakterliste speichert deine Bögen in diesem Browser. Über **JSON exportieren** legst du eine Sicherung an oder nimmst deinen Charakter auf ein anderes Gerät mit. **JSON importieren** öffnet auch ältere Spielstände und zeigt an, was übernommen wird.
+
+- [Veröffentlichter Charakterbogen](https://blacks-pen-and-paper.netlify.app/)
+- [Regeln im Code, Datenfluss, JSON und Entwicklung](docs/regeln-und-datenfluss.md)
+
 # Inhalt
 ### [Klassen-kosten Zusammenfassung](#Klassen-kosten-Zusammenfassung)
 ### [Beispielaufträge](#Beispielaufträge)
 ### [Regeln](#Regeln)
-[Gehostet unter(stand 13.03.2026)](https://blacks-pen-and-paper.netlify.app/)
 
 <hr style="background-color: white; height: 2px;">
 

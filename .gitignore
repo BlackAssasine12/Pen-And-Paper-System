@@ -1,2 +1,8 @@
 node_modules/
 .vite/
+dist/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.env
+.env.*
