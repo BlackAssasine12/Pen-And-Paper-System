@@ -164,3 +164,95 @@ test("Magie zeigt das gemeinsame Guthaben und Shop und Inventar bleiben konsiste
   await openSection(page, "Inventar & Shop");
   await expect(page.getByLabel("Menge Schwertgürtel")).toHaveText("2");
 });
+
+test("filtert Talente und würfelt drei W20 mit den Werten der Probe", async ({ page }) => {
+  await createCharacter(page, "Pfadfinder");
+  const search = page.getByRole("searchbox", { name: "Talent suchen" });
+  await search.fill("KLETTERN");
+  const roll = page.getByRole("button", { name: "Klettern würfeln" });
+  await expect(roll).toBeVisible();
+  await page.getByRole("combobox", { name: "Talentgruppe" }).selectOption("Handwerkstalente");
+  await expect(page.getByText("Keine passenden Talente.")).toBeVisible();
+  await page.getByRole("combobox", { name: "Talentgruppe" }).selectOption("Assassinen_Talente");
+  await roll.click();
+  const probe = page.getByRole("status", { name: "Wurf für Klettern" });
+  await expect(probe.getByRole("listitem")).toHaveCount(3);
+  await expect(probe.getByRole("listitem").first()).toContainText("Konstitution (9)");
+  await expect(page.getByRole("textbox", { name: "Klettern", exact: true })).toHaveValue("0");
+  await search.clear();
+  await expect(page.getByRole("textbox", { name: "Klettern", exact: true })).toHaveValue("0");
+});
+
+test("ändert die Reihenfolge per Tastatur, merkt sie beim Reload und setzt sie zurück", async ({ page }) => {
+  await createCharacter(page, "Ordnung");
+  const headings = page.locator("#sheet-heading + nav ~ .play-grid h3");
+  await expect(headings.first()).toHaveText("Fortschritt");
+  await page.getByText("Abschnitte anordnen", { exact: true }).click();
+  const up = page.getByRole("button", { name: "Profil nach oben verschieben" });
+  await up.focus();
+  await page.keyboard.press("Enter");
+  await expect(headings.first()).toHaveText("Profil");
+  await page.reload();
+  await expect(headings.first()).toHaveText("Profil");
+  await page.getByText("Abschnitte anordnen", { exact: true }).click();
+  await page.getByRole("button", { name: "Reihenfolge zurücksetzen" }).click();
+  await expect(headings.first()).toHaveText("Fortschritt");
+  await expect(page.getByText("Stufe 1 · 130 Steigerungspunkte", { exact: true })).toBeVisible();
+});
+
+test("speichert Charakterbild, Notiz und Zaubertext und hält sie aus geteilten Spielwerten heraus", async ({ page }) => {
+  await createCharacter(page, "Nera");
+  const opening = page.waitForEvent("filechooser");
+  await page.getByRole("button", { name: "Charakterbild hinzufügen" }).click();
+  await (await opening).setFiles({
+    name: "bild.png", mimeType: "image/png",
+    buffer: Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/5l8AAAAASUVORK5CYII=", "base64"),
+  });
+  await expect.poll(() => page.getByRole("img", { name: "Charakterbild" }).evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBe(1);
+  await page.getByLabel("Persönliche Notizen").fill("Eine private Notiz");
+  await page.getByRole("button", { name: "Notizen speichern" }).click();
+  await openSection(page, "Magie");
+  await page.getByRole("button", { name: "Zauberbeschreibung anlegen" }).click();
+  await page.getByLabel("Zaubername").fill("Lichtfunke");
+  await page.getByLabel("Beschreibung", { exact: true }).fill("Ein kleiner Funke.");
+  await page.getByRole("button", { name: "Beschreibung speichern" }).click();
+  await expect(page.getByText("Lichtfunke", { exact: true })).toBeVisible();
+  await expect(page.getByText("Lokal gespeichert", { exact: true })).toBeVisible();
+  await page.reload();
+  await expect.poll(() => page.getByRole("img", { name: "Charakterbild" }).evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBe(1);
+  await expect(page.getByLabel("Persönliche Notizen")).toHaveValue("Eine private Notiz");
+  await openSection(page, "Magie");
+  await expect(page.getByText("Ein kleiner Funke.", { exact: true })).toBeVisible();
+
+  await page.getByRole("button", { name: "Spielleitung" }).click();
+  const downloading = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Spielwerte exportieren" }).click();
+  const download = await downloading;
+  const shared = readFileSync(await download.path(), "utf8");
+  expect(shared).not.toContain("private Notiz");
+  expect(shared).not.toContain("Lichtfunke");
+  expect(shared).not.toContain("base64");
+
+  const pickingShared = page.waitForEvent("filechooser");
+  await page.getByRole("button", { name: "Geteilte Bögen öffnen" }).click();
+  await (await pickingShared).setFiles([
+    { name: "daten.json", mimeType: "application/json", buffer: Buffer.from(shared) },
+    { name: "fehler.json", mimeType: "application/json", buffer: Buffer.from("{") },
+  ]);
+  await expect(page.getByRole("heading", { level: 3, name: "Nera" })).toBeVisible();
+  await expect(page.getByRole("alert")).toContainText("fehler.json");
+  await page.getByRole("button", { name: "Spielleitung" }).click();
+  await page.getByRole("button", { name: "Charakterliste" }).click();
+  await expect(page.getByRole("button", { name: "Nera öffnen" })).toHaveCount(1);
+});
+
+test("legt den bestätigten Vorschlag mit den geprüften Klassentarifen an", async ({ page }) => {
+  await page.goto("/");
+  await page.getByLabel("Name des neuen Charakters").fill("Juna");
+  await page.getByText("Erstellungsassistent", { exact: true }).click();
+  await page.getByRole("combobox", { name: "Startklasse" }).selectOption("Ritter");
+  await page.getByRole("button", { name: "Charakter mit Vorschlag anlegen" }).click();
+  await expect(page.getByRole("heading", { name: "Juna", level: 1 })).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "Körperkraft", exact: true })).toHaveValue("10");
+  await expect(page.getByText("Stufe 1 · 116 Steigerungspunkte", { exact: true })).toBeVisible();
+});

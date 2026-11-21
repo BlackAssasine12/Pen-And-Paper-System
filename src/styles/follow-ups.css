@@ -1,0 +1,59 @@
+.app-header__actions .button[aria-pressed="true"] {
+  border-color: #fbd686;
+  color: #fbd686;
+}
+
+.portrait-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.character-portrait {
+  width: min(8rem, 100%);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: .6rem;
+}
+
+.sheet-order {
+  display: grid;
+  gap: .5rem;
+  padding-inline-start: 1.5rem;
+}
+
+.sheet-order li {
+  min-width: 0;
+}
+
+.sheet-order .button-row {
+  margin-block: .35rem;
+}
+
+.talent-row {
+  display: grid;
+  gap: .5rem;
+}
+
+.probe-rolls {
+  padding-inline-start: 1.5rem;
+}
+
+.journal-entry,
+.shared-sheet,
+.starter-details {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.journal-text {
+  white-space: pre-wrap;
+}
+
+.starter-details ul,
+.shared-sheet ul {
+  padding-inline-start: 1.5rem;
+  margin-block: .55rem;
+}

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
+import { rollDie } from "../domain/talentProbe";
 import { evaluateArithmetic } from "./arithmetic";
 import { formatNumber, parseWholeNumber } from "./fields";
 
@@ -28,7 +29,7 @@ function DiceRoller() {
       return;
     }
     setError("");
-    setRoll({ sides, values: Array.from({ length: parsedCount }, () => 1 + Math.floor(Math.random() * sides)) });
+    setRoll({ sides, values: Array.from({ length: parsedCount }, () => rollDie(sides)) });
   }
 
   return (

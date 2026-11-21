@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { getMagicUpgradeCost, magicElements, magicRequirements, magicTypes } from "../domain";
 import type { PlayCharacterProps } from "./CharacterView";
 import { formatNumber, parseWholeNumber, StatList } from "./fields";
+import { SpellNotes } from "./Writing";
 
 export type MagicViewProps = PlayCharacterProps & {
   onMagicImport?: () => void;
@@ -134,6 +135,7 @@ export function MagicView({ character, derived, onAction, onMagicImport, onMagic
             })}
           </div>
         </section>
+        <SpellNotes character={character} onAction={onAction} />
       </div>
     </section>
   );

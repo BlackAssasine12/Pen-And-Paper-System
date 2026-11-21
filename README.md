@@ -4,6 +4,7 @@ Ein mobiler Charakterbogen für unsere DSA-3-Hausregeln. Die Charakterliste spei
 
 - [Veröffentlichter Charakterbogen](https://blacks-pen-and-paper.netlify.app/)
 - [Regeln im Code, Datenfluss, JSON und Entwicklung](docs/regeln-und-datenfluss.md)
+- [Hügelheim, Einstiegsabend und Figurenvorlage](docs/spielwelt.md)
 
 # Inhalt
 ### [Klassen-kosten Zusammenfassung](#Klassen-kosten-Zusammenfassung)
