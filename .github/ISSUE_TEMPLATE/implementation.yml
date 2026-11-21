@@ -1,0 +1,27 @@
+name: Aufgabe für den Charakterbogen
+description: Änderung oder Fehler für einen klaren Implementierungsauftrag beschreiben
+body:
+  - type: textarea
+    id: intent
+    attributes:
+      label: Ziel und Ist-Zustand
+      description: Beschreibe den betroffenen Spielfluss und was heute passiert.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduktion oder Beispieldaten
+      description: Gib Schritte, Eingabewerte und bei Bedarf eine anonymisierte JSON-Datei an.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Abnahmekriterien
+      description: Nenne erwartete Zahlen oder sichtbare Ergebnisse und die betroffenen Geräte.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Abhängigkeiten
+      description: Verlinke zugehörige Issues oder Regelentscheidungen.
