@@ -41,6 +41,14 @@ Importierte Ausgaben haben Vorrang vor einem widersprechenden Guthaben. Änderun
 
 IndexedDB speichert mehrere Charaktere und merkt sich den zuletzt geöffneten Stand in diesem Browser. Jede akzeptierte Änderung geht in eine einzelne Schreibfolge pro Charakter. Die erwartete Revision wird innerhalb derselben Transaktion geprüft wie der Schreibvorgang. Bei einem Konflikt kann der lokale Entwurf als neue Kopie oder JSON gesichert werden. JSON ist der Weg für Backups und Gerätewechsel. Das Leeren von Browserdaten entfernt den lokalen Bestand.
 
+## Bogen, Vorbereitung und Spielleitung
+
+- **Talentproben.** Der Bogen würfelt drei unabhängige W20 in der Reihenfolge der Probenattribute. Er zeigt die zugeordneten Attributwerte, den Talentwert und die drei Würfe für den Stand zum Zeitpunkt des Wurfs. Die Spielrunde wertet das Ergebnis aus, einschließlich Erschwernissen, negativen Talentwerten und Sonderfällen. Mit der Namenssuche und dem Gruppenfilter lassen sich Talente suchen, ohne ihren gespielten Wert oder Sichtbarkeit zu ändern.
+- **Darstellung.** Die Reihenfolge der Bogenabschnitte gilt pro Browser. Sie wird beim Öffnen eines Bogens wieder geladen und kann im Bogen zurückgesetzt werden. Die Reihenfolge gehört zu den Darstellungseinstellungen des Geräts.
+- **Notizen und Spielwerte.** Persönliche Notizen und eigene Zaubertexte gehören zum Charakter. Ein Zaubertext kann sich auf einen vorhandenen Magieeintrag beziehen. Ein Zaubertext verändert keine abgeleiteten Werte. Der vollständige JSON-Export enthält die Texte sowie das optionale PNG-, JPEG- oder WebP-Charakterbild bis 2 MB.
+- **Erstellungsassistent.** Ein regelbasierter Vorschlag nutzt Klasse und gewählten Schwerpunkt. Er zeigt die Änderungen, Kosten und verbleibenden Punkte vor dem Anlegen. Die Buchungen laufen über dieselben Domänenaktionen wie beim manuellen Steigern. Die Erstellung läuft vollständig im Browser.
+- **Spielrunde.** Wer einen Bogen teilen möchte, exportiert unter **Spielleitung** die Spielwerte und gibt die Datei bewusst weiter. Dieser Export lässt persönliche Notizen, Zaubertexte, Porträt und archivierte Zusatzfelder weg. Die Spielleitung kann mehrere Dateien auf einmal öffnen. Die Übersicht zeigt Profil, Ressourcen, sichtbare Attribute und Talente sowie Kampf und Magie. Sie schreibt nichts in die Charakterliste. Für einen aktualisierten Stand teilen die Spielenden eine neue Datei. Die freigegebene Dateiauswahl und Absprachen am Spieltisch sind der Gruppenablauf dieser Version. Login, Cloud-Datenbank und Online-Gruppenfunktionen sind für diese Anwendung zurückgestellt.
+
 ## Bauen und prüfen
 
 - `npm ci` und `npm run dev` starten die Entwicklung mit Node 22 ab 22.12.

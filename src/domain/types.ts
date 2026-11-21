@@ -74,7 +74,21 @@ export interface Resources {
   asp: number;
 }
 
+export interface SpellNote {
+  id: string;
+  name: string;
+  text: string;
+  magicId?: string;
+}
+
+export interface CharacterWriting {
+  notes: string;
+  spells: SpellNote[];
+}
+
 export interface CharacterState {
+  portrait?: string;
+  writing?: CharacterWriting;
   profile: CharacterProfile;
   experience: Experience;
   attributes: Record<AttributeId, number>;
@@ -134,6 +148,10 @@ export interface BulkAdvancementPreview {
 
 export type CharacterAction =
   | { type: "set-profile"; key: keyof CharacterProfile; value: string }
+  | { type: "set-portrait"; value: string | undefined }
+  | { type: "set-notes"; value: string }
+  | { type: "save-spell-note"; spell: SpellNote }
+  | { type: "remove-spell-note"; id: string }
   | { type: "set-xp"; value: number }
   | { type: "grant-points"; amount: number }
   | { type: "set-free-advancement"; value: boolean }

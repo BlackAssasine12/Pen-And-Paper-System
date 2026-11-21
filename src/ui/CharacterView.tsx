@@ -1,3 +1,4 @@
+import { Fragment, useState } from "react";
 import type { ReactNode } from "react";
 import {
   attributeIds,
@@ -15,7 +16,12 @@ import type {
   ModifierId,
   Talent,
 } from "../domain";
+import { rollTalentProbe } from "../domain/talentProbe";
 import { NumberField, StatList } from "./fields";
+import { Portrait } from "./Portrait";
+import { SheetNavigation, useSheetOrder } from "./SheetOrder";
+import type { SheetSection } from "./SheetOrder";
+import { CharacterNotes } from "./Writing";
 
 export type PlayCharacterProps = {
   character: CharacterState;
@@ -53,13 +59,7 @@ const talentGroups: Record<Talent["group"], string> = {
   Normale_Talente: "Normale Talente",
 };
 
-const sheetSections = [
-  ["sheet-profile", "Profil"],
-  ["sheet-attributes", "Attribute"],
-  ["sheet-combat", "Kampf"],
-  ["sheet-talents", "Talente"],
-  ["sheet-hidden", "Ausgeblendete"],
-];
+
 
 function SheetPanel({ id, title, children, className = "" }: {
   id: string;
@@ -99,6 +99,7 @@ function Profile({ character, onAction }: Pick<PlayCharacterProps, "character" |
 
   return (
     <SheetPanel id="sheet-profile" title="Profil">
+      <Portrait character={character} onAction={onAction} />
       <div className="form-grid">
         {profileFields.map(([key, label]) => (
           <label className="field" key={key}>
@@ -138,32 +139,73 @@ function AdvanceField({ target, label, value, sheet, signed, steps }: {
 
 function TalentList(sheet: PlayCharacterProps) {
   const { character, onAction } = sheet;
+  const [search, setSearch] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [probe, setProbe] = useState<{ id: string; result: ReturnType<typeof rollTalentProbe> }>();
+  const needle = search.trim().toLocaleLowerCase("de-DE");
+  const filterActive = Boolean(needle || selectedGroup);
+  const matches = character.talents.filter((talent) =>
+    !character.hidden.talents.includes(talent.id) &&
+    (!selectedGroup || talent.group === selectedGroup) &&
+    talent.name.toLocaleLowerCase("de-DE").includes(needle),
+  );
+
   return (
     <SheetPanel className="panel--wide" id="sheet-talents" title="Talente">
+      <div className="form-grid">
+        <label className="field">
+          <span>Talent suchen</span>
+          <input type="search" value={search} onChange={(event) => setSearch(event.target.value)} />
+        </label>
+        <label className="field">
+          <span>Talentgruppe</span>
+          <select value={selectedGroup} onChange={(event) => setSelectedGroup(event.target.value)}>
+            <option value="">Alle Gruppen</option>
+            {Object.entries(talentGroups).map(([id, label]) => <option value={id} key={id}>{label}</option>)}
+          </select>
+        </label>
+      </div>
       {Object.entries(talentGroups).map(([group, label]) => {
-        const talents = character.talents.filter((talent) => talent.group === group && !character.hidden.talents.includes(talent.id));
+        const talents = matches.filter((talent) => talent.group === group);
         if (!talents.length) return null;
         return (
-          <details key={group}>
+          <details key={group} open={filterActive || undefined}>
             <summary>{label}</summary>
             <div className="item-grid">
               {talents.map((talent) => (
-                <div className="list-row list-row--edit" key={talent.id}>
-                  <div className="form-stack form-stack--compact">
-                    <AdvanceField target={{ kind: "talent", id: talent.id }} label={talent.name} value={talent.value} sheet={sheet} signed />
-                    {talent.attributes && <small className="muted">{talent.attributes}</small>}
+                <div className="list-row talent-row" key={talent.id}>
+                  <AdvanceField target={{ kind: "talent", id: talent.id }} label={talent.name} value={talent.value} sheet={sheet} signed />
+                  {talent.attributes && <small className="muted">{talent.attributes}</small>}
+                  <div className="button-row">
+                    <button type="button" className="button" aria-label={talent.name + " würfeln"}
+                      onClick={() => setProbe({ id: talent.id, result: rollTalentProbe(talent, character.attributes) })}>
+                      3W20 würfeln
+                    </button>
+                    <button type="button" className="button button--quiet" aria-label={talent.name + " ausblenden"}
+                      onClick={() => onAction({ type: "hide-talent", id: talent.id })}>
+                      Ausblenden
+                    </button>
                   </div>
-                  <button type="button" className="button button--quiet" aria-label={`${talent.name} ausblenden`} onClick={() => onAction({ type: "hide-talent", id: talent.id })}>
-                    Ausblenden
-                  </button>
+                  {probe?.id === talent.id && (
+                    <div className="feedback" role="status" aria-label={"Wurf für " + probe.result.name}>
+                      <strong>{probe.result.name} · Talentwert {probe.result.talentValue}</strong>
+                      <ol className="probe-rolls">
+                        {probe.result.rolls.map(({ code, label, roll, threshold }, index) => (
+                          <li key={index}>
+                            {label ?? code}{threshold !== undefined && " (" + threshold + ")"} · <strong>{roll}</strong>
+                          </li>
+                        ))}
+                      </ol>
+                      <small>Die Spielrunde wertet die Probe aus.</small>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
           </details>
         );
       })}
-      {character.talents.every((talent) => character.hidden.talents.includes(talent.id)) &&
-        <p className="muted">Hier sind keine sichtbaren Talente.</p>}
+      {matches.length === 0 && <p className="muted">{filterActive ? "Keine passenden Talente." : "Hier sind keine sichtbaren Talente."}</p>}
     </SheetPanel>
   );
 }
@@ -244,78 +286,81 @@ const resourceFields = [
 
 export function CharacterView(sheet: PlayCharacterProps) {
   const { character, derived, onAction } = sheet;
+  const { order, writeOrder } = useSheetOrder();
+  const panels: Record<SheetSection, ReactNode> = {
+    "sheet-progress": (
+      <SheetPanel id="sheet-progress" title="Fortschritt">
+        <StatList entries={[
+          ["Level", derived.level],
+          ["Verfügbare Steigerungspunkte", derived.availablePoints],
+          ["Gesteigerte", character.experience.spent],
+        ]} />
+        <NumberField label="Erfahrungspunkte (XP)" value={character.experience.xp} bounds={{ min: 0 }} step={100}
+          onCommit={(value) => onAction({ type: "set-xp", value })} />
+        {character.freeAdvancement && <p className="feedback">Kostenloses Steigern ist aktiv.</p>}
+      </SheetPanel>
+    ),
+    "sheet-profile": <Profile character={character} onAction={onAction} />,
+    "sheet-resources": (
+      <SheetPanel className="panel--wide" id="sheet-resources" title="Sonderwerte">
+        <StatList entries={[
+          ["Maximale Lebenspunkte", derived.lpMax],
+          ["Maximale Ausdauer", derived.ausdauerMax],
+          ["Maximale Astralenergie", derived.maxAstralenergie],
+          ["Magiebegabung", derived.magiebegabung],
+          ["Magieresistenz", derived.magieresistenz],
+          ["Giftresistenz", derived.giftresistenz],
+          ["Schnelligkeit", derived.schnelligkeit],
+        ]} />
+        <div className="form-grid">
+          {resourceFields.map(([key, label]) => (
+            <NumberField key={key} label={label} value={character.resources[key]} signed
+              onCommit={(value) => onAction({ type: "set-resource", key, value })} />
+          ))}
+        </div>
+      </SheetPanel>
+    ),
+    "sheet-combat": <Combat {...sheet} />,
+    "sheet-attributes": (
+      <SheetPanel id="sheet-attributes" title="Attribute">
+        <div>
+          {attributeIds.filter((id) => !character.hidden.attributes.includes(id)).map((id) => (
+            <div className="list-row list-row--edit" key={id}>
+              <AdvanceField label={id} value={character.attributes[id]} target={{ kind: "attribute", id }} sheet={sheet} />
+              <button type="button" className="button button--quiet" aria-label={id + " ausblenden"}
+                onClick={() => onAction({ type: "hide-attribute", id })}>
+                Ausblenden
+              </button>
+            </div>
+          ))}
+        </div>
+        {character.hidden.attributes.length === attributeIds.length && <p className="muted">Alle Attribute sind ausgeblendet.</p>}
+      </SheetPanel>
+    ),
+    "sheet-modifiers": (
+      <SheetPanel id="sheet-modifiers" title="Modifikatoren">
+        <div className="form-grid">
+          {modifierIds.map((id) => (
+            <AdvanceField key={id} label={modifierLabels[id]} value={character.modifiers[id]} target={{ kind: "modifier", id }} sheet={sheet} />
+          ))}
+        </div>
+      </SheetPanel>
+    ),
+    "sheet-talents": <TalentList {...sheet} />,
+    "sheet-notes": (
+      <SheetPanel id="sheet-notes" title="Notizen">
+        <CharacterNotes character={character} onAction={onAction} />
+      </SheetPanel>
+    ),
+    "sheet-hidden": <HiddenFields {...sheet} />,
+  };
 
   return (
     <section className="play-view" aria-labelledby="sheet-heading">
       <h2 id="sheet-heading">Charakterbogen</h2>
-      <nav className="sheet-nav" aria-label="Bereiche des Charakterbogens">
-        {sheetSections.map(([id, label]) => (
-          <button type="button" key={id} onClick={() => {
-            const heading = document.getElementById(id);
-            heading?.focus({ preventScroll: true });
-            heading?.scrollIntoView({ block: "start" });
-          }}>
-            {label}
-          </button>
-        ))}
-      </nav>
-
+      <SheetNavigation order={order} onOrder={writeOrder} />
       <div className="play-grid">
-        <SheetPanel id="sheet-progress" title="Fortschritt">
-          <StatList entries={[
-            ["Level", derived.level],
-            ["Verfügbare Steigerungspunkte", derived.availablePoints],
-            ["Gesteigerte", character.experience.spent],
-          ]} />
-          <NumberField label="Erfahrungspunkte (XP)" value={character.experience.xp} bounds={{ min: 0 }} step={100}
-            onCommit={(value) => onAction({ type: "set-xp", value })} />
-          {character.freeAdvancement && <p className="feedback">Kostenloses Steigern ist aktiv.</p>}
-        </SheetPanel>
-        <Profile character={character} onAction={onAction} />
-
-        <SheetPanel className="panel--wide" id="sheet-resources" title="Sonderwerte">
-          <StatList entries={[
-            ["Maximale Lebenspunkte", derived.lpMax],
-            ["Maximale Ausdauer", derived.ausdauerMax],
-            ["Maximale Astralenergie", derived.maxAstralenergie],
-            ["Magiebegabung", derived.magiebegabung],
-            ["Magieresistenz", derived.magieresistenz],
-            ["Giftresistenz", derived.giftresistenz],
-            ["Schnelligkeit", derived.schnelligkeit],
-          ]} />
-          <div className="form-grid">
-            {resourceFields.map(([key, label]) => (
-              <NumberField key={key} label={label} value={character.resources[key]} signed
-                onCommit={(value) => onAction({ type: "set-resource", key, value })} />
-            ))}
-          </div>
-        </SheetPanel>
-
-        <Combat {...sheet} />
-
-        <SheetPanel id="sheet-attributes" title="Attribute">
-          <div>
-            {attributeIds.filter((id) => !character.hidden.attributes.includes(id)).map((id) => (
-              <div className="list-row list-row--edit" key={id}>
-                <AdvanceField label={id} value={character.attributes[id]} target={{ kind: "attribute", id }} sheet={sheet} />
-                <button type="button" className="button button--quiet" aria-label={`${id} ausblenden`} onClick={() => onAction({ type: "hide-attribute", id })}>
-                  Ausblenden
-                </button>
-              </div>
-            ))}
-          </div>
-          {character.hidden.attributes.length === attributeIds.length && <p className="muted">Alle Attribute sind ausgeblendet.</p>}
-        </SheetPanel>
-
-        <SheetPanel id="sheet-modifiers" title="Modifikatoren">
-          <div className="form-grid">
-            {modifierIds.map((id) => (
-              <AdvanceField key={id} label={modifierLabels[id]} value={character.modifiers[id]} target={{ kind: "modifier", id }} sheet={sheet} />
-            ))}
-          </div>
-        </SheetPanel>
-        <TalentList {...sheet} />
-        <HiddenFields {...sheet} />
+        {order.map((id) => <Fragment key={id}>{panels[id]}</Fragment>)}
       </div>
     </section>
   );

@@ -3,6 +3,7 @@ import {
   calculateAvailablePoints, calculateCombatBases, calculateLevelFromXp, getAdvancementLimits, getMagicUpgradeCost,
 } from "./calculations";
 import { addInventory, buyItem, changeFunds, changeInventory, convertWallet, resetWallet } from "./commerce";
+import { isCharacterPortrait } from "./portrait";
 import type {
   ActionResult, AdvancementTarget, CharacterAction, CharacterState, CombatTalent, DerivedValues, MagicAbility,
 } from "./types";
@@ -148,6 +149,32 @@ export function applyCharacterAction(
       return action.value === state.profile[action.key] ? { state } : {
         state: { ...state, profile: { ...state.profile, [action.key]: action.value } },
       };
+    case "set-portrait":
+      if (action.value !== undefined && !isCharacterPortrait(action.value)) {
+        return { state, error: "Bitte ein gültiges PNG-, JPEG- oder WebP-Bild bis 2 MB wählen." };
+      }
+      return action.value === state.portrait ? { state } : { state: { ...state, portrait: action.value } };
+    case "set-notes":
+      return action.value === (state.writing?.notes ?? "") ? { state } : {
+        state: { ...state, writing: { notes: action.value, spells: state.writing?.spells ?? [] } },
+      };
+    case "save-spell-note": {
+      const name = action.spell.name.trim();
+      if (!name || !action.spell.text.trim()) {
+        return { state, error: "Bitte einen Namen und eine Beschreibung für den Zauber eingeben." };
+      }
+      const spells = [...(state.writing?.spells ?? [])];
+      const index = spells.findIndex(({ id }) => id === action.spell.id);
+      const spell = { ...action.spell, name };
+      if (index < 0) spells.push(spell);
+      else spells[index] = spell;
+      return { state: { ...state, writing: { notes: state.writing?.notes ?? "", spells } } };
+    }
+    case "remove-spell-note": {
+      const writing = state.writing;
+      if (!writing?.spells.some(({ id }) => id === action.id)) return { state };
+      return { state: { ...state, writing: { ...writing, spells: writing.spells.filter(({ id }) => id !== action.id) } } };
+    }
     case "set-xp":
       if (!Number.isSafeInteger(action.value) || action.value < 0) {
         return { state, error: "XP müssen eine nichtnegative ganze Zahl sein." };

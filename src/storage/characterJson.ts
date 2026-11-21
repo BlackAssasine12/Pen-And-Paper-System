@@ -2,7 +2,8 @@ import {
   attributeIds, calculateAvailablePoints, calculateLevelFromXp, calculateWalletTotal, createCharacter,
   createCharacterSelectors, currencies, currencyValues, minimumXpForLevel, modifierIds, talentGroups,
 } from "../domain";
-import type { AttributeId, CharacterState, DerivedValues, InventoryItem, MagicAbility, Wallet } from "../domain";
+import type { AttributeId, CharacterState, CharacterWriting, DerivedValues, InventoryItem, MagicAbility, Wallet } from "../domain";
+import { isCharacterPortrait } from "../domain/portrait";
 import {
   CharacterJsonError, fieldPath, LegacyArchive, list, nonemptyText, number, object, requiredObject, text,
 } from "./jsonData";
@@ -182,6 +183,27 @@ function readHidden(data: JsonObject, archive: LegacyArchive): CharacterState["h
   return { attributes, talents };
 }
 
+function readWriting(value: JsonValue, path: string, archive: LegacyArchive): CharacterWriting {
+  const entry = requiredObject(value, path);
+  const spells = (list(entry.spells, path + "/spells") ?? []).map((value, index) => {
+    const spellPath = path + "/spells/" + index;
+    const saved = requiredObject(value, spellPath);
+    const magicId = text(saved.magicId, spellPath + "/magicId");
+    archive.preserveOtherFields(saved, spellPath, ["id", "name", "text", "magicId"]);
+    return {
+      id: text(saved.id, spellPath + "/id") || "spell-note:" + index,
+      name: nonemptyText(saved.name, spellPath + "/name"),
+      text: text(saved.text, spellPath + "/text") ?? "",
+      ...(magicId && { magicId }),
+    };
+  });
+  if (new Set(spells.map(({ id }) => id)).size !== spells.length) {
+    throw new CharacterJsonError("Die Datei enthält doppelte Zauber-IDs.");
+  }
+  archive.preserveOtherFields(entry, path, ["notes", "spells"]);
+  return { notes: text(entry.notes, path + "/notes") ?? "", spells };
+}
+
 export function parseCharacterJson(source: string): CharacterJsonImport {
   const input = parseJson(source);
   const kind = Object.hasOwn(input, "charakter") ? "character"
@@ -263,6 +285,12 @@ export function parseCharacterJson(source: string): CharacterJsonImport {
       throw new CharacterJsonError("Der Wert für kostenloses Steigern in der Datei ist ungültig.");
     }
     character.freeAdvancement = metadata.freeAdvancement ?? false;
+    const portrait = text(metadata.portrait, path + "/portrait");
+    if (portrait !== undefined) {
+      if (!isCharacterPortrait(portrait)) throw new CharacterJsonError("Das Charakterbild muss PNG, JPEG oder WebP sein und darf höchstens 2 MB groß sein.");
+      character.portrait = portrait;
+    }
+    if (metadata.writing !== undefined) character.writing = readWriting(metadata.writing, path + "/writing", archive);
 
     const basesPath = skillsPath + "/KampfBasiswerte";
     archive.preserveOtherFields(object(skills.KampfBasiswerte, basesPath, legacy), basesPath, combatBases);
@@ -273,7 +301,7 @@ export function parseCharacterJson(source: string): CharacterJsonImport {
     archive.preserveOtherFields(saved, "/charakter", ["charakterInfo", "werte", "fähigkeiten", "geld", "Magische_Elemente"]);
     archive.preserveOtherFields(experience, valuesPath, ["xp", "level", "Gesteigerte", "Steigerungspunkte"]);
     archive.preserveOtherFields(magic, magicPath, ["advancementPoints", "magicAbilities"]);
-    archive.preserveOtherFields(metadata, path, ["legacy", "experienceBonus", "combat", "hidden", "freeAdvancement"]);
+    archive.preserveOtherFields(metadata, path, ["legacy", "experienceBonus", "combat", "hidden", "freeAdvancement", "portrait", "writing"]);
     archive.preserveOtherFields(input, "", [
       "schemaVersion", "ruleset", ...(legacy ? [] : ["metadata"]), "charakter", "inventory", "magieSystem",
     ]);
@@ -328,10 +356,16 @@ export function serializeCharacterJson(
       experienceBonus: experience.bonus,
       freeAdvancement: character.freeAdvancement,
       hidden: character.hidden,
+      portrait: character.portrait,
+      writing: character.writing,
       combat: Object.fromEntries(character.combatTalents.map(({ name, id, kind }) => [name, { id, kind }])),
       legacy,
     },
   }, null, 2);
+}
+
+export function serializeSharedCharacterJson(character: CharacterState, derived?: DerivedValues): string {
+  return serializeCharacterJson({ ...character, portrait: undefined, writing: undefined }, undefined, derived);
 }
 
 export function serializeMagicJson(

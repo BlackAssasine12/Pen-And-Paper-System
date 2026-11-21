@@ -1,12 +1,16 @@
 import { useMemo, useRef, useState, type ChangeEvent, type CSSProperties } from "react";
 import { createCharacter, createCharacterSelectors } from "./domain";
+import type { CharacterState } from "./domain";
 import {
   parseCharacterJson,
   serializeCharacterJson,
   serializeMagicJson,
+  serializeSharedCharacterJson,
 } from "./storage/characterJson";
 import type { CharacterRecord } from "./storage/library";
 import PlayView from "./ui/PlayView";
+import { CharacterStarter } from "./ui/CharacterStarter";
+import { GameMasterView } from "./ui/GameMasterView";
 import { useCharacterLibrary } from "./useCharacterLibrary";
 import "./shell.css";
 
@@ -70,6 +74,7 @@ export default function App() {
   const { view, apply, create, open, refresh, remove, saveAsCopy, replaceMagic, retry } = useCharacterLibrary(derive);
   const [section, setSection] = useState<PlaySection>("bogen");
   const [showLibrary, setShowLibrary] = useState(false);
+  const [showGameMaster, setShowGameMaster] = useState(false);
   const [newName, setNewName] = useState("");
   const [pending, setPending] = useState<PendingImport>();
   const [deletion, setDeletion] = useState<CharacterRecord>();
@@ -87,12 +92,21 @@ export default function App() {
   };
 
   function openPlay() {
+    setShowGameMaster(false);
     setShowLibrary(false);
     setSection("bogen");
   }
 
   function selectFile() {
+    setShowGameMaster(false);
     fileInput.current?.click();
+  }
+
+  async function createFromDraft(initial: CharacterState) {
+    if (await create(initial)) {
+      setNewName("");
+      openPlay();
+    }
   }
 
   async function readFile(event: ChangeEvent<HTMLInputElement>) {
@@ -139,6 +153,11 @@ export default function App() {
     downloadJson(draft.character.profile.name, file, magic ? "magie" : "");
   }
 
+  function exportForGameMaster() {
+    if (!character) return;
+    downloadJson(character.profile.name, serializeSharedCharacterJson(character, derived), "spielwerte");
+  }
+
   function changeAppearance(next: typeof emptyAppearance) {
     setAppearance(next);
     try {
@@ -174,14 +193,16 @@ export default function App() {
             className="button"
             type="button"
             onClick={() => {
-              if (!libraryVisible) void refresh();
-              setShowLibrary(!libraryVisible);
+              const opening = showGameMaster || !libraryVisible;
+              if (opening) void refresh();
+              setShowGameMaster(false);
+              setShowLibrary(opening);
               setMessage("");
             }}
             disabled={!view.ready || !character}
-            aria-expanded={libraryVisible}
+            aria-expanded={!showGameMaster && libraryVisible}
           >
-            {libraryVisible && character ? "Zum Spielbogen" : "Charakterliste"}
+            {!showGameMaster && libraryVisible && character ? "Zum Spielbogen" : "Charakterliste"}
           </button>
           <button className="button" type="button" onClick={selectFile} disabled={!view.ready || view.busy}>
             JSON importieren
@@ -189,12 +210,16 @@ export default function App() {
           <button className="button" type="button" onClick={() => exportFile()} disabled={!character}>
             JSON exportieren
           </button>
+          <button className="button" type="button" aria-pressed={showGameMaster}
+            onClick={() => setShowGameMaster(!showGameMaster)}>
+            Spielleitung
+          </button>
           <input ref={fileInput} type="file" accept=".json,application/json" hidden onChange={readFile} aria-label="JSON-Datei auswählen" />
         </div>
         {character && <p className="app-save-status" role="status">{statusText}</p>}
       </header>
 
-      {character && !libraryVisible && (
+      {character && !libraryVisible && !showGameMaster && (
         <nav className="app-nav" aria-label="Spielbereiche">
           {navigation.map(([id, label]) => (
             <button
@@ -229,10 +254,10 @@ export default function App() {
             )}
           </div>
         )}
-        {fileError && <p className="feedback shell-feedback" role="alert">{fileError}</p>}
+        {fileError && !showGameMaster && <p className="feedback shell-feedback" role="alert">{fileError}</p>}
         {message && <p className="feedback shell-feedback" role="status">{message}</p>}
 
-        {pending && (
+        {pending && !showGameMaster && (
           <section className="panel import-preview" aria-labelledby="import-title">
             <h2 id="import-title">JSON-Import prüfen</h2>
             <p><strong>{pending.filename}</strong> · {pending.kind === "magic" ? "Magiedatei" : "Charakterdatei"}</p>
@@ -256,8 +281,12 @@ export default function App() {
           </section>
         )}
 
-        {!view.ready && <p role="status">Charakterliste wird geladen …</p>}
-        {view.ready && libraryVisible && (
+        <div hidden={!showGameMaster}>
+          <GameMasterView onExport={character ? exportForGameMaster : undefined} />
+        </div>
+
+        {!view.ready && !showGameMaster && <p role="status">Charakterliste wird geladen …</p>}
+        {view.ready && libraryVisible && !showGameMaster && (
           <section className="panel library-panel" aria-labelledby="library-title">
             <h2 id="library-title">Charakterliste</h2>
             <p>Deine Charaktere werden in diesem Browser gespeichert. Exportiere eine JSON-Datei, um einen Stand zu sichern oder das Gerät zu wechseln.</p>
@@ -266,11 +295,7 @@ export default function App() {
               onSubmit={async (event) => {
                 event.preventDefault();
                 const draft = createCharacter();
-                const initial = { ...draft, profile: { ...draft.profile, name: newName.trim() } };
-                if (await create(initial)) {
-                  setNewName("");
-                  openPlay();
-                }
+                await createFromDraft({ ...draft, profile: { ...draft.profile, name: newName.trim() } });
               }}
             >
               <label>
@@ -279,6 +304,7 @@ export default function App() {
               </label>
               <button type="submit" className="button button--primary" disabled={view.busy}>Charakter anlegen</button>
             </form>
+            <CharacterStarter name={newName} disabled={view.busy} onCreate={createFromDraft} />
             <div className="library-grid">
               {view.records.map((record) => (
                 <article key={record.id} className="character-card">
@@ -331,17 +357,19 @@ export default function App() {
         )}
 
         {!libraryVisible && character && derived && (
-          <PlayView
-            key={view.active?.record.id}
-            view={section}
-            character={character}
-            derived={derived}
-            onAction={apply}
-            appearance={appearance}
-            onAppearanceChange={changeAppearance}
-            onMagicImport={selectFile}
-            onMagicExport={() => exportFile(true)}
-          />
+          <div hidden={showGameMaster}>
+            <PlayView
+              key={view.active?.record.id}
+              view={section}
+              character={character}
+              derived={derived}
+              onAction={apply}
+              appearance={appearance}
+              onAppearanceChange={changeAppearance}
+              onMagicImport={selectFile}
+              onMagicExport={() => exportFile(true)}
+            />
+          </div>
         )}
       </main>
     </div>
